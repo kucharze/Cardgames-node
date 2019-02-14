@@ -79,6 +79,15 @@ class Warview {
     
     displayHumanWarCards(cardup,cardd){
         let war=document.getElementById("yourwar");
+        if(cardd==null || cardup==null){
+            let image1=document.createElement("img");
+            image1.src ="./Images/cardback.png";
+	       image1.title=cardup.toString();
+	       image1.class="card positionable";
+	       image1.style="left: "+  (15) + " px; z-index:" + 1 +"";
+	       war.appendChild(image1);
+            return;
+        }
         
         while(war.hasChildNodes()){
 	       war.removeChild(war.lastChild);
@@ -100,6 +109,15 @@ class Warview {
     
     displayComputerWarCards(cardup, cardd){
         let war=document.getElementById("mywar");
+        if(cardd==null || cardup==null){
+            let image1=document.createElement("img");
+            image1.src ="./Images/cardback.png";
+	       image1.title=cardup.toString();
+	       image1.class="card positionable";
+	       image1.style="left: "+  (15) + " px; z-index:" + 1 +"";
+	       war.appendChild(image1);
+            return;
+        }
         
         while(war.hasChildNodes()){
 	       war.removeChild(war.lastChild);
@@ -125,14 +143,38 @@ class Warview {
     }
     
     eraseHands(){
-        let human=document.querySelector("#yourHand");
-        let computer=document.querySelector("#myHand");
-        while(human.hasChildNodes()){
-            human.removeChild(human.lastChild);
+       // <div id="mywar"><img src="Images/cardback.png" alt="Computerwarcard"></div>
+    //    <div id="mycard"><img src="Images/cardback.png" alt="playerdeck"></div>
+    //    <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div>
+    //    <div id="yourwar"><img src="Images/cardback.png" alt="playerwarcard"></div>
+        
+        let comwar=document.getElementById("mywar");
+        let comcard=document.getElementById("mycard");
+        let usercard=document.getElementById("yourcard");
+        let userwar=document.getElementById("yourwar");
+        
+        while(comwar.hasChildNodes()){
+            comwar.removeChild(comwar.lastChild);
         }
-        while(computer.hasChildNodes()){
-	       computer.removeChild(computer.lastChild);
+        while(comcard.hasChildNodes()){
+	       comcard.removeChild(comcard.lastChild);
         }
+        while(usercard.hasChildNodes()){
+	       usercard.removeChild(usercard.lastChild);
+        }
+        while(usercard.hasChildNodes()){
+	       usercard.removeChild(usercard.lastChild);
+        }
+            let image1=document.createElement("img");
+            image1.src ="./Images/cardback.png";
+	        image1.class="card positionable";
+	        image1.style="z-index:" + 1 +"";
+	        comcard.appendChild(image1);
+            comwar.appendChild(image1);
+            usercard.appendChild(image1);
+            userwar.appendChild(image1);
+        
+        return;
     }
 
 }

@@ -508,7 +508,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     
     <input type="button" style="font-size: 18px" onclick="deal()" value="Play a Round">
     <br><br><br>
-    <input type="button" style="font-size: 18px" value="Reset the game">
+    <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()">
     <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>War</h2>
@@ -534,7 +534,8 @@ If the face-up cards are again equal then the battle repeats with another set of
         }
         
         function warReset(){
-            
+            alert("Trying to reset war");
+            warpres.resetGame();
         }
     </script>
     
@@ -588,6 +589,7 @@ function openTab(evt, cityName) {//Code for opening tabs
 </script>
         <script>
             let sign = false;
+            let ws= new WebSocket("localhost:8080");
         function insert(){
             var user = document.getElementById("user").value;
             var pass = document.getElementById("pass").value;
@@ -599,6 +601,7 @@ function openTab(evt, cityName) {//Code for opening tabs
                 return;
             }
              sign=true;
+            ws.send("Succesfully recieved a message");
             document.getElementById("8on").disabled=false;
             table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
             document.getElementById("user").value=" ";
