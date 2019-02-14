@@ -501,10 +501,10 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 
 <div id="War" class="tabcontent">
   <div id="warstatus" class="statusBox">Welcome to War</div>
-    <div id="mywar"><img src="Images/cardback.png" alt="Computerwarcard"></div>
-    <div id="mycard"><img src="Images/cardback.png" alt="playerdeck"></div>
-    <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div>
-    <div id="yourwar"><img src="Images/cardback.png" alt="playerwarcard"></div>
+    <div id="mywar"><img src="Images/cardback.png" alt="Computerwarcard"></div><br>
+    <div id="mycard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
+    <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
+    <div id="yourwar"><img src="Images/cardback.png" alt="playerwarcard"></div><br>
     
     <input type="button" style="font-size: 18px" onclick="deal()" value="Play a Round">
     <br><br><br>
@@ -589,7 +589,7 @@ function openTab(evt, cityName) {//Code for opening tabs
 </script>
         <script>
             let sign = false;
-            let ws= new WebSocket("localhost:8080");
+            let ws= new WebSocket("https://cardgames-seniorproject-node.herokuapp.com/");
         function insert(){
             var user = document.getElementById("user").value;
             var pass = document.getElementById("pass").value;
