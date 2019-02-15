@@ -3,6 +3,13 @@ const SocketServer = require('ws').Server;
 var express = require('express');
 var path = require('path');
 var connectedUsers = [];
+
+//Model classes
+const Card = require('./public/Card.js');
+const Deck = require('./public/Deck.js');
+const Pile = require('./public/Pile.js');
+const Player = require('./public/Player.js');
+
 //init Express
 var app = express();
 //init Express Router
@@ -29,13 +36,14 @@ wss.on('connection', function connection(ws) {
     //on connect message
     ws.on('message', function incoming(message) {
         let userMess = JSON.parse(message);
-        if(userMess.action="createlogin"){
+        console.log(userMess.action);
+        if(userMess.action="create"){//take an action based on the action of the message
             createlogin(userMess);
         }
-        if(userMess.action="login"){
+        else if(userMess.action="login"){
             login(userMess);
         }
-        console.log('received: %s', userMess.user + " "+ userMess.password);
+        //console.log('received: %s', userMess.user + " "+ userMess.password);
         connectedUsers.push(userMess.user);
     });
     //ws.send('message from server at: ' + new Date());
@@ -49,10 +57,13 @@ function createlogin(action){
     mes.action="Succesfully set up a login "+action.user;
     console.log("Loged in");
     webSockets[0].send(JSON.stringify(mes));
-    
 }
 
 function login(action){
     console.log('received: %s', "Attempting to log in");
     console.log('received: %s', action.user + " "+ action.password);
+    let mes={};
+    mes.action="Loged in with user "+action.user;
+    console.log("Loged in");
+    webSockets[0].send(JSON.stringify(mes));
 }
