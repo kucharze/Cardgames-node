@@ -133,3 +133,6 @@ class Player {
     return this.list.slice(0);
   }
 }
+if (typeof module === "object") {
+   module.exports = Player;
+}

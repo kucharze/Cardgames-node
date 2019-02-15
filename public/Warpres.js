@@ -85,6 +85,7 @@ class Warpres {
     
     resetGame(){//Resets the game with a new deck and players
         //this.view.eraseHands();
+        this.wview.eraseHands();
         this.deck1 = new Deck();
 	    this.deck1.shuffle();
         this.deck1.shuffle();
@@ -93,20 +94,15 @@ class Warpres {
         this.cdeck.shuffle();
         this.humanscore=0;
         this.computerscore=0;
-        //this.moves=0;
         
 	    //this.pile = new Pile();
-	    //this.pile.acceptACard(this.deck.dealACard());
+	    //this.pile.acceptACard(this.deck.dealACard())
 	    this.human = new HumanPlayer(this.deck1, this.pile, this.view);
 	    this.computer = new ComputerPlayer(this.cdeck, this.pile, this.view);
-       // this.wview.displayComputerHand(this.computer.getHandCopy());
-        //this.wview.displayHumanHand(this.human.getHandCopy());
-        this.wview.eraseHands();
         
         let suit=document.getElementById("warstatus");
         suit.innerHTML="Welcome to War";
         this.computer.countCards();
-        
         
         return;
     }

@@ -168,7 +168,7 @@ class Warview {
             let image1=document.createElement("img");
             image1.src ="./Images/cardback.png";
 	        image1.class="card positionable";
-	        image1.style="z-index:" + 1 +"";
+	        //image1.style="z-index:" + 1 +"";
 	        comcard.appendChild(image1);
             comwar.appendChild(image1);
             usercard.appendChild(image1);

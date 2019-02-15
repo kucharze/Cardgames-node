@@ -65,4 +65,6 @@ class Pile {
     return this.list[0];
   }
 }
-
+if (typeof module === "object") {
+   module.exports = Pile;
+}

@@ -86,7 +86,7 @@ class Snippres {
                 alert("snip");
                 let pcard=this.pile.getTopCard();
                 let hand=this.cpu.getHandCopy();
-                alert("hand at 0 = "+hand[0]);
+                //alert("hand at 0 = "+hand[0]);
                 this.pile.acceptACard(hand[0]);
                 this.cpu.remove(this.cpu.indexOf(hand[0]));
                 this.snipview.displayComputerHand(this.cpu.getHandCopy());
@@ -95,7 +95,7 @@ class Snippres {
                 this.snipview.displayMessage("Snip");
                 this.cpu.played=true;
                 
-                alert("cpu hand = "+this.cpu.getHandCopy());
+                //alert("cpu hand = "+this.cpu.getHandCopy());
                 if(this.cpu.isHandEmpty()){
                     this.snipview.displayMessage("CPU wins!! Rematch?");
                     document.getElementById("passturn").disabled=true;
@@ -131,7 +131,7 @@ class Snippres {
                         break;
                     }
                 }
-                alert("cpu hand = "+this.cpu.getHandCopy());
+                
                 if(!this.cpu.played){
                     this.snip=false;
                     this.snap=false;
@@ -175,8 +175,6 @@ class Snippres {
                     }
                 }
                 
-                alert("cpu hand = "+this.cpu.getHandCopy());
-                
                 if(!this.cpu.played){
                     this.snip=false;
                     this.snap=false;
@@ -191,13 +189,11 @@ class Snippres {
             }
             
         }
-
-        //this.snipview.displayMessage("Your turn");
+        
     }
 
 //Sets up the start of the game
- play(){//Set up for playing crazy eights
-     //alert("Loading up snip snap snorum");
+ play(){//Set up for playing Snip snap snorum
      this.human.addCards();
      this.cpu.addCards();
      this.snipview.displayPileTopCard(null);

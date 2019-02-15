@@ -132,7 +132,44 @@ div.statusBox {
             <input type="text" id="username" name="User">
             <h3>Password</h3>
             <input type="password" id="password" name="Pass">
-            <input type="submit" value="Login">
+            <input type="submit" value="Login" onclick="login()">
+        
+        <script>
+            function insert(){
+                var user = document.getElementById("user").value;
+                var pass = document.getElementById("pass").value;
+                var table=document.getElementById("data");
+                if(pass.length<8){
+                    alert("Password must be at least 8 characters long");
+                    document.getElementById("user").value=" ";
+                    document.getElementById("pass").value=" ";
+                    return;
+                }
+            
+                sign=true;
+                let data={};
+                data.action="create";
+                data.user=user;
+                data.password=pass;
+                ws.send(JSON.stringify(data));
+            
+                document.getElementById("8on").disabled=false;
+                table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
+                document.getElementById("user").value=" ";
+                document.getElementById("pass").value=" ";
+            }
+            
+            function login(){
+                var user=document.getElementById("username").value;
+                var pass=document.getElementById("password").value;
+                let mess={};
+                mess.action="login";
+                mess.user=user;
+                mess.password=pass;
+                ws.send(JSON.stringify(mess));
+            }
+            
+        </script>
     </div>
 
 <div id="Eight" class="tabcontent">
@@ -283,10 +320,11 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <br><br>
         <div id="suserhand"><img src="Images/cardback.png" title="start card"></div>
         <br> <br>
-        <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
         <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
         <br><br>
         <input type="button" value="Online Mode" style="font-size: 18px">
+        <br><br>
+        <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
         <br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
@@ -299,6 +337,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                 If they do, they place it down on top of the card, saying "Snip".<br>
                 If they have another card of the same rank, they place it down too, saying "Snap". <br>
                 If they don't, play passes to the next player<br>
+                If that player passes play back without making a move, the round will be reset at snip witht eh first player's turn<br>
                 Whoever places the final card of that rank says "Snorem" and wins the right to start the next round with the card of their choice.<br>
                 Example: the first card played = 5 Clubs, the next card to be played = 5 Hearts, then 5 Diamonds, and 5 Spades.</p>
             </div>
@@ -593,34 +632,6 @@ function openTab(evt, cityName) {//Code for opening tabs
                 let message=JSON.parse(event.data);
                 console.log(message.action);
                 alert(message.action);
-            }
-            
-        function insert(){
-            var user = document.getElementById("user").value;
-            var pass = document.getElementById("pass").value;
-            var table=document.getElementById("data");
-            if(pass.length<8){
-                alert("Password must be at least 8 characters long");
-                document.getElementById("user").value=" ";
-                document.getElementById("pass").value=" ";
-                return;
-            }
-            
-             sign=true;
-            let data={};
-            data.action="createlogin";
-            data.user=user;
-            data.password=pass;
-            ws.send(JSON.stringify(data));
-            
-            document.getElementById("8on").disabled=false;
-            table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
-            document.getElementById("user").value=" ";
-            document.getElementById("pass").value=" ";
-        }
-            
-            function login(){
-                
             }
             
         function suggest(){
