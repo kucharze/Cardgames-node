@@ -128,14 +128,12 @@ div.statusBox {
     
     <div id="Login" class="tabcontent">
         <h2>Already have a login? Sign in here</h2>
-        <form>
             <h3>Username</h3>
             <input type="text" id="username" name="User">
             <h3>Password</h3>
             <input type="password" id="password" name="Pass">
             <input type="submit" value="Login">
-        </form>
-</div>
+    </div>
 
 <div id="Eight" class="tabcontent">
         <!-- Status area -->
@@ -589,7 +587,14 @@ function openTab(evt, cityName) {//Code for opening tabs
 </script>
         <script>
             let sign = false;
-            let ws= new WebSocket("https://cardgames-seniorproject-node.herokuapp.com/");
+            var host=location.origin.replace(/^http/,'ws');
+            var ws=new WebSocket(host);
+            ws.onmessage=function(event){
+                let message=JSON.parse(event.data);
+                console.log(message.action);
+                alert(message.action);
+            }
+            
         function insert(){
             var user = document.getElementById("user").value;
             var pass = document.getElementById("pass").value;
@@ -600,13 +605,23 @@ function openTab(evt, cityName) {//Code for opening tabs
                 document.getElementById("pass").value=" ";
                 return;
             }
+            
              sign=true;
-            ws.send("Succesfully recieved a message");
+            let data={};
+            data.action="createlogin";
+            data.user=user;
+            data.password=pass;
+            ws.send(JSON.stringify(data));
+            
             document.getElementById("8on").disabled=false;
             table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
             document.getElementById("user").value=" ";
             document.getElementById("pass").value=" ";
         }
+            
+            function login(){
+                
+            }
             
         function suggest(){
             var user = document.getElementById("sug").value;
