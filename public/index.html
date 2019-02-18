@@ -172,7 +172,7 @@ div.statusBox {
         </script>
     </div>
 
-<div id="Eight" class="tabcontent">
+<div id="Eight" class="tabcontent"><!--Crazy Eights-->
         <!-- Status area -->
     <div id="status" class="statusBox">Welcome to Crazy Eights</div>
     <!-- Computer's hand -->
@@ -205,10 +205,10 @@ div.statusBox {
       </div>
     </div>
     
-    <br><br>
+    <br><br><!--Button options for Crazy eights page -->
     <input type="button" value="Reset the game" style="font-size: 18px" onclick="crazyReset()">
     <br><br>
-    <input type="button" value="Online Mode" id="8on" style="font-size: 18px" disabled="true" onclick="window.open('ProvidedCode/Client/Crazy8.html','_blank','resizable=yes')">
+    <input type="button" value="Toggle Online Mode" id="8on" style="font-size: 18px" disabled="true" onclick="onlineEight()">
     <br><br>
     
     <button style="font-size: 20px" class="accordion">View Instructions</button>
@@ -217,21 +217,17 @@ div.statusBox {
         <p>Seven cards are dealt to each player.<br>
             The remaining cards of the deck are placed face down on the table.<br> 
             The top card is then turned face up to start the game.<br>
-
             Goal is to get rid of all your cards first.<br>
-
             When it is your turn, you discard by matching number/rank or suit with the top card of the discard pile.<br>
-
             If you are unable to match card or number, and you have an 8; you can play it.<br>
             If you do not have an 8 or matching card, you must draw a card from the stockpile.<br> 
 
             When a player plays an 8, they must declare the suit that the next player is to play; that player must then follow the named suit or play another 8.<br>
-
             Example: a 6 clubs is currently on the pile. You can<br>
-            - play any of the other 6s<br>
-            - play any of the clubs<br>
-            - play any 8 (You must then procede to declare a suit)<br> 
-            - draw from the stockpile  ?(until willing and able to play one of the above)<br>
+            - play any 6<br>
+            - play any card with suit clubs<br>
+            - play any 8 (You must then declare a suit)<br> 
+            - draw from the stockpile<br>
 
             The first player to empty their hand wins.<br></p>
     </div>
@@ -250,18 +246,50 @@ div.statusBox {
     <script src="ComputerPlayer.js"></script>
     <script src="HumanPlayer.js"></script>
     <script src="Presenter.js"></script>
+    <script src="Online/Presenter8O.js"></script>
+    <script src="Online/HumanPlayer8O.js"></script>
+    <script src="Online/View8O.js"></script>
 
     <!-- Run the program. -->
     <script>
     "use strict";
         //Play one round of Crazy Eights against the computer
         var presenter = new Presenter();
+        var online = new Presenter8O();
         presenter.play();
+        let online = false;
         
         function crazyReset(){
             presenter.resetGame();
         }
-        //presenter.solplay();
+        
+        function onlineEight(){
+            alert("online button test");
+            if(!online){
+                alert("we are now online");
+                //clear current board and set up online presenter
+                online=true;
+                let on={};
+                on.game="Crazy Eights";
+                on.action="play";
+            }
+            else{
+                //buzz player that they will forfiet the game if they quit, switch back if they decide to continue;
+                if (confirm('Are you sure? You will forfiet the game and your opponent will win.')) {
+                    // Save it!
+                    alert("shutting off online mode");
+                    online=false;
+                } else {
+                    // Do nothing!
+                    alert("We are not shutting off online mode");
+                    return;
+                }
+            }
+        }
+        
+        function onlineMes(){
+            //call online presenter update function
+        }
     </script>
     </div>
     
@@ -322,7 +350,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <br> <br>
         <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
         <br><br>
-        <input type="button" value="Online Mode" style="font-size: 18px">
+        <input type="button" value="Toggle Online Mode" disabled="true" style="font-size: 18px">
         <br><br>
         <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
         <br><br>
@@ -461,7 +489,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <br> <br>
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>
-        <input type="button" value="Online Mode" style="font-size: 18px">
+        <input type="button" value="Toggle Online Mode" disabled="true" style="font-size: 18px">
         <br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
@@ -492,6 +520,13 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             
             function fishRes(){
                 fpres.resetGame();
+            }
+            
+            function fishOnline(){
+                //toggle online mode with go fish
+            }
+            function fishUpdate(){
+                //update go fish while online
             }
         </script>
     </div>
@@ -564,7 +599,6 @@ If the face-up cards are again equal then the battle repeats with another set of
     <script>
         "use strict"
         let warpres = new Warpres();
-        //warpres.play();
         
         function deal(){
             warpres.dealCards();
@@ -631,7 +665,16 @@ function openTab(evt, cityName) {//Code for opening tabs
             ws.onmessage=function(event){
                 let message=JSON.parse(event.data);
                 console.log(message.action);
-                alert(message.action);
+                if(message.action=="Crazy Eights"){
+                    alert("Crazy Eights online update");
+                }
+                else if(message.action=="Snip Snap Snorum"){
+                    alert("Snip Snap Snorum online update");
+                }
+                else if(message.action=="Go Fish"){
+                    alert("Go Fish Online update");
+                }
+                //alert(message.action);
             }
             
         function suggest(){
