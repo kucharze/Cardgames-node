@@ -1,42 +1,143 @@
-// HTTP Module for Creating Server and Serving Static Files Using Node.js
-// Static Files: HTML, CSS, JS, Images
-// Get Complete Source Code from Pabbly.com
 
-var http = require('http');
-var fs = require('fs');
+const SocketServer = require('ws').Server;
+var express = require('express');
 var path = require('path');
+var connectedUsers = [];
+var logedin=false;
 
 //Model classes
-const Card = require('./Card.js');
+const Card = require('./public/Card.js');
+const Deck = require('./public/Deck.js');
+const Pile = require('./public/Pile.js');
+const Player = require('./public/Player.js');
 
-const Deck = require('./Deck.js');
+let deck = new Deck();
 
-const Pile = require('./Pile.js');
+//deck.shuffle();
+//while (deck.isTopCardAnEight()){
+//  deck.shuffle();
+//}
 
-const Player = require('./Player.js');
+let pile = new Pile();
 
-const Warpres = require('./Warpres.js');
+let players=[];
 
-http.createServer(function(req, res){
-    if(req.url === "/"){
-        fs.readFile("index.html", "UTF-8", function(err, html){
-            res.writeHead(200, {"Content-Type": "text/html"});
-            res.end(html);
-        });
-    }else if(req.url.match("\.css$")){
-        var cssPath = path.join(__dirname, '/', req.url);
-        var fileStream = fs.createReadStream(cssPath, "UTF-8");
-        res.writeHead(200, {"Content-Type": "text/css"});
-        fileStream.pipe(res);
+//pile.acceptACard(deck.dealACard());
 
-    }else if(req.url.match("\.png$")){
-        var imagePath = path.join(__dirname, '/', req.url);
-        var fileStream = fs.createReadStream(imagePath);
-        res.writeHead(200, {"Content-Type": "image/png"});
-        fileStream.pipe(res);
-    }else{
-        res.writeHead(404, {"Content-Type": "text/html"});
-        res.end("No Page Found");
+//init Express
+var app = express();
+//init Express Router
+var router = express.Router();
+var port = process.env.PORT || 8080;
+app.use(express.static(path.join(__dirname,'/public')));
+let webSockets=[];
+let clientcounter=0;
+let playernumber=0;
+
+//return static page with websocket client
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/index.html'));
+});
+var server = app.listen(port, function () {
+    console.log('node.js static server listening on port: ' + port + ", with websockets listener")
+})
+const wss = new SocketServer({ server });
+//init Websocket ws and handle incoming connect requests
+wss.on('connection', function connection(ws) {
+    console.log("Sucessful connection");
+    ws.clientNumber=clientcounter;
+    ws.playerNumber=playernumber;
+    ws.logedIn=logedin;
+    playernumber++;
+    clientcounter++;
+    ws.online=false;
+    if(!webSockets.includes(ws)) {
+        webSockets.push(ws);
+        //webSockets[webSockets.indexOf(ws)].userNumber=clientCounter++;
+    }
+    //on connect message
+    ws.on('message', function incoming(message) {
+        let userMess = JSON.parse(message);
+        console.log(userMess.action);
+        if(userMess.action=="create"){//take an action based on the action of the message
+            createlogin(userMess);
+        }
+        else if(userMess.action=="login"){
+            login(userMess);
+        }
+        else if(userMess.action=="Crazy Eights"){
+            crazyEights(userMess);
+        }
+        //console.log('received: %s', userMess.user + " "+ userMess.password);
+        connectedUsers.push(userMess.user);
+    });
+    //ws.send('message from server at: ' + new Date());
+});
+
+
+function createlogin(action){
+    console.log("Setting up a login");
+    console.log('received: %s', action.user + " "+ action.password);
+    let mes={};
+    mes.action="Succesfully set up a login "+action.user;
+    console.log("Loged in");
+    webSockets[0].send(JSON.stringify(mes));
+}
+
+function login(action){
+    console.log('received: %s', "Attempting to log in");
+    console.log('received: %s', action.user + " "+ action.password);
+    let mes={};
+    mes.action="Loged in with user "+action.user;
+    console.log("Loged in");
+    webSockets[0].send(JSON.stringify(mes));
+}
+
+function crazyEights(message){
+    console.log("We are attempting to play Crazy eights")
+    if(clientcounter%2==1) {
+        let obj = {};
+        obj.action="Crazy Eights";
+        obj.status = "waiting for player to join";
+        //obj.numberOfOpponentCards = players[1-clientCounter].getHandCopy().length;
+        //obj.pileTopCard = pile.getTopCard();
+        //obj.pileAnnouncedSuit = pile.getAnnouncedSuit();
+        //obj.yourCards = players[clientCounter-1].getHandCopy();
+        obj.readyToPlay = false;
+
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
+
+    } else if(clientcounter%2==0){
+        let obj = {};
+        
+        obj.action="Crazy Eights";
+        obj.status = "Your turn";
+        //obj.numberOfOpponentCards = players[0].getHandCopy().length;
+        //obj.pileTopCard = pile.getTopCard();
+        //obj.pileAnnouncedSuit = pile.getAnnouncedSuit();
+        //obj.yourCards = players[clientCounter-1].getHandCopy();
+        obj.readyToPlay = true;
+
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
+
     }
 
-}).listen(3000);
+      // let userMessage = JSON.parse(data);
+    /*
+        if(userMessage.action == "cardPicked") {
+            cardPicked(webSockets[webSockets.indexOf(ws)].userNumber);
+
+        } else {
+            cardSelected(data, webSockets[webSockets.indexOf(ws)].userNumber);
+
+        }
+    */
+}
+
+function cardSelected(){
+    
+}
+
+function cardPicked(){
+    
+}
