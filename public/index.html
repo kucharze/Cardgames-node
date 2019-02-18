@@ -255,7 +255,7 @@ div.statusBox {
     "use strict";
         //Play one round of Crazy Eights against the computer
         var presenter = new Presenter();
-        var online = new Presenter8O();
+        var onlinepres = new Presenter8O();
         presenter.play();
         let online = false;
         
@@ -270,8 +270,9 @@ div.statusBox {
                 //clear current board and set up online presenter
                 online=true;
                 let on={};
-                on.game="Crazy Eights";
-                on.action="play";
+                on.action="Crazy Eights";
+                on.gameact="Play";
+                ws.send(JSON.stringify(on));
             }
             else{
                 //buzz player that they will forfiet the game if they quit, switch back if they decide to continue;
@@ -385,6 +386,10 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                 snip.comTurn();
             }
             
+            function snipOnline(message){
+                //call online snip snap snorum function
+            }
+            
         </script>
     </div>
 
@@ -484,7 +489,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <div id="fcpuhand"><img src="Images/cardback.png"></div>
         <div id="cards"><img src="Images/cardback.png"></div>
         <div id="fuserhand"><img src="Images/cardback.png" title="start card"></div>
-        <input type="button" id="dups" value="Remove all duplicates from hand" style="font-size: 18px" onclick="dups()">
         <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
         <br> <br>
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
@@ -508,10 +512,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             'use strict'
             var fpres=new Fishpres();
             fpres.play();
-            
-            function dups(){
-                fpres.removeDups();
-            }
             
             function no(){
                 alert("saying no");
