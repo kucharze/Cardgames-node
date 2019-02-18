@@ -20,6 +20,8 @@ let deck = new Deck();
 
 let pile = new Pile();
 
+let players=[];
+
 //pile.acceptACard(deck.dealACard());
 
 //init Express
@@ -43,11 +45,11 @@ const wss = new SocketServer({ server });
 //init Websocket ws and handle incoming connect requests
 wss.on('connection', function connection(ws) {
     console.log("Sucessful connection");
-    ws.clientNumber=clientCounter;
+    ws.clientNumber=clientcounter;
     ws.playerNumber=playernumber;
     ws.logedIn=logedin;
     playernumber++;
-    clientCounter++;
+    clientcounter++;
     ws.online=false;
     if(!webSockets.includes(ws)) {
         webSockets.push(ws);
@@ -63,7 +65,7 @@ wss.on('connection', function connection(ws) {
         else if(userMess.action=="login"){
             login(userMess);
         }
-        else if(userMess.action=="CrazyEights"){
+        else if(userMess.action=="Crazy Eights"){
             crazyEights(userMess);
         }
         //console.log('received: %s', userMess.user + " "+ userMess.password);
@@ -92,35 +94,36 @@ function login(action){
 }
 
 function crazyEights(message){
-    
-    if(clientCounter%2==1) {
+    console.log("We are attempting to play Crazy eights")
+    if(clientcounter%2==1) {
         let obj = {};
-        onj.action="Crazy Eights";
+        obj.action="Crazy Eights";
         obj.status = "waiting for player to join";
-        obj.numberOfOpponentCards = players[1-clientCounter].getHandCopy().length;
-        obj.pileTopCard = pile.getTopCard();
-        obj.pileAnnouncedSuit = pile.getAnnouncedSuit();
-        obj.yourCards = players[clientCounter-1].getHandCopy();
+        //obj.numberOfOpponentCards = players[1-clientCounter].getHandCopy().length;
+        //obj.pileTopCard = pile.getTopCard();
+        //obj.pileAnnouncedSuit = pile.getAnnouncedSuit();
+        //obj.yourCards = players[clientCounter-1].getHandCopy();
         obj.readyToPlay = false;
 
-        webSockets[clientCounter-1].send(JSON.stringify(obj));
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
 
-    } else if(clientCounter%2==0){
+    } else if(clientcounter%2==0){
         let obj = {};
-
+        
+        obj.action="Crazy Eights";
         obj.status = "Your turn";
-        obj.numberOfOpponentCards = players[0].getHandCopy().length;
-        obj.pileTopCard = pile.getTopCard();
-        obj.pileAnnouncedSuit = pile.getAnnouncedSuit();
-        obj.yourCards = players[clientCounter-1].getHandCopy();
+        //obj.numberOfOpponentCards = players[0].getHandCopy().length;
+        //obj.pileTopCard = pile.getTopCard();
+        //obj.pileAnnouncedSuit = pile.getAnnouncedSuit();
+        //obj.yourCards = players[clientCounter-1].getHandCopy();
         obj.readyToPlay = true;
 
-        webSockets[clientCounter-1].send(JSON.stringify(obj));
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
 
     }
 
-       let userMessage = JSON.parse(data);
-
+      // let userMessage = JSON.parse(data);
+    /*
         if(userMessage.action == "cardPicked") {
             cardPicked(webSockets[webSockets.indexOf(ws)].userNumber);
 
@@ -128,7 +131,7 @@ function crazyEights(message){
             cardSelected(data, webSockets[webSockets.indexOf(ws)].userNumber);
 
         }
-    
+    */
 }
 
 function cardSelected(){
