@@ -1,14 +1,14 @@
 /**
  * Setting up Crazy Eights human vs computer
  */
-class Presenter {
+class Presenter8O {
   
     /**
      * Initialize game by creating and shuffling the deck,
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(socket) {
 	this.deck = new Deck();
 	this.deck.shuffle();
 	while(this.deck.isTopCardAnEight()){
@@ -17,12 +17,11 @@ class Presenter {
 	this.self=this;
 	this.pile = new Pile();
 	this.pile.acceptACard(this.deck.dealACard());
-	this.view = new View(this);
-	this.human = new HumanPlayer(this.deck, this.pile, this.view);
-	this.ws= new WebSocket("ws://165.190.169.78:3000");
-	this.ws.onmessage= function(event) {
-		self.update(event);
-	};
+	this.view = new View8O(this);
+	this.human = new HumanPlayer8O(this.deck, this.pile, this.view);
+	this.ws= socket;
+	//this.ws.onmessage= function(event) {
+//		self.update(event);};
     }
 
  cardPicked(){
@@ -45,7 +44,7 @@ class Presenter {
  completeMyTurn(){
     let cardPlayed=this.pile.getTopCard;
     let suit=this.pile.getAnnouncedSuit();
-    let data={"action":"cardSelected" "card":cardPlayed "announcedSuit": suit};
+    let data={"action":"cardSelected", "card":cardPlayed, "announcedSuit": suit};
     ws.send(JSON.stringify(data));
     this.view.displayStatus("Waiting for Opponent to play");
      this.view.blockPlay();
@@ -58,15 +57,16 @@ class Presenter {
    this.completeMyTurn();
  }
 
-  update(event){
-	var data=JSON.parse(event.data);
+  update(message){
+      alert("We are trying to update");
+	//var data=JSON.parse(message); //No need to parse already passing in an object
 	var playerhand=[];
+      alert("Message status is"+message.status);
+	let hand = message.yourCards;
+	//let newHand = JSON.parse( JSON.stringify( hand ),
+    //                        (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
 
-	let hand = data.yourCards;
-	let newHand = JSON.parse( JSON.stringify( hand ),
-                            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-
-	if(data.pileTopCard!=undefined){
+	if(message.pileTopCard!=undefined){
 	let pilecard=data.pileTopCard;
     	let topcard=JSON.parse( JSON.stringify( pilecard ), 
 	(k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
@@ -74,16 +74,16 @@ class Presenter {
     	this.pile.acceptACard(topcard);
 	}
 
-	this.human.setHand(newHand);
-	this.view.displayStatus(data.status);
-	this.view.displayComputerHand(data.numberOfOpponentCards);
-	this.view.displayHumanHand(newHand);
+	//this.human.setHand(newHand);
+	this.view.displayStatus(message.status);
+	//this.view.displayComputerHand(data.numberOfOpponentCards);
+	//this.view.displayHumanHand(newHand);
 	if(data.pileAnnouncedSuit) {
-          this.pile.setAnnouncedSuit(data.pileAnnouncedSuit);
+          this.pile.setAnnouncedSuit(message.pileAnnouncedSuit);
         }
 
-	if (data.readyToPlay==true) {this.view.unblockPlay();}
-	else {this.view.blockPlay();}
+	//if (data.readyToPlay==true) {this.view.unblockPlay();}
+	//else {this.view.blockPlay();}
   }
 
 }

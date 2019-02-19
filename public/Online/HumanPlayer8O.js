@@ -5,7 +5,7 @@
  * methods are responsible for all updates of the view in response to
  * human player processing.
  */
-class HumanPlayer extends Player {
+class HumanPlayer8O extends Player {
   /**
    * Record arguments for later use.
    * @param {Deck} deck - The deck of cards used for this game.

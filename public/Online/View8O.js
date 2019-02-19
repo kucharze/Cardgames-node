@@ -3,7 +3,7 @@
  * This primarily displays information graphically and uses click events
  * for input (there is one alert if the user selects the wrong card).
  */
-class View {
+class View8O {
   /**
    * Add event listeners to DOM elements.  The event listeners should call
    * the following methods on presenter according to which element had 
@@ -20,7 +20,7 @@ class View {
    * @param {Presenter} presenter - Reference to the Presenter object.
    */
   constructor(presenter) {
-    this.statusDiv = document.querySelector("#status");
+    this.statusDiv = document.getElementById("status");
     this.allCardsDiv = document.querySelector("#allCards");
     this.myHandDiv = document.querySelector("#myHand");
     this.pileImg = document.querySelector("#pile");
@@ -29,9 +29,7 @@ class View {
     this.announcerDiv = document.querySelector("#announcer");
     let deckImg = document.querySelector("#deck");
     deckImg.addEventListener("click", event => 
-      {
-         presenter.cardPicked();
-      } );
+      {presenter.cardPicked();} );
     this.yourHandDiv.addEventListener("click", event =>
       {
         let cardString = event.target.title;
@@ -39,7 +37,7 @@ class View {
         if (cardString) {
           presenter.cardSelected(cardString);
         }
-      } );
+      });
     this.suitPickerDiv.addEventListener("click", event =>
       {
         let suit = event.target.id;
@@ -117,7 +115,7 @@ class View {
    */
   blockPlay() {
     // Capture and ignore all clicks
-    document.body.addEventListener("click", this.clickBlocker, true);
+    document.getElementById("Eight").addEventListener("click", this.clickBlocker, true);
     // Dim the cards to indicate that play is blocked.
     this.allCardsDiv.style.opacity = 0.5;
   }
