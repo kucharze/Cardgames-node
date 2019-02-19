@@ -208,7 +208,7 @@ div.statusBox {
     <br><br><!--Button options for Crazy eights page -->
     <input type="button" value="Reset the game" style="font-size: 18px" onclick="crazyReset()">
     <br><br>
-    <input type="button" value="Toggle Online Mode" id="8on" style="font-size: 18px" disabled="true" onclick="onlineEight()">
+    <input type="button" value="Toggle Online Mode" id="8on" style="font-size: 18px"  onclick="onlineEight()">
     <br><br>
     
     <button style="font-size: 20px" class="accordion">View Instructions</button>
@@ -255,7 +255,7 @@ div.statusBox {
     "use strict";
         //Play one round of Crazy Eights against the computer
         var presenter = new Presenter();
-        var onlinepres = new Presenter8O();
+        //var onlinepres = new Presenter8O();
         presenter.play();
         let online = false;
         
@@ -264,8 +264,10 @@ div.statusBox {
         }
         
         function onlineEight(){
-            alert("online button test");
+            //alert("online button test");
             if(!online){
+                presenter.goOnline();
+                presenter=new Presenter8O(ws);
                 alert("we are now online");
                 //clear current board and set up online presenter
                 online=true;
@@ -282,14 +284,17 @@ div.statusBox {
                     online=false;
                 } else {
                     // Do nothing!
-                    alert("We are not shutting off online mode");
+                    //alert("We are not shutting off online mode");
                     return;
                 }
             }
         }
         
-        function onlineMes(){
+        function onlineMes(message){
             //call online presenter update function
+            //let st=document.getElementById("status");
+            //st.innerHTML=message.status;
+            presenter.update(message);
         }
     </script>
     </div>
@@ -665,8 +670,11 @@ function openTab(evt, cityName) {//Code for opening tabs
             ws.onmessage=function(event){
                 let message=JSON.parse(event.data);
                 console.log(message.action);
+                console.log("Message status is"+message.status);
                 if(message.action=="Crazy Eights"){
-                    alert("Crazy Eights online update");
+                    //alert("Crazy Eights online update");
+                    console.log("Message status ="+message.status);
+                    onlineMes(message);
                 }
                 else if(message.action=="Snip Snap Snorum"){
                     alert("Snip Snap Snorum online update");
@@ -674,7 +682,6 @@ function openTab(evt, cityName) {//Code for opening tabs
                 else if(message.action=="Go Fish"){
                     alert("Go Fish Online update");
                 }
-                //alert(message.action);
             }
             
         function suggest(){
