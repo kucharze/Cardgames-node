@@ -41,6 +41,7 @@ app.use(express.static(path.join(__dirname,'/public')));
 let webSockets=[];
 let clientcounter=0;
 let playernumber=0;
+let currentGame=0;
 
 //return static page with websocket client
 app.get('/', function(req, res) {
@@ -121,8 +122,9 @@ function eightsPlay(){
 
         if(clientcounter%2==1) {
             crazyGames++;
+            currentGame=crazyGames;
             console.log("adding a player 1");
-            if(crazyGames>1){
+            if(crazyGames>1){//set up for a new game to be played
                 let deck = new Deck();
                 deck.shuffle();
                 while(deck.isTopCardAnEight()){
@@ -141,9 +143,9 @@ function eightsPlay(){
             let obj = {};
             obj.action="Crazy Eights";
             obj.status = "Waiting for player to join";
-            obj.numberOfOpponentCards = crazyEightPlayers[1-clientcounter].getHandCopy().length;
-            obj.pileTopCard = eightPiles[crazyGames-1].getTopCard();
-            obj.pileAnnouncedSuit = eightPiles[crazyGames-1].getAnnouncedSuit();
+            obj.numberOfOpponentCards = crazyEightPlayers[clientcounter].getHandCopy().length;
+            obj.pileTopCard = eightPiles[currentGame-1].getTopCard();
+            obj.pileAnnouncedSuit = eightPiles[currentGame-1].getAnnouncedSuit();
             obj.yourCards = crazyEightPlayers[clientcounter-1].getHandCopy();
             obj.readyToPlay = false;
             //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
@@ -154,7 +156,7 @@ function eightsPlay(){
         let obj = {};
         obj.action="Crazy Eights";
         obj.status = "Your turn";
-        obj.numberOfOpponentCards = crazyEightPlayers[clientCounter-2].getHandCopy().length;
+        obj.numberOfOpponentCards = crazyEightPlayers[clientcounter-2].getHandCopy().length;
         obj.pileTopCard = eightPiles[crazyGames-1].getTopCard();
         obj.pileAnnouncedSuit = eightPiles[crazyGames-1].getAnnouncedSuit();
         obj.yourCards = crazyEightPlayers[clientcounter-1].getHandCopy();
