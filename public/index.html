@@ -175,6 +175,7 @@ div.statusBox {
 <div id="Eight" class="tabcontent"><!--Crazy Eights-->
         <!-- Status area -->
     <div id="status" class="statusBox">Welcome to Crazy Eights</div>
+    <div id="allCards">
     <!-- Computer's hand -->
     <div id="myHand" class="hand"></div>
 
@@ -204,7 +205,7 @@ div.statusBox {
 	<span id="s" class="clickable">&spades;</span>
       </div>
     </div>
-    
+    </div>
     <br><br><!--Button options for Crazy eights page -->
     <input type="button" value="Reset the game" style="font-size: 18px" onclick="crazyReset()">
     <br><br>
@@ -279,7 +280,7 @@ div.statusBox {
             else{
                 //buzz player that they will forfiet the game if they quit, switch back if they decide to continue;
                 if (confirm('Are you sure? You will forfiet the game and your opponent will win.')) {
-                    // Save it!
+                    //shut off online mode
                     alert("shutting off online mode");
                     online=false;
                 } else {

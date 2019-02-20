@@ -21,14 +21,15 @@ class View8O {
    */
   constructor(presenter) {
     this.statusDiv = document.getElementById("status");
-    this.allCardsDiv = document.querySelector("#allCards");
-    this.myHandDiv = document.querySelector("#myHand");
+    this.allCardsDiv = document.getElementById("allCards");
+    this.myHandDiv = document.getElementById("myHand");
     this.pileImg = document.querySelector("#pile");
-    this.yourHandDiv = document.querySelector("#yourHand");
+    this.yourHandDiv = document.getElementById("yourHand");
     this.suitPickerDiv = document.querySelector("#suitPicker");
     this.announcerDiv = document.querySelector("#announcer");
     let deckImg = document.querySelector("#deck");
-    deckImg.addEventListener("click", event => 
+    /*
+      deckImg.addEventListener("click", event => 
       {presenter.cardPicked();} );
     this.yourHandDiv.addEventListener("click", event =>
       {
@@ -46,6 +47,7 @@ class View8O {
           presenter.suitPicked(suit);
         }
       } );
+      */
   }
   /**
    * Display status message.
@@ -148,13 +150,14 @@ class View8O {
    * @param {boolean} faceup - Whether card should be faceup or not.
    */
   addCardImage(card, aDiv, faceup) {
+    alert("aDiv="+aDiv.id);
     let cardPos = aDiv.children.length; // position of this card within div
     let newImg = document.createElement("img");
     newImg.src = faceup ? card.getURL() : card.getBackURL();
     newImg.title = faceup ? card.toString() : "";
-    newImg.style.left = (cardPos * Card.pixelOffset) + "px";
-    newImg.style.zIndex = String(cardPos+1);
-    newImg.setAttribute("class", "card positionable" + (faceup?" clickable":""));
+    //newImg.style.left = (cardPos * Card.pixelOffset) + "px";
+    //newImg.style.zIndex = String(cardPos+1);
+    //newImg.setAttribute("class", "card positionable" + (faceup?" clickable":""));
     aDiv.appendChild(newImg);
   }
 }

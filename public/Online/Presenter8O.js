@@ -61,11 +61,11 @@ class Presenter8O {
       alert("We are trying to update");
 	//var data=JSON.parse(message); //No need to parse already passing in an object
 	var playerhand=[];
-      alert("Message status is"+message.status);
+      //alert("Message status is"+message.status);
 	let hand = message.yourCards;
 	//let newHand = JSON.parse( JSON.stringify( hand ),
     //                        (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-
+/*
 	if(message.pileTopCard!=undefined){
 	let pilecard=data.pileTopCard;
     	let topcard=JSON.parse( JSON.stringify( pilecard ), 
@@ -73,17 +73,17 @@ class Presenter8O {
     	this.view.displayPileTopCard(topcard);
     	this.pile.acceptACard(topcard);
 	}
-
+*/
 	//this.human.setHand(newHand);
 	this.view.displayStatus(message.status);
-	//this.view.displayComputerHand(data.numberOfOpponentCards);
+	this.view.displayComputerHand(message.numberOfOpponentCards);
 	//this.view.displayHumanHand(newHand);
 	if(data.pileAnnouncedSuit) {
           this.pile.setAnnouncedSuit(message.pileAnnouncedSuit);
         }
 
-	//if (data.readyToPlay==true) {this.view.unblockPlay();}
-	//else {this.view.blockPlay();}
+	if (data.readyToPlay==true) {this.view.unblockPlay();}
+	else {this.view.blockPlay();}
   }
 
 }
