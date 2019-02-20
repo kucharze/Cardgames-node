@@ -19,7 +19,7 @@ class Presenter8O {
 	this.pile.acceptACard(this.deck.dealACard());
 	this.view = new View8O(this);
 	this.human = new HumanPlayer8O(this.deck, this.pile, this.view);
-	this.ws= socket;
+	this.ws = socket;
 	//this.ws.onmessage= function(event) {
 //		self.update(event);};
     }
@@ -58,13 +58,12 @@ class Presenter8O {
  }
 
   update(message){
-      alert("We are trying to update");
-	//var data=JSON.parse(message); //No need to parse already passing in an object
+      alert("Update");
 	var playerhand=[];
       //alert("Message status is"+message.status);
 	let hand = message.yourCards;
-	//let newHand = JSON.parse( JSON.stringify( hand ),
-    //                        (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+	let newHand = JSON.parse( JSON.stringify( hand ),
+                            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
 /*
 	if(message.pileTopCard!=undefined){
 	let pilecard=data.pileTopCard;
@@ -77,12 +76,12 @@ class Presenter8O {
 	//this.human.setHand(newHand);
 	this.view.displayStatus(message.status);
 	this.view.displayComputerHand(message.numberOfOpponentCards);
-	//this.view.displayHumanHand(newHand);
+	this.view.displayHumanHand(newHand);
 	if(data.pileAnnouncedSuit) {
           this.pile.setAnnouncedSuit(message.pileAnnouncedSuit);
         }
 
-	if (data.readyToPlay==true) {this.view.unblockPlay();}
+	if (message.readyToPlay) {this.view.unblockPlay();}
 	else {this.view.blockPlay();}
   }
 

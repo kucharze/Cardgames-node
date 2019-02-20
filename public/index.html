@@ -8,6 +8,7 @@ https://stackoverflow.com/questions/6341774/keep-track-of-how-much-time-is-spent
 https://marina-ferreira.github.io/projects/js/memory-game/
 https://www.w3schools.com/howto/howto_js_accordion.asp
 https://stackoverflow.com/questions/41632942/how-to-measure-time-elapsed-on-javascript
+https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
 -->
 <html>
 <head>
@@ -207,7 +208,7 @@ div.statusBox {
     </div>
     </div>
     <br><br><!--Button options for Crazy eights page -->
-    <input type="button" value="Reset the game" style="font-size: 18px" onclick="crazyReset()">
+    <input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()">
     <br><br>
     <input type="button" value="Toggle Online Mode" id="8on" style="font-size: 18px"  onclick="onlineEight()">
     <br><br>
@@ -267,10 +268,11 @@ div.statusBox {
         function onlineEight(){
             //alert("online button test");
             if(!online){
+                //clear current board and set up online presenter
                 presenter.goOnline();
                 presenter=new Presenter8O(ws);
                 alert("we are now online");
-                //clear current board and set up online presenter
+                document.getElementById("reset8").disabled=true;
                 online=true;
                 let on={};
                 on.action="Crazy Eights";
@@ -283,6 +285,10 @@ div.statusBox {
                     //shut off online mode
                     alert("shutting off online mode");
                     online=false;
+                    let quit={};
+                    quit.action="Crazy Eights";
+                    quit.gameact="quit";
+                    //ws.send(quit);
                 } else {
                     // Do nothing!
                     //alert("We are not shutting off online mode");

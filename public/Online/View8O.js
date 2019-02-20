@@ -27,27 +27,28 @@ class View8O {
     this.yourHandDiv = document.getElementById("yourHand");
     this.suitPickerDiv = document.querySelector("#suitPicker");
     this.announcerDiv = document.querySelector("#announcer");
-    let deckImg = document.querySelector("#deck");
-    /*
+    let deckImg = document.getElementById("deck");
+    ///*
       deckImg.addEventListener("click", event => 
-      {presenter.cardPicked();} );
-    this.yourHandDiv.addEventListener("click", event =>
-      {
+      {presenter.cardPicked();});
+      
+    this.yourHandDiv.addEventListener("click", event =>{
         let cardString = event.target.title;
         // Ignore clicks that are not on cards.
         if (cardString) {
-          presenter.cardSelected(cardString);
+            alert(cardString);
+          //presenter.cardSelected(cardString);
         }
       });
-    this.suitPickerDiv.addEventListener("click", event =>
-      {
+    this.suitPickerDiv.addEventListener("click", event =>{
         let suit = event.target.id;
         // Ignore clicks that are not on suit spans.
         if (suit == 'c' || suit == 'd' || suit == 'h' || suit == 's') {
-          presenter.suitPicked(suit);
+            alert(suit);
+          //presenter.suitPicked(suit);
         }
-      } );
-      */
+      });
+      //*/
   }
   /**
    * Display status message.
@@ -117,7 +118,7 @@ class View8O {
    */
   blockPlay() {
     // Capture and ignore all clicks
-    document.getElementById("Eight").addEventListener("click", this.clickBlocker, true);
+    document.getElementById("allCards").addEventListener("click", this.clickBlocker, true);
     // Dim the cards to indicate that play is blocked.
     this.allCardsDiv.style.opacity = 0.5;
   }
@@ -126,7 +127,7 @@ class View8O {
    */
   unblockPlay() {
     // Remove capturing listener
-    document.body.removeEventListener("click", this.clickBlocker, true);
+    document.getElementById("allCards").removeEventListener("click", this.clickBlocker, true);
     // Undim the cards to indicate that play is no longer blocked.
     this.allCardsDiv.style.opacity = 1.0;
   }
@@ -150,7 +151,7 @@ class View8O {
    * @param {boolean} faceup - Whether card should be faceup or not.
    */
   addCardImage(card, aDiv, faceup) {
-    alert("aDiv="+aDiv.id);
+    //alert("aDiv="+aDiv.id);
     let cardPos = aDiv.children.length; // position of this card within div
     let newImg = document.createElement("img");
     newImg.src = faceup ? card.getURL() : card.getBackURL();
@@ -160,4 +161,8 @@ class View8O {
     //newImg.setAttribute("class", "card positionable" + (faceup?" clickable":""));
     aDiv.appendChild(newImg);
   }
+    
+    goOffline(){
+        
+    }
 }
