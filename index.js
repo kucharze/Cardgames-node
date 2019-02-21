@@ -180,7 +180,7 @@ function eightsPlay(){
     }
 
 }
-
+/*
 function cardSelected(myPlayerNumber){
     let Eight = eightDeck.isTopCardAnEight();
     let drawnCard = deck.dealACard();
@@ -241,7 +241,7 @@ function eightQuit(){
         //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
     }
 }
-
+*/
 function snipPlay(message){
     
 }
