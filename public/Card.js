@@ -2,12 +2,10 @@
  * A single playing card  
  */
 class Card {
-
   // Instance variables
   //   suit: Suit of this card (String)
   //   value: Numeric or face value of this card (String)
-  //   pixelOffset: Display parameter (Number; distance each card in a hand 
-  //                is offset from its neighbors)
+  //   jackvalue, warvalue, svalue: value of card for given game
 
   constructor (aSuit, aValue) {
       this.suit = aSuit;
@@ -67,16 +65,16 @@ class Card {
    * Return relative URL of this card (assumes certain folder structure).
    */
   getURL() { 
-    return "../images/PlayingCards/" + this.toString() + ".png";
+    return "../Images/" + this.toString() + ".png";
   }
   /**
    * Return relative URL of back of this (or any) card 
    * (assumes certain folder structure).
    */
   getBackURL() { 
-    return "../images/PlayingCards/back.png";
+    return "../Images/cardback.png";
   }
 }
 if (typeof module === "object") {
-   module.exports = Card;
+ module.exports = Card;
 }

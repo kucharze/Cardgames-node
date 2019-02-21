@@ -1,6 +1,9 @@
 /**
  * Deck of playing cards.
  */
+if (typeof Card === "undefined") {
+  Card = require('./Card');
+}
 class Deck {
 
   // Instance variable:

@@ -58,6 +58,10 @@ class Pile {
   setAnnouncedSuit(suit) {
     this.announcedSuit = suit;
   }
+    
+    getAnnouncedSuit(){
+        return this.announcedSuit;
+    }
   /**
    * Return the card that is on top of the pile.  The card is not removed.
    */

@@ -27,6 +27,7 @@ class Presenter {
     }
 
  cardPicked(){
+     //alert("Picking up card from offline deck");
      if(!this.started){
          this.started=true;
          this.date=new Date();
@@ -122,5 +123,11 @@ class Presenter {
    }
     return;
  }
+    
+    goOnline(){
+        //remove cards and event listeners to have set up for online play
+        this.view.removeEvents();
+        this.view.eraseHands();
+    }
 
 }

@@ -12,19 +12,22 @@ class View {
         
     document.getElementById("deck").addEventListener("click", function(){presenter.cardPicked();})
     document.getElementById("suitPicker").addEventListener("click", function() {presenter.suitPicked(event.target.id);});
-    document.getElementById("yourHand").addEventListener("click",function(){presenter.cardSelected(event.target.title);});
+    document.getElementById("yourHand").addEventListener("click",function(){
+        let cardString=event.target.title;
+        if (cardString) {
+          presenter.cardSelected(cardString);
+        }
+    });
   }
 
   announceComputerWinner(){
     let CPUwinner = document.getElementById("status");
     CPUwinner.innerHTML="Thanks for being a good loser";
-    //CPUwinner.style="display: block";
   }
 
   announceHumanWinner(){
     let humanwin = document.getElementById("status");
     humanwin.innerHTML="Congradulations! You win!";
-    //humanwin.style="display: block";
   }
 
   displayComputerHand(hand){
@@ -114,6 +117,22 @@ class View {
         }
         
         //suit.innerHTML="The suit is now " +suitstring;
+    }
+    
+    removeEvents(){//remove event listeners to set up for online play
+        alert("removing event listeners");
+        var old1 = document.getElementById("deck");
+        var old2 = document.getElementById("suitPicker");
+        var old3 = document.getElementById("yourHand");
+        
+        var new1 = old1.cloneNode(true);
+        var new2 = old2.cloneNode(true);
+        var new3 = old3.cloneNode(true);
+        //var new_element = old_element.cloneNode(true);
+        old1.parentNode.replaceChild(new1, old1);
+        old2.parentNode.replaceChild(new2, old2);
+        old3.parentNode.replaceChild(new3, old3);
+        
     }
 
 }
