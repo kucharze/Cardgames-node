@@ -50,6 +50,7 @@ class Pile {
    */
   acceptACard(card) {
     this.list.unshift(card);
+      this.announcedSuit=card.getSuit();
   }
   /**
    * Remember the suit preference announced when the most recent

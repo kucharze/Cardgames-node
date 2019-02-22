@@ -120,7 +120,7 @@ class View {
     }
     
     removeEvents(){//remove event listeners to set up for online play
-        alert("removing event listeners");
+        //alert("removing event listeners");
         var old1 = document.getElementById("deck");
         var old2 = document.getElementById("suitPicker");
         var old3 = document.getElementById("yourHand");

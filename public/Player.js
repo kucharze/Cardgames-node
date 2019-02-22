@@ -132,6 +132,13 @@ class Player {
   getHandCopy() {
     return this.list.slice(0);
   }
+   /**
+   * Set this player's hand to the specified array of cards.
+   * @param {Card[]} - Array of cards that will become this player's hand.
+   */
+  setHand(hand) {
+    this.list = hand;
+  }
 }
 if (typeof module === "object") {
    module.exports = Player;
