@@ -23,10 +23,10 @@ class View8O {
     this.statusDiv = document.getElementById("status");
     this.allCardsDiv = document.getElementById("allCards");
     this.myHandDiv = document.getElementById("myHand");
-    this.pileImg = document.querySelector("#pile");
+    this.pileImg = document.getElementById("pile");
     this.yourHandDiv = document.getElementById("yourHand");
-    this.suitPickerDiv = document.querySelector("#suitPicker");
-    this.announcerDiv = document.querySelector("#announcer");
+    this.suitPickerDiv = document.getElementById("suitPicker");
+    this.announcerDiv = document.getElementById("announcer");
     let deckImg = document.getElementById("deck");
     ///*
       deckImg.addEventListener("click", event => 
@@ -36,16 +36,16 @@ class View8O {
         let cardString = event.target.title;
         // Ignore clicks that are not on cards.
         if (cardString) {
-            alert(cardString);
-          //presenter.cardSelected(cardString);
+            //alert(cardString);
+            presenter.cardSelected(cardString);
         }
       });
     this.suitPickerDiv.addEventListener("click", event =>{
         let suit = event.target.id;
         // Ignore clicks that are not on suit spans.
         if (suit == 'c' || suit == 'd' || suit == 'h' || suit == 's') {
-            alert(suit);
-          //presenter.suitPicked(suit);
+            //alert(suit);
+            presenter.suitPicked(suit);
         }
       });
       //*/
@@ -82,6 +82,7 @@ class View8O {
    */
   displayWrongCardMsg(cardString) {
     window.alert("Bad card choice '" + cardString + "'. Please try again.");
+      /*this.statusDiv.innerHTML="Bad card choice '" + cardString + "'. Please try again.";*/
   }
   /**
    * Display the human hand face up.
@@ -162,7 +163,29 @@ class View8O {
     aDiv.appendChild(newImg);
   }
     
-    goOffline(){
+    eraseHands(){
+        let human=document.querySelector("#yourHand");
+        let computer=document.querySelector("#myHand");
+        while(human.hasChildNodes()){
+            human.removeChild(human.lastChild);
+        }
+        while(computer.hasChildNodes()){
+	       computer.removeChild(computer.lastChild);
+        }
+    }
+    
+    removeEvent(){
+        //alert("removing online event listeners");
+        var old1 = document.getElementById("deck");
+        var old2 = document.getElementById("suitPicker");
+        var old3 = document.getElementById("yourHand");
         
+        var new1 = old1.cloneNode(true);
+        var new2 = old2.cloneNode(true);
+        var new3 = old3.cloneNode(true);
+        //var new_element = old_element.cloneNode(true);
+        old1.parentNode.replaceChild(new1, old1);
+        old2.parentNode.replaceChild(new2, old2);
+        old3.parentNode.replaceChild(new3, old3);
     }
 }

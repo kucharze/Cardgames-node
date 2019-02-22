@@ -82,7 +82,12 @@ div.statusBox {
 .tab button.active {
   background-color: #ccc;
 }
-
+#Account {
+  display: block;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
 /* Style the tab content */
 .tabcontent {
   display: none;
@@ -271,7 +276,7 @@ div.statusBox {
                 //clear current board and set up online presenter
                 presenter.goOnline();
                 presenter=new Presenter8O(ws);
-                alert("we are now online");
+                //alert("we are now online");
                 document.getElementById("reset8").disabled=true;
                 online=true;
                 let on={};
@@ -281,16 +286,19 @@ div.statusBox {
             }
             else{
                 //buzz player that they will forfiet the game if they quit, switch back if they decide to continue;
-                if (confirm('Are you sure? You will forfiet the game and your opponent will win.')) {
+                if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                     //shut off online mode
-                    alert("shutting off online mode");
+                    //alert("shutting off online mode");
                     online=false;
                     let quit={};
                     quit.action="Crazy Eights";
                     quit.gameact="quit";
-                    //ws.send(quit);
+                    ws.send(JSON.stringify(quit));
+                    presenter.goOffline();
+                    presenter=new Presenter();
+                    presenter.play();
                 } else {
-                    // Do nothing!
+                    // Do nothing! Just return to the game
                     //alert("We are not shutting off online mode");
                     return;
                 }
@@ -509,7 +517,15 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <div class="panel">
             <h2>Go Fish</h2>
             <p>Each Player starts out with 7 cards<br>
-            If you have duplicate cards in your hand, you may remove those cards.<br>
+                 You can ask another player if they have a card matching one in your hand.<br>
+                If they have that card, he/she gives it to you.<br>
+                If you don't you draw a card.<br>
+                If a player has 4 of a kind in their hand. They may get rid of those cards and set them aside.<br>
+                If a player has no more cards in hand, that player draws five cards.<br>
+                Once both players have run our of cards to play, whoever has the most 4 of a kinds wins.<br>
+                </p>
+                <br><br>
+                <p><b>Old rules</b><br>
             You can ask another player if they have a card matching one in your hand.<br>
             If they have that card, both you and your opponent place that card down.<br>
             If you don't you draw a card.<br>
