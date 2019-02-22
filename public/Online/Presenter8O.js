@@ -90,6 +90,7 @@ class Presenter8O {
   }
     
     goOffline(){
+        //remove event listeners and unblock play in order to reset game for offline play
         this.view.unblockPlay();
         this.view.removeEvent();
         this.view.eraseHands();

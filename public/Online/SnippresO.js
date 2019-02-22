@@ -19,7 +19,7 @@ class Snippres {
         
 	    this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard());
-	    this.snipview = new Snipview(this);
+	    this.snipview = new SnipviewO(this);
 	    this.human=new Sniphuman(this.deck, this.pile, this.view);
 	    this.cpu=new Snipcpu(this.deck, this.pile, this.view);
     }
@@ -73,5 +73,35 @@ class Snippres {
      
     return;
  }
+    
+    update(message){
+    //alert("Update");
+	var playerhand=[];
+      //alert("Message status is"+message.status);
+	let hand = message.yourCards;
+	let newHand = JSON.parse( JSON.stringify( hand ),
+                            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+///*
+	if(message.pileTopCard!=undefined){
+	let pilecard=message.pileTopCard;
+    	let topcard=JSON.parse( JSON.stringify( pilecard ), 
+	(k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+        
+    	this.view.displayPileTopCard(topcard);
+    	this.pile.acceptACard(topcard);
+	}
+//*/
+	this.human.setHand(newHand);
+	this.view.displayStatus(message.status);
+	this.view.displayComputerHand(message.numberOfOpponentCards);
+	this.view.displayHumanHand(newHand);
+
+	if (message.readyToPlay) {this.view.unblockPlay();}
+	else {this.view.blockPlay();}
+  }
+    
+    goOffline(){
+        
+    }
 
 }

@@ -5,24 +5,12 @@
  */
 class Snipview {
     constructor(presenter) {
-    this.presenter = presenter;
-    this.topCard = null;
-    this.topCardString = "";
-    //this.errorString = "";
-    
-    document.getElementById("suserhand").addEventListener("click",function(){presenter.cardSelected(event.target.title);});
-  }
-
-  announceComputerWinner(){
-    let CPUwinner = document.getElementById("status");
-    CPUwinner.innerHTML="Thanks for being a good loser";
-    //CPUwinner.style="display: block";
-  }
-
-  announceHumanWinner(){
-    let humanwin = document.getElementById("status");
-    humanwin.innerHTML="Congradulations! You win!";
-    //humanwin.style="display: block";
+        this.presenter = presenter;
+        this.topCard = null;
+        this.topCardString = "";
+        this.allCardsDiv=document.getElementById("allSnips");
+        
+        document.getElementById("suserhand").addEventListener("click",function(){presenter.cardSelected(event.target.title);});
   }
 
   displayComputerHand(hand){
@@ -55,6 +43,26 @@ class Snipview {
 	    image.style="left: "+  (15*i) + " px; z-index:" + i +"";
 	    human.appendChild(image);
    }
+  }
+    
+  /**
+   * Block user from playing.
+   */
+  blockPlay() {
+    // Capture and ignore all clicks
+    document.getElementById("allCards").addEventListener("click", this.clickBlocker, true);
+    // Dim the cards to indicate that play is blocked.
+    this.allCardsDiv.style.opacity = 0.5;
+  }
+    
+  /**
+   * Unblock user from playing.
+   */
+  unblockPlay() {
+    // Remove capturing listener
+    document.getElementById("allCards").removeEventListener("click", this.clickBlocker, true);
+    // Undim the cards to indicate that play is no longer blocked.
+    this.allCardsDiv.style.opacity = 1.0;
   }
     
     eraseHands(){
