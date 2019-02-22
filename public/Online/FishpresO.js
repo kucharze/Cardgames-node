@@ -1,7 +1,7 @@
 /**
  * Setting up Crazy Eights human vs computer
  */
-class Fishpres {
+class FishpresO {
     /**
      * Initialize game by creating and shuffling the deck,
      * dealing one card (other than an 8) to the discard pile,
@@ -29,13 +29,7 @@ class Fishpres {
    this.completeBothTurns();
  }
     
-    comTurn(){
-        let card=this.computer.fish();
-        this.fview.displayMessage("Do you have any "+card.getValue()+"'s")
-        this.askCard=card;
-    }
-    
-    sayNo(){
+    goFish(){
         if(this.human.findValue(this.askCard.getValue())!=null ){
             this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can play");
             return;
@@ -75,7 +69,6 @@ class Fishpres {
         }
         
         alert("Fishing");
-        //alert(cardstring);
         let card=this.human.find(cardstring);
         //alert(card);
         if(card==null){
@@ -106,26 +99,6 @@ class Fishpres {
         //this.completeBothTurns();
     }
     
-    removeDups(){
-        if(this.human.hasDuplicate()){
-            alert("removing duplicates");
-            this.human.removeDups();
-            this.fview.displayMessage(document.getElementById("fishstatus").innerHTML + " Duplicate cards have been removed");
-            this.fview.displayHumanHand(this.human.getHandCopy());
-        }
-        else{
-            this.fview.displayMessage(document.getElementById("fishstatus").innerHTML + " No duplicates present");
-            //alert("There are no Duplicats");
-        }
-    }
-
-//Sets up the start of the game
- play(){
-   this.fview.displayComputerHand(this.computer.getHandCopy());
-   this.fview.displayHumanHand(this.human.getHandCopy());
-   return;
- }
-    
     resetGame(){
         //alert("attempting to reset");
         this.fview.eraseHands();
@@ -149,5 +122,7 @@ class Fishpres {
         return;
     }
 
-
+    goOffline(){
+        
+    }
 }

@@ -56,30 +56,11 @@ class Fishview {
 	       computer.removeChild(computer.lastChild);
         }
     }
-
-  //display the top card of the pile
-  displayPileTopCard(card){
-	let table=document.querySelector("#table");
-	table.removeChild(document.getElementById("pile"));
-	let pile = document.getElementById("pile")
-         this.topCard=Card;
-	 let image=document.createElement("img");
-	 image.src ="./images/"+card.toString()+".png";
-	image.id="pile";
-	 //image.title=this.topCard.getValue();
-	 image.class="card positionable";
-	 //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
-	 table.appendChild(image);
-  }
     
     displayMessage(message){
         let mes=document.getElementById("fishstatus");
         mes.innerHTML=message;
     }
-
-   displayDupCardMsg(){
-	   alert("Your hand contains a duplicate. Please place down all duplicates");
-   }
     
     displayWrongCardMsg(){
 	   alert("You cannot play that card");

@@ -1,7 +1,7 @@
 /**
  * Setting up Crazy Eights human vs computer
  */
-class Snippres {
+class SnippresO {
     /**
      * Initialize game by creating and shuffling the deck,
      * dealing one card (other than an 8) to the discard pile,
@@ -75,11 +75,24 @@ class Snippres {
  }
     
     update(message){
-    //alert("Update");
-	var playerhand=[];
+        //alert("Update");
+	   var playerhand=[];
+        let state=message.state;
+        if(state=="snip"){
+            this.snip=true;
+            this.snap=false;
+        }
+        else if(state=="snap"){
+            this.snip=true;
+            this.snap=true;
+        }
+        else{
+            this.snip=false;
+            this.snap=false;
+        }
       //alert("Message status is"+message.status);
-	let hand = message.yourCards;
-	let newHand = JSON.parse( JSON.stringify( hand ),
+	   let hand = message.yourCards;
+	   let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
 ///*
 	if(message.pileTopCard!=undefined){
