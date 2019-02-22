@@ -360,6 +360,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     </div>
     
     <div id="Snap" class="tabcontent">
+        <div id="allSnips">
         <div id="snipstatus" class="statusBox">Welcome to Snip Snap Snorum</div>
         <div id="scpuhand"><img src="Images/cardback.png"></div>
         <br><br>
@@ -368,8 +369,10 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <div id="suserhand"><img src="Images/cardback.png" title="start card"></div>
         <br> <br>
         <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
+        </div>
+        
         <br><br>
-        <input type="button" value="Toggle Online Mode" disabled="true" style="font-size: 18px">
+        <input type="button" value="Toggle Online Mode" style="font-size: 18px" onclick="snipOnline()">
         <br><br>
         <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
         <br><br>
@@ -392,9 +395,12 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <script src="Snipview.js"></script>
         <script src="Snipcpu.js"></script>
         <script src="Sniphuman.js"></script>
+        <script src="Online/SnippresO.js"></script>
+        <script src="Online/SnipviewO.js"></script>
         <script>
             let snip=new Snippres();
             snip.play();
+            let snipOn=false;
             
             function snipReset(){
                 snip.resetGame();
@@ -404,10 +410,17 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                 snip.comTurn();
             }
             
-            function snipOnline(message){
+            function snipOnline(){
                 //call online snip snap snorum function
+                let mes={};
+                mes.action="Snip Snap Snorum";
+                mes.gameact="Play";
+                ws.send(JSON.stringify(mes));
             }
             
+            function snipUpdate(message){
+                alert(message.message);
+            }
         </script>
     </div>
 
@@ -551,7 +564,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             function fishOnline(){
                 //toggle online mode with go fish
             }
-            function fishUpdate(){
+            function fishUpdate(message){
                 //update go fish while online
             }
         </script>
@@ -699,6 +712,7 @@ function openTab(evt, cityName) {//Code for opening tabs
                 }
                 else if(message.action=="Snip Snap Snorum"){
                     alert("Snip Snap Snorum online update");
+                    snipUpdate(message);
                 }
                 else if(message.action=="Go Fish"){
                     alert("Go Fish Online update");

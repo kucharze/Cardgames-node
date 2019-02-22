@@ -95,6 +95,11 @@ class View {
        let message=document.getElementById("status");
        message.innerHTML="Can't play " +cardstring+", try again";
    }
+    
+    displayMessage(message){
+        let mes=document.getElementById("status");
+        mes.innerHTML=message;
+    }
 
   //makes the suit picker invisible again
    undisplaySuitPicker(){
