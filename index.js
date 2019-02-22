@@ -86,6 +86,13 @@ ws.on('connection', function connection(ws) {
             //console.log("Going to Crazy Eights");
             crazyEights(userMess,ws);
         }
+        else if(userMess.action=="Snip Snap Snorum"){
+            console.log("Going to Snip Snap Snorum");
+            snipSnapSnorum(userMess,ws);
+        }
+        else if(userMess.action=="Gofish"){
+            //call method to go to go fish option
+        }
         //console.log('received: %s', userMess.user + " "+ userMess.password);
         connectedUsers.push(userMess.user);
     });
@@ -132,15 +139,6 @@ function crazyEights(message,ws){
         //and that they have won the game
         eightQuit(webSockets[webSockets.indexOf(ws)].playerNumber);
     }
-    
-    /*if(userMessage.action == "cardPicked") {
-            cardPicked(webSockets[webSockets.indexOf(ws)].userNumber);
-
-        } else {
-            cardSelected(data, webSockets[webSockets.indexOf(ws)].userNumber);
-
-        }
-    */
 }
 
 function eightsPlay(){
@@ -332,8 +330,57 @@ function eightQuit(playernumber){
         //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
     }
 }
+
+function snipSnapSnorum(message){
+    if(message.gameact=="Play"){
+        snipPlay();
+    }
+}
 //*/
-function snipPlay(message){
+function snipPlay(){
+    console.log("We are playing Snip Snap Snorum");
+    if(clientcounter%2==1) {
+        let obj={};
+        obj.action="Snip Snap Snorum";
+        obj.message="We are going to play Snip Snap Snorum";
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        /*
+            //console.log("adding a player 1");
+            /*
+            
+            let obj = {};
+            obj.action="Crazy Eights";
+            obj.status = "Waiting for player to join";
+            obj.numberOfOpponentCards = crazyEightPlayers[clientcounter].getHandCopy().length;
+            obj.pileTopCard = eightPile.getTopCard();
+            obj.pileAnnouncedSuit = eightPile.getAnnouncedSuit();
+            //console.log("The pile's card is "+eightPile.getTopCard());
+            //console.log("The pile's suit is "+eightPile.getAnnouncedSuit());
+            obj.yourCards = crazyEightPlayers[clientcounter-1].getHandCopy();
+            obj.readyToPlay = false;
+            //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
+            webSockets[clientcounter-1].send(JSON.stringify(obj));
+            */
+    } else if(clientcounter%2==0){
+        let obj={};
+        obj.action="Snip Snap Snorum";
+        obj.message="We are going to play Snip Snap Snorum";
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        /*
+        //console.log("Adding a player 2");
+        let obj = {};
+        obj.action="Crazy Eights";
+        obj.status = "Your turn";
+        obj.numberOfOpponentCards = crazyEightPlayers[clientcounter-2].getHandCopy().length;
+        obj.pileTopCard = eightPile.getTopCard();
+        obj.pileAnnouncedSuit = eightPile.getAnnouncedSuit();
+        obj.yourCards = crazyEightPlayers[clientcounter-1].getHandCopy();
+        obj.readyToPlay = true;
+
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
+        */
+    }
     
 }
 
