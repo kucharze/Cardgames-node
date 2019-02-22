@@ -130,6 +130,7 @@ function crazyEights(message,ws){
     else if(message.gameact=="quit"){
         //notify the other player that current user has quit
         //and that they have won the game
+        eightQuit(webSockets[webSockets.indexOf(ws)].playerNumber);
     }
     
     /*if(userMessage.action == "cardPicked") {
@@ -304,30 +305,30 @@ function cardPicked(playerNumber){
     webSockets[1-playerNumber].send(JSON.stringify(obj));
 }
 
-function eightQuit(){
-    if(clientcounter%2==1) {//Handles a player leaving the game
+function eightQuit(playernumber){
+    if(playernumber==0) {//Handles a player leaving the game
             let obj = {};
             obj.action="Crazy Eights";
-            obj.status = "You win. Opponent has left the game";
-            obj.numberOfOpponentCards = //crazyEightPlayers[clientcounter].getHandCopy().length;
-            //obj.pileTopCard = eightPiles[currentGame-1].getTopCard();
-            //obj.pileAnnouncedSuit = eightPiles[currentGame-1].getAnnouncedSuit();
-            obj.yourCards = crazyEightPlayers[clientcounter-1].getHandCopy();
+            obj.status = "You win!! Opponent has forfiet!";
+            obj.numberOfOpponentCards = crazyEightPlayers[1].getHandCopy().length;
+            obj.pileTopCard = eightPile.getTopCard();
+            obj.pileAnnouncedSuit = eightPile.getAnnouncedSuit();
+            obj.yourCards = crazyEightPlayers[0].getHandCopy();
             obj.readyToPlay = false;
             //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
-            webSockets[clientcounter-1].send(JSON.stringify(obj));
+            webSockets[1].send(JSON.stringify(obj));
 
-    } else if(clientcounter%2==0){
+    } else if(playernumber==1){
         let obj = {};
         obj.action="Crazy Eights";
-        obj.status = "You win!! Opponent has left the game";
-        //obj.numberOfOpponentCards = crazyEightPlayers[clientcounter-2].getHandCopy().length;
-        //obj.pileTopCard = eightPiles[crazyGames-1].getTopCard();
-        //obj.pileAnnouncedSuit = eightPiles[crazyGames-1].getAnnouncedSuit();
-        obj.yourCards = crazyEightPlayers[clientcounter-1].getHandCopy();
+        obj.status = "You win!! Opponent has forfiet!";
+        obj.numberOfOpponentCards = crazyEightPlayers[0].getHandCopy().length;
+        obj.pileTopCard = eightPile.getTopCard();
+        obj.pileAnnouncedSuit = eightPile.getAnnouncedSuit();
+        obj.yourCards = crazyEightPlayers[playernumber].getHandCopy();
         obj.readyToPlay = false;
 
-        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        webSockets[0].send(JSON.stringify(obj));
         //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
     }
 }
