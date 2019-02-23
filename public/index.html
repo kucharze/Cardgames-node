@@ -363,11 +363,11 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <div id="allSnips">
         <div id="snipstatus" class="statusBox">Welcome to Snip Snap Snorum</div>
         <div id="scpuhand"><img src="Images/cardback.png"></div>
-        <br><br>
+        <br><br><br><br><br><br>
         <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
-        <br><br>
+        <br><br><br>
         <div id="suserhand"><img src="Images/cardback.png" title="start card"></div>
-        <br> <br>
+        <br><br><br><br><br><br>
         <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
         </div>
         
@@ -400,26 +400,62 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <script>
             let snip=new Snippres();
             snip.play();
-            let snipOn=false;
+            let snipOn=false;//to determine if we are online or offline
             
             function snipReset(){
                 snip.resetGame();
             }
             
             function cpuTurn(){
-                snip.comTurn();
+                if(snipOn){
+                    //presenter.passturn
+                    //send info to websocket about card on pile,
+                    //status and cards in players hand
+                    snip.sendMes();
+                }
+                else{//normal offline function
+                   snip.comTurn();
+                }
             }
             
             function snipOnline(){
-                //call online snip snap snorum function
-                let mes={};
-                mes.action="Snip Snap Snorum";
-                mes.gameact="Play";
-                ws.send(JSON.stringify(mes));
+                if(!snipOn){
+                    //call online snip snap snorum function
+                    snipOn=true;
+                    snip.goOnline();
+                    snip=new SnippresO(ws);
+                    
+                    let mes={};
+                    mes.action="Snip Snap Snorum";
+                    mes.gameact="Play";
+                    ws.send(JSON.stringify(mes));
+                }else{
+                    if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
+                    //shut off online mode
+                    //alert("shutting off online mode");
+                    snipOn=false;
+                    let quit={};
+                    quit.action="Snip Snap Snorum";
+                    quit.gameact="quit";
+                    ws.send(JSON.stringify(quit));
+                    snip.goOffline();
+                    snip=new Snippres();
+                    snip.play();
+                } else {
+                    // Do nothing! Just return to the game
+                    //alert("We are not shutting off online mode");
+                    return;
+                }
+                }
+                
             }
             
             function snipUpdate(message){
-                alert(message.message);
+                if(message.gameact=="display"){
+                    alert("We have recieved the message from snipsnapsnorum");
+                }
+                alert("message action is"+message.action);
+                snip.update(message);
             }
         </script>
     </div>
@@ -516,11 +552,14 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 </div>
     
     <div id="gofish" class="tabcontent">
+        <div id="allfish">
         <div id="fishstatus" class="statusBox">Welcome to Go Fish</div>
         <div id="fcpuhand"><img src="Images/cardback.png"></div>
         <div id="cards"><img src="Images/cardback.png"></div>
         <div id="fuserhand"><img src="Images/cardback.png" title="start card"></div>
         <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
+        </div>
+        
         <br> <br>
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>

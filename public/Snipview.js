@@ -30,14 +30,16 @@ class Snipview {
      while(cpu.hasChildNodes()){
 	   cpu.removeChild(cpu.lastChild);
       }
-    for(let i=0; i<hand.length; i++){
-       //alert("Player "+hand[i].toString());
-       let image=document.createElement("img");
-	   image.src ="./Images/cardback.png";
-	   image.title=hand[i].toString();
-	   image.class="card positionable";
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
-	   cpu.appendChild(image);
+      
+        for(let i=0; i<hand.length; i++){
+            //alert("Player "+hand[i].toString());
+            let image=document.createElement("img");
+            image.src ="./Images/cardback.png";
+	       image.title=hand[i].toString();
+	       image.class="card positionable";
+            image.style="position: absolute; left: "+ ((30*i)+10) + "px; z-index:" + i +";";
+        
+            cpu.appendChild(image);
     }
   }
 
@@ -52,9 +54,17 @@ class Snipview {
 	    image.src ="./Images/"+hand[i].toString()+".png";
         image.title=hand[i].toString();
 	    image.class="card positionable";
-	    image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+         image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";
+	    //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
 	    human.appendChild(image);
    }
+      /*
+            image.src ="./Images/"+row[i].toString()+".png";
+	        image.title=row[i].toString();
+            image.id=(i);
+	        image.class="card positionable";
+            image.style="position: absolute; top: "+ (30*i) + "px; z-index:" + i +";";
+            */
   }
     
     eraseHands(){
@@ -91,6 +101,15 @@ class Snipview {
     displayMessage(message){
         let mes=document.getElementById("snipstatus");
         mes.innerHTML=message;
+    }
+    
+    removeEvents(){
+        //alert("removing online event listeners");
+        var old1 = document.getElementById("suserhand");
+        
+        var new1 = old1.cloneNode(true);
+        //var new_element = old_element.cloneNode(true);
+        old1.parentNode.replaceChild(new1, old1);
     }
 
 }

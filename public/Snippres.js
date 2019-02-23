@@ -83,7 +83,7 @@ class Snippres {
         //alert("Passing play to the computer");
         while(true){
             if(!this.snip && !this.snap){
-                alert("snip");
+                //alert("snip");
                 let pcard=this.pile.getTopCard();
                 let hand=this.cpu.getHandCopy();
                 //alert("hand at 0 = "+hand[0]);
@@ -111,7 +111,7 @@ class Snippres {
                 let play=false;
                 for(var i=0; i<hand.length; i++){
                     if(hand[i].getValue() == this.pile.getTopCard().getValue()){
-                        alert("Snap play");
+                        //alert("Snap play");
                         this.cpu.played=true;
                         //alert("pcard: "+pcard);
                         //alert("hand card: "+hand[i]);
@@ -144,14 +144,13 @@ class Snippres {
                 }
             }
             else if(this.snip && this.snap){
-                //alert("snorum");
                 let pcard=this.pile.getTopCard();
                 let hand=this.cpu.getHandCopy();
                 let com=null;
                 let play=false;
                 for(var i=0; i<hand.length; i++){
                     if(hand[i].getValue() == this.pile.getTopCard().getValue()){
-                        alert("Snorum play");
+                        //alert("Snorum play");
                         this.cpu.played=true;
                         com=hand[i];
                         //alert("pcard: "+pcard);
@@ -216,7 +215,6 @@ class Snippres {
         this.date=null;
         this.started=false;
 	    this.pile = new Pile();
-	    //this.pile.acceptACard(this.deck.dealACard());
 	    
         this.human = new Sniphuman(this.deck, this.pile, this.view);
 	    this.cpu = new Snipcpu(this.deck, this.pile, this.view);
@@ -227,6 +225,12 @@ class Snippres {
         this.snipview.displayHumanHand(this.human.getHandCopy());
         
         return;
+    }
+    
+    goOnline(){
+        //set up Snip Snap Snorum for online play
+        this.snipview.removeEvents();
+        this.snipview.eraseHands();
     }
 
 }
