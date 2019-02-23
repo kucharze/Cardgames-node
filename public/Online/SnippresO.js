@@ -7,21 +7,19 @@ class SnippresO {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(socket) {
         this.moves=0;
 	    this.deck = new Deck();
 	    this.deck.shuffle();
         this.deck.shuffle();
         this.snip=false;
         this.snap=false;
-        this.date=null;
-        this.started=false;
         
+        this.ws=socket;
 	    this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard());
 	    this.snipview = new SnipviewO(this);
 	    this.human=new Sniphuman(this.deck, this.pile, this.view);
-	    this.cpu=new Snipcpu(this.deck, this.pile, this.view);
     }
 
 //takes the string for a card and determines if the player's turn is over
@@ -74,43 +72,50 @@ class SnippresO {
     return;
  }
     
+    sendMes(){
+        let mess={};
+        mes.action="Snip Snap Snorum";
+        mes.gameact="pass turn";
+        mes.hand=this.human.getHandCopy();
+        mes.snip=this.snip;
+        mes.snap=this.snap;
+        mes.madePlay=this.human.played;
+        this.human.played=false;
+        this.snipview.blockPlay();
+    }
+    
     update(message){
-        //alert("Update");
+        alert("Updating Snip Snap Snorum");
 	   var playerhand=[];
-        let state=message.state;
-        if(state=="snip"){
-            this.snip=true;
-            this.snap=false;
-        }
-        else if(state=="snap"){
-            this.snip=true;
-            this.snap=true;
-        }
-        else{
-            this.snip=false;
-            this.snap=false;
-        }
-      //alert("Message status is"+message.status);
+        
+        this.snip=message.snip;
+        this.snap=message.snap;
+        let state = "";
+        this.snipview.displayMessage(message.status);
+        
 	   let hand = message.yourCards;
 	   let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
 ///*
-	if(message.pileTopCard!=undefined){
-	let pilecard=message.pileTopCard;
-    	let topcard=JSON.parse( JSON.stringify( pilecard ), 
-	(k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+	   if(message.pileTopCard!=undefined || message.pileTopCard!=null){
+	       let pilecard=message.pileTopCard;
+    	   let topcard=JSON.parse( JSON.stringify( pilecard ), 
+	   (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
         
-    	this.view.displayPileTopCard(topcard);
+    	this.snipview.displayPileTopCard(topcard);
     	this.pile.acceptACard(topcard);
-	}
+	   }
+        else{
+            this.snipview.displayPileTopCard(null);
+        }
 //*/
 	this.human.setHand(newHand);
-	this.view.displayStatus(message.status);
-	this.view.displayComputerHand(message.numberOfOpponentCards);
-	this.view.displayHumanHand(newHand);
+	//this.snipview.displayStatus(message.status);
+	this.snipview.displayComputerHand(message.numberOfOpponentCards);
+	this.snipview.displayHumanHand(newHand);
 
-	if (message.readyToPlay) {this.view.unblockPlay();}
-	else {this.view.blockPlay();}
+	if (message.readyToPlay) {this.snipview.unblockPlay();}
+	else {this.snipview.blockPlay();}
   }
     
     goOffline(){

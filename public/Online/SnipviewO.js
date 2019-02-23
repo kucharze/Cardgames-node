@@ -10,7 +10,9 @@ class SnipviewO {
         this.topCardString = "";
         this.allCardsDiv=document.getElementById("allSnips");
         this.userHand=document.getElementById("suserhand");
-         document.getElementById("suserhand").addEventListener("click",function(){presenter.cardSelected(event.target.title);});
+        this.allCardsDiv=document.getElementById("allSnips");
+        
+         this.userHand.addEventListener("click",function(){presenter.cardSelected(event.target.title);});
   }
 
   displayComputerHand(handLength){
@@ -28,9 +30,9 @@ class SnipviewO {
        //alert("Player "+hand[i].toString());
        let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
-	   //image.title=hand[i].toString();
 	   image.class="card positionable";
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
+        image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";
+	   //image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
 	   cpu.appendChild(image);
     }
   }
@@ -46,7 +48,8 @@ class SnipviewO {
 	    image.src ="./Images/"+hand[i].toString()+".png";
         image.title=hand[i].toString();
 	    image.class="card positionable";
-	    image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+         image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";;
+	    //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
 	    human.appendChild(image);
    }
   }
@@ -108,7 +111,12 @@ class SnipviewO {
     }
     
     removeEvents(){
+        //alert("removing online event listeners");
+        var old1 = document.getElementById("suserhand");
         
+        var new1 = old1.cloneNode(true);
+        //var new_element = old_element.cloneNode(true);
+        old1.parentNode.replaceChild(new1, old1);
     }
 
 }

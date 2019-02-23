@@ -13,14 +13,12 @@ class FishpresO {
 	    this.deck.shuffle();
 	    this.deck.shuffle();
 	    
-        this.pile = new Pile();
-	    //this.pile.acceptACard(this.deck.dealACard());
+        this.pile = new Pile();//not used for this game
 	    this.fview = new Fishview(this);
-        
         this.askCard=null;
+        this.numFourOfs=0;
         
-	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
-	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
+	    this.human = new HumanPlayerO(this.deck, this.pile, this.fview);
     }
 
  cardPicked(){
@@ -99,28 +97,6 @@ class FishpresO {
         //this.completeBothTurns();
     }
     
-    resetGame(){
-        //alert("attempting to reset");
-        this.fview.eraseHands();
-        this.deck=new Deck();
-        this.moves=0;
-        this.fview.displayMessage("Welcome to Go Fish");
-	    this.deck.shuffle();
-	    this.deck.shuffle();
-        
-        document.getElementById("dups").disabled=false;
-        document.getElementById("No").disabled=false;
-	    
-	    this.pile = new Pile();
-	    //this.pile.acceptACard(this.deck.dealACard());
-	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
-	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
-        
-        //this.fview.displayPileTopCard(this.pile.getTopCard());
-        this.fview.displayComputerHand(this.computer.getHandCopy());
-        this.fview.displayHumanHand(this.human.getHandCopy());
-        return;
-    }
 
     goOffline(){
         

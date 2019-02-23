@@ -3,7 +3,7 @@
  * This implementation uses the JavaScript window.prompt() method
  * for input (and some output) and window.alert() for (purely) output.
  */
-class Fishview {
+class FishviewO {
     constructor(presenter) {
 	//alert("called");
     this.presenter = presenter;
@@ -16,15 +16,19 @@ class Fishview {
         //document.getElementById("cards").addEventListener("click",function(){presenter.cardPicked();});
   }
 
-  displayComputerHand(hand){
+  displayComputerHand(handlength){
      let cpu = document.getElementById("fcpuhand");
      while(cpu.hasChildNodes()){
 	   cpu.removeChild(cpu.lastChild);
       }
+      let hand=[];
+      for(var i=0; i<handlength; i++){
+          hand.push(new Card("j","h"));
+      }
+      
     for(let i=0; i<hand.length; i++){
         let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
-        image.title=hand[i].toString();
 	   image.class="card positionable";
 	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
 	   cpu.appendChild(image);
