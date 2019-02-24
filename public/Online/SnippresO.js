@@ -64,39 +64,47 @@ class SnippresO {
              this.snipview.displayMessage("Cannot play that card");
          }
      }
-     if(this.human.isHandEmpty()){
-         this.snipview.displayMessage("Congradulations! You win!!!");
-         document.getElementById("passturn").disabled=true;
-     }
      
     return;
  }
     
     sendMes(){
+        if(!this.human.played){
+            this.snip=false;
+            this.snap=false;
+        }
+        //alert("presenter snip is "+this.snip);
+        //alert("presenter snap is "+this.snap);
         let mess={};
-        mes.action="Snip Snap Snorum";
-        mes.gameact="pass turn";
-        mes.hand=this.human.getHandCopy();
-        mes.snip=this.snip;
-        mes.snap=this.snap;
-        mes.madePlay=this.human.played;
+        mess.action="Snip Snap Snorum";
+        mess.gameact="pass turn";
+        mess.hand=this.human.getHandCopy();
+        mess.snip=this.snip;
+        mess.snap=this.snap;
+        mess.pileCard=this.pile.getTopCard();
+        mess.madePlay=this.human.played;
         this.human.played=false;
         this.snipview.blockPlay();
+        this.ws.send(JSON.stringify(mess));
+        
+        this.human.played=false;
     }
     
     update(message){
         alert("Updating Snip Snap Snorum");
 	   var playerhand=[];
+        //alert("Snip is"+message.snip);
+        //alert("Snap is "+message.snap);
         
         this.snip=message.snip;
         this.snap=message.snap;
-        let state = "";
         this.snipview.displayMessage(message.status);
-        
+       ///* 
 	   let hand = message.yourCards;
 	   let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-///*
+                            //*/
+        ///*
 	   if(message.pileTopCard!=undefined || message.pileTopCard!=null){
 	       let pilecard=message.pileTopCard;
     	   let topcard=JSON.parse( JSON.stringify( pilecard ), 
@@ -110,7 +118,6 @@ class SnippresO {
         }
 //*/
 	this.human.setHand(newHand);
-	//this.snipview.displayStatus(message.status);
 	this.snipview.displayComputerHand(message.numberOfOpponentCards);
 	this.snipview.displayHumanHand(newHand);
 
@@ -119,7 +126,9 @@ class SnippresO {
   }
     
     goOffline(){
-        
+        //reset view to prepare for offline play once again
+        this.snipview.eraseHands();
+        this.snipview.removeEvents();
     }
 
 }
