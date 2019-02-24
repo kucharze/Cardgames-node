@@ -429,6 +429,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     mes.action="Snip Snap Snorum";
                     mes.gameact="Play";
                     ws.send(JSON.stringify(mes));
+                    document.getElementById("snipreset").disabled=true;
                 }else{
                     if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                     //shut off online mode
@@ -451,10 +452,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             }
             
             function snipUpdate(message){
-                if(message.gameact=="display"){
-                    alert("We have recieved the message from snipsnapsnorum");
-                }
-                alert("message action is"+message.action);
+                //alert("message action is"+message.action);
                 snip.update(message);
             }
         </script>
