@@ -12,6 +12,7 @@ const Pile = require('./public/Pile.js');
 const Player = require('./public/Player.js');
 
 //neccesities to play Crazy eights
+let eightPlayers=[];
 let crazyGames=0;
 let eightDecks=[];
 let eightDeck = new Deck();
@@ -36,8 +37,11 @@ eightPile.acceptACard(eightDeck.dealACard());
 //Snip Snap Snorum necessities
 let snipPile=new Pile();
 let snipDeck=new Deck();
+snipDeck.shuffle();
+snipDeck.shuffle();
+
 let snipPlayers=[];
-let snipSockets=[];
+let snipSockets=[];//websockets playing sss online
 
 snipPlayers.push(new Player(snipDeck));
 snipPlayers.push(new Player(snipDeck));
@@ -57,10 +61,8 @@ var router = express.Router();
 var port = process.env.PORT || 8080;
 app.use(express.static(path.join(__dirname,'/public')));
 let webSockets=[];
-let eightPlayers=[];
 let clientcounter=0;
 let playernumber=0;
-let currentGame=0;
 
 //return static page with websocket client
 app.get('/', function(req, res) {
@@ -331,7 +333,6 @@ function eightQuit(playernumber){
             obj.pileAnnouncedSuit = eightPile.getAnnouncedSuit();
             obj.yourCards = crazyEightPlayers[0].getHandCopy();
             obj.readyToPlay = false;
-            //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
             webSockets[1].send(JSON.stringify(obj));
 
     } else if(playernumber==1){
@@ -345,8 +346,8 @@ function eightQuit(playernumber){
         obj.readyToPlay = false;
 
         webSockets[0].send(JSON.stringify(obj));
-        //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
     }
+    //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
 }
 
 function snipSnapSnorum(message,ws){
@@ -355,7 +356,7 @@ function snipSnapSnorum(message,ws){
     }
     else if(message.gameact=="pass turn"){
         //pass pla to the other user
-        switchUser(message, message,webSockets[webSockets.indexOf(ws)].playerNumber);
+        switchUser(message, webSockets[webSockets.indexOf(ws)].playerNumber);
     }
     else if(message.gameact=="quit"){
         console.log("Quitting snip snap snorum");
@@ -399,10 +400,76 @@ function snipPlay(){
 }
 
 function switchUser(message, playerNumber){
+    //console.log("the player number is "+playerNumber);
+    
+    let pileCard = message.pileCard;
+    let tempCard = new Card(pileCard.suit, pileCard.value);
+    snipPile.acceptACard(tempCard);
+    let hand = message.hand;
+	   let newHand = JSON.parse(JSON.stringify( hand ),
+                            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+    
+    snipPlayers[playerNumber].setHand(hand);
+    
+    let snip=message.snip;
+    let snap=message.snap;
+    console.log("snip "+message.snip);
+    console.log("snap "+message.snap);
     let obj={};
-    obj.action="Snip Snap Snorum";
-    obj.gameact="display";
-    webSockets[1-playerNumber].send(JSON.stringify(obj));
+    
+    
+    if(snipPlayers[playerNumber].isHandEmpty()){//Player one wins
+        obj.action="Snip Snap Snorum";
+        obj.status="Sorry you lose";
+        obj.readyToPlay=false;
+        webSockets[1-playerNumber].send(JSON.stringify(obj));
+    
+    
+        obj.action="Snip Snap Snorum";
+        obj.status="Congradulations!! You Win!!";
+        obj.readyToPlay=false;
+        webSockets[playerNumber].send(JSON.stringify(obj));
+    }
+    else if(snipPlayers[1-playerNumber].isHandEmpty()){//Player two wins
+        obj.action="Snip Snap Snorum";
+        //obj.gameact="display";
+        obj.status="We have recieved the message";
+        obj.readyToPlay=false;
+        webSockets[1-playerNumber].send(JSON.stringify(obj));
+    
+        obj.action="Snip Snap Snorum";
+        //obj.gameact="display";
+        obj.status="We have sent a message to the other player";
+        obj.readyToPlay=false;
+        webSockets[playerNumber].send(JSON.stringify(obj));
+    }
+    else{//contniue play noone has won yet
+        obj.action="Snip Snap Snorum";
+        obj.status="It is now your turn";
+        obj.pileTopCard=snipPile.getTopCard();
+        obj.yourCards=snipPlayers[1-playerNumber].getHandCopy();
+        obj.snip=snip;
+        obj.snap=snap;
+        obj.numberOfOpponentCards=snipPlayers[playerNumber].getHandCopy().length;
+        obj.readyToPlay=true;
+        webSockets[1-playerNumber].send(JSON.stringify(obj));
+    
+        
+        obj.action="Snip Snap Snorum";
+        obj.status="Please wait for the other player to play";
+        obj.pileTopCard=snipPile.getTopCard();
+        obj.yourCards=snipPlayers[playerNumber].getHandCopy();
+        obj.snip=snip;
+        obj.snap=snap;
+        obj.numberOfOpponentCards=snipPlayers[1-playerNumber].getHandCopy().length;
+        obj.readyToPlay=false;
+        webSockets[playerNumber].send(JSON.stringify(obj));
+        }
+    
+}
+
+function snipQuit(){
+    
 }
 
 function playGoFish(message, ws){
