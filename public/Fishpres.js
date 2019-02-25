@@ -18,6 +18,10 @@ class Fishpres {
 	    this.fview = new Fishview(this);
         
         this.askCard=null;
+        this.canDraw=true;
+        
+        this.humNumFours=0;
+        this.comNumFours=0;
         
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
@@ -106,16 +110,10 @@ class Fishpres {
         //this.completeBothTurns();
     }
     
-    removeDups(){
-        if(this.human.hasDuplicate()){
-            alert("removing duplicates");
-            this.human.removeDups();
-            this.fview.displayMessage(document.getElementById("fishstatus").innerHTML + " Duplicate cards have been removed");
-            this.fview.displayHumanHand(this.human.getHandCopy());
-        }
-        else{
-            this.fview.displayMessage(document.getElementById("fishstatus").innerHTML + " No duplicates present");
-            //alert("There are no Duplicats");
+    //Player draws cards because they have none in hand
+    drawCards(){
+        if(!this.deck.isEmpty()){
+            
         }
     }
 

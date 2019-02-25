@@ -64,11 +64,26 @@ class SnippresO {
              this.snipview.displayMessage("Cannot play that card");
          }
      }
+     if(this.human.isHandEmpty()){
+         //this.snipview.displayMessage("Congradulations! You win!!!");
+         let obj={};
+         obj.action="Snip Snap Snorum";
+         obj.gameact="victory";
+         obj.hand=this.human.getHandCopy();
+         obj.snip=this.snip;
+         obj.snap=this.snap;
+         obj.pileCard=this.pile.getTopCard();
+         obj.madePlay=this.human.played;
+         this.human.played=false;
+         //this.snipview.blockPlay();
+         this.ws.send(JSON.stringify(obj));
+     }
      
     return;
  }
     
     sendMes(){
+        //If this player did not make a play, reset the round
         if(!this.human.played){
             this.snip=false;
             this.snap=false;
@@ -84,21 +99,33 @@ class SnippresO {
         mess.pileCard=this.pile.getTopCard();
         mess.madePlay=this.human.played;
         this.human.played=false;
-        this.snipview.blockPlay();
+        //this.snipview.blockPlay();
         this.ws.send(JSON.stringify(mess));
         
         this.human.played=false;
     }
     
     update(message){
-        alert("Updating Snip Snap Snorum");
+        //alert("Updating Snip Snap Snorum");
 	   var playerhand=[];
         //alert("Snip is"+message.snip);
         //alert("Snap is "+message.snap);
+        let roundstate="";
         
         this.snip=message.snip;
         this.snap=message.snap;
-        this.snipview.displayMessage(message.status);
+        if(message.status!="Please wait for the other player to play" || "Waiting for other player to join" || "You may start the round" || "You win!! Opponent has forfeit"){//display roundstate only if not waiting for opponent
+            if(!message.snip){
+                roundstate=" You may start the round";
+            }
+            else if(message.snip && !message.snap){
+                roundstate=" Snip";
+            }
+            else if(message.snip && message.snap){
+                roundstate=" Snap";
+            }
+         }
+        this.snipview.displayMessage(message.status+roundstate);
        ///* 
 	   let hand = message.yourCards;
 	   let newHand = JSON.parse( JSON.stringify( hand ),

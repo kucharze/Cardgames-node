@@ -193,6 +193,7 @@ class Snippres {
 
 //Sets up the start of the game
  play(){//Set up for playing Snip snap snorum
+     this.snipview.displayMessage("Welcome to Snip Snap Snorum");
      this.human.addCards();
      this.cpu.addCards();
      this.snipview.displayPileTopCard(null);

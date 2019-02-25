@@ -4,7 +4,7 @@
  */
 class Player {
   constructor(deck) {
-      this.i=0;
+      //this.i=0;
     /** This player's hand. */
     this.list = new Array();
 
@@ -19,57 +19,29 @@ class Player {
   isHandEmpty() {  
     return this.list.length == 0;
   }
+    
   /*Returns true if hand has two of the same value*/  
-    hasDuplicate(){
+    countCards(){
         //let dup=false;
         let hand=this.getHandCopy();
         
         for(var i=0; i<hand.length; i++){
-            for(var j=(i+1); j<hand.length; j++){
-                if(hand[i].getValue() == hand[j].getValue()){
-                    return true;
-                }
-            }
+            
         }
         return false;
     }
     
     /*Find the duplicates in a hand*/
-    findDups(){
+    countCard(card){//Count occurences of a single card
         let hand=this.getHandCopy();
-        
+        var tot=0;
         for(let i=0; i<hand.length; i++){
-            for(let j=(i+1); j<hand.length; j++){
-                if(hand[i].getValue() == hand[j].getValue()){
-                    return hand[i].getValue();
-                }
-            }
+            
         }
-        return null;
+        return tot++;
     }
     
-    //remove duplicate cards from hand
-    removeDups(){
-        let removed=false;
-        let hand=this.getHandCopy();
-        while(this.hasDuplicate()){
-            for(let i=0; i<hand.length; i++){
-                for(let j=(i+1); j<hand.length; j++){
-                    if(hand[i].getValue() == hand[j].getValue()){
-                        this.remove(this.list.indexOf(hand[i]));
-                        this.remove(this.list.indexOf(hand[j]));
-                        removed=true;
-                        break;
-                    }
-                    if(removed){
-                        removed=false;
-                        break;
-                    }
-                }
-            }
-        }
-        
-    }
+    
   /**
    * Add the given Card object to this player's hand.
    */
@@ -82,9 +54,24 @@ class Player {
    */
   remove(i) {
       //alert("Removing a card "+i);
-      this.i++;
+      //this.i++;
      this.list.splice(i,1);
   }
+    
+    removeAll(card){
+        var spots=[];
+        let hand=this.getHandCopy();
+        
+        for(var i=0; i<hand.length; i++){
+            if(hand[i].getValue() == card.getValue()){
+                spots.push(i);
+            }
+        }
+        
+        for(var i=0; i<spots.length; i++){
+            this.list.splice(i,1);
+        }
+    }
     
     findValue(cardvalue){
         let i = 0;
