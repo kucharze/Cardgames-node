@@ -587,10 +587,17 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             'use strict'
             var fpres=new Fishpres();
             fpres.play();
+            let fishO=false;
             
             function no(){
-                alert("saying no");
-                fpres.sayNo();
+                if(fishO){
+                    //call online version of go fish function
+                    alert("Calling online version of goFish function");
+                }
+                else{
+                    alert("saying no");
+                    fpres.sayNo();
+                }
             }
             
             function fishRes(){
@@ -599,6 +606,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             
             function fishOnline(){
                 //toggle online mode with go fish
+                alert("We are going online for Go fish")
             }
             function fishUpdate(message){
                 //update go fish while online

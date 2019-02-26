@@ -55,14 +55,26 @@ class Fishpres {
     }
     
     fish(cardstring){
-        //this.computer.removeDups();
+        this.human.checkAmount();
+        
+        let card=this.human.find(cardstring);
+        if(card !=null){//testing out card count function
+            let total=this.human.countCard(card);
+            //alert("total= "+total);
+            //return;
+        }
+        else{
+            //return;
+        }
+        //this.human.countCard(card);
+        
         if(!this.human.fish){
             alert("Recieving");
             //alert("The ask card is " + this.askCard);
             if(this.human.give(cardstring,this.askCard)){
                 let index=this.computer.indexOf(this.askCard);
                 alert("Index = "+index);
-                this.computer.remove(this.computer.indexOf(this.askCard));
+                //this.computer.remove(this.computer.indexOf(this.askCard));
                 this.fview.displayComputerHand(this.computer.getHandCopy());
                 
                 if(this.computer.isHandEmpty()){
@@ -77,37 +89,35 @@ class Fishpres {
             }
             return;
         }
-        
-        alert("Fishing");
-        //alert(cardstring);
-        let card=this.human.find(cardstring);
-        //alert(card);
-        if(card==null){
-            return;
-        }
-        if(!this.computer.give(card)){
-            this.human.cardPicked();
-        }
         else{
-            this.human.remove(this.human.indexOf(card));
-        }
-        if(this.human.isHandEmpty()){
-            this.fview.displayMessage("Congradulations you win!!!");
-            document.getElementById("dups").disabled=true;
-            document.getElementById("sayno").disabled=true;
-            return;
+            alert("Fishing");
+            if(card==null){
+                return;
+            }
+            if(!this.computer.give(card)){
+                this.human.cardPicked();
+            }
+            else{
+                this.human.list.push(this.computer.fishCard);
+            }
+            
+            
+            this.human.checkAmount();//check hand for four of a kinds' to remove
+            
+            this.fview.displayHumanHand(this.human.getHandCopy());
+            this.fview.displayComputerHand(this.computer.getHandCopy());
+            /*
+            if(this.human.isHandEmpty()){
+                this.fview.displayMessage("Congradulations you win!!!");
+                document.getElementById("dups").disabled=true;
+                document.getElementById("sayno").disabled=true;
+                return;
+            }
+            */
+            this.human.fish=false;
+            this.comTurn();
         }
         
-        this.fview.displayHumanHand(this.human.getHandCopy());
-        this.fview.displayComputerHand(this.computer.getHandCopy());
-        if(this.human.isHandEmpty()){
-            this.fview.displayMessage("Congradulations! You win!!!");
-            document.getElementById("dups").disabled=true;
-            document.getElementById("sayno").disabled=true;
-        }
-        this.human.fish=false;
-        this.comTurn();
-        //this.completeBothTurns();
     }
     
     //Player draws cards because they have none in hand
