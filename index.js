@@ -108,6 +108,7 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="Gofish"){
             //call method to go to go fish option
+            goFish(userMess,ws);
         }
         //console.log('received: %s', userMess.user + " "+ userMess.password);
         //connectedUsers.push(userMess.user);
@@ -188,9 +189,7 @@ function eightsPlay(){
             if(crazyGames>1){//set up for a new game to be played
                 let deck = new Deck();
                 deck.shuffle();
-                while(deck.isTopCardAnEight()){
-                    deck.shuffle();
-                }
+                while(deck.isTopCardAnEight()){deck.shuffle();}
                 let pile=new Pile();
                 pile.acceptACard(deck.dealACard());
                 eightPiles.push(pile);
@@ -198,7 +197,6 @@ function eightsPlay(){
                 
                 crazyEightPlayers.push(new Player(deck));
                 crazyEightPlayers.push(new Player(deck));
-                
             }
             */
             let obj = {};
@@ -526,14 +524,21 @@ function playGoFish(message, ws){
     }
     else if(message.gameact=="goFish"){
         console.log("Saying Go Fish");
+        gofish(messae, webSockets[webSockets.indexOf(ws)].playerNumber);
     }
     else if(message.gameact=="ask for card"){
         console.log("asking the other player for a card");
+        askForCard(messae, webSockets[webSockets.indexOf(ws)].playerNumber);
+    }
+    else if(message.gameact=="Give a card"){
+        console.log("Giving a card to the other player");
     }
     else if(message.gameact=="quit"){
         console.log("Quitting play for go fish");
+        quitFish();
     }
 }
+
 
 function fishPlay(){
     
