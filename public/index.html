@@ -595,7 +595,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     alert("Calling online version of goFish function");
                 }
                 else{
-                    alert("saying no");
+                    //alert("saying no");
                     fpres.sayNo();
                 }
             }
@@ -609,7 +609,8 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                 alert("We are going online for Go fish")
             }
             function fishUpdate(message){
-                //update go fish while online
+                //call method for updating go fish while online
+                fpres.update(message);
             }
         </script>
     </div>

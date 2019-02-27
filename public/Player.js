@@ -67,11 +67,10 @@ class Player {
   }
     
     removeAll(card){
-        let hand=this.getHandCopy();
-        //var com=false;
         var removed=true;
-        alert("removing cards");
+        //alert("removing cards");
         while(true){
+            let hand=this.getHandCopy();
             for(var i=0; i<hand.length; i++){
                 //alert("In for loop");
                 if(hand[i].getValue() == card.getValue()){
@@ -86,7 +85,7 @@ class Player {
             }
             removed=false;
         }
-        alert("Outside the loop");
+        //alert("Outside the loop");
         return;
         
     }

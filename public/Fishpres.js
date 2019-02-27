@@ -26,12 +26,6 @@ class Fishpres {
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
     }
-
- cardPicked(){
-   this.human.cardPicked();
-    this.computer.cardPicked();
-   this.completeBothTurns();
- }
     
     comTurn(){
         let card=this.computer.fish();
@@ -45,7 +39,9 @@ class Fishpres {
             return;
         }
         else{
-            this.computer.cardPicked();
+            if(!this.deck.isEmpty()){
+                this.computer.cardPicked();
+            }
             this.computer.checkAmount();
         }
         this.human.fish=true;
@@ -54,7 +50,6 @@ class Fishpres {
     
     fish(cardstring){
         //this.human.checkAmount();
-        
         let card=this.human.find(cardstring);
         
         if(card !=null){//testing out card count function
@@ -65,7 +60,6 @@ class Fishpres {
         else{
             //return;
         }
-        //this.human.countCard(card);
         
         if(!this.human.fish){
             alert("Recieving");
@@ -80,12 +74,26 @@ class Fishpres {
                     this.comNumFours++;
                 }
                 
-                if(this.human.isHandEmpty()){
-                    this.drawCards(true);
+                if(this.deck.isEmpty()){
+                if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
+                   if(this.humNumFours>this.comNumFours){
+                       this.fview.displayMessage("You win!!");
+                       document.getElementById("No").disabled=true;
+                    }
+                    else{
+                        this.fview.displayMessage("Sorry. You have lost.");
+                        document.getElementById("No").disabled=true;
+                    } 
                 }
+            }
+            else{
+               if(this.human.isHandEmpty()){
+                   this.drawCards(true);
+               }
                 if(this.computer.isHandEmpty()){
                     this.drawCards(false);
-                }
+                } 
+            }
                 this.fview.displayComputerHand(this.computer.getHandCopy());
                 
                 
@@ -107,16 +115,31 @@ class Fishpres {
                 this.computer.nullifyCard();
             }
             
-            
-            this.human.checkAmount();//check hand for four of a kinds' to remove
-            
-            if(this.human.isHandEmpty()){
-                this.drawCards(true);
+            if(this.human.checkAmount()){
+                this.humNumFours++;
             }
-            if(this.computer.isHandEmpty()){
-                this.drawCards(false);
-            }
+                //check hand for four of a kinds' to remove
             
+            if(this.deck.isEmpty()){
+                if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
+                   if(this.humNumFours>this.comNumFours){
+                       this.fview.displayMessage("You win!!");
+                       document.getElementById("No").disabled=true;
+                    }
+                    else{
+                        this.fview.displayMessage("Sorry. You have lost.");
+                        document.getElementById("No").disabled=true;
+                    } 
+                }
+            }
+            else{
+               if(this.human.isHandEmpty()){
+                   this.drawCards(true);
+               }
+                if(this.computer.isHandEmpty()){
+                    this.drawCards(false);
+                } 
+            }
             
             this.fview.displayHumanHand(this.human.getHandCopy());
             this.fview.displayComputerHand(this.computer.getHandCopy());
@@ -129,7 +152,6 @@ class Fishpres {
     
     //Player draws cards because they have none in hand
     drawCards(playerval){
-        if(!this.deck.isEmpty()){
             if(playerval==true){
                 for(var i=0; i<5; i++){
                     this.human.add(this.deck.dealACard());
@@ -140,16 +162,6 @@ class Fishpres {
                     this.computer.add(this.deck.dealACard());
                 }
             }
-            
-        }
-        else{
-            if(this.humNumFours>this.comNumFours){
-                this.fview.displayMessage("You win!!");
-            }
-            else{
-                this.fview.displayMessage("Sorry. You have lost.")
-            }
-        }
     }
 
 //Sets up the start of the game
@@ -168,7 +180,7 @@ class Fishpres {
 	    this.deck.shuffle();
 	    this.deck.shuffle();
         
-        //document.getElementById("No").disabled=false;
+        document.getElementById("No").disabled=false;
 	    
 	    this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard());

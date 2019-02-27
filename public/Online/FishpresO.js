@@ -29,21 +29,17 @@ class FishpresO {
     
     goFish(){
         if(this.human.findValue(this.askCard.getValue())!=null ){
-            this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can play");
+            this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can give");
             return;
         }
         else{
             this.computer.cardPicked();
-            if(this.computer.hasDuplicate()){
-                this.computer.removeDups();
-            }
         }
         this.human.fish=true;
         this.fview.displayMessage("Pick a card to ask for");
     }
     
     fish(cardstring){
-        //this.computer.removeDups();
         if(!this.human.fish){
             alert("Recieving");
             //alert("The ask card is " + this.askCard);
@@ -65,36 +61,34 @@ class FishpresO {
             }
             return;
         }
-        
-        alert("Fishing");
-        let card=this.human.find(cardstring);
-        //alert(card);
-        if(card==null){
-            return;
-        }
-        if(!this.computer.give(card)){
-            this.human.cardPicked();
-        }
         else{
-            this.human.remove(this.human.indexOf(card));
-        }
-        if(this.human.isHandEmpty()){
-            this.fview.displayMessage("Congradulations you win!!!");
-            document.getElementById("dups").disabled=true;
-            document.getElementById("sayno").disabled=true;
-            return;
+            alert("Fishing");
+            let card=this.human.find(cardstring);
+            //alert(card);
+            if(card==null){
+                return;
+            }
+            if(!this.computer.give(card)){
+                this.human.cardPicked();
+            }
+            else{
+                this.human.remove(this.human.indexOf(card));
+            }
+            if(this.human.isHandEmpty()){
+                
+            }
+        
+            this.fview.displayHumanHand(this.human.getHandCopy());
+            this.fview.displayComputerHand(this.computer.getHandCopy());
+            
+            this.human.fish=false;
+            this.comTurn();
         }
         
-        this.fview.displayHumanHand(this.human.getHandCopy());
-        this.fview.displayComputerHand(this.computer.getHandCopy());
-        if(this.human.isHandEmpty()){
-            this.fview.displayMessage("Congradulations! You win!!!");
-            document.getElementById("dups").disabled=true;
-            document.getElementById("sayno").disabled=true;
-        }
-        this.human.fish=false;
-        this.comTurn();
-        //this.completeBothTurns();
+    }
+    
+    update(message){
+        
     }
     
 
