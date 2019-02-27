@@ -8,7 +8,11 @@ class HumanPlayer extends Player {
         this.deck = deck;
 	    this.pile = pile;
 	    this.view = view;
-        this.fish=true;//True if it is the players turn to ask opponent for a card
+        
+        //True if it is the players turn to ask opponent for a card
+        this.fish=true;
+        //card to have moved when playing go fish
+        this.fishCard=null;
     }
 
   cardPicked(){
@@ -60,14 +64,12 @@ class HumanPlayer extends Player {
     
     give(cardString, comCard){
         let card=this.find(cardString);
-        //alert("We are inside give");
-        //alert("Card:"+card);
-        //alert("comCard:"+comCard);
         if((card==null || (card.getValue() != comCard.getValue()))){
            this.view.displayWrongCardMsg(cardString);
             return false;
         }
         else{
+            this.fishCard=card;
             this.remove(this.list.indexOf(card));
             this.pile.acceptACard(card);
             this.view.displayHumanHand(this.getHandCopy());

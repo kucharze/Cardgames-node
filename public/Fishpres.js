@@ -41,25 +41,24 @@ class Fishpres {
     
     sayNo(){
         if(this.human.findValue(this.askCard.getValue())!=null ){
-            this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can play");
+            this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can give");
             return;
         }
         else{
             this.computer.cardPicked();
-            if(this.computer.hasDuplicate()){
-                this.computer.removeDups();
-            }
+            this.computer.checkAmount();
         }
         this.human.fish=true;
         this.fview.displayMessage("Pick a card to ask for");
     }
     
     fish(cardstring){
-        this.human.checkAmount();
+        //this.human.checkAmount();
         
         let card=this.human.find(cardstring);
+        
         if(card !=null){//testing out card count function
-            let total=this.human.countCard(card);
+            //let total=this.human.countCard(card);
             //alert("total= "+total);
             //return;
         }
@@ -70,19 +69,25 @@ class Fishpres {
         
         if(!this.human.fish){
             alert("Recieving");
-            //alert("The ask card is " + this.askCard);
-            if(this.human.give(cardstring,this.askCard)){
-                let index=this.computer.indexOf(this.askCard);
-                alert("Index = "+index);
+            
+            if(this.human.give(cardstring, this.askCard)){
+                this.computer.add(card);
+                //let index=this.computer.indexOf(this.askCard);
+                //alert("Index = "+index);
                 //this.computer.remove(this.computer.indexOf(this.askCard));
+                
+                if(this.computer.checkAmount()){
+                    this.comNumFours++;
+                }
+                
+                if(this.human.isHandEmpty()){
+                    this.drawCards(true);
+                }
+                if(this.computer.isHandEmpty()){
+                    this.drawCards(false);
+                }
                 this.fview.displayComputerHand(this.computer.getHandCopy());
                 
-                if(this.computer.isHandEmpty()){
-                    this.fview.displayMessage("I win! Thanks for being a good loser");
-                    document.getElementById("dups").disabled=true;
-                    document.getElementById("sayno").disabled=true;
-                    return;
-                }
                 
                 this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
@@ -99,21 +104,23 @@ class Fishpres {
             }
             else{
                 this.human.list.push(this.computer.fishCard);
+                this.computer.nullifyCard();
             }
             
             
             this.human.checkAmount();//check hand for four of a kinds' to remove
             
+            if(this.human.isHandEmpty()){
+                this.drawCards(true);
+            }
+            if(this.computer.isHandEmpty()){
+                this.drawCards(false);
+            }
+            
+            
             this.fview.displayHumanHand(this.human.getHandCopy());
             this.fview.displayComputerHand(this.computer.getHandCopy());
-            /*
-            if(this.human.isHandEmpty()){
-                this.fview.displayMessage("Congradulations you win!!!");
-                document.getElementById("dups").disabled=true;
-                document.getElementById("sayno").disabled=true;
-                return;
-            }
-            */
+            
             this.human.fish=false;
             this.comTurn();
         }
@@ -121,9 +128,27 @@ class Fishpres {
     }
     
     //Player draws cards because they have none in hand
-    drawCards(){
+    drawCards(playerval){
         if(!this.deck.isEmpty()){
+            if(playerval==true){
+                for(var i=0; i<5; i++){
+                    this.human.add(this.deck.dealACard());
+                }
+            }
+            else{
+                for(var i=0; i<5; i++){
+                    this.computer.add(this.deck.dealACard());
+                }
+            }
             
+        }
+        else{
+            if(this.humNumFours>this.comNumFours){
+                this.fview.displayMessage("You win!!");
+            }
+            else{
+                this.fview.displayMessage("Sorry. You have lost.")
+            }
         }
     }
 
@@ -143,8 +168,7 @@ class Fishpres {
 	    this.deck.shuffle();
 	    this.deck.shuffle();
         
-        document.getElementById("dups").disabled=false;
-        document.getElementById("No").disabled=false;
+        //document.getElementById("No").disabled=false;
 	    
 	    this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard());

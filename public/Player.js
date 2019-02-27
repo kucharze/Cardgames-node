@@ -21,12 +21,19 @@ class Player {
   }
     
   /*Returns true if hand has two of the same value*/  
-    countCards(){
+    checkAmount(){
         //let dup=false;
         let hand=this.getHandCopy();
+        var total=0;
         
         for(var i=0; i<hand.length; i++){
-            
+            total=this.countCard(hand[i]);
+            //alert("Number of "+hand[i].getValue() + " = "+total);
+            if(total==4){
+                //alert("We are going to remove all "+hand[i]);
+                this.removeAll(hand[i]);
+                return true;
+            }
         }
         return false;
     }
@@ -36,9 +43,12 @@ class Player {
         let hand=this.getHandCopy();
         var tot=0;
         for(let i=0; i<hand.length; i++){
-            
+            if(hand[i].getValue()==card.getValue()){
+                tot++;
+            }
         }
-        return tot++;
+        //alert("total ="+tot);
+        return tot;
     }
     
     
@@ -53,24 +63,32 @@ class Player {
    * this player's hand.
    */
   remove(i) {
-      //alert("Removing a card "+i);
-      //this.i++;
      this.list.splice(i,1);
   }
     
     removeAll(card){
-        var spots=[];
         let hand=this.getHandCopy();
-        
-        for(var i=0; i<hand.length; i++){
-            if(hand[i].getValue() == card.getValue()){
-                spots.push(i);
+        //var com=false;
+        var removed=true;
+        alert("removing cards");
+        while(true){
+            for(var i=0; i<hand.length; i++){
+                //alert("In for loop");
+                if(hand[i].getValue() == card.getValue()){
+                    this.remove(i);
+                    removed=true;
+                    break;
+                }
             }
+            if(!removed){
+                //alert("");
+                break;
+            }
+            removed=false;
         }
+        alert("Outside the loop");
+        return;
         
-        for(var i=0; i<spots.length; i++){
-            this.list.splice(i,1);
-        }
     }
     
     findValue(cardvalue){

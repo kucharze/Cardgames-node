@@ -13,10 +13,15 @@ class ComputerPlayer extends Player{
       this.deck = deck;
       this.pile = pile;
       this.view = view;
+      
+      //to keep track of card suit values in Crazy Eights
       this.hearts=0;
       this.clubs=0;
       this.diamonds=0;
       this.spades=0;
+      
+      //So that we can move cards around in Go fish
+      this.fishCard=null;
   }
     
     cardPicked(){
@@ -121,21 +126,25 @@ class ComputerPlayer extends Player{
             }
         }
     }
+    
+    nullifyCard(){
+        this.fishCard=null;
+    }
   
     fish(){
         let hand=this.getHandCopy();
         //Randomly chose anumber between 0 and handsize -1
         let ran=Math.floor((Math.random() * (hand.length-1)) + 0);
-        //ask human player for card of value that is the same as the card at the randomly chosen position position
+        //ask human for card of value the same as the card that was randomly chosen
         return hand[ran];
     }
     
     give(card){
         let hand=this.getHandCopy();
         for(var i=0; i<hand.length; i++){
-            //alert("Cards for computer to compare" + hand[i] + " " + card);
             if(hand[i].getValue()==card.getValue()){
                 this.pile.acceptACard(hand[i]);
+                this.fishCard=hand[i];
                 this.remove(i);
                 this.view.displayComputerHand(this.getHandCopy());
                 return true;

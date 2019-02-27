@@ -13,7 +13,6 @@ class FishviewO {
     
         document.getElementById("fuserhand").addEventListener("click",function(){presenter.fish(event.target.title);});
         
-        //document.getElementById("cards").addEventListener("click",function(){presenter.cardPicked();});
   }
 
   displayComputerHand(handlength){
@@ -30,6 +29,7 @@ class FishviewO {
         let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
 	   image.class="card positionable";
+        image.title=hand[i].toString();
 	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
 	   cpu.appendChild(image);
     }

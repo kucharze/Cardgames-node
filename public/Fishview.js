@@ -5,15 +5,13 @@
  */
 class Fishview {
     constructor(presenter) {
-	//alert("called");
     this.presenter = presenter;
     this.topCard = null;
     this.topCardString = "";
     this.errorString = "";
     
-        document.getElementById("fuserhand").addEventListener("click",function(){presenter.fish(event.target.title);});
+    document.getElementById("fuserhand").addEventListener("click", function(){presenter.fish(event.target.title);});
         
-        //document.getElementById("cards").addEventListener("click",function(){presenter.cardPicked();});
   }
 
   displayComputerHand(hand){
