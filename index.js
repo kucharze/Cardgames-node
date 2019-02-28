@@ -54,6 +54,19 @@ for(var i=0; i<14; i++){
     snipPlayers[1].list.push(snipDeck.dealACard());
 }
 
+//Go Fish necessities
+let fishDeck=new Deck();
+fishDeck.shuffle();
+fishDeck.shuffle();
+
+let fishPile=new Pile();
+
+let fishPlayers=[];
+let fishSockets=[];
+
+fishPlayers.push(new Player());
+fishPlayers.push(new Player());
+
 //init Express
 var app = express();
 //init Express Router
@@ -116,7 +129,7 @@ ws.on('connection', function connection(ws) {
     
 });
 
-function sendMessage(message){
+function sendMessage(message){//For a later use of chatroom function
     console.log("sending a chat message");
     
     if(message.dest=="Crazy Eights"){
@@ -130,7 +143,7 @@ function sendMessage(message){
     }
 }
 
-
+//Creates a login for the site
 function createlogin(action){
     console.log("Setting up a login");
     console.log('received: %s', action.user + " "+ action.password);
@@ -140,13 +153,24 @@ function createlogin(action){
     webSockets[0].send(JSON.stringify(mes));
 }
 
+//Login to the website
+//Check if given name and pass are in the database
+//If not do not allow login
 function login(action){
+    let good=true;
     console.log('received: %s', "Attempting to log in");
     console.log('received: %s', action.user + " "+ action.password);
     let mes={};
     mes.action="Loged in with user "+action.user;
     console.log("Loged in");
     webSockets[0].send(JSON.stringify(mes));
+    
+    if(good){
+        console.log("The username and pass are good");
+    }
+    else{
+        console.log("The login attempt has failed");
+    }
 }
 
 /*
