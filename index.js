@@ -64,8 +64,8 @@ let fishPile=new Pile();
 let fishPlayers=[];
 let fishSockets=[];
 
-fishPlayers.push(new Player());
-fishPlayers.push(new Player());
+fishPlayers.push(new Player(fishDeck));
+fishPlayers.push(new Player(fishDeck));
 
 //init Express
 var app = express();
