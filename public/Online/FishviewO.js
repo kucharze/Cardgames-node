@@ -69,5 +69,12 @@ class FishviewO {
     displayWrongCardMsg(){
 	   alert("You cannot play that card");
    }
+    
+    removeEvents(){//clone objects to remove event listeners
+        //alert("removing event listeners");
+        var old1 = document.getElementById("fuserhand");
+        var new1 = old1.cloneNode(true);
+        old1.parentNode.replaceChild(new1, old1);
+    }
 
 }

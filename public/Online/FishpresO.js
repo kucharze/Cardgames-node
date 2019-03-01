@@ -17,6 +17,7 @@ class FishpresO {
 	    this.fview = new Fishview(this);
         this.askCard=null;
         this.numFourOfs=0;
+        this.turnToFish=false;
         
 	    this.human = new HumanPlayerO(this.deck, this.pile, this.fview);
     }
@@ -88,11 +89,39 @@ class FishpresO {
     }
     
     update(message){
+        //alert("Updating Go Fish");
+	   var playerhand=[];
         
+        this.snipview.displayMessage(message.status+roundstate);
+       ///* 
+	   let hand = message.yourCards;
+	   let newHand = JSON.parse( JSON.stringify( hand ),
+                            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+                            //*/
+        ///*
+	   if(message.pileTopCard!=undefined || message.pileTopCard!=null){
+	       let pilecard=message.pileTopCard;
+    	   let topcard=JSON.parse( JSON.stringify( pilecard ), 
+	   (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+        
+    	this.snipview.displayPileTopCard(topcard);
+    	this.pile.acceptACard(topcard);
+	   }
+        else{
+            this.snipview.displayPileTopCard(null);
+        }
+//*/
+	this.human.setHand(newHand);
+	this.snipview.displayComputerHand(message.numberOfOpponentCards);
+	this.snipview.displayHumanHand(newHand);
+
+	if (message.readyToPlay) {this.snipview.unblockPlay();}
+	else {this.snipview.blockPlay();}
     }
     
 
     goOffline(){
-        
+        this.fview.eraseHands();
+        this.fview.removeEvents();
     }
 }

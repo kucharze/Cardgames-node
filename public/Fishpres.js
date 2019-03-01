@@ -34,7 +34,12 @@ class Fishpres {
     }
     
     sayNo(){
-        if(this.human.findValue(this.askCard.getValue())!=null ){
+        if(this.human.fish){
+            this.fview.displayMessage("Cannot do that right now");
+            return;
+        }
+        else{
+           if(this.human.findValue(this.askCard.getValue())!=null ){
             this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can give");
             return;
         }
@@ -45,7 +50,9 @@ class Fishpres {
             this.computer.checkAmount();
         }
         this.human.fish=true;
-        this.fview.displayMessage("Pick a card to ask for");
+        this.fview.displayMessage("Pick a card to ask for"); 
+        }
+        
     }
     
     fish(cardstring){
@@ -191,6 +198,11 @@ class Fishpres {
         this.fview.displayComputerHand(this.computer.getHandCopy());
         this.fview.displayHumanHand(this.human.getHandCopy());
         return;
+    }
+    
+    goOnline(){//set up go fish for online play
+        this.fview.eraseHands();
+        this.fview.removeEvents();
     }
 
 

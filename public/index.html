@@ -443,7 +443,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     return;
                 }
                 }
-                
             }
             
             function snipUpdate(message){
@@ -555,7 +554,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         </div>
         
         <br> <br>
-        <input type="button" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
+        <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>
         <input type="button" value="Toggle Online Mode" disabled="true" style="font-size: 18px">
         <br><br>
@@ -603,7 +602,37 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             
             function fishOnline(){
                 //toggle online mode with go fish
-                alert("We are going online for Go fish")
+                alert("We are going online for Go fish");
+                if(!fishO){
+                    //call online snip snap snorum function
+                    fishO=true;
+                    fpres.goOnline();
+                    fpres=new SnippresO(ws);
+                    
+                    let mes={};
+                    mes.action="Go Fish";
+                    mes.gameact="Play";
+                    ws.send(JSON.stringify(mes));
+                    document.getElementById("fishreset").disabled=true;
+                }else{
+                    if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
+                        //shut off online mode
+                        //alert("shutting off online mode");
+                        fishO=false;
+                        let quit={};
+                        quit.action="Go Fish";
+                        quit.gameact="quit";
+                        ws.send(JSON.stringify(quit));
+                    
+                        fpres.goOffline();
+                        fpres=new Snippres();
+                        fpres.play();
+                } else {
+                    // Do nothing! Just return to the game
+                    return;
+                }
+                }
+                
             }
             function fishUpdate(message){
                 //call method for updating go fish while online
