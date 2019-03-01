@@ -5,7 +5,6 @@ if (typeof Card === "undefined") {
   Card = require('./Card');
 }
 class Deck {
-
   // Instance variable:
   //   list: Deck of cards (array of Card objects)
 
@@ -23,7 +22,7 @@ class Deck {
       }
     }
   }
-  /**
+  /*
    * Shuffle the deck.
    */
   shuffle() {

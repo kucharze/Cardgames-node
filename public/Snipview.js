@@ -50,12 +50,11 @@ class Snipview {
       }
      for(let i=0; i<hand.length; i++){
          //alert("Computer "+hand[i].toString());
-         let image=document.createElement("img");
+        let image=document.createElement("img");
 	    image.src ="./Images/"+hand[i].toString()+".png";
         image.title=hand[i].toString();
 	    image.class="card positionable";
-         image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";
-	    //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+        image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";
 	    human.appendChild(image);
    }
       /*

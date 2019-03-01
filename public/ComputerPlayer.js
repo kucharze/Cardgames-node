@@ -22,6 +22,7 @@ class ComputerPlayer extends Player{
       
       //So that we can move cards around in Go fish
       this.fishCard=null;
+      this.fishCards=[];
   }
     
     cardPicked(){
@@ -129,6 +130,7 @@ class ComputerPlayer extends Player{
     
     nullifyCard(){
         this.fishCard=null;
+        this.fishCards.splice(0);
     }
   
     fish(){
@@ -141,16 +143,19 @@ class ComputerPlayer extends Player{
     
     give(card){
         let hand=this.getHandCopy();
+        let removed = false;
         for(var i=0; i<hand.length; i++){
             if(hand[i].getValue()==card.getValue()){
-                this.pile.acceptACard(hand[i]);
+                //this.pile.acceptACard(hand[i]);
                 this.fishCard=hand[i];
-                this.remove(i);
+                this.fishCards.push(hand[i]);
+                //this.remove(i);
                 this.view.displayComputerHand(this.getHandCopy());
-                return true;
+                removed = true;
             }
         }
-        return false;
+        this.removeAll(card);
+        return removed;
     }
     
 }

@@ -49,29 +49,23 @@ class Fishpres {
     }
     
     fish(cardstring){
-        //this.human.checkAmount();
+        //alert("Deck has this many cards left"+this.deck.list.length);
+        
         let card=this.human.find(cardstring);
         
-        if(card !=null){//testing out card count function
-            //let total=this.human.countCard(card);
-            //alert("total= "+total);
-            //return;
-        }
-        else{
-            //return;
-        }
-        
-        if(!this.human.fish){
-            alert("Recieving");
-            
+        if(!this.human.fish){//For giving a card to the computer
+            //alert("Recieving");
             if(this.human.give(cardstring, this.askCard)){
                 this.computer.add(card);
-                //let index=this.computer.indexOf(this.askCard);
-                //alert("Index = "+index);
-                //this.computer.remove(this.computer.indexOf(this.askCard));
+                
+            if(this.human.findValue(this.askCard.getValue())!=null ){
+                //player still has cards that he she can play
+                return;
+            }
                 
                 if(this.computer.checkAmount()){
                     this.comNumFours++;
+                    //alert("This computer has this many four ofs " + this.comNumFours);
                 }
                 
                 if(this.deck.isEmpty()){
@@ -85,17 +79,15 @@ class Fishpres {
                         document.getElementById("No").disabled=true;
                     } 
                 }
-            }
-            else{
-               if(this.human.isHandEmpty()){
-                   this.drawCards(true);
-               }
-                if(this.computer.isHandEmpty()){
-                    this.drawCards(false);
-                } 
-            }
+                }else{//For asking the computer for a card
+                    if(this.human.isHandEmpty()){
+                        this.drawCards(true);
+                    }
+                    if(this.computer.isHandEmpty()){
+                        this.drawCards(false);
+                    } 
+                }
                 this.fview.displayComputerHand(this.computer.getHandCopy());
-                
                 
                 this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
@@ -103,22 +95,27 @@ class Fishpres {
             return;
         }
         else{
-            alert("Fishing");
+            //alert("Fishing");
             if(card==null){
                 return;
             }
             if(!this.computer.give(card)){
-                this.human.cardPicked();
-            }
-            else{
-                this.human.list.push(this.computer.fishCard);
+                if(!this.deck.isEmpty()){
+                    this.human.cardPicked();
+                }
+            }else{
+                for(var i=0; i<this.computer.fishCards.length; i++){
+                    this.human.add(this.computer.fishCards[i]);
+                }
+                // this.human.list.push(this.computer.fishCard);
                 this.computer.nullifyCard();
             }
             
+            //check hand for four of a kinds' to remove
             if(this.human.checkAmount()){
                 this.humNumFours++;
+                //alert("User has this many four ofs "+this.humNumFours);
             }
-                //check hand for four of a kinds' to remove
             
             if(this.deck.isEmpty()){
                 if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
@@ -152,14 +149,17 @@ class Fishpres {
     
     //Player draws cards because they have none in hand
     drawCards(playerval){
+        var i=0;
             if(playerval==true){
-                for(var i=0; i<5; i++){
+                while(!this.deck.isEmpty() || i<5){
                     this.human.add(this.deck.dealACard());
+                    i++;
                 }
             }
             else{
-                for(var i=0; i<5; i++){
+                while(!this.deck.isEmpty() || i<5){
                     this.computer.add(this.deck.dealACard());
+                    i++;
                 }
             }
     }

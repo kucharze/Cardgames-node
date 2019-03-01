@@ -13,6 +13,7 @@ class HumanPlayer extends Player {
         this.fish=true;
         //card to have moved when playing go fish
         this.fishCard=null;
+        //this.fishCards=[];//cards in go fish to have moved
     }
 
   cardPicked(){
@@ -44,6 +45,11 @@ class HumanPlayer extends Player {
 	}
     }
     
+    nullifyCard(){
+        this.fishCard=null;
+        this.fishCards.splice(0);
+    }
+    
     fish(cardString){
         if(this.hasDuplicate()){
             this.view.displayDupCardMsg();
@@ -71,7 +77,7 @@ class HumanPlayer extends Player {
         else{
             this.fishCard=card;
             this.remove(this.list.indexOf(card));
-            this.pile.acceptACard(card);
+            //this.pile.acceptACard(card);
             this.view.displayHumanHand(this.getHandCopy());
             return true;
         }

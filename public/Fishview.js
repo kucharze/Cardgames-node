@@ -21,11 +21,12 @@ class Fishview {
       }
     for(let i=0; i<hand.length; i++){
         let image=document.createElement("img");
-	   image.src ="./Images/cardback.png";
+	    image.src ="./Images/cardback.png";
         image.title=hand[i].toString();
-	   image.class="card positionable";
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
-	   cpu.appendChild(image);
+	    image.class="card positionable";
+        image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
+	    //image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
+	    cpu.appendChild(image);
     }
   }
 
@@ -35,12 +36,13 @@ class Fishview {
 	   human.removeChild(human.lastChild);
      }
      for(let i=0; i<hand.length; i++){
-         let image=document.createElement("img");
-	   image.src ="./Images/"+hand[i].toString()+".png";
-	   image.title=hand[i].toString();
-	   image.class="card positionable";
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +"";
-	   human.appendChild(image);
+        let image=document.createElement("img");
+	    image.src ="./Images/"+hand[i].toString()+".png";
+	    image.title=hand[i].toString();
+	    image.class="card positionable";
+        image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
+	    //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+	    human.appendChild(image);
     }
   }
     
