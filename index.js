@@ -565,7 +565,28 @@ function playGoFish(message, ws){
 
 
 function fishPlay(){
-    
+    console.log("We are playing Go Fish");
+    let obj = {};
+    if(clientcounter%2==1) {
+        ///*
+        obj.action="Go Fish";
+        obj.status = "Waiting for player to join";
+        obj.numberOfOpponentCards = fishPlayers[clientcounter].getHandCopy().length;
+        obj.pileTopCard = null;
+        obj.yourCards = fishPlayers[clientcounter-1].getHandCopy();
+        obj.readyToPlay = false;
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        //*/
+    } else if(clientcounter%2==0){
+        obj.action="Go Fish";
+        obj.status = "You may start the round";
+        obj.numberOfOpponentCards = fishPlayers[clientcounter-2].getHandCopy().length;
+        obj.pileTopCard = null;
+        obj.yourCards = fishPlayers[clientcounter-1].getHandCopy();
+        obj.readyToPlay = true;
+        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        //*/
+    }
 }
 
 function goFish(){
