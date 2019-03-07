@@ -556,7 +556,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <br> <br>
         <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>
-        <input type="button" value="Toggle Online Mode" disabled="true" style="font-size: 18px">
+        <input type="button" value="Toggle Online Mode" onclick="fishOnline()" style="font-size: 18px">
         <br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
@@ -579,6 +579,8 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         
         <script src="Fishpres.js"></script>
         <script src="Fishview.js"></script>
+        <script src="Online/FishpresO.js"></script>
+        <script src="Online/FishviewO.js"></script>
         <script>
             'use strict'
             var fpres=new Fishpres();
@@ -607,7 +609,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     //call online snip snap snorum function
                     fishO=true;
                     fpres.goOnline();
-                    fpres=new SnippresO(ws);
+                    fpres=new FishpresO(ws);
                     
                     let mes={};
                     mes.action="Go Fish";
@@ -625,7 +627,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                         ws.send(JSON.stringify(quit));
                     
                         fpres.goOffline();
-                        fpres=new Snippres();
+                        fpres=new Fishpres();
                         fpres.play();
                 } else {
                     // Do nothing! Just return to the game
@@ -787,6 +789,7 @@ function openTab(evt, cityName) {//Code for opening tabs
                 }
                 else if(message.action=="Go Fish"){
                     alert("Go Fish Online update");
+                    fishUpdate(message);
                 }
             }
             

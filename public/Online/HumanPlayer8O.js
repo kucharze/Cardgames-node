@@ -62,5 +62,44 @@ class HumanPlayer8O extends Player {
     this.pile.setAnnouncedSuit(suit);
     this.view.undisplaySuitPicker();
   }
+    
+    
+    nullifyCard(){
+        this.fishCard=null;
+        this.fishCards.splice(0);
+    }
+    
+    fish(cardString){
+        if(this.hasDuplicate()){
+            this.view.displayDupCardMsg();
+            //let dup=this.findDups();
+            //this.removeDups(dup);
+            return null;
+        }
+        let card =this.find(cardString);
+        if((card == null)){
+            this.view.displayWrongCardMsg(cardString);
+            //this.remove(this.list.indexOf(card));
+            return null;
+        }else{
+            return card;
+            //presenter.askComputerforcard
+        }
+    }
+    
+    give(cardString, comCard){
+        let card=this.find(cardString);
+        if((card==null || (card.getValue() != comCard.getValue()))){
+           this.view.displayWrongCardMsg(cardString);
+            return false;
+        }
+        else{
+            this.fishCard=card;
+            this.remove(this.list.indexOf(card));
+            //this.pile.acceptACard(card);
+            this.view.displayHumanHand(this.getHandCopy());
+            return true;
+        }
+    }
+    
 }
-

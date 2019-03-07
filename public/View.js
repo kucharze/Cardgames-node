@@ -125,7 +125,6 @@ class View {
     }
     
     removeEvents(){//remove event listeners to set up for online play
-        //alert("removing event listeners");
         var old1 = document.getElementById("deck");
         var old2 = document.getElementById("suitPicker");
         var old3 = document.getElementById("yourHand");
@@ -133,11 +132,10 @@ class View {
         var new1 = old1.cloneNode(true);
         var new2 = old2.cloneNode(true);
         var new3 = old3.cloneNode(true);
-        //var new_element = old_element.cloneNode(true);
+        
         old1.parentNode.replaceChild(new1, old1);
         old2.parentNode.replaceChild(new2, old2);
         old3.parentNode.replaceChild(new3, old3);
-        
     }
 
 }

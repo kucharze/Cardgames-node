@@ -7,19 +7,21 @@ class FishpresO {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(socket) {
         this.moves=0;
 	    this.deck = new Deck();
 	    this.deck.shuffle();
 	    this.deck.shuffle();
 	    
         this.pile = new Pile();//not used for this game
-	    this.fview = new Fishview(this);
+	    this.fview = new FishviewO(this);
         this.askCard=null;
         this.numFourOfs=0;
         this.turnToFish=false;
         
-	    this.human = new HumanPlayerO(this.deck, this.pile, this.fview);
+	    this.human = new HumanPlayer8O(this.deck, this.pile, this.fview);
+        
+        this.ws=socket;
     }
 
  cardPicked(){
@@ -41,82 +43,78 @@ class FishpresO {
     }
     
     fish(cardstring){
-        if(!this.human.fish){
-            alert("Recieving");
-            //alert("The ask card is " + this.askCard);
-            if(this.human.give(cardstring,this.askCard)){
-                let index=this.computer.indexOf(this.askCard);
-                alert("Index = "+index);
-                this.computer.remove(this.computer.indexOf(this.askCard));
-                this.fview.displayComputerHand(this.computer.getHandCopy());
+        let card=this.human.find(cardstring);
+        
+        if(!this.human.fish){//For giving a card to the computer
+            //alert("Recieving");
+            if(this.human.give(cardstring, this.askCard)){
+                this.computer.add(card);
                 
-                if(this.computer.isHandEmpty()){
-                    this.fview.displayMessage("I win! Thanks for being a good loser");
-                    document.getElementById("dups").disabled=true;
-                    document.getElementById("sayno").disabled=true;
-                    return;
+            if(this.human.findValue(this.askCard.getValue())!=null ){
+                //player still has cards that he she can play
+                return;
+            }
+                
+                if(this.computer.checkAmount()){
+                    this.comNumFours++;
+                    //alert("This computer has this many four ofs " + this.comNumFours);
                 }
                 
-                this.fview.displayMessage("Pick a card to ask for");
+                //this.fview.displayComputerHand(this.computer.getHandCopy());
+                
+                //this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
             }
             return;
         }
         else{
-            alert("Fishing");
-            let card=this.human.find(cardstring);
-            //alert(card);
+            //alert("Fishing");
             if(card==null){
                 return;
             }
             if(!this.computer.give(card)){
-                this.human.cardPicked();
+                if(!this.deck.isEmpty()){
+                    this.human.cardPicked();
+                }
+            }else{
+                for(var i=0; i<this.computer.fishCards.length; i++){
+                    this.human.add(this.computer.fishCards[i]);
+                }
+                // this.human.list.push(this.computer.fishCard);
+                this.computer.nullifyCard();
             }
-            else{
-                this.human.remove(this.human.indexOf(card));
-            }
-            if(this.human.isHandEmpty()){
-                
-            }
-        
-            this.fview.displayHumanHand(this.human.getHandCopy());
-            this.fview.displayComputerHand(this.computer.getHandCopy());
             
-            this.human.fish=false;
+            //check hand for four of a kinds' to remove
+            if(this.human.checkAmount()){
+                this.humNumFours++;
+            }
+            
+            //this.fview.displayHumanHand(this.human.getHandCopy());
+            //this.fview.displayComputerHand(this.computer.getHandCopy());
+            
+            //this.human.fish=false;
             this.comTurn();
         }
-        
     }
     
     update(message){
-        //alert("Updating Go Fish");
+        alert("Updating Go Fish");
 	   var playerhand=[];
         
-        this.snipview.displayMessage(message.status+roundstate);
+        this.fview.displayMessage(message.status);
        ///* 
 	   let hand = message.yourCards;
 	   let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
                             //*/
-        ///*
-	   if(message.pileTopCard!=undefined || message.pileTopCard!=null){
-	       let pilecard=message.pileTopCard;
-    	   let topcard=JSON.parse( JSON.stringify( pilecard ), 
-	   (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-        
-    	this.snipview.displayPileTopCard(topcard);
-    	this.pile.acceptACard(topcard);
-	   }
-        else{
-            this.snipview.displayPileTopCard(null);
-        }
-//*/
-	this.human.setHand(newHand);
-	this.snipview.displayComputerHand(message.numberOfOpponentCards);
-	this.snipview.displayHumanHand(newHand);
+    
+	   this.human.setHand(newHand);
+        alert("Number of opponent cards is "+message.numberOfOpponentCards);
+        this.fview.displayComputerHand(message.numberOfOpponentCards);
+	   this.fview.displayHumanHand(newHand);
 
-	if (message.readyToPlay) {this.snipview.unblockPlay();}
-	else {this.snipview.blockPlay();}
+	   if (message.readyToPlay) {this.fview.unblockPlay();}
+	   else {this.fview.blockPlay();}
     }
     
 

@@ -27,7 +27,6 @@ class Presenter {
     }
 
  cardPicked(){
-     //alert("Picking up card from offline deck");
      if(!this.started){
          this.started=true;
          this.date=new Date();
@@ -57,9 +56,9 @@ class Presenter {
         this.secs=elapsed - this.date;
         this.secs/=1000;
         this.secs=Math.round(this.secs);
-        alert("This many Seconds: "+this.secs);
+        //alert("This many Seconds: "+this.secs);
         while(this.secs>60){
-            alert("Making time conversions");
+            //alert("Making time conversions");
             this.secs=this.secs-60;
             this.min++;
         }

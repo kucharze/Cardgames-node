@@ -27,9 +27,7 @@ class Jackplayer {
         this.value=0;
         this.value2=0;
         for(let i=0; i<hand.length; i++){
-            //alert(hand[i].cardValue);
             this.value=(+this.value + +hand[i].jackValue);
-            //this.value2=(+this.value2 + +hand[i].jackValue2);
         }
     }
     

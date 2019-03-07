@@ -10,9 +10,10 @@ class FishviewO {
     this.topCard = null;
     this.topCardString = "";
     this.errorString = "";
+        
+        this.allCardsDiv=document.getElementById("allfish");
     
         document.getElementById("fuserhand").addEventListener("click",function(){presenter.fish(event.target.title);});
-        
   }
 
   displayComputerHand(handlength){
@@ -29,8 +30,9 @@ class FishviewO {
         let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
 	   image.class="card positionable";
-        image.title=hand[i].toString();
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
+        //image.title=hand[i].toString();
+        image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
+	   //image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
 	   cpu.appendChild(image);
     }
   }
@@ -45,9 +47,30 @@ class FishviewO {
 	   image.src ="./Images/"+hand[i].toString()+".png";
 	   image.title=hand[i].toString();
 	   image.class="card positionable";
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+        image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
+	   //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
 	   human.appendChild(image);
     }
+  }
+    
+      /**
+   * Block user from playing.
+   */
+  blockPlay() {
+    // Capture and ignore all clicks
+    document.getElementById("allfish").addEventListener("click", this.clickBlocker, true);
+    // Dim the cards to indicate that play is blocked.
+    this.allCardsDiv.style.opacity = 0.5;
+  }
+    
+  /**
+   * Unblock user from playing.
+   */
+  unblockPlay() {
+    // Remove capturing listener
+    document.getElementById("allfish").removeEventListener("click", this.clickBlocker, true);
+    // Undim the cards to indicate that play is no longer blocked.
+    this.allCardsDiv.style.opacity = 1.0;
   }
     
     eraseHands(){

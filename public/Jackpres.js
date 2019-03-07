@@ -34,7 +34,7 @@ class Jackpres {
         this.jplayer.add(this.deck1.dealACard());
         this.jview.displayHumanHand(this.jplayer.getHandCopy());
         this.jplayer.findValue();
-        //alert(this.jplayer.value);
+        
         if(this.jplayer.value>=21){//Player hand value over 21
             if(this.jplayer.hasAce()){
                 this.jplayer.numAces=this.jplayer.countAces();

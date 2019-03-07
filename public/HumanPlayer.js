@@ -11,9 +11,6 @@ class HumanPlayer extends Player {
         
         //True if it is the players turn to ask opponent for a card
         this.fish=true;
-        //card to have moved when playing go fish
-        this.fishCard=null;
-        //this.fishCards=[];//cards in go fish to have moved
     }
 
   cardPicked(){
