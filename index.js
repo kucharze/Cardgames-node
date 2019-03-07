@@ -104,7 +104,7 @@ ws.on('connection', function connection(ws) {
         
         //take an action based on the action of the message
         //let s=webSockets.indexOf(ws);
-        //console.log("s="+s);
+        console.log("action="+userMess.action);
         if(userMess.action=="create"){
             createlogin(userMess,ws);
         }
@@ -119,9 +119,9 @@ ws.on('connection', function connection(ws) {
             console.log("Going to Snip Snap Snorum");
             snipSnapSnorum(userMess,ws);
         }
-        else if(userMess.action=="Gofish"){
-            //call method to go to go fish option
-            goFish(userMess,ws);
+        else if(userMess.action=="Go Fish"){
+            console.log("Going to Go Fish");
+            playGoFish(userMess,ws);
         }
         //console.log('received: %s', userMess.user + " "+ userMess.password);
         //connectedUsers.push(userMess.user);
@@ -543,7 +543,7 @@ function snipQuit(playernumber){
 }
 
 function playGoFish(message, ws){
-    if(message.gameact=="play"){
+    if(message.gameact=="Play"){
         fishPlay();
     }
     else if(message.gameact=="goFish"){
@@ -571,17 +571,19 @@ function fishPlay(){
         ///*
         obj.action="Go Fish";
         obj.status = "Waiting for player to join";
+        onj.fish=false;
+        obj.askCard=null;
         obj.numberOfOpponentCards = fishPlayers[clientcounter].getHandCopy().length;
-        obj.pileTopCard = null;
         obj.yourCards = fishPlayers[clientcounter-1].getHandCopy();
         obj.readyToPlay = false;
         webSockets[clientcounter-1].send(JSON.stringify(obj));
         //*/
     } else if(clientcounter%2==0){
         obj.action="Go Fish";
-        obj.status = "You may start the round";
+        obj.status = "Your turn";
+        obj.fish=true;
+        obj.askCard=null;
         obj.numberOfOpponentCards = fishPlayers[clientcounter-2].getHandCopy().length;
-        obj.pileTopCard = null;
         obj.yourCards = fishPlayers[clientcounter-1].getHandCopy();
         obj.readyToPlay = true;
         webSockets[clientcounter-1].send(JSON.stringify(obj));
