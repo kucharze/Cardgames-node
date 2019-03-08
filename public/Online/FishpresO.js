@@ -18,6 +18,7 @@ class FishpresO {
         this.askCard=null;
         this.numFourOfs=0;
         this.turnToFish=false;
+        this.giveCards=[];
         
 	    this.human = new HumanPlayer8O(this.deck, this.pile, this.fview);
         
@@ -31,44 +32,50 @@ class FishpresO {
  }
     
     goFish(){
+        let mes={};
+        mes.action="Go Fish";
         if(this.human.findValue(this.askCard.getValue())!=null ){
             this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can give");
             return;
         }
         else{
-            this.computer.cardPicked();
+            //this.computer.cardPicked();
+            mes.gameact=""
         }
-        this.human.fish=true;
-        this.fview.displayMessage("Pick a card to ask for");
+        //this.human.fish=true;
+        //this.fview.displayMessage("Pick a card to ask for");
     }
     
     fish(cardstring){
         let card=this.human.find(cardstring);
+        let mes={};
+        mes.action="Go Fish";
         
         if(!this.human.fish){//For giving a card to the computer
-            //alert("Recieving");
             if(this.human.give(cardstring, this.askCard)){
-                this.computer.add(card);
+                //this.computer.add(card);
                 
-            if(this.human.findValue(this.askCard.getValue())!=null ){
-                //player still has cards that he she can play
-                return;
-            }
+                if(this.human.findValue(this.askCard.getValue())!=null ){
+                    //player still has cards that he she can play
+                    return;
+                }
                 
                 if(this.computer.checkAmount()){
                     this.comNumFours++;
                     //alert("This computer has this many four ofs " + this.comNumFours);
                 }
                 
-                //this.fview.displayComputerHand(this.computer.getHandCopy());
-                
-                //this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
             }
+            mes.gameact="Give a card";
+            mes.hand=this.human.getHandCopy();
+            mes.fish=true;
+            mes.numCards=this.human.getHandCopy().length;
+            
+            this.ws.send(JSON.stringify(mes));
             return;
         }
-        else{
-            //alert("Fishing");
+        else{//alert("Fishing");
             if(card==null){
                 return;
             }
@@ -89,10 +96,8 @@ class FishpresO {
                 this.humNumFours++;
             }
             
-            //this.fview.displayHumanHand(this.human.getHandCopy());
-            //this.fview.displayComputerHand(this.computer.getHandCopy());
             
-            //this.human.fish=false;
+            this.human.fish=false;
             this.comTurn();
         }
     }
@@ -107,14 +112,16 @@ class FishpresO {
 	   let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
                             //*/
-    
-	   this.human.setHand(newHand);
-        alert("Number of opponent cards is "+message.numberOfOpponentCards);
+        this.human.fish=message.fish;
+        this.askCard=message.askCard;
+        
+        
+	    this.human.setHand(newHand);
         this.fview.displayComputerHand(message.numberOfOpponentCards);
-	   this.fview.displayHumanHand(newHand);
+	    this.fview.displayHumanHand(newHand);
 
-	   if (message.readyToPlay) {this.fview.unblockPlay();}
-	   else {this.fview.blockPlay();}
+	    if (message.readyToPlay) {this.fview.unblockPlay();}
+	    else {this.fview.blockPlay();}
     }
     
 
