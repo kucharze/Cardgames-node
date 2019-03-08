@@ -548,14 +548,17 @@ function playGoFish(message, ws){
     }
     else if(message.gameact=="goFish"){
         console.log("Saying Go Fish");
-        gofish(messae, webSockets[webSockets.indexOf(ws)].playerNumber);
+        gofish(message, webSockets[webSockets.indexOf(ws)].playerNumber);
     }
     else if(message.gameact=="ask for card"){
         console.log("asking the other player for a card");
-        askForCard(messae, webSockets[webSockets.indexOf(ws)].playerNumber);
+        askForCard(message, webSockets[webSockets.indexOf(ws)].playerNumber);
     }
     else if(message.gameact=="Give a card"){
         console.log("Giving a card to the other player");
+    }
+    else if(message.gameact=="find winner"){
+        console.log("Looking at number of four ofs to determine a winner");
     }
     else if(message.gameact=="quit"){
         console.log("Quitting play for go fish");
@@ -591,14 +594,41 @@ function fishPlay(){
     }
 }
 
-function goFish(){
+function goFish(message, playernumber){
     
 }
 
-function askForCard(){
+function askForCard(message, playernumber){
+    let askCard=message.askCard;
+    let tempCard = new Card(askCard.suit, askCard.value);
+    let hand = message.hand;
+    let newHand = JSON.parse(JSON.stringify( hand ),
+            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+    
+    fishPlayers[playerNumber].setHand(hand);
+    
+    let obj={};
+    
+    obj.action="Go Fish";
+    obj.status="It is now your turn";
+    obj.yourCards=snipPlayers[1-playerNumber].getHandCopy();
+    obj.numberOfOpponentCards=snipPlayers[playerNumber].getHandCopy().length;
+    obj.readyToPlay=true;
+    webSockets[1-playerNumber].send(JSON.stringify(obj));
+
+    
+    obj.action="Go Fish";
+    obj.status="Please wait for the other player to play";
+    obj.yourCards=snipPlayers[playerNumber].getHandCopy();
+    obj.numberOfOpponentCards=snipPlayers[1-playerNumber].getHandCopy().length;
+    obj.readyToPlay=false;
+    webSockets[playerNumber].send(JSON.stringify(obj));
+}
+
+function fishWinner(){
     
 }
 
-function quitFish(){
+function quitFish(playernumber){
     
 }
