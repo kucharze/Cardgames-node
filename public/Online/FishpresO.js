@@ -17,88 +17,75 @@ class FishpresO {
 	    this.fview = new FishviewO(this);
         this.askCard=null;
         this.numFourOfs=0;
-        this.turnToFish=false;
+        this.turnToFish=true;
         this.giveCards=[];
         
 	    this.human = new HumanPlayer8O(this.deck, this.pile, this.fview);
         
         this.ws=socket;
     }
-
- cardPicked(){
-   this.human.cardPicked();
-    this.computer.cardPicked();
-   this.completeBothTurns();
- }
     
     goFish(){
         let mes={};
         mes.action="Go Fish";
-        if(this.human.findValue(this.askCard.getValue())!=null ){
-            this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can give");
+        if(this.turnToFish){
+            this.fview.displayMessage("Cannot do that right now");
             return;
         }
         else{
-            //this.computer.cardPicked();
-            mes.gameact=""
+            if(this.human.findValue(this.askCard.getValue())!=null ){
+                this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can give");
+                return;
+            }
+            else{
+                mes.gameact="";
+            }
+            this.human.fish=true;
+            //this.fview.displayMessage("Pick a card to ask for");
         }
-        //this.human.fish=true;
-        //this.fview.displayMessage("Pick a card to ask for");
     }
     
+    //either ask for a card or give a card to the opponent
     fish(cardstring){
         let card=this.human.find(cardstring);
         let mes={};
         mes.action="Go Fish";
         
-        if(!this.human.fish){//For giving a card to the computer
+        if(!this.turnToFish){//For giving a card to the computer
             if(this.human.give(cardstring, this.askCard)){
-                //this.computer.add(card);
+                this.giveCards.push(card);
                 
                 if(this.human.findValue(this.askCard.getValue())!=null ){
                     //player still has cards that he she can play
+                    alert("You still have more cards to play");
                     return;
                 }
                 
-                if(this.computer.checkAmount()){
-                    this.comNumFours++;
-                    //alert("This computer has this many four ofs " + this.comNumFours);
-                }
-                
-                this.human.fish=true;
+                this.turnToFish=true;
+                mes.gameact="Give a card";
+                mes.hand=this.human.getHandCopy();
+                mes.cardsToGive=this.giveCards;
+                mes.fish=true;
+                mes.numCards=this.human.getHandCopy().length;
+                this.ws.send(JSON.stringify(mes));
             }
-            mes.gameact="Give a card";
-            mes.hand=this.human.getHandCopy();
-            mes.fish=true;
-            mes.numCards=this.human.getHandCopy().length;
             
-            this.ws.send(JSON.stringify(mes));
             return;
         }
-        else{//alert("Fishing");
+        else{//Asking for a card from the computer
             if(card==null){
                 return;
             }
-            if(!this.computer.give(card)){
-                if(!this.deck.isEmpty()){
-                    this.human.cardPicked();
-                }
-            }else{
-                for(var i=0; i<this.computer.fishCards.length; i++){
-                    this.human.add(this.computer.fishCards[i]);
-                }
-                // this.human.list.push(this.computer.fishCard);
-                this.computer.nullifyCard();
-            }
             
-            //check hand for four of a kinds' to remove
-            if(this.human.checkAmount()){
-                this.humNumFours++;
-            }
+            mes.gameact="ask for card";
+            mes.askCard=card;
+            mes.hand=this.human.getHandCopy();
+            mes.fish=false;
+            
+            this.ws.send(JSON.stringify(mes));
             
             
-            this.human.fish=false;
-            this.comTurn();
+            this.turnToFish=false;
         }
     }
     
@@ -112,8 +99,11 @@ class FishpresO {
 	   let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
                             //*/
-        this.human.fish=message.fish;
-        this.askCard=message.askCard;
+        this.turnToFish=message.fish;
+        if(message.askCard!=null){
+            let askCard=message.askCard;
+            this.askCard= new Card(askCard.suit, askCard.value);
+        }
         
         
 	    this.human.setHand(newHand);

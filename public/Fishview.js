@@ -62,7 +62,8 @@ class Fishview {
     }
     
     displayWrongCardMsg(){
-	   alert("You cannot play that card");
+        let mes=document.getElementById("fishstatus");
+        mes.innerHTML="You cannot play that card";
    }
     
     removeEvents(){//clone objects to remove event listeners
