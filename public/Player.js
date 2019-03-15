@@ -22,12 +22,13 @@ class Player {
     
   /*Returns true if hand has two of the same value*/  
     checkAmount(){
-        //let dup=false;
         let hand=this.getHandCopy();
+        //alert()
         var total=0;
         
         for(var i=0; i<hand.length; i++){
             total=this.countCard(hand[i]);
+            console.log(hand[i]);
             //alert("Number of "+hand[i].getValue() + " = "+total);
             if(total==4){
                 //alert("We are going to remove all "+hand[i]);
@@ -63,6 +64,7 @@ class Player {
    * this player's hand.
    */
   remove(i) {
+      //console.log("card to remove is "+this.list[i]);
      this.list.splice(i,1);
   }
     

@@ -38,9 +38,11 @@ class FishpresO {
                 return;
             }
             else{
-                mes.gameact="";
+                mes.gameact="goFish";
+                this.ws.send(JSON.stringify(mes));
+                this.human.fish=true;
             }
-            this.human.fish=true;
+            
             //this.fview.displayMessage("Pick a card to ask for");
         }
     }
@@ -90,7 +92,7 @@ class FishpresO {
     }
     
     update(message){
-        alert("Updating Go Fish");
+        //alert("Updating Go Fish");
 	   var playerhand=[];
         
         this.fview.displayMessage(message.status);
@@ -115,7 +117,8 @@ class FishpresO {
     }
     
 
-    goOffline(){
+    goOffline(){//Remove setup before switching to offline presenter\
+        this.fview.displayMessage("Welcome to Go Fish");
         this.fview.eraseHands();
         this.fview.removeEvents();
     }

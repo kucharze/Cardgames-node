@@ -56,8 +56,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        //alert("Deck has this many cards left"+this.deck.list.length);
-        
+        alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
@@ -94,7 +93,12 @@ class Fishpres {
                         this.drawCards(false);
                     } 
                 }
-                this.fview.displayComputerHand(this.computer.getHandCopy());
+                if(this.computer.isHandEmpty()){
+                    this.fview.displayComputerCard(null);
+                }else{
+                    this.fview.displayComputerHand(this.computer.getHandCopy());
+                }
+                
                 
                 this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
@@ -144,9 +148,14 @@ class Fishpres {
                     this.drawCards(false);
                 } 
             }
-            
-            this.fview.displayHumanHand(this.human.getHandCopy());
-            this.fview.displayComputerHand(this.computer.getHandCopy());
+            if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
+                this.fview.displayHumanHand(null);
+                this.fview.displayComputerHand(null);
+            }
+            else{
+                this.fview.displayHumanHand(this.human.getHandCopy());
+                this.fview.displayComputerHand(this.computer.getHandCopy());
+            }
             
             this.human.fish=false;
             this.comTurn();

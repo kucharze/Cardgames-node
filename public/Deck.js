@@ -41,10 +41,16 @@ class Deck {
     return this.list.shift();
   }
     
+    /**
+    * Determines if the deck is empty.
+    */
     isEmpty(){
         return this.list.length==0;
     }
     
+    /**
+    * Adds a card to the deck.
+    */
     addACard(card){
         this.list.push(card);
     }
