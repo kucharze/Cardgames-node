@@ -179,132 +179,47 @@ class Solpres {
              
             return;
         }else{
-            let movable=true;//Boolean to determine if we are making a legal move currently false for testing
+            /*
+             *
+             * Section for determining if the move is legal
+             * 
+            */
+            //Boolean to determine if we are making a legal move currently false for testing
+            let movable=false;
             let value=card.getSValue();
             
-            //Run checks to make sure the move that we are making is legal
+            if(cardPos=="empty"){
+                movable=true;
+            }
+            else{
+                 //Run checks to make sure the move that we are making is legal
             if(this.actionRow=="row1"){
-                //alert("Card to move "+this.row1[this.actionPos].getSValue());
-                if(this.row1[this.actionPos].getSValue() == 13){
-                    alert("The card to be moved is a king");
-                    if(cardPos=="empty"){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }else{
-                   // alert("The card to move to " + (+card.getSValue() - +1) );
-                    if(this.row1[this.actionPos].getSValue() == (+card.getSValue() - +1)){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }
+                    if(this.row1[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
+                    else{movable=false;}
             }
             else if(this.actionRow=="row2"){
-                //alert("Card to move "+this.row2[this.actionPos].sValue);
-                if(this.row2[this.actionPos].getSValue() == 13){
-                    //alert("The card to be moved is a king");
-                    if(cardPos=="empty"){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }else{
-                   // alert("The card to move to " + (+card.getSValue() - +1) );
-                    if(this.row2[this.actionPos].getSValue() == (+card.getSValue() - +1)){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }
+                    if(this.row2[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
+                    else{movable=false;}
             }
             else if(this.actionRow=="row3"){
-               // alert("Card to move "+this.row3[this.actionPos].sValue);
-                if(this.row3[this.actionPos].getSValue() == 13){
-                    //alert("The card to be moved is a king");
-                    if(cardPos=="empty"){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }else{
-                    //alert("The card to move to " + (+card.getSValue() - +1) );
-                    if(this.row3[this.actionPos].getSValue() == (+card.getSValue() - +1)){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }
+                    if(this.row3[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
+                    else{movable=false;}
             }
             else if(this.actionRow=="row4"){
-                //alert("Card to move "+this.row4[this.actionPos].sValue);
-                if(this.row4[this.actionPos].getSValue() == 13){
-                    //alert("The card to be moved is a king");
-                    if(cardPos=="empty"){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }else{
-                    //alert("The card to move to " + (+card.getSValue() - +1) );
-                    if(this.row4[this.actionPos].getSValue() == (+card.getSValue() - +1)){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }
+                    if(this.row4[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
+                    else{movable=false;}
             }
             else if(this.actionRow=="row5"){
-               // alert("Card to move "+this.row5[this.actionPos].sValue);
-                if(this.row5[this.actionPos].getSValue() == 13){
-                    //alert("The card to be moved is a king");
-                    if(cardPos=="empty"){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }else{
-                   //alert("The card to move to " + (+card.getSValue() - +1) );
-                    if(this.row5[this.actionPos].getSValue() == (+card.getSValue() - +1)){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }
+                    if(this.row5[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
+                    else{movable=false;}
             }
             else if(this.actionRow=="row6"){
-                //alert("Card to move "+this.row6[this.actionPos].sValue);
-                if(this.row6[this.actionPos].getSValue() == 13){
-                    alert("The card to be moved is a king");
-                    if(cardPos=="empty"){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }else{
-                    //alert("The card to move to " + (+card.getSValue() - +1) );
-                    if(this.row6[this.actionPos].getSValue() == (+card.getSValue() - +1) ){
-                        movable=true;
-                    }
-                    else{
-                        movable=false;
-                    }
-                }
+                    if(this.row6[this.actionPos].getSValue() == (+card.getSValue() - +1) ){movable=true;}
+                    else{movable=false;}
+            } 
             }
             
-            alert("Movable= "+movable);
+            //alert("Movable= "+movable);
             if(!movable){//if the move that we are making is not legal
                 this.solview.displayMessage("Illeagal move select cards to move again");
                 this.actionRow=null;

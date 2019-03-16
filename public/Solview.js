@@ -88,6 +88,7 @@ class Solview {
         let row3=document.getElementById("row3");
         let row4=document.getElementById("row4");
         let row5=document.getElementById("row5");
+        let vic=document.getElementById("Vicdecks");
         while(row1.hasChildNodes()){
             row1.removeChild(row1.lastChild);
         }
@@ -102,6 +103,9 @@ class Solview {
         }
         while(row5.hasChildNodes()){
 	       row5.removeChild(row5.lastChild);
+        }
+        while(vic.hasChildNodes()){
+            vic.removeChild(vic.lastChild);
         }
     }
     

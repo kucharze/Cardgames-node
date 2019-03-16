@@ -56,7 +56,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        alert("Deck has this many cards left"+this.deck.list.length);
+        //alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
