@@ -5,12 +5,13 @@
  */
 class Fishview {
     constructor(presenter) {
-    this.presenter = presenter;
-    this.topCard = null;
-    this.topCardString = "";
-    this.errorString = "";
-    
-    document.getElementById("fuserhand").addEventListener("click", function(){ presenter.fish(event.target.title);});
+        this.presenter = presenter;
+        this.topCard = null;
+        this.topCardString = "";
+        this.errorString = "";
+        this.humanPoints=0;
+        this.comPoints=0;
+        document.getElementById("fuserhand").addEventListener("click", function(){ presenter.fish(event.target.title);});
   }
 
   displayComputerHand(hand){
@@ -39,7 +40,7 @@ class Fishview {
       
       if(hand!=null){
           for(let i=0; i<hand.length; i++){
-                  let image=document.createElement("img");
+                let image=document.createElement("img");
 	           image.src ="./Images/"+hand[i].toString()+".png";
 	           image.title=hand[i].toString();
               image.class="card positionable";
@@ -48,17 +49,50 @@ class Fishview {
                 human.appendChild(image);
           }
       }
-     
   }
+    
+    giveHumanPoint(card){
+        alert("Human point");
+        let p=document.getElementById("playerfours");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+card.toString()+".png";
+	       image.title=card.toString();
+          image.class="card positionable";
+          image.style="position: absolute; left: "+ ((40*(this.humanPoints))+10 ) + "px; z-index:" + i +";";
+            //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+        this.humanPoints++;
+        p.appendChild(image);
+    }
+    
+    giveComPoint(card){
+        alert("Computer point");
+        let p=document.getElementById("comfours");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+card.toString()+".png";
+	       image.title=card.toString();
+          image.class="card positionable";
+          image.style="position: absolute; left: "+ ((40*this.comPoints)+10 ) + "px; top:+" + 350 +"px; z-index:" + i +";";
+        //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+        this.comPoints++;
+        p.appendChild(image);
+    }
     
     eraseHands(){
         let human=document.getElementById("fuserhand");
         let computer=document.getElementById("fcpuhand");
+        let p=document.getElementById("playerfours");
+        let cp=document.getElementById("comfours");
         while(human.hasChildNodes()){
             human.removeChild(human.lastChild);
         }
         while(computer.hasChildNodes()){
 	       computer.removeChild(computer.lastChild);
+        }
+        while(cp.hasChildNodes()){
+	       cp.removeChild(cp.lastChild);
+        }
+        while(cp.hasChildNodes()){
+	       cp.removeChild(cp.lastChild);
         }
     }
     

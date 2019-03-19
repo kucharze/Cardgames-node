@@ -59,7 +59,7 @@ class FishpresO {
                 
                 if(this.human.findValue(this.askCard.getValue())!=null ){
                     //player still has cards that he she can play
-                    alert("You still have more cards to play");
+                    //alert("You still have more cards to play");
                     return;
                 }
                 
@@ -70,6 +70,7 @@ class FishpresO {
                 mes.fish=true;
                 mes.numCards=this.human.getHandCopy().length;
                 this.ws.send(JSON.stringify(mes));
+                this.giveCards=new Array();
             }
             
             return;

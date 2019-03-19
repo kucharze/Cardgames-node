@@ -47,7 +47,13 @@ class Fishpres {
             if(!this.deck.isEmpty()){
                 this.computer.cardPicked();
             }
-            this.computer.checkAmount();
+            let c=this.computer.checkAmount();
+                if(c!=null){
+                    this.comNumFours++;
+                    this.fview.giveComPoint(c);
+                    alert("This computer has this many four ofs " + this.comNumFours);
+                }
+            this.fview.displayComputerHand(this.computer.getHandCopy());
         }
         this.human.fish=true;
         this.fview.displayMessage("Pick a card to ask for"); 
@@ -56,7 +62,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        //alert("Deck has this many cards left"+this.deck.list.length);
+        alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
@@ -68,10 +74,11 @@ class Fishpres {
                 //player still has cards that he she can play
                 return;
             }
-                
-                if(this.computer.checkAmount()){
+                let c=this.computer.checkAmount();
+                if(c!=null){
                     this.comNumFours++;
-                    //alert("This computer has this many four ofs " + this.comNumFours);
+                    this.fview.giveComPoint(c);
+                    alert("This computer has this many four ofs " + this.comNumFours);
                 }
                 
                 if(this.deck.isEmpty()){
@@ -93,20 +100,19 @@ class Fishpres {
                         this.drawCards(false);
                     } 
                 }
+                    
                 if(this.computer.isHandEmpty()){
                     this.fview.displayComputerCard(null);
                 }else{
                     this.fview.displayComputerHand(this.computer.getHandCopy());
                 }
                 
-                
                 this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
             }
             return;
         }
-        else{
-            //alert("Fishing");
+        else{//asking the computer for a card
             if(card==null){
                 return;
             }
@@ -118,14 +124,15 @@ class Fishpres {
                 for(var i=0; i<this.computer.fishCards.length; i++){
                     this.human.add(this.computer.fishCards[i]);
                 }
-                // this.human.list.push(this.computer.fishCard);
                 this.computer.nullifyCard();
             }
             
             //check hand for four of a kinds' to remove
-            if(this.human.checkAmount()){
+            let c=this.human.checkAmount();
+            if(c!=null){
                 this.humNumFours++;
-                //alert("User has this many four ofs "+this.humNumFours);
+                this.fview.giveHumanPoint(c);
+                alert("User has this many four ofs "+this.humNumFours);
             }
             
             if(this.deck.isEmpty()){
@@ -182,9 +189,16 @@ class Fishpres {
 
 //Sets up the start of the game
  play(){
-   this.fview.displayComputerHand(this.computer.getHandCopy());
-   this.fview.displayHumanHand(this.human.getHandCopy());
-   return;
+     //below is for purposes of testing and demoing
+     for(var i=0; i<16; i++){
+         this.human.list.push(this.deck.dealACard());
+     }
+     for(var i=0; i<16; i++){
+         this.computer.list.push(this.deck.dealACard());
+     }
+     this.fview.displayComputerHand(this.computer.getHandCopy());
+     this.fview.displayHumanHand(this.human.getHandCopy());
+     return;
  }
     
     resetGame(){

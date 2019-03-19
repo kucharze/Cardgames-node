@@ -546,9 +546,13 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     <div id="gofish" class="tabcontent">
         <div id="allfish">
             <div id="fishstatus" class="statusBox">Welcome to Go Fish</div>
+            <br><br><br><br><br><br><br>
+            <div id="comfours"></div>
             <div id="fcpuhand"><img src="Images/cardback.png"></div>
             <br><br><br><br><br><br><br>
             <div id="fuserhand"><img src="Images/cardback.png" title="start card"></div>
+            <br><br><br><br><br><br><br><br>
+            <div id="playerfours"></div>
             <br><br><br><br><br><br><br>
             <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
         </div>
@@ -561,13 +565,17 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>Go Fish</h2>
-            <p>Each Player starts out with 7 cards<br>
-                 You can ask another player if they have a card matching one in your hand.<br>
+            <p>Each Player starts out with 7 cards<br> 
+                You can ask another player if they have a card matching one in your hand.<br>
+                Simply click on the card you want to ask for.<br>
                 If they have that card, he/she gives it to you.<br>
                 If you don't you draw a card.<br>
+                Your opponent will do the same thing to you<br>
+                When asked for a card, click on all copies of that card to give them to your opponent.<br>
+                If you do not have a card to play, simply hit the go fish button.
                 If a player has 4 of a kind in their hand. They may get rid of those cards and set them aside.<br>
                 If a player has no more cards in hand, that player draws five cards.<br>
-                Once both players have run our of cards to play, whoever has the most 4 of a kinds wins.<br>
+                When there are no more cards, whoever has the most 4 of a kinds wins.<br>
                 </p>
                 <br><br>
                 <p><b>Old rules</b><br>
@@ -588,13 +596,10 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             let fishO=false;
             
             function no(){
-                if(fishO){
-                    //call online version of go fish function
-                    //alert("Calling online version of goFish function");
+                if(fishO){//call online version of go fish function
                     fpres.goFish();
                 }
                 else{
-                    //alert("saying no");
                     fpres.sayNo();
                 }
             }
@@ -605,8 +610,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             
             function fishOnline(){//toggle online mode with go fish
                 //alert("We are going online for Go fish");
-                if(!fishO){
-                    //call online snip snap snorum function
+                if(!fishO){//Port Go fish to online mode
                     fishO=true;
                     fpres.goOnline();
                     fpres=new FishpresO(ws);
@@ -617,7 +621,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     ws.send(JSON.stringify(mes));
                     document.getElementById("fishreset").disabled=true;
                 }else{
-                    if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
+                    if(confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                         //shut off online mode
                         //alert("shutting off online mode");
                         fishO=false;
@@ -630,9 +634,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                         fpres=new Fishpres();
                         fpres.play();
                 } else {
-                    // Do nothing! Just return to the game
-                    return;
-                }
+                        // Do nothing! Just return to the game
+                        return;
+                    }
                 }
                 
             }
@@ -662,6 +666,8 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             <h2>Solitare</h2>
             <p>The object of the game is to arrange each set of cards in order from ace to king<br>
             You will move cards around so that each card sits in front of the card that is one value point higher than it.<br>
+            To move a card first click on the card you want to move, this will set up that card and each card below it to be moved.<br>
+            Then, simply click the position that you want to move the card to.  The game will check if you made a legal move.<br>    
             If you run out of moves, you may take a side set of cards and deal them out, placing each card at the front of each row.<br>
             Flip over a card at the front of the row if there are no other cards in front of it.<br>    
             Once you get a group of cards in order from ace to king, ace having a value of one, take each of those cards and move them off to the side.<br>

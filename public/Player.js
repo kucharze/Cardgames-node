@@ -23,20 +23,19 @@ class Player {
   /*Returns true if hand has two of the same value*/  
     checkAmount(){
         let hand=this.getHandCopy();
-        //alert()
         var total=0;
         
         for(var i=0; i<hand.length; i++){
             total=this.countCard(hand[i]);
             console.log(hand[i]);
-            //alert("Number of "+hand[i].getValue() + " = "+total);
             if(total==4){
-                //alert("We are going to remove all "+hand[i]);
+                let card=hand[i];
+                alert("We are going to remove all "+hand[i]+ " "+card);
                 this.removeAll(hand[i]);
-                return true;
+                return card;
             }
         }
-        return false;
+        return null;
     }
     
     /*Find the duplicates in a hand*/
