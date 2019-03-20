@@ -81,7 +81,8 @@ class Presenter8O {
 	this.view.displayStatus(message.status);
 	this.view.displayComputerHand(message.numberOfOpponentCards);
 	this.view.displayHumanHand(newHand);
-	if(data.pileAnnouncedSuit) {
+      
+	if(message.pileAnnouncedSuit) {
           this.pile.setAnnouncedSuit(message.pileAnnouncedSuit);
         }
 

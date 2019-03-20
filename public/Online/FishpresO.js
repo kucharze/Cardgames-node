@@ -108,6 +108,16 @@ class FishpresO {
             this.askCard= new Card(askCard.suit, askCard.value);
         }
         
+        if(message.score!=null){
+            let card = message.score;
+            let tempCard = new Card(card.suit, card.value);
+            this.fview.giveHumanPoint(tempCard);
+        }
+        if(message.comScore!=null){
+            let card = message.comScore;
+            let tempCard = new Card(card.suit, card.value);
+            this.fview.giveComPoint(tempCard);
+        }
         
 	    this.human.setHand(newHand);
         this.fview.displayComputerHand(message.numberOfOpponentCards);

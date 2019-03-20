@@ -10,7 +10,8 @@ class FishviewO {
     this.topCard = null;
     this.topCardString = "";
     this.errorString = "";
-        
+        this.comPoints=0;
+        this.humanPoints=0;
         this.allCardsDiv=document.getElementById("allfish");
     
         document.getElementById("fuserhand").addEventListener("click",function(){presenter.fish(event.target.title);});
@@ -52,6 +53,32 @@ class FishviewO {
 	   human.appendChild(image);
     }
   }
+    
+    giveHumanPoint(card){
+        //alert("Human point");
+        let p=document.getElementById("playerfours");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+card.toString()+".png";
+	       image.title=card.toString();
+          image.class="card positionable";
+          image.style="position: absolute; left: "+ ((40*(this.humanPoints))+10 ) + "px; z-index:" + i +";";
+            //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+        this.humanPoints++;
+        p.appendChild(image);
+    }
+    
+    giveComPoint(card){
+       // alert("Computer point");
+        let p=document.getElementById("comfours");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+card.toString()+".png";
+	       image.title=card.toString();
+          image.class="card positionable";
+          image.style="position: absolute; left: "+ ((40*this.comPoints)+10 ) + "px; top:+" + 350 +"px; z-index:" + i +";";
+        //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+        this.comPoints++;
+        p.appendChild(image);
+    }
     
       /**
    * Block user from playing.

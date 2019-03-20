@@ -81,7 +81,8 @@ class View8O {
    * @param {string} cardString - The wrong card that was played.
    */
   displayWrongCardMsg(cardString) {
-    window.alert("Bad card choice '" + cardString + "'. Please try again.");
+      let mes=document.getElementById("status");
+      mes.innerHTML="Bad card choice '" + cardString + "'. Please try again.";
       /*this.statusDiv.innerHTML="Bad card choice '" + cardString + "'. Please try again.";*/
   }
   /**
