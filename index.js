@@ -245,7 +245,7 @@ function eightsPlay(ws){
 
         webSockets[clientcounter-1].send(JSON.stringify(obj));
         
-         /*
+         ///*
             //set up for a new game to be played if more players join
                 let deck = new Deck();
                 deck.shuffle();
@@ -255,8 +255,8 @@ function eightsPlay(ws){
                 eightPiles.push(pile);
                 eightDecks.push(deck);
                 
-                //crazyEightPlayers.push(new Player(deck));
-                //crazyEightPlayers.push(new Player(deck));
+                crazyEightPlayers.push(new Player(deck));
+                crazyEightPlayers.push(new Player(deck));
             
            //*/
     }
@@ -273,11 +273,11 @@ function cardSelected(message, playerNumber){
     
     //determine which game to play
     if(playerNumber%2 == 0){
-        console.log("Even Player");
+        //console.log("Even Player");
         gamenum=(playerNumber)/2;
     }
     else{
-        console.log("odd player");
+        //console.log("odd player");
         gamenum=(playerNumber-1)/2;
         odd=true;
     }
@@ -301,7 +301,6 @@ function cardSelected(message, playerNumber){
     let obj = {};
     
     if(odd){//odd player number
-        console.log("checking odd player messages");
         if(crazyEightPlayers[playerNumber].isHandEmpty()) {
             console.log("odd player wins");
            obj.status = "Congratulations, You won";
@@ -342,7 +341,6 @@ function cardSelected(message, playerNumber){
 
             eightSockets[1-playerNumber].send(JSON.stringify(obj)); 
     }else{
-        console.log("is this the problem");
             obj.status = "Waiting for opponent to play";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber-1].getHandCopy().length;
             obj.pileTopCard = eightPiles[gamenum].getTopCard();
@@ -490,78 +488,104 @@ function cardPicked(playerNumber){
 }
 
 function eightQuit(playernumber){
-    if(playernumber==0) {//Handles a player leaving the game
+    if(playernumber%2 == 0){
+        gamenum=(playernumber)/2;
+    }
+    else{
+        gamenum=(playernumber-1)/2;
+    }
+    
+    if(playernumber%2 ==0) {//Handles a player leaving the game
             let obj = {};
             obj.action="Crazy Eights";
             obj.status = "You win!! Opponent has forfiet!";
             obj.numberOfOpponentCards = crazyEightPlayers[1].getHandCopy().length;
-            obj.pileTopCard = eightPile.getTopCard();
-            obj.pileAnnouncedSuit = eightPile.getAnnouncedSuit();
+            obj.pileTopCard = eightPiles[gamenum].getTopCard();
+            obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
             obj.yourCards = crazyEightPlayers[0].getHandCopy();
             obj.readyToPlay = false;
-            webSockets[1].send(JSON.stringify(obj));
+            eightSockets[playernumber+1].send(JSON.stringify(obj));
+            eightSockets[playernumber]=null;
 
-    } else if(playernumber==1){
+    } else if(playernumber%2 ==1){
         let obj = {};
         obj.action="Crazy Eights";
         obj.status = "You win!! Opponent has forfiet!";
-        obj.numberOfOpponentCards = crazyEightPlayers[0].getHandCopy().length;
-        obj.pileTopCard = eightPile.getTopCard();
-        obj.pileAnnouncedSuit = eightPile.getAnnouncedSuit();
+        obj.numberOfOpponentCards = crazyEightPlayers[playernumber-1].getHandCopy().length;
+        obj.pileTopCard = eightPiles[gamenum].getTopCard();
+        obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
         obj.yourCards = crazyEightPlayers[playernumber].getHandCopy();
         obj.readyToPlay = false;
 
-        webSockets[0].send(JSON.stringify(obj));
+        eightSockets[playernumber-1].send(JSON.stringify(obj));
+        eightSockets[playernumber]=null;
     }
     //console.log(obj.action + " " + obj.status+ " "+ obj.readyToPlay);
 }
 
 function snipSnapSnorum(message,ws){
     if(message.gameact=="Play"){
-        snipPlay();
+        snipPlay(ws);
     }
     else if(message.gameact=="pass turn"){
         //pass pla to the other user
-        switchUser(message, webSockets[webSockets.indexOf(ws)].playerNumber);
+        switchUser(message, snipSockets.indexOf(ws));
     }
     else if(message.gameact=="victory"){
         console.log("A player has won the game");
-        victory(message, webSockets[webSockets.indexOf(ws)].playerNumber);
+        victory(message, snipSockets.indexOf(ws));
     }
     else if(message.gameact=="quit"){
         console.log("Quitting snip snap snorum");
-        snipQuit(webSockets[webSockets.indexOf(ws)].playerNumber);
+        snipQuit(snipSockets.indexOf(ws));
     }
 }
 
 //*/
-function snipPlay(){
+function snipPlay(ws){
     console.log("We are playing Snip Snap Snorum");
-    if(clientcounter%2==1) {
+    snipSockets.push(ws);
+    if(snipSockets.indexOf(ws)%2==0) {
         ///*
         let obj = {};
         obj.action="Snip Snap Snorum";
         obj.status = "Waiting for player to join";
         obj.snip=false;
         obj.snap=false;
-        obj.numberOfOpponentCards = snipPlayers[clientcounter].getHandCopy().length;
+        obj.numberOfOpponentCards = snipPlayers[snipSockets.indexOf(ws)+1].getHandCopy().length;
         obj.pileTopCard = null;
-        obj.yourCards = snipPlayers[clientcounter-1].getHandCopy();
+        obj.yourCards = snipPlayers[snipSockets.indexOf(ws)].getHandCopy();
         obj.readyToPlay = false;
-        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        snipSockets[snipSockets.indexOf(ws)].send(JSON.stringify(obj));
         //*/
-    } else if(clientcounter%2==0){  
+    } else if(snipSockets.indexOf(ws)%2==1){  
         let obj = {};
         obj.action="Snip Snap Snorum";
         obj.status = "You may start the round";
         obj.snip=false;
         obj.snap=false;
-        obj.numberOfOpponentCards = snipPlayers[clientcounter-2].getHandCopy().length;
+        obj.numberOfOpponentCards = snipPlayers[snipSockets.indexOf(ws)-1].getHandCopy().length;
         obj.pileTopCard = null;
-        obj.yourCards = snipPlayers[clientcounter-1].getHandCopy();
+        obj.yourCards = snipPlayers[snipSockets.indexOf(ws)].getHandCopy();
         obj.readyToPlay = true;
-        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        snipSockets[snipSockets.indexOf(ws)].send(JSON.stringify(obj));
         //*/
+        
+        
+        ///*
+            //set up for a new game to be played if more players join
+                let deck = new Deck();
+                deck.shuffle();
+                while(deck.isTopCardAnEight()){deck.shuffle();}
+                let pile=new Pile();
+                pile.acceptACard(deck.dealACard());
+                eightPiles.push(pile);
+                eightDecks.push(deck);
+                
+                snipPlayers.push(new Player(deck));
+                snipPlayers.push(new Player(deck));
+            
+           //*/
     }
     
 }
@@ -588,7 +612,7 @@ function victory(message, playerNumber){
     obj.snap=false;
     obj.numberOfOpponentCards=snipPlayers[playerNumber].getHandCopy().length;
     obj.readyToPlay=false;
-    webSockets[1-playerNumber].send(JSON.stringify(obj));
+    snipSockets[1-playerNumber].send(JSON.stringify(obj));
             
     obj.action="Snip Snap Snorum";
     obj.status="Congradulations You win";
@@ -598,7 +622,7 @@ function victory(message, playerNumber){
     obj.snap=false;
     obj.numberOfOpponentCards=snipPlayers[1-playerNumber].getHandCopy().length;
     obj.readyToPlay=false;
-    webSockets[playerNumber].send(JSON.stringify(obj));
+    snipSockets[playerNumber].send(JSON.stringify(obj));
 }
 
 function switchUser(message, playerNumber){
@@ -625,7 +649,7 @@ function switchUser(message, playerNumber){
     obj.snap=snap;
     obj.numberOfOpponentCards=snipPlayers[playerNumber].getHandCopy().length;
     obj.readyToPlay=true;
-    webSockets[1-playerNumber].send(JSON.stringify(obj));
+    snipSockets[1-playerNumber].send(JSON.stringify(obj));
 
     
     obj.action="Snip Snap Snorum";
@@ -636,7 +660,7 @@ function switchUser(message, playerNumber){
     obj.snap=snap;
     obj.numberOfOpponentCards=snipPlayers[1-playerNumber].getHandCopy().length;
     obj.readyToPlay=false;
-    webSockets[playerNumber].send(JSON.stringify(obj));
+    snipSockets[playerNumber].send(JSON.stringify(obj));
 }
 
 function snipQuit(playernumber){
@@ -651,7 +675,7 @@ function snipQuit(playernumber){
         obj.yourCards = snipPlayers[0].getHandCopy();
         obj.readyToPlay = false;
         
-        webSockets[1].send(JSON.stringify(obj));
+        snipSockets[1].send(JSON.stringify(obj));
 
     } else if(playernumber==1){
         let obj = {};
@@ -664,13 +688,13 @@ function snipQuit(playernumber){
         obj.yourCards = snipPlayers[playernumber].getHandCopy();
         obj.readyToPlay = false;
 
-        webSockets[0].send(JSON.stringify(obj));
+        snipSockets[0].send(JSON.stringify(obj));
     }
 }
 
 function playGoFish(message, ws){
     if(message.gameact=="Play"){
-        fishPlay();
+        fishPlay(ws);
     }
     else if(message.gameact=="goFish"){
         console.log("Saying Go Fish");
@@ -693,29 +717,30 @@ function playGoFish(message, ws){
     }
 }
 
-function fishPlay(){
+function fishPlay(ws){
     console.log("We are playing Go Fish");
+    fishSockets.push(ws);
     let obj = {};
-    if(clientcounter%2==1) {
+    if(fishSockets.indexOf(ws)%2==0) {
         ///*
         obj.action="Go Fish";
         obj.status = "Waiting for player to join";
         obj.fish=false;
         obj.askCard=null;
-        obj.numberOfOpponentCards = fishPlayers[clientcounter].getHandCopy().length;
-        obj.yourCards = fishPlayers[clientcounter-1].getHandCopy();
+        obj.numberOfOpponentCards = fishPlayers[fishSockets.indexOf(ws)+1].getHandCopy().length;
+        obj.yourCards = fishPlayers[fishSockets.indexOf(ws)].getHandCopy();
         obj.readyToPlay = false;
-        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        webSockets[fishSockets.indexOf(ws)].send(JSON.stringify(obj));
         //*/
-    } else if(clientcounter%2==0){
+    } else if(fishSockets.indexOf(ws)%2==1){
         obj.action="Go Fish";
         obj.status = "Your turn";
         obj.fish=true;
         obj.askCard=null;
-        obj.numberOfOpponentCards = fishPlayers[clientcounter-2].getHandCopy().length;
-        obj.yourCards = fishPlayers[clientcounter-1].getHandCopy();
+        obj.numberOfOpponentCards = fishPlayers[fishSockets.indexOf(ws)-1].getHandCopy().length;
+        obj.yourCards = fishPlayers[fishSockets.indexOf(ws)].getHandCopy();
         obj.readyToPlay = true;
-        webSockets[clientcounter-1].send(JSON.stringify(obj));
+        webSockets[fishSockets.indexOf(ws)].send(JSON.stringify(obj));
         //*/
     }
 }
@@ -756,8 +781,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
         fishPlayers[playerNumber].setHand(newHand);
     }
     
-    //console.log("hand is after");
-    //console.log(newHand);
+    //console.log("hand is after");//console.log(newHand);
     
     let phand=fishPlayers[1-playerNumber].getHandCopy();
     if(phand.length==0){
@@ -777,8 +801,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
         fishPlayers[1-playerNumber].setHand(phand);
     }
     
-    //console.log("phand is after");
-    //console.log(phand);
+    //console.log("phand is after");//console.log(phand);
     }
     let obj={};
     
@@ -801,7 +824,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
         }
         obj.askCard=null;
         obj.readyToPlay=false;
-        webSockets[1-playerNumber].send(JSON.stringify(obj));
+        fishSockets[1-playerNumber].send(JSON.stringify(obj));
         obj.score=null;
         
         if(empty){
@@ -819,7 +842,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
         }
         obj.fish=true;
         obj.readyToPlay=true;
-        webSockets[playerNumber].send(JSON.stringify(obj));
+        fishSockets[playerNumber].send(JSON.stringify(obj));
     }
 }
 
@@ -833,8 +856,7 @@ function giveCard(message, playerNumber){
             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
     fishPlayers[playerNumber].setHand(newHand);
     let score=false;
-    //console.log("hand is");
-    //console.log(newHand);
+    //console.log("hand is");//console.log(newHand);
     
     if(newHand.length==0){
         console.log("A player's hand is empty");
@@ -853,8 +875,7 @@ function giveCard(message, playerNumber){
         fishPlayers[playerNumber].setHand(newHand);
     }
     
-    //console.log("hand is after");
-    //console.log(newHand);
+    //console.log("hand is after");//console.log(newHand);
     
     for(var i=0; i<tempcards.length; i++){
         fishPlayers[1-playerNumber].add(tempcards[i]);
@@ -886,8 +907,7 @@ function giveCard(message, playerNumber){
         console.log("This many cards left in the deck"+fishDeck.list.length);
         fishPlayers[1-playerNumber].setHand(phand);
     }
-    console.log("phand is after");
-    console.log(phand);
+    //console.log("phand is after");//console.log(phand);
     
     if((fishDeck.list.length==0) && (fishPlayers[playerNumber].list.length==0) && (fishPlayers[1-playerNumber].list.length==0)){
         fishWinner(message, playerNumber);
@@ -918,7 +938,7 @@ function giveCard(message, playerNumber){
         }
         obj.fish=true;
         obj.readyToPlay=true;
-        webSockets[playerNumber].send(JSON.stringify(obj));
+        fishSockets[playerNumber].send(JSON.stringify(obj));
     }
     
 }
@@ -942,7 +962,7 @@ function askForCard(message, playerNumber){
     obj.fish=false;
     obj.askCard=tempCard;
     obj.readyToPlay=true;
-    webSockets[1-playerNumber].send(JSON.stringify(obj));
+    fishSockets[1-playerNumber].send(JSON.stringify(obj));
 
     
     obj.action="Go Fish";
@@ -952,7 +972,7 @@ function askForCard(message, playerNumber){
     obj.askCard=null;
     obj.fish=false;
     obj.readyToPlay=false;
-    webSockets[playerNumber].send(JSON.stringify(obj));
+    fishSockets[playerNumber].send(JSON.stringify(obj));
 }
 
 function fishWinner(message, playerNumber){
@@ -967,7 +987,7 @@ function fishWinner(message, playerNumber){
         obj.fish=false;
         obj.askCard=null;
         obj.readyToPlay=false;
-        webSockets[1-playerNumber].send(JSON.stringify(obj));
+        fishSockets[1-playerNumber].send(JSON.stringify(obj));
     
         obj.action="Go Fish";
         obj.status="Sorry You lose!";
@@ -976,7 +996,7 @@ function fishWinner(message, playerNumber){
         obj.askCard=null;
         obj.fish=true;
         obj.readyToPlay=false;
-        webSockets[playerNumber].send(JSON.stringify(obj));
+        fishSockets[playerNumber].send(JSON.stringify(obj));
     }
     else{
         obj.action="Go Fish";
@@ -986,7 +1006,7 @@ function fishWinner(message, playerNumber){
         obj.fish=false;
         obj.askCard=null;
         obj.readyToPlay=false;
-        webSockets[1-playerNumber].send(JSON.stringify(obj));
+        fishSockets[1-playerNumber].send(JSON.stringify(obj));
     
         obj.action="Go Fish";
         obj.status="You win!";
@@ -995,7 +1015,7 @@ function fishWinner(message, playerNumber){
         obj.askCard=null;
         obj.fish=true;
         obj.readyToPlay=false;
-        webSockets[playerNumber].send(JSON.stringify(obj));
+       fishSockets[playerNumber].send(JSON.stringify(obj));
     }
 }
 
