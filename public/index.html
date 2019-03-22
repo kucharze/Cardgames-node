@@ -221,7 +221,7 @@ div.statusBox {
             The remaining cards of the deck are placed face down on the table.<br> 
             The top card is then turned face up to start the game.<br>
             Goal is to get rid of all your cards first.<br>
-            When it is your turn, you discard by matching number/rank or suit with the top card of the discard pile.<br>
+            When it is your turn, select a card from your hand with matching number/rank or suit with the top card of the discard pile.<br>
             If you are unable to match card or number, and you have an 8; you can play it.<br>
             If you do not have an 8 or matching card, you must draw a card from the stockpile.<br> 
 
@@ -303,7 +303,9 @@ div.statusBox {
         
         function onlineMes(message){
             //call online presenter update function
-            presenter.update(message);
+            if(online){
+                presenter.update(message);
+            }
         }
     </script>
     </div>
@@ -447,7 +449,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             
             function snipUpdate(message){
                 //alert("message action is"+message.action);
-                snip.update(message);
+                if(snipOn){
+                   snip.update(message); 
+                }
             }
         </script>
     </div>
@@ -546,8 +550,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     <div id="gofish" class="tabcontent">
         <div id="allfish">
             <div id="fishstatus" class="statusBox">Welcome to Go Fish</div>
-            <br><br><br><br><br><br><br>
+            <br><br><br><br>
             <div id="comfours"></div>
+            <br><br><br><br>
             <div id="fcpuhand"><img src="Images/cardback.png"></div>
             <br><br><br><br><br><br><br>
             <div id="fuserhand"><img src="Images/cardback.png" title="start card"></div>
@@ -642,7 +647,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             }
             function fishUpdate(message){
                 //call method for updating go fish while online
-                fpres.update(message);
+                if(fishO){
+                    fpres.update(message);
+                }
             }
         </script>
     </div>

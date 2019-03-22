@@ -52,7 +52,7 @@ class Fishview {
   }
     
     giveHumanPoint(card){
-        alert("Human point");
+        //alert("Human point");
         let p=document.getElementById("playerfours");
         let image=document.createElement("img");
 	       image.src ="./Images/"+card.toString()+".png";
@@ -65,13 +65,13 @@ class Fishview {
     }
     
     giveComPoint(card){
-        alert("Computer point");
+        //alert("Computer point");
         let p=document.getElementById("comfours");
         let image=document.createElement("img");
 	       image.src ="./Images/"+card.toString()+".png";
 	       image.title=card.toString();
           image.class="card positionable";
-          image.style="position: absolute; left: "+ ((40*this.comPoints)+10 ) + "px; top:+" + 350 +"px; z-index:" + i +";";
+          image.style="position: absolute; left: "+ ((40*this.comPoints)+10 ) + "px; top:+" + 360 +"px; z-index:" + i +";";
         //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
         this.comPoints++;
         p.appendChild(image);
@@ -88,8 +88,8 @@ class Fishview {
         while(computer.hasChildNodes()){
 	       computer.removeChild(computer.lastChild);
         }
-        while(cp.hasChildNodes()){
-	       cp.removeChild(cp.lastChild);
+        while(p.hasChildNodes()){
+	       p.removeChild(p.lastChild);
         }
         while(cp.hasChildNodes()){
 	       cp.removeChild(cp.lastChild);

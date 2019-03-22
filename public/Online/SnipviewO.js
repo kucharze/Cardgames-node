@@ -31,7 +31,7 @@ class SnipviewO {
        let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
 	   image.class="card positionable";
-        image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";
+        image.style="position: absolute; left: "+ ((35*i)+10 ) + "px; z-index:" + i +";";
 	   //image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
 	   cpu.appendChild(image);
     }
@@ -48,7 +48,7 @@ class SnipviewO {
 	    image.src ="./Images/"+hand[i].toString()+".png";
         image.title=hand[i].toString();
 	    image.class="card positionable";
-         image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";;
+         image.style="position: absolute; left: "+ ((35*i)+10 ) + "px; z-index:" + i +";";;
 	    //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
 	    human.appendChild(image);
    }

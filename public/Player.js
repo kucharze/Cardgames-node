@@ -30,7 +30,7 @@ class Player {
             console.log(hand[i]);
             if(total==4){
                 let card=hand[i];
-                alert("We are going to remove all "+hand[i]+ " "+card);
+                alert("We are going to remove all "+hand[i]);
                 this.removeAll(hand[i]);
                 return card;
             }

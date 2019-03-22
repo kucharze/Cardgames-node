@@ -74,7 +74,7 @@ class FishviewO {
 	       image.src ="./Images/"+card.toString()+".png";
 	       image.title=card.toString();
           image.class="card positionable";
-          image.style="position: absolute; left: "+ ((40*this.comPoints)+10 ) + "px; top:+" + 350 +"px; z-index:" + i +";";
+          image.style="position: absolute; left: "+ ((40*this.comPoints)+10 ) + "px; top:+" + 360 +"px; z-index:" + i +";";
         //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
         this.comPoints++;
         p.appendChild(image);

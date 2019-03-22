@@ -51,7 +51,7 @@ class Fishpres {
                 if(c!=null){
                     this.comNumFours++;
                     this.fview.giveComPoint(c);
-                    alert("This computer has this many four ofs " + this.comNumFours);
+                    //alert("This computer has this many four ofs " + this.comNumFours);
                 }
             this.fview.displayComputerHand(this.computer.getHandCopy());
         }
@@ -62,7 +62,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        alert("Deck has this many cards left"+this.deck.list.length);
+        //alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
@@ -78,7 +78,7 @@ class Fishpres {
                 if(c!=null){
                     this.comNumFours++;
                     this.fview.giveComPoint(c);
-                    alert("This computer has this many four ofs " + this.comNumFours);
+                    //alert("This computer has this many four ofs " + this.comNumFours);
                 }
                 
                 if(this.deck.isEmpty()){

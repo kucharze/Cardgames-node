@@ -37,7 +37,7 @@ class Snipview {
             image.src ="./Images/cardback.png";
 	       image.title=hand[i].toString();
 	       image.class="card positionable";
-            image.style="position: absolute; left: "+ ((30*i)+10) + "px; z-index:" + i +";";
+            image.style="position: absolute; left: "+ ((35*i)+10) + "px; z-index:" + i +";";
         
             cpu.appendChild(image);
     }
@@ -54,7 +54,7 @@ class Snipview {
 	    image.src ="./Images/"+hand[i].toString()+".png";
         image.title=hand[i].toString();
 	    image.class="card positionable";
-        image.style="position: absolute; left: "+ ((30*i)+10 ) + "px; z-index:" + i +";";
+        image.style="position: absolute; left: "+ ((35*i)+10 ) + "px; z-index:" + i +";";
 	    human.appendChild(image);
    }
       /*
