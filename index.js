@@ -1434,26 +1434,28 @@ function checkAmount(player){
 
 function quitFish(playernumber){
     console.log("Quitting Go Fish");
-    if(playernumber==0) {//Handles a player leaving the game
+    if(playernumber%2==0) {//Handles a player leaving the game
         let obj = {};
         obj.action="Go Fish";
         obj.status = "You win!! Opponent has forfeit!";
-        obj.numberOfOpponentCards = fishPlayers[1-playernumber].getHandCopy().length;
+        obj.numberOfOpponentCards = fishPlayers[playernumber].getHandCopy().length;
         obj.askCard=null;
-        obj.yourCards = fishPlayers[playernumber].getHandCopy();
+        obj.yourCards = fishPlayers[playernumber+1].getHandCopy();
         obj.readyToPlay = false;
         
-        webSockets[1].send(JSON.stringify(obj));
+        fishSockets[playernumber+1].send(JSON.stringify(obj));
+        fishSockets[playernumber]=null;
 
-    } else if(playernumber==1){
+    } else if(playernumber%2==1){
         let obj = {};
         obj.action="Go Fish";
         obj.status = "You win!! Opponent has forfeit!";
-        obj.numberOfOpponentCards = fishPlayers[1-playernumber].getHandCopy().length;
+        obj.numberOfOpponentCards = fishPlayers[playernumber].getHandCopy().length;
         obj.askCard=null;
-        obj.yourCards = fishPlayers[playernumber].getHandCopy();
+        obj.yourCards = fishPlayers[playernumber-1].getHandCopy();
         obj.readyToPlay = false;
 
-        webSockets[0].send(JSON.stringify(obj));
+        fishSockets[playernumber-1].send(JSON.stringify(obj));
+        fishSockets[playernumber]=null;
     }
 }
