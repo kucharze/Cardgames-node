@@ -155,6 +155,7 @@ class SnippresO {
     goOffline(){
         //reset view to prepare for offline play once again
         this.snipview.eraseHands();
+        this.snipview.unblockPlay();
         this.snipview.removeEvents();
     }
 

@@ -85,7 +85,7 @@ class Presenter {
      this.view.displayPileTopCard(this.pile.getTopCard());
      this.view.displayComputerHand(this.computer.getHandCopy());
      this.view.displayHumanHand(this.human.getHandCopy());
-     this.view.displayMessage("Welcome to Crazy Eights");
+     this.view.displayMessage("Crazy Eights");
      return;
  }
     
@@ -110,7 +110,7 @@ class Presenter {
         this.view.undisplaySuitPicker();
         
         let suit=document.getElementById("status");
-        suit.innerHTML="Welcome to Crazy Eights";
+        suit.innerHTML="Crazy Eights";
         this.computer.countCards();
         return;
     }

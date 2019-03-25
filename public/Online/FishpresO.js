@@ -129,8 +129,9 @@ class FishpresO {
     
 
     goOffline(){//Remove setup before switching to offline presenter\
-        this.fview.displayMessage("Welcome to Go Fish");
+        this.fview.displayMessage("Go Fish");
         this.fview.eraseHands();
+        this.fview.unblockPlay();
         this.fview.removeEvents();
     }
 }

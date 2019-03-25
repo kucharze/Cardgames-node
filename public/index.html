@@ -18,7 +18,7 @@ https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-el
 <style>
     /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
-  background-color: #eee;
+  background-color: #DCDCDC;
   color: #444;
   cursor: pointer;
   padding: 18px;
@@ -28,33 +28,40 @@ https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-el
   outline: none;
   transition: 0.4s;
 }
+    
+body {
+  height: 100vh;
+  background: #696969; 
+}
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .accordion:hover {
-  background-color: #ccc;
+  background-color: #696969;
 }
 
 /* Style the accordion panel. Note: hidden by default */
 .panel {
   padding: 0 18px;
-  background-color: white;
+  background-color: #696969;
   display: none;
   overflow: hidden;
 }
+    
 div.statusBox {
-    border: 1px solid black;
+    border: 2px solid black;
     padding: 3px 0px;
     margin: 3px 0px;
     font-size: 30pt;
-    color: #316A53;
+    font-family: cursive;
+    background-color: #893838;
     text-align: center;
 }
     
-/* Style the tab */
+/* Style the tabs for list of games */
 .tab {
   overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+  border: 1px solid #8B0000;
+  background-color: #696969;
 }
 
 /* Style the buttons inside the tab */
@@ -76,7 +83,10 @@ div.statusBox {
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  background-color: #8B0000;
+}
+.tablinks {
+  background-color: #8B0000;
 }
 #Account {
   display: block;
@@ -176,7 +186,7 @@ div.statusBox {
 
 <div id="Eight" class="tabcontent"><!--Crazy Eights-->
         <!-- Status area -->
-    <div id="status" class="statusBox">Welcome to Crazy Eights</div>
+    <div id="status" class="statusBox">Crazy Eights</div>
     <div id="allCards">
     <!-- Computer's hand -->
     <div id="myHand" class="hand"></div>
@@ -293,6 +303,7 @@ div.statusBox {
                     presenter.goOffline();
                     presenter=new Presenter();
                     presenter.play();
+                    document.getElementById("reset8").disabled=false;
                 } else {
                     // Do nothing! Just return to the game
                     //alert("We are not shutting off online mode");
@@ -311,7 +322,7 @@ div.statusBox {
     </div>
     
     <div id="Jack" class="tabcontent">
-        <div id="jackstatus" class="statusBox">Welcome to Blackjack</div>
+        <div id="jackstatus" class="statusBox">Blackjack</div>
         <div id="dealerhand"><img src="Images/cardback.png"></div>
         <div id="playerhand"><img src="Images/cardback.png"></div>
         <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">
@@ -359,7 +370,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     
     <div id="Snap" class="tabcontent">
         <div id="allSnips">
-        <div id="snipstatus" class="statusBox">Welcome to Snip Snap Snorum</div>
+        <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
         <div id="scpuhand"><img src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
@@ -440,6 +451,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     snip.goOffline();
                     snip=new Snippres();
                     snip.play();
+                        document.getElementById("snipreset").disabled=false;
                 } else {
                     // Do nothing! Just return to the game
                     return;
@@ -457,7 +469,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     </div>
 
 <div id="Match" class="tabcontent">
-    <div id="matchstatus" class="statusBox">Welcome to Memory Matcher</div>
+    <div id="matchstatus" class="statusBox">Memory Matcher</div>
         <label class="moves">You finished the game with this many moves: Number of moves will go here</label><br>
         <label class="mem">Try to match the cards in as little turns as possible</label><br>
     <button style="font-size: 20px" class="accordion">View Instructions</button>
@@ -549,7 +561,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     
     <div id="gofish" class="tabcontent">
         <div id="allfish">
-            <div id="fishstatus" class="statusBox">Welcome to Go Fish</div>
+            <div id="fishstatus" class="statusBox">Go Fish</div>
             <br><br><br><br>
             <div id="comfours"></div>
             <br><br><br><br>
@@ -634,7 +646,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                         quit.action="Go Fish";
                         quit.gameact="quit";
                         ws.send(JSON.stringify(quit));
-                    
+                    document.getElementById("fishreset").disabled=false;
                         fpres.goOffline();
                         fpres=new Fishpres();
                         fpres.play();
@@ -655,7 +667,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     </div>
     
     <div id="solitare" class="tabcontent">
-        <div id="Solstatus" class="statusBox">Welcome to Spider Solitare</div>
+        <div id="Solstatus" class="statusBox">Spider Solitare</div>
         <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png"></div>
         <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png"></div>
         <div id="row3" style="position: absolute; left: 220px"><img src="Images/cardback.png"></div>
@@ -697,7 +709,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     </div>
 
 <div id="War" class="tabcontent">
-  <div id="warstatus" class="statusBox">Welcome to War</div>
+  <div id="warstatus" class="statusBox">War</div>
     <div id="mywar"><img src="Images/cardback.png" alt="Computerwarcard"></div><br>
     <div id="mycard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
     <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div><br>

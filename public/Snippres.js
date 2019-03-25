@@ -193,7 +193,7 @@ class Snippres {
 
 //Sets up the start of the game
  play(){//Set up for playing Snip snap snorum
-     this.snipview.displayMessage("Welcome to Snip Snap Snorum");
+     this.snipview.displayMessage("Snip Snap Snorum");
      this.human.addCards();
      this.cpu.addCards();
      this.snipview.displayPileTopCard(null);
@@ -208,7 +208,7 @@ class Snippres {
         this.moves=0;
         this.snap=false;
         this.snip=false;
-        this.snipview.displayMessage("Welcome to Snip Snap Snorum");
+        this.snipview.displayMessage("Snip Snap Snorum");
         document.getElementById("passturn").disabled=false;
         
 	    this.deck.shuffle();

@@ -206,7 +206,7 @@ class Fishpres {
         this.fview.eraseHands();
         this.deck=new Deck();
         this.moves=0;
-        this.fview.displayMessage("Welcome to Go Fish");
+        this.fview.displayMessage("Go Fish");
 	    this.deck.shuffle();
 	    this.deck.shuffle();
         
