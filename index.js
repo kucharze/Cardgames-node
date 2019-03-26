@@ -95,6 +95,58 @@ app.use(express.static(path.join(__dirname,'/public')));
 let webSockets=[];
 let clientcounter=0;
 
+//init mongodb for use of database
+var MongoClient=require('mongodb').MongoClient;
+var database=null;
+//var url = "mongodb://localhost:27017/mydb";
+
+var url = "mongodb://localhost:27017/cardgames";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+    database=dbo;
+});
+
+/*
+MongoClient.connect(url, function(err, db) {//add an object
+dbo.createCollection("War wins", function(err, res) {
+    if (err) throw err;
+    console.log("Collection created!");
+    db.close();
+  });
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var myobj = { name: "Vilgax", password: "Park Lane 38" };
+  dbo.collection("users").insertOne(myobj, function(err, res) {
+    if (err) throw err;
+    console.log("1 document inserted");
+    db.close();
+  });});
+
+
+MongoClient.connect(url, function(err, db) {//find a specific query
+  if (err) throw err;
+  var dbo = db.db("mydb");
+    database=dbo;
+  var query = { address: "Park Lane 38" };
+  dbo.collection("customers").find(query).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });});
+
+MongoClient.connect(url, function(err, db) {//take out and sort
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  var mysort = { name: 1 };
+  dbo.collection("customers").find().sort(mysort).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    db.close();
+  });});*/
+
+
 //return static page with websocket client
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
@@ -110,7 +162,6 @@ ws.on('connection', function connection(ws) {
     if(!webSockets.includes(ws)) {
         ws.clientNumber=clientcounter++;
         ws.logedIn=logedin;
-        ws.online=false;
         webSockets.push(ws);
         //webSockets[webSockets.indexOf(ws)].userNumber=clientCounter++;
     }
@@ -147,24 +198,21 @@ ws.on('connection', function connection(ws) {
     });
     ws.on('close',function close(){
         console.log("user is disconnecting");
-        //Remove user websocket from all games
+        //Remove user websocket from all games if in any
         let index=eightSockets.indexOf(ws);
         if(index!=-1){
             eightQuit(index);
-            //eightSockets[index]=null;
         }
         
         index=snipSockets.indexOf(ws);
         if(index!=-1){
             snipQuit(index);
-            //snipSockets[index]=null;
         }
         
         index=fishSockets.indexOf(ws);
         
         if(index!=-1){
             quitFish(index);
-            //fishSockets[index]=null;
         }
         cleanUp();
     });
@@ -263,10 +311,9 @@ function cleanUp(){
         fishPlayers.push(p2);
     }
     
-    console.log("eightsoketslength "+eightSockets.length);
-    console.log("Snipsocketslength "+snipSockets.length);
-    console.log("eightsocketslength "+fishSockets.length);
-    
+    //console.log("eightsoketslength "+eightSockets.length);
+    //console.log("Snipsocketslength "+snipSockets.length);
+    //console.log("eightsocketslength "+fishSockets.length);  
 }
 
 function sendMessage(message){//For a later use of chatroom function
@@ -284,33 +331,59 @@ function sendMessage(message){//For a later use of chatroom function
 }
 
 //Creates a login for the site
-function createlogin(action){
+function createlogin(action,ws){
+    let good=true;
     console.log("Setting up a login");
     console.log('received: %s', action.user + " "+ action.password);
     let mes={};
     mes.action="Succesfully set up a login "+action.user;
     console.log("Loged in");
+    var myobj = { name: action.user, password: action.password };
+    var query = { name: action.user};
+    database.collection("users").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if(result.length>0){
+            console.log("User name already exists");
+        }
+        else{
+            database.collection("users").insertOne(myobj, function(err, res) {
+                if (err) throw err;
+                console.log("1 user document inserted");
+            });
+        }
+        console.log(result);
+    });
     webSockets[0].send(JSON.stringify(mes));
 }
 
 //Login to the website
 //Check if given name and pass are in the database
 //If not do not allow login
-function login(action){
-    let good=true;
+function login(action,ws){
+    let good=false;
     console.log('received: %s', "Attempting to log in");
     console.log('received: %s', action.user + " "+ action.password);
+    var query = { name: action.user, password: action.password };
+    database.collection("users").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if(result.length>0){
+            good=true;
+        }
+        if(good){
+        console.log("The username and pass are good");
+        }
+        else{
+            console.log("Username or Password not found");
+        }
+        console.log("Login");
+        console.log(result);
+    });
     let mes={};
     mes.action="Loged in with user "+action.user;
-    console.log("Loged in");
-    webSockets[0].send(JSON.stringify(mes));
+    console.log("We are tring to log in");
     
-    if(good){
-        console.log("The username and pass are good");
-    }
-    else{
-        console.log("The login attempt has failed");
-    }
+    
+    webSockets[0].send(JSON.stringify(mes));
 }
 
 /*
