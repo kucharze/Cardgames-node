@@ -162,6 +162,7 @@ ws.on('connection', function connection(ws) {
     if(!webSockets.includes(ws)) {
         ws.clientNumber=clientcounter++;
         ws.logedIn=logedin;
+        ws.login="";
         webSockets.push(ws);
         //webSockets[webSockets.indexOf(ws)].userNumber=clientCounter++;
     }
@@ -213,6 +214,11 @@ ws.on('connection', function connection(ws) {
         
         if(index!=-1){
             quitFish(index);
+        }
+        
+        index=webSockets.indexOf(ws);
+        if(index!=-1){
+            webSockets.splice(index,1);
         }
         cleanUp();
     });
@@ -342,6 +348,7 @@ function createlogin(action,ws){
     var query = { name: action.user};
     database.collection("users").find(query).toArray(function(err, result) {
         if (err) throw err;
+        let index=webSockets.indexOf(ws);
         if(result.length>0){
             console.log("User name already exists");
         }
@@ -350,6 +357,12 @@ function createlogin(action,ws){
                 if (err) throw err;
                 console.log("1 user document inserted");
             });
+            ws.logedIn=true;
+            webSockets[index].logedIn=true;
+            ws.username=action.user;
+            webSockets[index].username=action.user;
+            console.log("websocket login is "+ws.username);
+            console.log("websocket list login is "+webSockets[index].username);
         }
         console.log(result);
     });
@@ -370,7 +383,14 @@ function login(action,ws){
             good=true;
         }
         if(good){
-        console.log("The username and pass are good");
+            console.log("The username and pass are good");
+            ws.logedIn=true;
+            let index=webSockets.indexOf(ws);
+            webSockets[index].logedIn=true;
+            ws.username=action.user;
+            webSockets[index].username=action.user;
+            console.log("login websocket login is "+ws.username);
+            console.log("login websocket list login is "+webSockets[index].username);
         }
         else{
             console.log("Username or Password not found");
@@ -381,7 +401,6 @@ function login(action,ws){
     let mes={};
     mes.action="Loged in with user "+action.user;
     console.log("We are tring to log in");
-    
     
     webSockets[0].send(JSON.stringify(mes));
 }
@@ -413,7 +432,48 @@ function crazyEights(message,ws){
     else if(message.gameact=="record"){
         //record data from offline into the database
         console.log("Recoding into Crazy Eights database");
+        eightRecord(message,ws)
     }
+}
+
+function eightRecord(message, ws){
+    let index=webSockets.indexOf(ws);
+    if((webSockets[index].username=="") || (webSockets[index].username==null)){
+        console.log("Not logged in. Cannot record result");
+        let obj={};
+        obj.action="Crazy Eights";
+        obj.message="You are not logged in, you cannot record a result to the leaderboard";
+        ws.send(JSON.stringify(obj));
+        return;
+    }
+    else{
+        var query={user: webSockets[index].username};
+        //console.log("Clientcounter = "+clientCounter)
+    }
+    
+    database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if(result.length>0){
+            console.log("Entry already exists");
+            /////////
+            if(result[0].moves > message.moves){
+                var newvalues = { $set: {name: webSockets[index].username, moves: "Canyon 123" } };
+                dbo.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 Crazy Eights moves document updated");
+                });
+            }
+        }
+        else{
+            query={user: webSockets[index].username, moves: message.moves};
+            database.collection("Crazy Eights moves").insertOne(query, function(err, res) {
+                if (err) throw err;
+                console.log("1 Crazy Eights moves document inserted");
+            });
+            
+        }
+        console.log(result);
+    });
 }
 
 function eightsPlay(ws){
