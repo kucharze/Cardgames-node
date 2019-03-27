@@ -37,7 +37,7 @@ class Solview {
         if(row[0]==null){
             //alert("row is null");
             let image=document.createElement("img");
-                image.src ="./Images/cardback.png";
+                image.src ="./Images/Empty.PNG";
 	            image.title="Empty row";
                 image.id="empty";
 	            image.class="card positionable";

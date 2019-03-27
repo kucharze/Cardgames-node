@@ -7,7 +7,7 @@ class Snippres {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(ws) {
         this.moves=0;
 	    this.deck = new Deck();
 	    this.deck.shuffle();
@@ -16,19 +16,27 @@ class Snippres {
         this.snap=false;
         this.date=null;
         this.started=false;
+        this.min=0;
+        this.secs=0;
         
 	    this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard());
 	    this.snipview = new Snipview(this);
 	    this.human=new Sniphuman(this.deck, this.pile, this.view);
 	    this.cpu=new Snipcpu(this.deck, this.pile, this.view);
+        this.socket=ws;
     }
 
 //takes the string for a card and determines if the player's turn is over
  cardSelected(cardString){
+     if(!this.started){
+         this.started=true;
+         this.date=new Date();
+     }
      let card=this.pile.getTopCard();
      let hum=this.human.find(cardString);
      if(!this.snip){
+         this.moves++;
          this.pile.acceptACard(hum);
          this.snipview.displayMessage("Snip");
          this.snipview.displayPileTopCard(hum);
@@ -46,6 +54,7 @@ class Snippres {
              this.snipview.displayHumanHand(this.human.getHandCopy());
              this.snipview.displayPileTopCard(hum);
              this.human.played=true;
+             this
          }
          else{
              this.snipview.displayMessage("Cannot play that card "+hum);
@@ -61,14 +70,32 @@ class Snippres {
              this.snip=false;
              this.snap=false;
              this.human.played=true;
+             this.moves++;
          }
          else{
              this.snipview.displayMessage("Cannot play that card");
          }
      }
      if(this.human.isHandEmpty()){
-         this.snipview.displayMessage("Congradulations! You win!!!");
-         document.getElementById("passturn").disabled=true;
+            this.snipview.displayMessage("Congradulations! You win!!!");
+            document.getElementById("passturn").disabled=true;
+            let elapsed=new Date();
+            this.secs=elapsed - this.date;
+            this.secs/=1000;
+            this.secs=Math.round(this.secs);
+            //alert("This many Seconds: "+this.secs);
+            while(this.secs>60){
+                //alert("Making time conversions");
+                this.secs=this.secs-60;
+                this.min++;
+            }
+         
+         let obj={};
+         obj.action="Snip Snap Snorum";
+         obj.gameact="record";
+         obj.time=this.min+"mins " +" "+ this.secs+"secs";
+         
+         this.socket.send(JSON.stringify(obj));
      }
      
     return;

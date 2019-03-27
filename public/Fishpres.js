@@ -7,7 +7,7 @@ class Fishpres {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(ws) {
         this.moves=0;
 	    this.deck = new Deck();
 	    this.deck.shuffle();
@@ -22,6 +22,8 @@ class Fishpres {
         
         this.humNumFours=0;
         this.comNumFours=0;
+        this.moves=0;
+        this.socket=ws;
         
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
@@ -44,6 +46,7 @@ class Fishpres {
             return;
         }
         else{
+            this.moves++;
             if(!this.deck.isEmpty()){
                 this.computer.cardPicked();
             }
@@ -86,6 +89,12 @@ class Fishpres {
                    if(this.humNumFours>this.comNumFours){
                        this.fview.displayMessage("You win!!");
                        document.getElementById("No").disabled=true;
+                       
+                       let obj={};
+                       obj.action="Go Fish";
+                       obj.gameact="record";
+                       obj.moves=this.moves;
+                       this.socket.send(JSON.stringify(obj));
                     }
                     else{
                         this.fview.displayMessage("Sorry. You have lost.");
@@ -140,6 +149,12 @@ class Fishpres {
                    if(this.humNumFours>this.comNumFours){
                        this.fview.displayMessage("You win!!");
                        document.getElementById("No").disabled=true;
+                       
+                       let obj={};
+                       obj.action="Go Fish";
+                       obj.gameact="record";
+                       obj.moves=this.moves;
+                       this.socket.send(JSON.stringify(obj));
                     }
                     else{
                         this.fview.displayMessage("Sorry. You have lost.");

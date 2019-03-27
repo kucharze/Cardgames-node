@@ -7,14 +7,14 @@ class Presenter {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(ws) {
         this.moves=0;
 	    this.deck = new Deck();
 	    this.deck.shuffle();
 	    while(this.deck.isTopCardAnEight()){
             this.deck.shuffle();
 	    }
-        
+        console.log(ws);
         this.date=null;
         this.started=false;
         this.min=0;
@@ -24,6 +24,7 @@ class Presenter {
 	    this.view = new View(this);
 	    this.human=new HumanPlayer(this.deck, this.pile, this.view);
 	    this.computer=new ComputerPlayer(this.deck, this.pile, this.view);
+        this.socket=ws;
     }
 
  cardPicked(){
@@ -63,6 +64,13 @@ class Presenter {
             this.min++;
         }
         alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
+        let obj={};
+        obj.action="Crazy Eights";
+        obj.gameact="record";
+        obj.moves=this.moves;
+        
+        this.socket.send(JSON.stringify(obj));
+        
 	   this.view.announceHumanWinner();
 	   return;
     }

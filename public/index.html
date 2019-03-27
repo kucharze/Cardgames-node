@@ -106,6 +106,32 @@ div.statusBox {
     <link rel="stylesheet" href="Crazy8.css" />
 </head>
 <body>
+    <script>
+            let sign = false;
+            var host=location.origin.replace(/^http/,'ws');
+            var ws=new WebSocket(host);
+            ws.onmessage=function(event){
+                let message=JSON.parse(event.data);
+                console.log(message.action);
+                console.log("Message status is"+message.status);
+                if(message.action=="Crazy Eights"){
+                    //alert("Crazy Eights online update");
+                    console.log("Message status ="+message.status);
+                    onlineMes(message);
+                }
+                else if(message.action=="Snip Snap Snorum"){
+                    //alert("Snip Snap Snorum online update");
+                    snipUpdate(message);
+                }
+                else if(message.action=="Go Fish"){
+                    //alert("Go Fish Online update");
+                    fishUpdate(message);
+                }
+                else if(message.action=="Show user"){
+                    document.getElementById("User").innerHTML=message.user;
+                }
+            }
+    </script>
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
     <label>Active User:</label>
     <label id="User">The user</label>
@@ -124,8 +150,14 @@ div.statusBox {
     <button class="tablinks" onclick="openTab(event, 'War')">War</button>
     <button class="tablinks" onclick="openTab(event, 'sugestions')">Suggestions</button>
     <button class="tablinks" onclick="openTab(event, 'boards')">Leaderboards</button>
+    <button class="tablinks" onclick="openTab(event, 'Update')">Updates</button>
 </div>
-
+<div id="Update" class="tabcontent">
+    <h1>You can find Upates to this site here</h1>
+    <h2>Version 0.2.3</h2>
+    <p>Adding features for Databases for leaderboard and user players.<br>
+    Adding new featurs client and server side to handle database operations</p>
+    </div>
 <div id="Account" class="tabcontent">
     <label id="data">Information</label>
         <h1>Card Games Login</h1>
@@ -267,7 +299,7 @@ div.statusBox {
     <script>
     "use strict";
         //Play one round of Crazy Eights against the computer
-        var presenter = new Presenter();
+        var presenter = new Presenter(ws);
         //var onlinepres = new Presenter8O();
         presenter.play();
         let online = false;
@@ -316,6 +348,9 @@ div.statusBox {
             //call online presenter update function
             if(online){
                 presenter.update(message);
+            }
+            else{
+                document.getElementById('status').innerHTML=document.getElementById('status').innerHTML + " "+ message.message;
             }
         }
     </script>
@@ -407,7 +442,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <script src="Online/SnippresO.js"></script>
         <script src="Online/SnipviewO.js"></script>
         <script>
-            let snip=new Snippres();
+            let snip=new Snippres(ws);
             snip.play();
             let snipOn=false;//to determine if we are online or offline
             
@@ -608,7 +643,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <script src="Online/FishviewO.js"></script>
         <script>
             'use strict'
-            var fpres=new Fishpres();
+            var fpres=new Fishpres(ws);
             fpres.play();
             let fishO=false;
             
@@ -674,7 +709,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <div id="row4" style="position: absolute; left: 320px"><img src="Images/cardback.png"></div>
         <div id="row5" style="position: absolute; left: 420px"><img src="Images/cardback.png"></div>
         <div id="row6" style="position: absolute; left: 530px"><img src="Images/cardback.png"></div>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <div id="soldecks"><img src="Images/cardback.png"><img src="Images/cardback.png"><img src="Images/cardback.png"><img src="Images/cardback.png"></div>
         <div id="Vicdecks"></div>
         <br>
@@ -796,27 +831,6 @@ function openTab(evt, cityName) {//Code for opening tabs
 }
 </script>
         <script>
-            let sign = false;
-            var host=location.origin.replace(/^http/,'ws');
-            var ws=new WebSocket(host);
-            ws.onmessage=function(event){
-                let message=JSON.parse(event.data);
-                console.log(message.action);
-                console.log("Message status is"+message.status);
-                if(message.action=="Crazy Eights"){
-                    //alert("Crazy Eights online update");
-                    console.log("Message status ="+message.status);
-                    onlineMes(message);
-                }
-                else if(message.action=="Snip Snap Snorum"){
-                    //alert("Snip Snap Snorum online update");
-                    snipUpdate(message);
-                }
-                else if(message.action=="Go Fish"){
-                    //alert("Go Fish Online update");
-                    fishUpdate(message);
-                }
-            }
             
         function suggest(){
             var user = document.getElementById("sug").value;
