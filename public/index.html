@@ -9,6 +9,7 @@ https://marina-ferreira.github.io/projects/js/memory-game/
 https://www.w3schools.com/howto/howto_js_accordion.asp
 https://stackoverflow.com/questions/41632942/how-to-measure-time-elapsed-on-javascript
 https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesson links on the site
 -->
 <html>
 <head>
@@ -134,7 +135,7 @@ div.statusBox {
     </script>
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
     <label>Active User:</label>
-    <label id="User">The user</label>
+    <label id="User">No User logged in</label>
 <center><p>Choose your game.</p></center><br>
     <center><p style="color: darkgreen">This site is currently under construction.  Some features might not work as intended.</p></center>
 
@@ -476,17 +477,17 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     document.getElementById("snipreset").disabled=true;
                 }else{
                     if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
-                    //shut off online mode
-                    //alert("shutting off online mode");
-                    snipOn=false;
-                    let quit={};
-                    quit.action="Snip Snap Snorum";
-                    quit.gameact="quit";
-                    ws.send(JSON.stringify(quit));
-                    snip.goOffline();
-                    snip=new Snippres();
-                    snip.play();
+                        //shut off online mode
+                        //alert("shutting off online mode");
                         document.getElementById("snipreset").disabled=false;
+                        snipOn=false;
+                        let quit={};
+                        quit.action="Snip Snap Snorum";
+                        quit.gameact="quit";
+                        ws.send(JSON.stringify(quit));
+                        snip.goOffline();
+                        snip=new Snippres();
+                        snip.play();
                 } else {
                     // Do nothing! Just return to the game
                     return;
@@ -681,7 +682,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                         quit.action="Go Fish";
                         quit.gameact="quit";
                         ws.send(JSON.stringify(quit));
-                    document.getElementById("fishreset").disabled=false;
+                        document.getElementById("fishreset").disabled=false;
                         fpres.goOffline();
                         fpres=new Fishpres();
                         fpres.play();

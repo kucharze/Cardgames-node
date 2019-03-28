@@ -93,7 +93,8 @@ class Snippres {
          let obj={};
          obj.action="Snip Snap Snorum";
          obj.gameact="record";
-         obj.time=this.min+"mins " +" "+ this.secs+"secs";
+         obj.mins=this.min;
+         obj.secs=this.secs;
          
          this.socket.send(JSON.stringify(obj));
      }
@@ -102,6 +103,10 @@ class Snippres {
  }
     
     comTurn(){
+        if(!this.started){
+            this.started=true;
+            this.date=new Date();
+        }
         if(!this.human.played){
             this.snip=false;
             this.snap=false;

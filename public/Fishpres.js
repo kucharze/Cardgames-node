@@ -155,6 +155,7 @@ class Fishpres {
                        obj.gameact="record";
                        obj.moves=this.moves;
                        this.socket.send(JSON.stringify(obj));
+                       return;
                     }
                     else{
                         this.fview.displayMessage("Sorry. You have lost.");
@@ -224,6 +225,7 @@ class Fishpres {
         this.fview.displayMessage("Go Fish");
 	    this.deck.shuffle();
 	    this.deck.shuffle();
+        this.moves=0;
         
         document.getElementById("No").disabled=false;
 	    

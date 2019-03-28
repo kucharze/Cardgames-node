@@ -19,7 +19,7 @@ class Fishview {
      while(cpu.hasChildNodes()){
 	   cpu.removeChild(cpu.lastChild);
       }
-      if(hand!=null){
+      if(hand!=null || hand.length>0){
           for(let i=0; i<hand.length; i++){
         let image=document.createElement("img");
 	    image.src ="./Images/cardback.png";
@@ -38,7 +38,7 @@ class Fishview {
 	   human.removeChild(human.lastChild);
      }
       
-      if(hand!=null){
+      if(hand!=null || hand.length>0){
           for(let i=0; i<hand.length; i++){
                 let image=document.createElement("img");
 	           image.src ="./Images/"+hand[i].toString()+".png";
