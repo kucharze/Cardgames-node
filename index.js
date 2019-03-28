@@ -100,11 +100,12 @@ var MongoClient=require('mongodb').MongoClient;
 var database=null;
 //var url = "mongodb://localhost:27017/mydb";
 
-var url = "mongodb://localhost:27017/cardgames";
+var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
+//localhost:27017/cardgames";
 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
+  var dbo = db.db("node_deploy");
     database=dbo;
 });
 
@@ -341,9 +342,7 @@ function createlogin(action,ws){
     let good=true;
     console.log("Setting up a login");
     console.log('received: %s', action.user + " "+ action.password);
-    let mes={};
-    mes.action="Succesfully set up a login "+action.user;
-    console.log("Loged in");
+    
     var myobj = { name: action.user, password: action.password };
     var query = { name: action.user};
     database.collection("users").find(query).toArray(function(err, result) {
@@ -363,10 +362,17 @@ function createlogin(action,ws){
             webSockets[index].username=action.user;
             console.log("websocket login is "+ws.username);
             console.log("websocket list login is "+webSockets[index].username);
+            
+            let mes={};
+            mes.action="Show user";
+            mes.user=action.user;
+            console.log("We are tring to log in");
+            console.log("Loged in");
+            webSockets[index].send(JSON.stringify(mes));
+            
         }
         console.log(result);
     });
-    webSockets[0].send(JSON.stringify(mes));
 }
 
 //Login to the website
@@ -391,6 +397,12 @@ function login(action,ws){
             webSockets[index].username=action.user;
             console.log("login websocket login is "+ws.username);
             console.log("login websocket list login is "+webSockets[index].username);
+            let mes={};
+            mes.action="Show user";
+            mes.user=action.user;
+            console.log("We are tring to log in");
+    
+            webSockets[0].send(JSON.stringify(mes));
         }
         else{
             console.log("Username or Password not found");
@@ -398,11 +410,7 @@ function login(action,ws){
         console.log("Login");
         console.log(result);
     });
-    let mes={};
-    mes.action="Loged in with user "+action.user;
-    console.log("We are tring to log in");
     
-    webSockets[0].send(JSON.stringify(mes));
 }
 
 /*
@@ -457,8 +465,8 @@ function eightRecord(message, ws){
             console.log("Entry already exists");
             /////////
             if(result[0].moves > message.moves){
-                var newvalues = { $set: {name: webSockets[index].username, moves: "Canyon 123" } };
-                dbo.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
+                var newvalues = { $set: {user: webSockets[index].username, moves: message.moves } };
+                database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Crazy Eights moves document updated");
                 });
@@ -820,6 +828,50 @@ function snipSnapSnorum(message,ws){
         console.log("Quitting snip snap snorum");
         snipQuit(snipSockets.indexOf(ws));
     }
+    else if(message.gameact=="record"){
+        console.log("We are recording a result to the database");
+        snipRecord(message,ws);
+    }
+}
+
+function snipRecord(message, ws){
+    let index=webSockets.indexOf(ws);
+    if((webSockets[index].username=="") || (webSockets[index].username==null)){
+        console.log("Not logged in. Cannot record result");
+        let obj={};
+        obj.action="Snip Snap Snorum";
+        obj.message="You are not logged in, you cannot record a result to the leaderboard";
+        ws.send(JSON.stringify(obj));
+        return;
+    }
+    else{
+        var query={name: webSockets[index].username};
+    }
+    
+    database.collection("Snip Snap Snorum times").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if(result.length>0){
+            console.log("Entry already exists");
+            if((result[0].mins > message.mins) || ((result[0].mins == message.mins) && (result[0].secs > message.secs))){
+                console.log("Atempting to update a value");
+                var newvalues = { $set: {name: webSockets[index].username, mins: message.mins, secs: message.secs} };
+                database.collection("Snip Snap Snorum times").updateOne(query, newvalues, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 Snip Snap Snorum times document updated");
+                });
+            }
+        }
+        else{
+            
+            query={name: webSockets[index].username, mins: message.mins, secs: message.secs};
+            database.collection("Snip Snap Snorum times").insertOne(query, function(err, res) {
+                if (err) throw err;
+                console.log("1 Snip Snap Snorum times document inserted");
+            });
+            
+        }
+        console.log(result);
+    });
 }
 
 //*/
@@ -838,7 +890,6 @@ function snipPlay(ws){
         obj.yourCards = snipPlayers[snipSockets.indexOf(ws)].getHandCopy();
         obj.readyToPlay = false;
         snipSockets[snipSockets.indexOf(ws)].send(JSON.stringify(obj));
-        //*/
     } else if(snipSockets.indexOf(ws)%2==1){  
         let obj = {};
         obj.action="Snip Snap Snorum";
@@ -850,7 +901,6 @@ function snipPlay(ws){
         obj.yourCards = snipPlayers[snipSockets.indexOf(ws)].getHandCopy();
         obj.readyToPlay = true;
         snipSockets[snipSockets.indexOf(ws)].send(JSON.stringify(obj));
-        //*/
         
         ///*
             //set up for a new game to be played if more players join
@@ -1082,6 +1132,48 @@ function playGoFish(message, ws){
         console.log("Quitting play for go fish");
         quitFish(fishSockets.indexOf(ws));
     }
+    else if(message.gameact=="record"){
+        console.log("Recording a go fish result");
+        fishRecord(message,ws);
+    }
+}
+
+function fishRecord(message, ws){
+    let index=webSockets.indexOf(ws);
+    if((webSockets[index].username=="") || (webSockets[index].username==null)){
+        console.log("Not logged in. Cannot record result");
+        let obj={};
+        obj.action="Go Fish";
+        obj.message="You are not logged in, you cannot record a result to the leaderboard";
+        ws.send(JSON.stringify(obj));
+        return;
+    }
+    else{
+        var query={user: webSockets[index].username};
+    }
+    
+    database.collection("Go Fish moves").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if(result.length>0){
+            console.log("Entry already exists");
+            /////////
+            if(result[0].moves > message.moves){
+                var newvalues = { $set: {user: webSockets[index].username, moves: message.moves } };
+                database.collection("Go Fish moves").updateOne(query, newvalues, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 Go Fish moves document updated");
+                });
+            }
+        }
+        else{
+            query={user: webSockets[index].username, moves: message.moves};
+            database.collection("Go Fish moves").insertOne(query, function(err, res) {
+                if (err) throw err;
+                console.log("1 Go Fish moves document inserted");
+            }); 
+        }
+        console.log(result);
+    });
 }
 
 function fishPlay(ws){
