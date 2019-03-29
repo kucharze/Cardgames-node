@@ -459,14 +459,14 @@ function eightRecord(message, ws){
         //console.log("Clientcounter = "+clientCounter)
     }
     
-    database.collection("CrazyEightsmoves").find(query).toArray(function(err, result) {
+    database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
         if (err) throw err;
         if(result.length>0){
             console.log("Entry already exists");
             /////////
             if(result[0].moves > message.moves){
                 var newvalues = { $set: {user: webSockets[index].username, moves: message.moves } };
-                database.collection("CrazyEightsmoves").updateOne(query, newvalues, function(err, res) {
+                database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Crazy Eights moves document updated");
                 });
