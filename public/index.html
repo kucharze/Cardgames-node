@@ -131,6 +131,12 @@ div.statusBox {
                 else if(message.action=="Show user"){
                     document.getElementById("User").innerHTML=message.user;
                 }
+                else if(message.action=="Creation failed"){
+                    //Failed to create a login
+                }
+                else if(message.action=="Login failed"){
+                    //failed to login succesfully
+                }
             }
     </script>
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
@@ -144,9 +150,8 @@ div.statusBox {
     <button class="tablinks" onclick="openTab(event, 'Login')">Login</button>
     <button class="tablinks" onclick="openTab(event, 'sugestions')">Suggestions</button>
     <button class="tablinks" onclick="openTab(event, 'boards')">Leaderboards</button>
-    <button class="tablinks" onclick="openTab(event, 'Update')">Updates</button>
-    </div>
-    <div class="tab">
+</div>
+<div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Eight')">Crazy Eights</button>
     <button class="tablinks" onclick="openTab(event, 'Snap')">Snip Snap Snorum</button>
     <button class="tablinks" onclick="openTab(event, 'Jack')">Blackjack</button>
@@ -154,24 +159,21 @@ div.statusBox {
     <button class="tablinks" onclick="openTab(event, 'gofish')">Go fish</button>
     <button class="tablinks" onclick="openTab(event, 'solitare')">Spider Solitare</button>
     <button class="tablinks" onclick="openTab(event, 'War')">War</button>
-
 </div>
-<div id="Update" class="tabcontent">
-    <h1>You can find Upates to this site here</h1>
-    <h2>Version 0.2.3</h2>
-    <p>Adding features for Databases for leaderboard and user players.<br>
-    Adding new featurs client and server side to handle database operations</p>
-    </div>
+
 <div id="Account" class="tabcontent">
-    <label id="data">Information</label>
-        <h1>Card Games Login</h1>
-        <h2>Create a Login</h2>
-        <h3>Username</h3>
-        <textarea id="user"></textarea>
-        <h3>Password</h3>
-        <textarea id="pass"></textarea><br>
-        <p>You must have a password of at least 8 characters</p>
-        <input type="button" onclick=insert() value="Create an account">
+    <h1>Card Games Login</h1>
+    <h2>Create a Login</h2>
+    <h3>Username</h3>
+    <input id="user" type="text">
+    <h3>Screenname</h3>
+    <input id="screenname"><br>
+    <h3>Password</h3>
+    <input id="pass" type="password">
+    <h3>Confirm Password</h3>
+    <input id="pass2" type="password">
+    <p>You must have a password of at least 8 characters</p>
+    <input type="button" onclick=insert() value="Create an account">
 </div>
     
     <div id="Login" class="tabcontent">
@@ -185,15 +187,25 @@ div.statusBox {
         <script>
             function insert(){
                 var user = document.getElementById("user").value;
+                var screen=document.getElementById("screename").value;
                 var pass = document.getElementById("pass").value;
-                var table=document.getElementById("data");
+                var pass2=document.getElementById("pass2").value;
+                //var table=document.getElementById("data");
                 if(pass.length<8){
                     alert("Password must be at least 8 characters long");
-                    document.getElementById("user").value=" ";
-                    document.getElementById("pass").value=" ";
+                    document.getElementById("user").value="";
+                    document.getElementById("pass").value="";
+                    document.getElementById("pass2").value="";
                     return;
                 }
-            
+                if(pass != pass2){
+                    alert("Passwords do not match");
+                    document.getElementById("user").value="";
+                    document.getElementById("pass").value="";
+                    document.getElementById("pass2").value="";
+                    return;
+                }
+                
                 sign=true;
                 let data={};
                 data.action="create";
@@ -202,7 +214,7 @@ div.statusBox {
                 ws.send(JSON.stringify(data));
             
                 document.getElementById("8on").disabled=false;
-                table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
+                //table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
                 document.getElementById("user").value=" ";
                 document.getElementById("pass").value=" ";
             }
@@ -789,7 +801,6 @@ If the face-up cards are again equal then the battle repeats with another set of
 </div>
     
 <div id="sugestions" class="tabcontent">
-    <label id="suggestion">Suggestion list:<br></label>
   <h1 style="font-size: 40px">Suggestions</h1>
   <p>Have any ideas or complaints about our website.<br>
     You may submit them down below.</p>.
@@ -797,6 +808,21 @@ If the face-up cards are again equal then the battle repeats with another set of
     <textarea id="sug"></textarea><br>
     
     <input type="button" onclick=suggest() value="Submit" font-size="25px">
+    <script>
+        function suggest(){
+            let obj={};
+            obj.action="Suggest";
+            var suggestion = document.getElementById("sug").value;
+            obj.suggestion=suggestion;
+            var table=document.getElementById("suggestion");
+            document.getElementById("sug").value=" ";
+            //table.innerHTML=table.innerHTML+user+"<br>";
+            document.getElementById("sug").value=" ";
+            ws.send(JSON.stringify(obj));
+           // document.getElementById("pass").value=" ";
+        }
+    </script>
+    
 </div>
     
 <div id="boards" class="tabcontent">
@@ -804,8 +830,8 @@ If the face-up cards are again equal then the battle repeats with another set of
   <p>Use the controls below to view each of the leaderboards.</p>.
     <select id="leaderboards" name="Leaderboards">
         <option value="none">Select a leaderboard</option>
-        <option>Crazy Eights</option>
-        <option>Snip Snap Snorum</option>
+        <option>Crazy Eights Moves</option>
+        <option>Snip Snap Snorum </option>
         <option>BlackJack</option>
         <option>Matching</option>
         <option>Go Fish</option>
@@ -816,6 +842,15 @@ If the face-up cards are again equal then the battle repeats with another set of
     <input type="button" onclick=load() value="Load Leaderboard" font-size="20px" ><br>
     <p id="board">This is the spot where the leaderboards will appear<br>
     when the button is clicked with a value selected<br></p>
+    <script>
+        function load(){
+            var e = document.getElementById("leaderboards");
+            var strUser = e.options[e.selectedIndex].text;
+            document.getElementById("board").innerHTML=strUser;
+            //alert(strUser);
+        }
+    </script>
+    
 </div>
     
 <script>
@@ -834,26 +869,6 @@ function openTab(evt, cityName) {//Code for opening tabs
     //evt.currentTarget.className += " active";
 }
 </script>
-        <script>
-            
-        function suggest(){
-            var user = document.getElementById("sug").value;
-            var table=document.getElementById("suggestion");
-                document.getElementById("sug").value=" ";
-            table.innerHTML=table.innerHTML+user+"<br>";
-            document.getElementById("sug").value=" ";
-           // document.getElementById("pass").value=" ";
-        }
-    </script>
-    
-    <script>
-        function load(){
-            var e = document.getElementById("leaderboards");
-            var strUser = e.options[e.selectedIndex].text;
-            document.getElementById("board").innerHTML=strUser;
-            //alert(strUser);
-        }
-    </script>
     <script>
         var acc = document.getElementsByClassName("accordion");
         var i;
