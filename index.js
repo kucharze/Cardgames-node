@@ -322,8 +322,8 @@ function cleanUp(){
         fishPlayers.push(p2);
     }
     
-    console.log("eightsoketslength "+eightSockets.length);
-    console.log("eightPlayerslength "+crazyEightPlayers.length);
+    //console.log("eightsoketslength "+eightSockets.length);
+    //console.log("eightPlayerslength "+crazyEightPlayers.length);
     //console.log("Snipsocketslength "+snipSockets.length);
     //console.log("eightsocketslength "+fishSockets.length);  
 }
@@ -358,8 +358,8 @@ function createlogin(action,ws){
     console.log("Setting up a login");
     console.log('received: %s', action.user + " "+ action.password);
     
-    var myobj = { name: action.user, password: action.password };
-    var query = { name: action.user};
+    var myobj = { name: action.user, screenname: action.screenname, password: action.password };
+    var query = { screename: action.screenname};
     database.collection("users").find(query).toArray(function(err, result) {
         if (err) throw err;
         let index=webSockets.indexOf(ws);
@@ -372,9 +372,9 @@ function createlogin(action,ws){
                 console.log("1 user document inserted");
             });
             ws.logedIn=true;
-            webSockets[index].logedIn=true;
-            ws.username=action.user;
-            webSockets[index].username=action.user;
+            //webSockets[index].logedIn=true;
+            ws.username=action.screenname;
+            webSockets[index].username=action.screenname;
             console.log("websocket login is "+ws.username);
             console.log("websocket list login is "+webSockets[index].username);
             
@@ -470,7 +470,7 @@ function eightRecord(message, ws){
         return;
     }
     else{
-        var query={user: webSockets[index].username};
+        var query={screenname: webSockets[index].username};
         //console.log("Clientcounter = "+clientCounter)
     }
     
@@ -480,7 +480,7 @@ function eightRecord(message, ws){
             console.log("Entry already exists");
             /////////
             if(result[0].moves > message.moves){
-                var newvalues = { $set: {user: webSockets[index].username, moves: message.moves } };
+                var newvalues = { $set: {screename: webSockets[index].username, moves: message.moves } };
                 database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Crazy Eights moves document updated");
@@ -488,7 +488,7 @@ function eightRecord(message, ws){
             }
         }
         else{
-            query={user: webSockets[index].username, moves: message.moves};
+            query={screenname: webSockets[index].username, moves: message.moves};
             database.collection("Crazy Eights moves").insertOne(query, function(err, res) {
                 if (err) throw err;
                 console.log("1 Crazy Eights moves document inserted");
@@ -596,7 +596,7 @@ function cardSelected(message, playerNumber){
     
     if(odd){//odd player number
         if(crazyEightPlayers[playerNumber].isHandEmpty()) {
-            console.log("odd player wins");
+            //console.log("odd player wins");
             obj.action="Crazy Eights";
            obj.status = "Congratulations, You won";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber-1].getHandCopy().length;
@@ -617,7 +617,7 @@ function cardSelected(message, playerNumber){
 
             eightSockets[playerNumber-1].send(JSON.stringify(obj)); 
         }else if(crazyEightPlayers[playerNumber-1].isHandEmpty()) {
-            console.log("odd player's opponent wins");
+           // console.log("odd player's opponent wins");
             obj.action="Crazy Eights";
             obj.status = "Congratulations, You won";
             obj.numberOfOpponentCards = crazyEightPlayers[1-playerNumber].getHandCopy().length;
@@ -638,7 +638,7 @@ function cardSelected(message, playerNumber){
 
             eightSockets[1-playerNumber].send(JSON.stringify(obj)); 
     }else{
-        console.log("odd player, no winners yet");
+       // console.log("odd player, no winners yet");
             obj.action="Crazy Eights";
             obj.status = "Waiting for opponent to play";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber-1].getHandCopy().length;
@@ -661,7 +661,7 @@ function cardSelected(message, playerNumber){
       }
     }else{//even player number
         if(crazyEightPlayers[playerNumber].isHandEmpty()) {
-            console.log("Even player wins");
+            //console.log("Even player wins");
             obj.action="Crazy Eights";
             obj.status = "Congratulations, You won";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber+1].getHandCopy().length;
@@ -683,7 +683,7 @@ function cardSelected(message, playerNumber){
             eightSockets[playerNumber+1].send(JSON.stringify(obj));
         
     }else if(crazyEightPlayers[playerNumber+1].isHandEmpty()) {
-        console.log("Even Player opponent wins");
+        //console.log("Even Player opponent wins");
         obj.action="Crazy Eights";
             obj.status = "Congratulations, You won";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber+1].getHandCopy().length;
@@ -705,7 +705,7 @@ function cardSelected(message, playerNumber){
             eightSockets[playerNumber+1].send(JSON.stringify(obj));
     }
       else {
-          console.log("Even player, no winner yet");
+          //console.log("Even player, no winner yet");
           obj.action="Crazy Eights";
             obj.status = "Waiting for opponent to play";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber+1].getHandCopy().length;
@@ -870,7 +870,7 @@ function snipRecord(message, ws){
         return;
     }
     else{
-        var query={name: webSockets[index].username};
+        var query={screename: webSockets[index].username};
     }
     
     database.collection("Snip Snap Snorum times").find(query).toArray(function(err, result) {
@@ -879,7 +879,7 @@ function snipRecord(message, ws){
             console.log("Entry already exists");
             if((result[0].mins > message.mins) || ((result[0].mins == message.mins) && (result[0].secs > message.secs))){
                 console.log("Atempting to update a value");
-                var newvalues = { $set: {name: webSockets[index].username, mins: message.mins, secs: message.secs} };
+                var newvalues = { $set: {screename: webSockets[index].username, mins: message.mins, secs: message.secs} };
                 database.collection("Snip Snap Snorum times").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Snip Snap Snorum times document updated");
@@ -888,7 +888,7 @@ function snipRecord(message, ws){
         }
         else{
             
-            query={name: webSockets[index].username, mins: message.mins, secs: message.secs};
+            query={screename: webSockets[index].username, mins: message.mins, secs: message.secs};
             database.collection("Snip Snap Snorum times").insertOne(query, function(err, res) {
                 if (err) throw err;
                 console.log("1 Snip Snap Snorum times document inserted");
@@ -1174,7 +1174,7 @@ function fishRecord(message, ws){
         return;
     }
     else{
-        var query={user: webSockets[index].username};
+        var query={screename: webSockets[index].username};
     }
     
     database.collection("Go Fish moves").find(query).toArray(function(err, result) {
@@ -1183,7 +1183,7 @@ function fishRecord(message, ws){
             console.log("Entry already exists");
             /////////
             if(result[0].moves > message.moves){
-                var newvalues = { $set: {user: webSockets[index].username, moves: message.moves } };
+                var newvalues = { $set: {screename: webSockets[index].username, moves: message.moves } };
                 database.collection("Go Fish moves").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Go Fish moves document updated");
@@ -1191,7 +1191,7 @@ function fishRecord(message, ws){
             }
         }
         else{
-            query={user: webSockets[index].username, moves: message.moves};
+            query={screename: webSockets[index].username, moves: message.moves};
             database.collection("Go Fish moves").insertOne(query, function(err, res) {
                 if (err) throw err;
                 console.log("1 Go Fish moves document inserted");
