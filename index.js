@@ -195,6 +195,10 @@ ws.on('connection', function connection(ws) {
             console.log("Going to Go Fish");
             playGoFish(userMess,ws);
         }
+        else if(userMess.action=="Suggest"){
+            console.log("Making a suggestion");
+            suggest(userMess);
+        }
         //console.log('received: %s', userMess.user + " "+ userMess.password);
         //connectedUsers.push(userMess.user);
     });
@@ -322,6 +326,16 @@ function cleanUp(){
     console.log("eightPlayerslength "+crazyEightPlayers.length);
     //console.log("Snipsocketslength "+snipSockets.length);
     //console.log("eightsocketslength "+fishSockets.length);  
+}
+
+function suggest(message){
+    let suggestion=message.suggestion;
+    
+    query={suggestion: message.suggestion};
+    database.collection("Suggestions").insertOne(query, function(err, res) {
+        if (err) throw err;
+        console.log("1 Suggestions document inserted");
+    });
 }
 
 function sendMessage(message){//For a later use of chatroom function
@@ -479,7 +493,6 @@ function eightRecord(message, ws){
                 if (err) throw err;
                 console.log("1 Crazy Eights moves document inserted");
             });
-            
         }
         console.log(result);
     });
