@@ -178,7 +178,7 @@ div.statusBox {
     
     <div id="Login" class="tabcontent">
         <h2>Already have a login? Sign in here</h2>
-            <h3>Username</h3>
+            <h3>Username or Screenname</h3>
             <input type="text" id="username" name="User">
             <h3>Password</h3>
             <input type="password" id="password" name="Pass">
@@ -187,19 +187,24 @@ div.statusBox {
         <script>
             function insert(){
                 var user = document.getElementById("user").value;
-                var screen=document.getElementById("screename").value;
+                var screen=document.getElementById("screenname").value;
                 var pass = document.getElementById("pass").value;
                 var pass2=document.getElementById("pass2").value;
                 //var table=document.getElementById("data");
+                if(user=="" || pass=="" || pass2=="" || screen==""){
+                    alert("Not enough information provided");
+                }
                 if(pass.length<8){
                     alert("Password must be at least 8 characters long");
                     document.getElementById("user").value="";
+                    document.getElementById("screenname").value="";
                     document.getElementById("pass").value="";
                     document.getElementById("pass2").value="";
                     return;
                 }
                 if(pass != pass2){
                     alert("Passwords do not match");
+                    document.getElementById("screenname").value="";
                     document.getElementById("user").value="";
                     document.getElementById("pass").value="";
                     document.getElementById("pass2").value="";
@@ -210,13 +215,16 @@ div.statusBox {
                 let data={};
                 data.action="create";
                 data.user=user;
+                data.screenname=screen;
                 data.password=pass;
                 ws.send(JSON.stringify(data));
             
                 document.getElementById("8on").disabled=false;
                 //table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
-                document.getElementById("user").value=" ";
-                document.getElementById("pass").value=" ";
+                document.getElementById("screenname").value="";
+                document.getElementById("user").value="";
+                document.getElementById("pass").value="";
+                document.getElementById("pass2").value="";
             }
             
             function login(){
