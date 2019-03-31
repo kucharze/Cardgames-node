@@ -131,11 +131,16 @@ div.statusBox {
                 else if(message.action=="Show user"){
                     document.getElementById("User").innerHTML=message.user;
                 }
-                else if(message.action=="Creation failed"){
+                else if(message.action=="Creation"){
                     //Failed to create a login
+                    document.getElementById("Creation status").innerHTML=message.status;
                 }
-                else if(message.action=="Login failed"){
+                else if(message.action=="Login"){
                     //failed to login succesfully
+                    document.getElementById("Login status").innerHTML=message.status;
+                }
+                else if(message.action=="Leaderboard"){
+                    //Display the leaderboard in the message
                 }
             }
     </script>
@@ -164,6 +169,7 @@ div.statusBox {
 <div id="Account" class="tabcontent">
     <h1>Card Games Login</h1>
     <h2>Create a Login</h2>
+    <p id="Creation status"></p>
     <h3>Username</h3>
     <input id="user" type="text">
     <h3>Screenname</h3>
@@ -178,6 +184,7 @@ div.statusBox {
     
     <div id="Login" class="tabcontent">
         <h2>Already have a login? Sign in here</h2>
+        <p id="Login status"></p>
             <h3>Username or Screenname</h3>
             <input type="text" id="username" name="User">
             <h3>Password</h3>
@@ -350,7 +357,6 @@ div.statusBox {
                 //buzz player that they will forfiet the game if they quit, switch back if they decide to continue;
                 if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                     //shut off online mode
-                    //alert("shutting off online mode");
                     online=false;
                     let quit={};
                     quit.action="Crazy Eights";
@@ -501,7 +507,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                 }else{
                     if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                         //shut off online mode
-                        //alert("shutting off online mode");
                         document.getElementById("snipreset").disabled=false;
                         snipOn=false;
                         let quit={};
@@ -511,10 +516,11 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                         snip.goOffline();
                         snip=new Snippres();
                         snip.play();
-                } else {
-                    // Do nothing! Just return to the game
-                    return;
-                }
+                        document.getElementById("passturn").disabled=false;
+                    }else{
+                        // Do nothing! Just return to the game
+                        return;
+                    }
                 }
             }
             
