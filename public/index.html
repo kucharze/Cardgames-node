@@ -141,6 +141,11 @@ div.statusBox {
                 }
                 else if(message.action=="Leaderboard"){
                     //Display the leaderboard in the message
+                    
+                    let b=document.getElementById("board");
+                    for(var i=0; i<20; i++){
+                        
+                    }
                 }
             }
     </script>
@@ -151,8 +156,7 @@ div.statusBox {
     <center><p style="color: darkgreen">This site is currently under construction.  Some features might not work as intended.</p></center>
 
 <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Account')">Create an account</button>
-    <button class="tablinks" onclick="openTab(event, 'Login')">Login</button>
+    <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
     <button class="tablinks" onclick="openTab(event, 'sugestions')">Suggestions</button>
     <button class="tablinks" onclick="openTab(event, 'boards')">Leaderboards</button>
 </div>
@@ -167,8 +171,8 @@ div.statusBox {
 </div>
 
 <div id="Account" class="tabcontent">
-    <h1>Card Games Login</h1>
-    <h2>Create a Login</h2>
+    <h1>Card Games Login </h1>
+    <h2>Create a Login to have your name added to leaderboards</h2>
     <p id="Creation status"></p>
     <h3>Username</h3>
     <input id="user" type="text">
@@ -180,9 +184,7 @@ div.statusBox {
     <input id="pass2" type="password">
     <p>You must have a password of at least 8 characters</p>
     <input type="button" onclick=insert() value="Create an account">
-</div>
-    
-    <div id="Login" class="tabcontent">
+    <br><br>
         <h2>Already have a login? Sign in here</h2>
         <p id="Login status"></p>
             <h3>Username or Screenname</h3>
@@ -508,6 +510,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                         //shut off online mode
                         document.getElementById("snipreset").disabled=false;
+                        document.getElementById("passturn").disabled=false;
                         snipOn=false;
                         let quit={};
                         quit.action="Snip Snap Snorum";
@@ -516,7 +519,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                         snip.goOffline();
                         snip=new Snippres();
                         snip.play();
-                        document.getElementById("passturn").disabled=false;
                     }else{
                         // Do nothing! Just return to the game
                         return;
