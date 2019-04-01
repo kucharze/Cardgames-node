@@ -42,7 +42,7 @@ class Fishpres {
         }
         else{
            if(this.human.findValue(this.askCard.getValue())!=null ){
-            this.fview.displayMessage("You have a "+this.askCard.getValue()+ " that you can give");
+            this.fview.displayMessage("Your hand contains an "+this.askCard.getValue());
             return;
         }
         else{
@@ -93,7 +93,7 @@ class Fishpres {
                             let obj={};
                             obj.action="Go Fish";
                             obj.gameact="record";
-                            obj.moves=this.moves;
+                            obj.fours=this.humNumFours;
                             this.socket.send(JSON.stringify(obj));
                         }
                     else{
@@ -147,14 +147,24 @@ class Fishpres {
             if(this.deck.isEmpty()){
                 if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
                    if(this.humNumFours>this.comNumFours){
-                       this.fview.displayMessage("You win!!");
-                       document.getElementById("No").disabled=true;
-                       
                        let obj={};
                        obj.action="Go Fish";
                        obj.gameact="record";
-                       obj.moves=this.moves;
+                       obj.fours=this.humNumFours;
                        this.socket.send(JSON.stringify(obj));
+                       
+                       this.fview.displayMessage("You win!!");
+                       document.getElementById("No").disabled=true;
+                       
+                       if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
+                            this.fview.displayHumanHand(null);
+                           this.fview.displayComputerHand(null);
+                        }
+                       else{
+                            this.fview.displayHumanHand(this.human.getHandCopy());
+                            this.fview.displayComputerHand(this.computer.getHandCopy());
+                        }
+                       
                        return;
                     }
                     else{
@@ -192,23 +202,18 @@ class Fishpres {
             if(playerval==true){
                 for(var i=0; i<5; i++){
                     if(this.deck.isEmpty()){
-                        
+                        break;
                     }
-                }
-                while(!(this.deck.length==0) || i<5){
-                    alert("adding cards to player's hand from deck "+i);
+                     alert("adding cards to player's hand from deck "+i);
                     this.human.add(this.deck.dealACard());
-                    i++;
                 }
             }
             else{
                 for(var i=0; i<5; i++){
-                    
-                }
-                while(!(this.deck.length==0) || i<5){
-                    alert("adding cards to player's hand from deck "+i);
+                    if(this.deck.isEmpty()){
+                        break;
+                    }
                     this.computer.add(this.deck.dealACard());
-                    i++;
                 }
             }
     }
@@ -216,10 +221,10 @@ class Fishpres {
 //Sets up the start of the game
  play(){
      //below is for purposes of testing and demoing
-     for(var i=0; i<15; i++){
+     for(var i=0; i<17; i++){
          this.human.list.push(this.deck.dealACard());
      }
-     for(var i=0; i<15; i++){
+     for(var i=0; i<17; i++){
          this.computer.list.push(this.deck.dealACard());
      }
      this.fview.displayComputerHand(this.computer.getHandCopy());
@@ -243,6 +248,12 @@ class Fishpres {
 	    //this.pile.acceptACard(this.deck.dealACard());
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
+        for(var i=0; i<17; i++){
+         this.human.list.push(this.deck.dealACard());
+        }
+        for(var i=0; i<17; i++){
+         this.computer.list.push(this.deck.dealACard());
+        } 
         
         //this.fview.displayPileTopCard(this.pile.getTopCard());
         this.fview.displayComputerHand(this.computer.getHandCopy());

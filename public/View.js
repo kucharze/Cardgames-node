@@ -37,12 +37,12 @@ class View {
       }
   for(let i=0; i<hand.length; i++){
       let image=document.createElement("img");
-	image.src ="./Images/cardback.png";
-	image.title=hand[i].toString();
-	image.class="card positionable";
-	image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
-	cpu.appendChild(image);
-   }
+	   image.src ="./Images/cardback.png";
+	   image.title=hand[i].toString();
+	   image.class="card positionable";
+	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
+	   cpu.appendChild(image);
+    }
   }
 
   displayHumanHand(hand){
@@ -52,12 +52,12 @@ class View {
       }
      for(let i=0; i<hand.length; i++){
          let image=document.createElement("img");
-	 image.src ="./Images/"+hand[i].toString()+".png";
-	 image.title=hand[i].toString();
-	 image.class="card positionable";
-	 image.style="left: "+  (15*i) + " px; z-index:" + i +"";
-	 human.appendChild(image);
-   }
+	       image.src ="./Images/"+hand[i].toString()+".png";
+	       image.title=hand[i].toString();
+	       image.class="card positionable";
+	       image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+            human.appendChild(image);
+     }
   }
     
     eraseHands(){

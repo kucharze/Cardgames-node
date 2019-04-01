@@ -58,7 +58,7 @@ class Fishview {
 	       image.src ="./Images/"+card.toString()+".png";
 	       image.title=card.toString();
           image.class="card positionable";
-          image.style="position: absolute; left: "+ ((40*(this.humanPoints))+10 ) + "px; z-index:" + i +";";
+          image.style="left: "+ ((40*(this.humanPoints))+10 ) + "px; z-index:" + i +";";
             //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
         this.humanPoints++;
         p.appendChild(image);
@@ -71,7 +71,7 @@ class Fishview {
 	       image.src ="./Images/"+card.toString()+".png";
 	       image.title=card.toString();
           image.class="card positionable";
-          image.style="position: absolute; left: "+ ((40*this.comPoints)+10 ) + "px; top:+" + 360 +"px; z-index:" + i +";";
+          image.style="left: "+ ((40*this.comPoints)+10 ) + "px; top:" + 370 +"px; z-index:" + i +";";
         //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
         this.comPoints++;
         p.appendChild(image);
