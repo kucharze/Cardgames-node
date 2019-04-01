@@ -174,9 +174,9 @@ ws.on('connection', function connection(ws) {
     //on connect message
     ws.on('message', function incoming(message) {
         let userMess = JSON.parse(message);
-        console.log("eightsoketslength "+eightSockets.length);
+        //console.log("eightsoketslength "+eightSockets.length);
         //console.log("Snipsocketslength "+snipSockets.length);
-        //console.log("eightsocketslength "+fishSockets.length);
+        //console.log("fishSocketslength "+fishSockets.length);
         
         //take an action based on the action of the message
         //let s=webSockets.indexOf(ws);
@@ -203,8 +203,11 @@ ws.on('connection', function connection(ws) {
             console.log("Making a suggestion");
             suggest(userMess);
         }
+        else if(userMess.action=="Leaderboard"){
+            console.log("Loading a leaderboard to send to the user");
+            loadLeadeboard(userMess,ws);
+        }
         //console.log('received: %s', userMess.user + " "+ userMess.password);
-        //connectedUsers.push(userMess.user);
     });
     ws.on('close',function close(){
         console.log("user is disconnecting");
@@ -332,10 +335,6 @@ function cleanUp(){
         fishComplete.push(false);
     }
     
-    //console.log("eightsoketslength "+eightSockets.length);
-    //console.log("eightPlayerslength "+crazyEightPlayers.length);
-    //console.log("Snipsocketslength "+snipSockets.length);
-    //console.log("eightsocketslength "+fishSockets.length);  
 }
 
 function suggest(message){
@@ -346,6 +345,41 @@ function suggest(message){
         if (err) throw err;
         console.log("1 Suggestions document inserted");
     });
+}
+
+function loadLeadeboard(message, ws){
+    var mysort=null;
+    
+    if(!(ws.username=="") || !(ws.username==null)){
+        while(false){
+            console.log("Not logged in. Cannot record result");
+            let obj={};
+            obj.action="Crazy Eights";
+            obj.message="You are not logged in, you cannot record a result to the leaderboard";
+            ws.send(JSON.stringify(obj));
+        }
+    }
+    
+    if(message.board=="Crazy Eights moves"){
+        mysort = {moves: 1 };
+    }
+    else if(message.board=="Snip Snap Snorum times"){
+        mysort = {mins: 1 , secs: 1};
+    }
+      
+    database.collection(message.board).find().sort(mysort).toArray(function(err, result) {
+        if (err) throw err;
+        let mes={};
+        console.log("Displaying a leaderboard");
+        mes.type=message.board;
+        mes.action="Leaderboard";
+        mes.board=result;
+            
+        ws.send(JSON.stringify(mes));
+        
+        console.log(result);
+  });
+    
 }
 
 function sendMessage(message){//For a later use of chatroom function
@@ -897,7 +931,7 @@ function snipRecord(message, ws){
         return;
     }
     else{
-        var query={screename: webSockets[index].username};
+        var query={screenname: webSockets[index].username};
     }
     
     database.collection("Snip Snap Snorum times").find(query).toArray(function(err, result) {
@@ -906,7 +940,7 @@ function snipRecord(message, ws){
             console.log("Entry already exists");
             if((result[0].mins > message.mins) || ((result[0].mins == message.mins) && (result[0].secs > message.secs))){
                 console.log("Atempting to update a value");
-                var newvalues = { $set: {screename: webSockets[index].username, mins: message.mins, secs: message.secs} };
+                var newvalues = { $set: {screenname: webSockets[index].username, mins: message.mins, secs: message.secs} };
                 database.collection("Snip Snap Snorum times").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Snip Snap Snorum times document updated");
@@ -914,7 +948,7 @@ function snipRecord(message, ws){
             }
         }
         else{
-            query={screename: webSockets[index].username, mins: message.mins, secs: message.secs};
+            query={screenname: webSockets[index].username, mins: message.mins, secs: message.secs};
             database.collection("Snip Snap Snorum times").insertOne(query, function(err, res) {
                 if (err) throw err;
                 console.log("1 Snip Snap Snorum times document inserted");
@@ -1269,7 +1303,7 @@ function fishPlay(ws){
                 p1.add(deck.dealACard());
                 p2.add(deck.dealACard());
             }
-                
+            fishComplete.push(false);
             fishPlayers.push(p1);
             fishPlayers.push(p2);
     }
@@ -1792,6 +1826,7 @@ function fishWinner(message, playerNumber){
             fishSockets[playerNumber].send(JSON.stringify(obj));
         }
     }
+    fishComplete[gamenum]=true;
 }
 
 function checkAmount(player){
@@ -1848,7 +1883,7 @@ function quitFish(playernumber){
     console.log("Quitting Go Fish");
     if(playernumber%2==0) {//Handles a player leaving the game
         let obj = {};
-        if(fishSockets[playernumber+1]!=null){
+        if(fishSockets[playernumber+1]!=null  && !fishComplete[gamenum]){
             obj.action="Go Fish";
             obj.status = "You win!! Opponent has left the game!";
             obj.numberOfOpponentCards = fishPlayers[playernumber+1].getHandCopy().length;
@@ -1863,7 +1898,7 @@ function quitFish(playernumber){
 
     } else if(playernumber%2==1){
         let obj = {};
-        if(fishSockets[playernumber-1]!=null){
+        if(fishSockets[playernumber-1]!=null && !fishComplete[gamenum]){
             obj.action="Go Fish";
             obj.status = "You win!! Opponent has left the game!";
             obj.numberOfOpponentCards = fishPlayers[playernumber-1].getHandCopy().length;
@@ -1875,5 +1910,6 @@ function quitFish(playernumber){
         }
         fishSockets[playernumber]=null;
     }
+    fishComplete[gamenum]=true;
     cleanUp();
 }
