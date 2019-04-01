@@ -19,7 +19,7 @@ https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesso
 <style>
     /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
-  background-color: #e3e0cc;
+  background-color: #DCDCDC;
   color: #444;
   cursor: pointer;
   padding: 18px;
@@ -32,18 +32,18 @@ https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesso
     
 body {
   height: 100vh;
-  background: #9fa9a3; 
+  background: #696969; 
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .accordion:hover {
-  background-color: #f0f0f0;
+  background-color: #696969;
 }
 
 /* Style the accordion panel. Note: hidden by default */
 .panel {
   padding: 0 18px;
-  background-color: #9fa9a3;
+  background-color: #696969;
   display: none;
   overflow: hidden;
 }
@@ -62,7 +62,7 @@ div.statusBox {
 .tab {
   overflow: hidden;
   border: 1px solid #8B0000;
-  background-color: #9fa9a3;
+  background-color: #696969;
 }
 
 /* Style the buttons inside the tab */
@@ -167,22 +167,17 @@ div.statusBox {
                 }
             }
     </script>
-	
-	
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
-<CENTER><IMG SRC="image-L.png" ALIGN="right" height="190"> </CENTER> 
-<CENTER><IMG SRC="image-R.png" ALIGN="left" height="190"> </CENTER>    
-<center><h2>Play your favorite game now or
-	</br> create an account to play online and track your high score.</p></center><br>
-    <center><p style="color: #9fa9a3">This site is currently under construction.  Some features might not work as intended.</h2></center>
-<br> <br>
+    <label>Active User:</label>
+    <label id="User">No User logged in</label>
+<center><p>Choose your game.</p></center><br>
+    <center><p style="color: darkgreen">This site is currently under construction.  Some features might not work as intended.</p></center>
 
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
     <button class="tablinks" onclick="openTab(event, 'sugestions')">Suggestions</button>
     <button class="tablinks" onclick="openTab(event, 'boards')">Leaderboards</button>
-	</div>
-
+</div>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Eight')">Crazy Eights</button>
     <button class="tablinks" onclick="openTab(event, 'Snap')">Snip Snap Snorum</button>
@@ -193,43 +188,29 @@ div.statusBox {
     <button class="tablinks" onclick="openTab(event, 'War')">War</button>
 </div>
 
-
 <div id="Account" class="tabcontent">
-	
-    <center>
-    <h2><label>Active User:</label></h2>
-	<label id="User">No User logged in</label>
-
-<div>		
-	<center><p> </br> </p></center>
-	<h2>Create a Login to have your name added to leaderboards</h2>
-</div>
-		
-	<p id="Creation status"></p>
-    <h3>Your name:</h3>
+    <h1>Card Games Login </h1>
+    <h2>Create a Login to have your name added to leaderboards</h2>
+    <p id="Creation status"></p>
+    <h3>Username</h3>
     <input id="user" type="text">
-    <h3>Screen username:</h3>
+    <h3>Screenname</h3>
     <input id="screenname"><br>
-    <h3>Password</h3><h5>(Must be 8 characters)</h5>
+    <h3>Password</h3>
     <input id="pass" type="password">
     <h3>Confirm Password</h3>
     <input id="pass2" type="password">
-
+    <p>You must have a password of at least 8 characters</p>
     <input type="button" onclick=insert() value="Create an account">
     <br><br>
-	
-	<div>		
-	<center><p> </br> </p></center>
-	<h2>Already have an account? Sign in here.</h2>
-
+        <h2>Already have a login? Sign in here</h2>
         <p id="Login status"></p>
-            <h3>Screen username</h3>
+            <h3>Username or Screenname</h3>
             <input type="text" id="username" name="User">
             <h3>Password</h3>
             <input type="password" id="password" name="Pass">
             <input type="submit" value="Login" onclick="login()">
-	</div>
-
+        
         <script>
             function insert(){
                 var user = document.getElementById("user").value;
@@ -854,7 +835,7 @@ If the face-up cards are again equal then the battle repeats with another set of
 </div>
     
 <div id="sugestions" class="tabcontent">
-  <h3 style="font-size: 25px">Suggestions</h3>
+  <h1 style="font-size: 40px">Suggestions</h1>
   <p>Have any ideas or complaints about our website.<br>
     You may submit them down below.</p>.
     
@@ -879,9 +860,8 @@ If the face-up cards are again equal then the battle repeats with another set of
 </div>
     
 <div id="boards" class="tabcontent">
-<h3 style="font-size: 25px">Leaderboards</h3>
-	
-  <p>Select the game to view the leaderboards.</p>.
+  <h3>Leaderbaords</h3>
+  <p>Use the controls below to view each of the leaderboards.</p>.
     <select id="leaderboards" name="Leaderboards">
         <option value="none">Select a leaderboard</option>
         <option>Crazy Eights moves</option>
@@ -893,12 +873,11 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>War wins</option>
     </select>
     
-   <input type="button" onclick=load() value="Load Leaderboard" font-size="20px" ><br>
+    <input type="button" onclick=load() value="Load Leaderboard" font-size="20px" ><br>
     <p id="score">Your result will appear hear if your are logged in</p>
     <p id="board">This is the spot where the leaderboards will appear
     when the button is clicked with a value selected<br></p>
     <script>
-		
         function load(){
             let obj={};
             obj.action="Leaderboard";

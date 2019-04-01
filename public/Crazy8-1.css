@@ -1,5 +1,5 @@
 body{
-    background-color:#e3e0cc;
+    background-color:#0A8DF4;
     font-family: Arial;
 }
 
@@ -45,6 +45,6 @@ img.positionable {
     font-size: x-large;
 }
 #d, #h {
-    color: #800000;
+    color: red;
 }
     

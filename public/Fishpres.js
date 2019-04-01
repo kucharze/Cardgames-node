@@ -65,7 +65,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        //alert("Deck has this many cards left"+this.deck.list.length);
+        alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
@@ -85,17 +85,17 @@ class Fishpres {
                 }
                 
                 if(this.deck.isEmpty()){
-                if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
-                   if(this.humNumFours>this.comNumFours){
-                       this.fview.displayMessage("You win!!");
-                       document.getElementById("No").disabled=true;
+                    if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
+                        if(this.humNumFours>this.comNumFours){
+                            this.fview.displayMessage("You win!!");
+                            document.getElementById("No").disabled=true;
                        
-                       let obj={};
-                       obj.action="Go Fish";
-                       obj.gameact="record";
-                       obj.moves=this.moves;
-                       this.socket.send(JSON.stringify(obj));
-                    }
+                            let obj={};
+                            obj.action="Go Fish";
+                            obj.gameact="record";
+                            obj.moves=this.moves;
+                            this.socket.send(JSON.stringify(obj));
+                        }
                     else{
                         this.fview.displayMessage("Sorry. You have lost.");
                         document.getElementById("No").disabled=true;
@@ -190,13 +190,23 @@ class Fishpres {
     drawCards(playerval){
         var i=0;
             if(playerval==true){
-                while(!this.deck.isEmpty() || i<5){
+                for(var i=0; i<5; i++){
+                    if(this.deck.isEmpty()){
+                        
+                    }
+                }
+                while(!(this.deck.length==0) || i<5){
+                    alert("adding cards to player's hand from deck "+i);
                     this.human.add(this.deck.dealACard());
                     i++;
                 }
             }
             else{
-                while(!this.deck.isEmpty() || i<5){
+                for(var i=0; i<5; i++){
+                    
+                }
+                while(!(this.deck.length==0) || i<5){
+                    alert("adding cards to player's hand from deck "+i);
                     this.computer.add(this.deck.dealACard());
                     i++;
                 }
@@ -206,10 +216,10 @@ class Fishpres {
 //Sets up the start of the game
  play(){
      //below is for purposes of testing and demoing
-     for(var i=0; i<16; i++){
+     for(var i=0; i<15; i++){
          this.human.list.push(this.deck.dealACard());
      }
-     for(var i=0; i<16; i++){
+     for(var i=0; i<15; i++){
          this.computer.list.push(this.deck.dealACard());
      }
      this.fview.displayComputerHand(this.computer.getHandCopy());
