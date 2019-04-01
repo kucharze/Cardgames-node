@@ -94,7 +94,7 @@ for(var i=0; i<16; i++){
 var app = express();
 //init Express Router
 var router = express.Router();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname,'/public')));
 let webSockets=[];
 let clientcounter=0;
@@ -112,45 +112,6 @@ MongoClient.connect(url, function(err, db) {
   var dbo = db.db("node_deploy");
     database=dbo;
 });
-
-/*
-MongoClient.connect(url, function(err, db) {//add an object
-dbo.createCollection("War wins", function(err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-    db.close();
-  });
-  if (err) throw err;
-  var dbo = db.db("mydb");
-  var myobj = { name: "Vilgax", password: "Park Lane 38" };
-  dbo.collection("users").insertOne(myobj, function(err, res) {
-    if (err) throw err;
-    console.log("1 document inserted");
-    db.close();
-  });});
-
-
-MongoClient.connect(url, function(err, db) {//find a specific query
-  if (err) throw err;
-  var dbo = db.db("mydb");
-    database=dbo;
-  var query = { address: "Park Lane 38" };
-  dbo.collection("customers").find(query).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-    db.close();
-  });});
-
-MongoClient.connect(url, function(err, db) {//take out and sort
-  if (err) throw err;
-  var dbo = db.db("mydb");
-  var mysort = { name: 1 };
-  dbo.collection("customers").find().sort(mysort).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-    db.close();
-  });});*/
-
 
 //return static page with websocket client
 app.get('/', function(req, res) {
@@ -365,6 +326,9 @@ function loadLeadeboard(message, ws){
     }
     else if(message.board=="Snip Snap Snorum times"){
         mysort = {mins: 1 , secs: 1};
+    }
+    else if(message.board=="Go Fish fourofs"){
+        mysort={fourofs:-1};
     }
       
     database.collection(message.board).find().sort(mysort).toArray(function(err, result) {
@@ -1236,25 +1200,25 @@ function fishRecord(message, ws){
         return;
     }
     else{
-        var query={screename: webSockets[index].username};
+        var query={screenname: webSockets[index].username};
     }
     
-    database.collection("Go Fish moves").find(query).toArray(function(err, result) {
+    database.collection("Go Fish fourofs").find(query).toArray(function(err, result) {
         if (err) throw err;
         if(result.length>0){
             console.log("Entry already exists");
             /////////
             if(result[0].moves > message.moves){
-                var newvalues = { $set: {screename: webSockets[index].username, moves: message.moves } };
-                database.collection("Go Fish moves").updateOne(query, newvalues, function(err, res) {
+                var newvalues = {$set: {screenname: webSockets[index].username, fourofs: message.fours}};
+                database.collection("Go Fish fourofs").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Go Fish moves document updated");
                 });
             }
         }
         else{
-            query={screename: webSockets[index].username, moves: message.moves};
-            database.collection("Go Fish moves").insertOne(query, function(err, res) {
+            query={screenname: webSockets[index].username, fourofs: message.fours};
+            database.collection("Go Fish fourofs").insertOne(query, function(err, res) {
                 if (err) throw err;
                 console.log("1 Go Fish moves document inserted");
             }); 
