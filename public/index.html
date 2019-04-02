@@ -142,6 +142,9 @@ div.statusBox {
                     //failed to login succesfully
                     document.getElementById("Login status").innerHTML=message.status;
                 }
+                else if(message.action="Solo"){
+                    //Display your position on the leaderboard
+                }
                 else if(message.action=="Leaderboard"){
                     //Display the leaderboard in the message
                     alert("attempting to load a leaderboard");
@@ -160,7 +163,7 @@ div.statusBox {
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].mins+" mins "+l[i].secs+" secs<br>";
                         }
                         else if(message.type=="Go Fish fourofs"){
-                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].fourofs+" mins<br>";
+                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].fourofs+" fourofs<br>";
                         }
                         else if(message.type=="War wins"){
                             
@@ -865,7 +868,7 @@ If the face-up cards are again equal then the battle repeats with another set of
     
     <textarea id="sug"></textarea><br>
     
-    <input type="button" onclick=suggest() value="Submit" font-size="25px">
+    <input type="button" onclick=suggest() value="Submit">
     <script>
         function suggest(){
             let obj={};
@@ -898,7 +901,7 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>War wins(not working yet)</option>
     </select>
     
-   <input type="button" onclick=load() value="Load Leaderboard" font-size="20px" ><br>
+   <input type="button" onclick=load() value="Load Leaderboard" ><br>
     <p id="score">Your result will appear hear if your are logged in</p>
     <p id="board">This is the spot where the leaderboards will appear
     when the button is clicked with a value selected<br></p>
