@@ -170,12 +170,12 @@ div.statusBox {
 	
 	
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
-<IMG SRC="image-L.png" alt="cards" ALIGN="right" height="190"></IMG>
-<IMG SRC="image-R.png" alt="cards" ALIGN="left" height="190"></IMG>  
-<h2><center>Play your favorite game now or
-	<br> create an account to play online and track your high score.</center><br></h2>
-    <p style="color: #9fa9a3">This site is currently under construction.  Some features might not work as intended.</center></p>
-<br> <br>
+<img SRC="image-L.png" alt="cards" ALIGN="right" height="200">
+<img SRC="image-R.png" alt="cards" ALIGN="left" height="200">  
+<h2 style="text-align: center">Play your favorite game now or
+	<br> create an account to play online and track your high score.</h2>
+    <p style="color: #9fa9a3; text-align: center">This site is currently under construction.  Some features might not work as intended.<br>The games on this site may not work with versions of Internet Explorer.</p>
+<br> <br><br>
 
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
@@ -219,7 +219,7 @@ div.statusBox {
     <br><br>
 	
 	<div>		
-	<center><p> </br> </p></center>
+	<center><p> <br> </p></center>
 	<h2>Already have an account? Sign in here.</h2>
 
         <p id="Login status"></p>
@@ -427,8 +427,8 @@ div.statusBox {
     
     <div id="Jack" class="tabcontent">
         <div id="jackstatus" class="statusBox">Blackjack</div>
-        <div id="dealerhand"><img src="Images/cardback.png"></div>
-        <div id="playerhand"><img src="Images/cardback.png"></div>
+        <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
+        <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">
         <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">
         <br><br>
@@ -475,11 +475,11 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     <div id="Snap" class="tabcontent">
         <div id="allSnips">
         <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
-        <div id="scpuhand"><img src="Images/cardback.png"></div>
+        <div id="scpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
-        <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
+        <div id="stable"><img alt="table" id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
         <br><br><br>
-        <div id="suserhand"><img src="Images/cardback.png" title="start card"></div>
+        <div id="suserhand"><img alt="playerhand" src="Images/cardback.png" title="start card"></div>
         <br><br><br><br><br><br>
         <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
         </div>
@@ -669,9 +669,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             <br>
             <div id="comfours"></div>
             <br>
-            <div id="fcpuhand"><img src="Images/cardback.png"></div>
+            <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br><br>
-            <div id="fuserhand"><img src="Images/cardback.png" title="start card"></div>
+            <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
             <br><br><br><br><br><br><br>
             <div id="playerfours"></div>
             <br><br>
@@ -772,14 +772,14 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     
     <div id="solitare" class="tabcontent">
         <div id="Solstatus" class="statusBox">Spider Solitare</div>
-        <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png"></div>
-        <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png"></div>
-        <div id="row3" style="position: absolute; left: 220px"><img src="Images/cardback.png"></div>
-        <div id="row4" style="position: absolute; left: 320px"><img src="Images/cardback.png"></div>
-        <div id="row5" style="position: absolute; left: 420px"><img src="Images/cardback.png"></div>
-        <div id="row6" style="position: absolute; left: 530px"><img src="Images/cardback.png"></div>
+        <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png" alt="row1"></div>
+        <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png" alt="row2"></div>
+        <div id="row3" style="position: absolute; left: 220px"><img src="Images/cardback.png" alt="row3"></div>
+        <div id="row4" style="position: absolute; left: 320px"><img src="Images/cardback.png" alt="row4"></div>
+        <div id="row5" style="position: absolute; left: 420px"><img src="Images/cardback.png" alt="row5"></div>
+        <div id="row6" style="position: absolute; left: 530px"><img src="Images/cardback.png" alt="row6"></div>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <div id="soldecks"><img src="Images/cardback.png"><img src="Images/cardback.png"><img src="Images/cardback.png"><img src="Images/cardback.png"></div>
+        <div id="soldecks"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"></div>
         <div id="Vicdecks"></div>
         <br>
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">
