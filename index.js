@@ -164,11 +164,17 @@ ws.on('connection', function connection(ws) {
             console.log("Making a suggestion");
             suggest(userMess);
         }
+        else if(userMess.action=="War"){
+            console.log("Making an update to the war database");
+            warUpload(userMess,ws);
+        }
+        else if(userMess.action=="Spider Solitare"){
+            console.log("Making an update to the Spider Solitare database");
+        }
         else if(userMess.action=="Leaderboard"){
             console.log("Loading a leaderboard to send to the user");
             loadLeadeboard(userMess,ws);
         }
-        //console.log('received: %s', userMess.user + " "+ userMess.password);
     });
     ws.on('close',function close(){
         console.log("user is disconnecting");
@@ -196,6 +202,84 @@ ws.on('connection', function connection(ws) {
         cleanUp();
     });
 });
+
+function matchUpload(message, ws){
+    
+}
+
+function warUpload(message, ws){
+    let index=webSockets.indexOf(ws);
+    if((webSockets[index].username=="") || (webSockets[index].username==null)){
+        console.log("Not logged in. Cannot record result");
+        let obj={};
+        obj.action="War";
+        obj.message="You are not logged in, you cannot record a result to the leaderboard";
+        ws.send(JSON.stringify(obj));
+        return;
+    }
+    else{
+        var query={screenname: webSockets[index].username};
+    }
+    
+    database.collection("War record").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if(result.length>0){
+            console.log("Entry already exists");
+            /////////
+                var newvalue = {$set: {screenname: webSockets[index].username, wins: message.wins + result[0].wins, losses: message.losses + result[0].losses} };
+                database.collection("War record").updateOne(query, newvalue, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 War wins document updated");
+                });
+        }
+        else{
+            query={screenname: webSockets[index].username, wins: message.wins, losses: message.losses};
+            database.collection("War record").insertOne(query, function(err, res) {
+                if (err) throw err;
+                console.log("1 War wins document inserted");
+            });
+        }
+        console.log(result);
+    });
+}
+
+function spiderUpload(message, ws){
+    let index=webSockets.indexOf(ws);
+    if((webSockets[index].username=="") || (webSockets[index].username==null)){
+        console.log("Not logged in. Cannot record result");
+        let obj={};
+        obj.action="SpiderSolitare";
+        obj.message="You are not logged in, you cannot record a result to the leaderboard";
+        ws.send(JSON.stringify(obj));
+        return;
+    }
+    else{
+        var query={screenname: webSockets[index].username};
+    }
+    
+    database.collection("Solitare score").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if(result.length>0){
+            console.log("Entry already exists");
+            /////////
+            if(result[0].moves > message.moves){
+                var newvalues = { $set: {screename: webSockets[index].username, moves: message.moves } };
+                database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 Solitare score document updated");
+                });
+            }
+        }
+        else{
+            query={screenname: webSockets[index].username, moves: message.moves};
+            database.collection("Solitare score").insertOne(query, function(err, res) {
+                if (err) throw err;
+                console.log("1 Solitare score document inserted");
+            });
+        }
+        console.log(result);
+    });
+}
 
 function cleanUp(){
     console.log("Attempting a clean up");
@@ -310,8 +394,8 @@ function suggest(message){
 
 function loadLeadeboard(message, ws){
     var mysort=null;
-    
-    if(!(ws.username=="") || !(ws.username==null)){
+    let index=webSockets.indexOf(ws);
+    if(!(webSockets[index].username=="") || !(webSockets[index].username==null)){
         while(false){
             console.log("Not logged in. Cannot record result");
             let obj={};
@@ -330,7 +414,10 @@ function loadLeadeboard(message, ws){
     else if(message.board=="Go Fish fourofs"){
         mysort={fourofs:-1};
     }
-      
+    else if(message.board=="War record"){
+        mysort={wins:-1,losses:1};
+    }
+      console.log("Attempting to display a board");
     database.collection(message.board).find().sort(mysort).toArray(function(err, result) {
         if (err) throw err;
         let mes={};
@@ -339,7 +426,7 @@ function loadLeadeboard(message, ws){
         mes.action="Leaderboard";
         mes.board=result;
             
-        ws.send(JSON.stringify(mes));
+        webSockets[index].send(JSON.stringify(mes));
         
         console.log(result);
   });
