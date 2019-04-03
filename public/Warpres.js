@@ -7,7 +7,7 @@ class Warpres {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(ws) {
         //this.moves=0;
 	    this.deck1 = new Deck();
 	    this.deck1.shuffle();
@@ -17,6 +17,7 @@ class Warpres {
         this.cdeck.shuffle();
         this.humanscore=0;
         this.computerscore=0;
+        this.socket=ws;
         
 	    this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard());
@@ -40,6 +41,18 @@ class Warpres {
  }
     
     dealCards(){
+        let obj={};
+        if(this.deck1.list.length<4){
+            this.wview.disablePlay();
+            obj.action="War";
+            obj.wins=this.humanscore;
+            obj.losses=this.computerscore;
+            this.socket.send(JSON.stringify(obj));
+            this.wview.displayMessage("Player:" + this.humanscore + " Computer:"+this.computerscore+" Decks are empty please reset game");
+            this.wview.disablePlay();
+            return;
+        }
+        
         //alert("Dealing the cards");
         this.wview.displayMessage("Dealing the cards");
         let humancard=this.deck1.dealACard();
@@ -48,9 +61,28 @@ class Warpres {
         this.wview.displayComputerCard(computercard);
         if(humancard.warValue > computercard.warValue){
             this.humanscore++;
+            if((this.deck1.isEmpty()) || (this.cdeck.isEmpty())){
+                obj.action="War";
+                obj.wins=this.humanscore;
+                obj.losses=this.computerscore;
+                this.socket.send(JSON.stringify(obj));
+                this.wview.displayMessage("Player:" + this.humanscore + " Computer:"+this.computerscore+" Decks are empty please reset game");
+                this.wview.disablePlay();
+                return;
+            }
         }
         else if(computercard.warValue > humancard.warValue){
             this.computerscore++;
+            if((this.deck1.isEmpty()) || (this.cdeck.isEmpty())){
+                let obj={};
+                obj.action="War";
+                obj.wins=this.humanscore;
+                obj.losses=this.computerscore;
+                this.socket.send(JSON.stringify(obj));
+                this.wview.displayMessage("Player:" + this.humanscore + " Computer:"+this.computerscore+" Decks are empty please reset game");
+                this.wview.disablePlay();
+                return;
+            }
         }
         else{
             this.war();
@@ -70,14 +102,30 @@ class Warpres {
         
         if(humanwar.warValue > comwar.warValue){
             this.humanscore++;
+            if((this.deck1.isEmpty()) || (this.cdeck.isEmpty())){
+                obj.action="War";
+                obj.wins=this.humanscore;
+                obj.losses=this.computerscore;
+                this.socket.send(JSON.stringify(obj));
+                this.wview.displayMessage("Player:" + this.humanscore + " Computer:"+this.computerscore+" Decks are empty please reset game");
+                this.wview.disablePlay();
+                return;
+            }
         }
         else if(comwar.warValue > humanwar.warValue){
             this.computerscore++;
+            if((this.deck1.isEmpty()) || (this.cdeck.isEmpty())){
+                obj.action="War";
+                obj.wins=this.humanscore;
+                obj.losses=this.computerscore;
+                this.socket.send(JSON.stringify(obj));
+                this.wview.displayMessage("Player:" + this.humanscore + " Computer:"+this.computerscore+" Decks are empty please reset game");
+                this.wview.disablePlay();
+                return;
+            }
         }
         else{
-            this.wview.displayMessage("Its a draw" +"Player:" + this.humanscore + " Computer:"+this.computerscore);
-            //this.war();
-            return;
+            this.war();
         }
         this.wview.displayMessage("Player:" + this.humanscore + " Computer:"+this.computerscore);
         return;
@@ -94,6 +142,7 @@ class Warpres {
         this.cdeck.shuffle();
         this.humanscore=0;
         this.computerscore=0;
+        //this.wview.enablePlay();
         
 	    //this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard())
@@ -103,6 +152,7 @@ class Warpres {
         let suit=document.getElementById("warstatus");
         suit.innerHTML="Welcome to War";
         this.computer.countCards();
+        this.wview.enablePlay();
         
         return;
     }

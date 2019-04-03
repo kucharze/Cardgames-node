@@ -117,7 +117,7 @@ div.statusBox {
             ws.onmessage=function(event){
                 let message=JSON.parse(event.data);
                 console.log(message.action);
-                console.log("Message status is"+message.status);
+                //console.log("Message status is"+message.status);
                 if(message.action=="Crazy Eights"){
                     //alert("Crazy Eights online update");
                     console.log("Message status ="+message.status);
@@ -142,19 +142,21 @@ div.statusBox {
                     //failed to login succesfully
                     document.getElementById("Login status").innerHTML=message.status;
                 }
-                else if(message.action="Solo"){
+                else if(message.action=="Solo"){
                     //Display your position on the leaderboard
                 }
                 else if(message.action=="Leaderboard"){
                     //Display the leaderboard in the message
-                    alert("attempting to load a leaderboard");
+                    //alert("attempting to load a leaderboard");
                     let l=message.board;
                     let length=l.length
+                    //alert("Attempting to load a leaderboard");
                     if(l.length>20){
                         length=20;
                     }
                     let b=document.getElementById("board");
                     for(var i=0; i<length; i++){
+                        //alert("Attempting to Printing board");
                         if(message.type=="Crazy Eights moves"){
                             //alert("Printing Crazy Eights leaderboard");
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].moves+"<br>";
@@ -165,8 +167,9 @@ div.statusBox {
                         else if(message.type=="Go Fish fourofs"){
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].fourofs+" fourofs<br>";
                         }
-                        else if(message.type=="War wins"){
-                            
+                        else if(message.type=="War record"){
+                            //alert("Printing board");
+                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].wins+" wins "+l[i].losses+" losses<br>";
                         }
                         
                     }
@@ -176,11 +179,13 @@ div.statusBox {
 	
 	
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
-<img SRC="image-L.png" alt="cards" ALIGN="right" height="200">
-<img SRC="image-R.png" alt="cards" ALIGN="left" height="200">  
+<img src="image-L.png" alt="cards" align="right" height="220">
+<img src="image-R.png" alt="cards" align="left" height="220">  
 <h2 style="text-align: center">Play your favorite game now or
-	<br> create an account to play online and track your high score.</h2>
-    <p style="color: #9fa9a3; text-align: center">This site is currently under construction.  Some features might not work as intended.<br>The games on this site may not work with versions of Internet Explorer.</p>
+	<br> create an account to play online and track your high score.<br>
+    (* Online games.)</h2>
+    <p style="color: #9fa9a3; text-align: center"><br>
+        This site is currently under construction.  Some features might not work as intended.<br>The games on this site may not work with versions of Internet Explorer.</p>
 <br> <br><br>
 
 <div class="tab">
@@ -190,11 +195,11 @@ div.statusBox {
 	</div>
 
 <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Eight')">Crazy Eights</button>
-    <button class="tablinks" onclick="openTab(event, 'Snap')">Snip Snap Snorum</button>
+    <button class="tablinks" onclick="openTab(event, 'Eight')">Crazy Eights*</button>
+    <button class="tablinks" onclick="openTab(event, 'Snap')">Snip Snap Snorum*</button>
     <button class="tablinks" onclick="openTab(event, 'Jack')">Blackjack</button>
     <button class="tablinks" onclick="openTab(event, 'Match')">Matching</button>
-    <button class="tablinks" onclick="openTab(event, 'gofish')">Go fish</button>
+    <button class="tablinks" onclick="openTab(event, 'gofish')">Go fish*</button>
     <button class="tablinks" onclick="openTab(event, 'solitare')">Spider Solitare</button>
     <button class="tablinks" onclick="openTab(event, 'War')">War</button>
 </div>
@@ -371,7 +376,6 @@ div.statusBox {
 
     <!-- Run the program. -->
     <script>
-    "use strict";
         //Play one round of Crazy Eights against the computer
         var presenter = new Presenter(ws);
         //var onlinepres = new Presenter8O();
@@ -827,7 +831,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
     <div id="yourwar"><img src="Images/cardback.png" alt="playerwarcard"></div><br>
     
-    <input type="button" style="font-size: 18px" onclick="deal()" value="Play a Round">
+    <input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">
     <br><br><br>
     <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()">
     <button style="font-size: 20px" class="accordion">View Instructions</button>
@@ -847,14 +851,14 @@ If the face-up cards are again equal then the battle repeats with another set of
     <script src="Warview.js"></script>
     <script>
         "use strict"
-        let warpres = new Warpres();
+        let warpres = new Warpres(ws);
         
         function deal(){
             warpres.dealCards();
         }
         
         function warReset(){
-            alert("Trying to reset war");
+            //alert("Trying to reset war");
             warpres.resetGame();
         }
     </script>
@@ -898,7 +902,7 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>Matching moves(not working yet)</option>
         <option>Go Fish fourofs</option>
         <option>Solitare score(not working yet)</option>
-        <option>War wins(not working yet)</option>
+        <option>War record</option>
     </select>
     
    <input type="button" onclick=load() value="Load Leaderboard" ><br>

@@ -6,15 +6,9 @@
 class Warview {
     
     constructor(presenter) {
-    this.presenter = presenter;
-    this.topCardString = "";
-    
-    //document.getElementById("warreset").addEventListener("click", function(){presenter.resetGame();})
-        
-    //document.getElementById("deck").addEventListener("click", function(){presenter.cardPicked();})
-    //document.getElementById("suitPicker").addEventListener("click", function() {presenter.suitPicked(event.target.id);});
-    //document.getElementById("wyourdeck").addEventListener("click", function(){presenter.dealCards();});
-  }
+        this.presenter = presenter;
+        this.topCardString = "";
+    }
 
   announceComputerWinner(){
     let CPUwinner = document.getElementById("warstatus");
@@ -25,6 +19,18 @@ class Warview {
     let humanwin = document.getElementById("warstatus");
     humanwin.innerHTML="Congradulations! You win!";
   }
+    
+    disablePlay(){
+        //alert("Disabling play");
+        let button=document.getElementById("warplay");
+        button.disabled=true;
+    }
+    
+    enablePlay(){
+        //alert("Enabling play");
+        let button=document.getElementById("warplay");
+        button.disabled=false;
+    }
 
   displayComputerCard(hand){
      let cpu = document.getElementById("mycard");
