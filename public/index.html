@@ -147,16 +147,13 @@ div.statusBox {
                 }
                 else if(message.action=="Leaderboard"){
                     //Display the leaderboard in the message
-                    //alert("attempting to load a leaderboard");
                     let l=message.board;
                     let length=l.length
-                    //alert("Attempting to load a leaderboard");
                     if(l.length>20){
                         length=20;
                     }
                     let b=document.getElementById("board");
                     for(var i=0; i<length; i++){
-                        //alert("Attempting to Printing board");
                         if(message.type=="Crazy Eights moves"){
                             //alert("Printing Crazy Eights leaderboard");
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].moves+"<br>";
@@ -168,8 +165,10 @@ div.statusBox {
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].fourofs+" fourofs<br>";
                         }
                         else if(message.type=="War record"){
-                            //alert("Printing board");
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].wins+" wins "+l[i].losses+" losses<br>";
+                        }
+                        else if(message.type=="Match moves"){
+                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].moves+"<br>";
                         }
                         
                     }
@@ -668,7 +667,84 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 	 </div>
 	</div>
             
-  <script src="scripts-g1.js"></script>
+  <script>
+    const cards = document.querySelectorAll('.memory-card');
+
+let hasFlippedCard = false;
+let lockBoard = false;
+let firstCard, secondCard;
+let matches=0;
+let mmoves=0;
+
+function flipCard() {
+  if (lockBoard) return;
+  if (this === firstCard) return;
+
+  this.classList.add('flip');
+  mmoves++;
+    //alert("num moves "+mmoves);
+  if (!hasFlippedCard) {
+    hasFlippedCard = true;
+    firstCard = this;
+
+    return;
+  }
+  secondCard = this;
+  checkForMatch();
+}
+
+function checkForMatch() {
+  let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+  isMatch ? disableCards() : unflipCards();
+}
+
+function disableCards() {
+  firstCard.removeEventListener('click', flipCard);
+  secondCard.removeEventListener('click', flipCard);
+    matches=matches+1;
+    
+    if(matches == 8){
+        win();
+    }
+
+  resetBoard();
+}
+
+function win(){
+    let win=document.getElementById("matchstatus");
+    win.innerHTML="Congradulations, you won in "+ mmoves + " moves";
+    let obj={};
+    obj.action="Match";
+    obj.moves=mmoves;
+    ws.send(JSON.stringify(obj));
+}
+
+function unflipCards() {
+  lockBoard = true;
+
+  setTimeout(() => {
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+
+    resetBoard();
+  }, 1500);
+}
+
+function resetBoard() {
+  [hasFlippedCard, lockBoard] = [false, false];
+  [firstCard, secondCard] = [null, null];
+    //mmoves=0;
+}
+
+(function shuffle() {
+  cards.forEach(card => {
+    let randomPos = Math.floor(Math.random() * 12);
+    card.style.order = randomPos;
+  });
+})();
+
+cards.forEach(card => card.addEventListener('click', flipCard));
+            </script>
 </div>
     
     <div id="gofish" class="tabcontent">
@@ -899,7 +975,7 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>Crazy Eights moves</option>
         <option>Snip Snap Snorum times</option>
         <option>BlackJack wins(not working yet)</option>
-        <option>Matching moves(not working yet)</option>
+        <option>Match moves</option>
         <option>Go Fish fourofs</option>
         <option>Solitare score(not working yet)</option>
         <option>War record</option>

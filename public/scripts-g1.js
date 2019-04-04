@@ -45,6 +45,8 @@ function disableCards() {
 function win(){
     let win=document.getElementById("matchstatus");
     win.innerHTML="Congradulations, you won in "+ moves + " moves";
+    let obj={};
+    obj.action="Match";
 }
 
 function unflipCards() {
