@@ -7,7 +7,7 @@ class Jackpres {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(ws) {
         //this.moves=0;
 	    this.deck1 = new Deck();
 	    this.deck1.shuffle();
@@ -15,6 +15,7 @@ class Jackpres {
         this.cdeck=new Deck();
         this.cdeck.shuffle();
         this.cdeck.shuffle();
+        this.socket=ws;
         
 	    this.jview = new Jackview(this);
         this.jplayer=new Jackplayer(this.deck1,false);//the player
@@ -23,6 +24,7 @@ class Jackpres {
     
     hit(){
         this.jplayer.findValue();
+        alert("player value "+this.jplayer.getValue());
         if(this.jplayer.value == 21){
             this.jview.displayMessage("You have a blackjack");
             document.getElementById("hit").disabled=true;
@@ -36,7 +38,7 @@ class Jackpres {
         this.jplayer.findValue();
         
         if(this.jplayer.value>=21){//Player hand value over 21
-            if(this.jplayer.hasAce()){
+            if(this.jplayer.hasAce()){//check for any aces
                 this.jplayer.numAces=this.jplayer.countAces();
                 var a=0;
                 while(this.jplayer.value>21 && a<this.jplayer.numAces){
@@ -46,11 +48,13 @@ class Jackpres {
             }
             
             if(this.jplayer.value>21){
-                //alert("Bust");\
                 this.jview.displayMessage("You have busted");
                 document.getElementById("hit").disabled=true;
                 document.getElementById("stand").disabled=true;
                 this.dealer.list[0].flip();
+                obj.action="Blackjack";
+                obj.result="loss";
+                this.socket.send(JSON.stringify(obj));
                 this.jview.displayComputerHand(this.dealer.getHandCopy());
             }
             
@@ -58,12 +62,18 @@ class Jackpres {
     }
     
     stand(){
+        this.jplayer.findValue();
+        alert("player value "+this.jplayer.value);
+        let obj={};
         if(this.jplayer.value == 21){
             this.jview.displayMessage("You have a blackjack");
             document.getElementById("hit").disabled=true;
             document.getElementById("stand").disabled=true;
             this.dealer.list[0].flip();
             this.jview.displayComputerHand(this.dealer.getHandCopy());
+            obj.action="Blackjack";
+            obj.result="win";
+            this.socket.send(JSON.stringify(obj));
             return;
         }
         //alert("Player has decided to stand");
@@ -75,6 +85,9 @@ class Jackpres {
             this.jview.displayMessage("Dealer has a blackjack");
             document.getElementById("hit").disabled=true;
             document.getElementById("stand").disabled=true;
+            obj.action="Blackjack";
+            obj.result="loss";
+            this.socket.send(JSON.stringify(obj));
             return;
         }
         //alert("dealer value is "+ this.dealer.value);
@@ -94,26 +107,32 @@ class Jackpres {
             }
         }
         this.jview.displayComputerHand(this.dealer.getHandCopy());
-        //alert("The dealer hand value is now" +this.dealer.value);
+        alert("The dealer hand value is now" +this.dealer.value);
         
         document.getElementById("hit").disabled=true;
         document.getElementById("stand").disabled=true;
-        //this.jplayer.findValue();
-        //this.dealer.findValue();
+        this.jplayer.findValue();
+        this.dealer.findValue();
         
         if(this.dealer.value>21){
             this.jview.displayMessage("Player wins, dealer has busted");
+            obj.action="Blackjack";
+            obj.result="win";
+            this.socket.send(JSON.stringify(obj));
             return;
         }
         else{            
-            if(this.dealer.value>this.jplayer.value){
+            if((this.dealer.value) >= (this.jplayer.value)){
                 this.jview.displayMessage("Dealer wins");
+                obj.action="Blackjack";
+                obj.result="loss";
+                this.socket.send(JSON.stringify(obj));
             }
-            if(this.dealer.value < this.jplayer.value){
+            else if((this.dealer.value) < (this.jplayer.value)){
                 this.jview.displayMessage("Player wins");
-            }
-            if(this.dealer.value == this.jplayer.value){
-                this.jview.displayMessage("Its a tie");
+                obj.action="Blackjack";
+                obj.result="win";
+                this.socket.send(JSON.stringify(obj));
             }
         }
         return;
@@ -124,9 +143,10 @@ class Jackpres {
  play(){//Set up for playing crazy eights
      this.jview.displayComputerHand(this.dealer.getHandCopy());
      this.jview.displayHumanHand(this.jplayer.getHandCopy());
+     //this.jplayer.findValue();
+     //this.dealer.findValue();
      return;
  }
-    
     
     resetGame(){//Resets the game with a new deck and players
             this.jview.eraseHands();
@@ -136,7 +156,6 @@ class Jackpres {
             this.deck1.shuffle();
             this.cdeck.shuffle();
             this.cdeck.shuffle();
-            //this.moves=0;
         
             document.getElementById("hit").disabled=false;
             document.getElementById("stand").disabled=false;
@@ -149,8 +168,6 @@ class Jackpres {
         
             this.jview.displayMessage("Welcome to Blackjack");
             
-            //let humanwin = document.getElementById("announcer");
-            //humanwin.style="display: none";
             return;
     }
 

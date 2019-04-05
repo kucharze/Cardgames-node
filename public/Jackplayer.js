@@ -22,13 +22,18 @@ class Jackplayer {
         this.numAces=0;
   }
     
+    getValue(){
+        return this.value;
+    }
+    
     findValue(){
         let hand=this.list;
         this.value=0;
-        this.value2=0;
+        //this.value2=0;
         for(let i=0; i<hand.length; i++){
             this.value=(+this.value + +hand[i].jackValue);
         }
+        return this.value;
     }
     
     hasAce(){
