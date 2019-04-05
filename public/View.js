@@ -85,6 +85,14 @@ class View {
 	 image.style="left: "+  (15*2) + " px; z-index:" + 2 +"";
 	 table.appendChild(image);
   }
+    
+    addCard(){//Have a card move in from offscreen
+        
+    }
+    
+    toPile(){//move a card to the pile
+        
+    }
 
 //makes the suit picker vissible
   displaySuitPicker(){

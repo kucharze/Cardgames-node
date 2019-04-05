@@ -10,6 +10,7 @@ https://www.w3schools.com/howto/howto_js_accordion.asp
 https://stackoverflow.com/questions/41632942/how-to-measure-time-elapsed-on-javascript
 https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
 https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesson links on the site
+https://stackoverflow.com/questions/40711300/javascript-do-something-every-n-seconds
 -->
 <html lang="en">
 <head>
@@ -149,7 +150,7 @@ div.statusBox {
                     //Display your position on the leaderboard
                     ///////////
                     let l=message.board;
-                    alert("Attempting a solo leaderboard "+message.type);
+                    //alert("Attempting a solo leaderboard "+message.type);
                     let b=document.getElementById("score");
                     if(l==null){
                          b.innerHTML="You are not present on this leaderboard";
@@ -212,7 +213,7 @@ div.statusBox {
                 }
             }
             
-            window.setInterval(pingServer,6000);
+            window.setInterval(pingServer,10000);
         
         function pingServer(){
             ws.send(JSON.stringify({action:"ping"}));
@@ -624,7 +625,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 
 <div id="Match" class="tabcontent">
     <div id="matchstatus" class="statusBox">Memory Matcher</div>
-        <label class="moves">You finished the game with this many moves: Number of moves will go here</label><br>
         <label class="mem">Try to match the cards in as little turns as possible</label><br>
     <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
@@ -634,8 +634,8 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         Otherwise flip them back.<br>
         Flip over all cards to win.</p>
         </div>
-        <BR><BR>
-        <input type="button" value="Reset the game" style="font-size: 18px">
+        <br><br>
+        <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetGame()">
      <div class="memory-game">
     <div class="memory-card" data-framework="apple1">
       <img class="front-face" src="cards/apple1.PNG" alt="card"  />
@@ -712,12 +712,12 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             
   <script>
     const cards = document.querySelectorAll('.memory-card');
-
-let hasFlippedCard = false;
-let lockBoard = false;
-let firstCard, secondCard;
-let matches=0;
-let mmoves=0;
+      let hasFlippedCard = false;
+      //let flippedCards=new Array();
+      let lockBoard = false;
+      let firstCard, secondCard;
+      let matches=0;
+      let mmoves=0;
 
 function flipCard() {
   if (lockBoard) return;
@@ -770,7 +770,7 @@ function unflipCards() {
     secondCard.classList.remove('flip');
 
     resetBoard();
-  }, 1500);
+  }, 1200);
 }
 
 function resetBoard() {
@@ -785,6 +785,18 @@ function resetBoard() {
     card.style.order = randomPos;
   });
 })();
+      
+      function resetGame(){
+          for(var i=0; i<cards.length; i++){
+              cards[i].classList.remove('flip');
+          }
+          cards.forEach(card => {
+            let randomPos = Math.floor(Math.random() * 12);
+            card.style.order = randomPos;
+          })
+          cards.forEach(card => card.addEventListener('click', flipCard));
+          mmoves=0;
+      }
 
 cards.forEach(card => card.addEventListener('click', flipCard));
             </script>
