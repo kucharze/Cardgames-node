@@ -123,6 +123,9 @@ div.statusBox {
                     console.log("Message status ="+message.status);
                     onlineMes(message);
                 }
+                else if(message.action=="Bye"){
+                    alert("You are disconnecting");
+                }
                 else if(message.action=="Snip Snap Snorum"){
                     //alert("Snip Snap Snorum online update");
                     snipUpdate(message);
