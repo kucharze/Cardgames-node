@@ -96,11 +96,6 @@ var app = express();
 var router = express.Router();
 var port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname,'/public')));
-//var http = require("http");
-//setInterval(function() {
-//    http.get("http://cardgames-seniorproject-node.herokuapp.com");
-///    console.log("waking up");
-//}, 7000); // every 10 seconds 5 minutes 
 
 let webSockets=[];
 //let clientcounter=0;
@@ -132,21 +127,15 @@ ws.on('connection', function connection(ws) {
     console.log("Sucessful connection");
     
     if(!webSockets.includes(ws)) {
-        //ws.clientNumber=clientcounter++;
         ws.logedIn=logedin;
         ws.login="";
         webSockets.push(ws);
-        //webSockets[webSockets.indexOf(ws)].userNumber=clientCounter++;
     }
     //on connect message
     ws.on('message', function incoming(message) {
         let userMess = JSON.parse(message);
-        //console.log("eightsoketslength "+eightSockets.length);
-        //console.log("Snipsocketslength "+snipSockets.length);
-        //console.log("fishSocketslength "+fishSockets.length);
         
         //take an action based on the action of the message
-        //let s=webSockets.indexOf(ws);
         console.log("action="+userMess.action);
         if(userMess.action=="create"){
             createlogin(userMess,ws);
@@ -155,7 +144,7 @@ ws.on('connection', function connection(ws) {
             login(userMess,ws);
         }
         else if(userMess.action=="Crazy Eights"){
-            //console.log("Going to Crazy Eights");
+            console.log("Going to Crazy Eights");
             crazyEights(userMess,ws);
         }
         else if(userMess.action=="Snip Snap Snorum"){
@@ -171,7 +160,7 @@ ws.on('connection', function connection(ws) {
             suggest(userMess);
         }
         else if(userMess.action=="Blackjack"){
-            console.log("Making an updte to the Blackjack database");
+            console.log("Making an update to the Blackjack database");
             jackUpload(userMess,ws);
         }
         else if(userMess.action=="War"){
@@ -195,7 +184,7 @@ ws.on('connection', function connection(ws) {
         }
     });
     ws.on('close',function close(){
-        ws.send(JSON.stringify({action:"Bye"}));
+        //ws.send(JSON.stringify({action:"Bye"}));
         console.log("user is disconnecting");
         //Remove user websocket from all games if in any
         let index=eightSockets.indexOf(ws);
