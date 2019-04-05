@@ -96,10 +96,11 @@ var app = express();
 var router = express.Router();
 var port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname,'/public')));
-app.use(function (req, res) {
-  var delayed = new DelayedResponse(req, res);
-  slowFunction(delayed.wait());
-});
+var http = require("http");
+setInterval(function() {
+    http.get("http://cardgames-seniorproject-node.herokuapp.com");
+    console.log("waking up");
+}, 7000); // every 10 seconds 5 minutes 
 
 let webSockets=[];
 //let clientcounter=0;
