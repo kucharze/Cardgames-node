@@ -174,6 +174,7 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="Spider Solitare"){
             console.log("Making an update to the Spider Solitare database");
+            spiderUpload(userMess,ws);
         }
         else if(userMess.action=="Match"){
             console.log("Making an update to the Matching database");
@@ -314,7 +315,7 @@ function warUpload(message, ws){
         if (err) throw err;
         if(result.length>0){
             console.log("Entry already exists");
-            /////////
+            //////////////
                 var newvalue = {$set: {screenname: webSockets[index].username, wins: message.wins + result[0].wins, losses: message.losses + result[0].losses} };
                 database.collection("War record").updateOne(query, newvalue, function(err, res) {
                     if (err) throw err;
@@ -345,14 +346,14 @@ function spiderUpload(message, ws){
     else{
         var query={screenname: webSockets[index].username};
     }
-    
+    //spider//////////
+    console.log(message.score);
     database.collection("Solitare score").find(query).toArray(function(err, result) {
         if (err) throw err;
         if(result.length>0){
-            console.log("Entry already exists");
-            /////////
-            if(result[0].moves > message.moves){
-                var newvalues = { $set: {screename: webSockets[index].username, moves: message.moves } };
+            console.log("Entry already exists Solitare");
+            if(result[0].score < message.score){
+                var newvalues = {$set: {screenname: webSockets[index].username, score: message.score}};
                 database.collection("Solitare score").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Solitare score document updated");
@@ -360,7 +361,7 @@ function spiderUpload(message, ws){
             }
         }
         else{
-            query={screenname: webSockets[index].username, moves: message.moves};
+            query={screenname: webSockets[index].username, score: message.score};
             database.collection("Solitare score").insertOne(query, function(err, res) {
                 if (err) throw err;
                 console.log("1 Solitare score document inserted");
@@ -507,25 +508,15 @@ function loadLeadeboard(message, ws){
             
        // }
     }
+    /////////////////////////////
+    if(message.board=="Crazy Eights moves"){mysort = {moves: 1 };}
+    else if(message.board=="Snip Snap Snorum times"){mysort = {mins: 1 , secs: 1};}
+    else if(message.board=="Go Fish fourofs"){mysort={fourofs:-1};}
+    else if(message.board=="War record"){mysort={wins:-1,losses:1};}
+    else if(message.board=="Match moves"){mysort={moves:1};}
+    else if(message.board=="Blackjack record"){mysort={wins:-1,losses:1};}
+    else if(message.board=="Solitare score"){mysort={score:-1};}
     
-    if(message.board=="Crazy Eights moves"){
-        mysort = {moves: 1 };
-    }
-    else if(message.board=="Snip Snap Snorum times"){
-        mysort = {mins: 1 , secs: 1};
-    }
-    else if(message.board=="Go Fish fourofs"){
-        mysort={fourofs:-1};
-    }
-    else if(message.board=="War record"){
-        mysort={wins:-1,losses:1};
-    }
-    else if(message.board=="Match moves"){
-        mysort={moves:1};
-    }
-    else if(message.board=="Blackjack record"){
-        mysort={wins:-1,losses:1};
-    }
       console.log("Attempting to display a board");
     database.collection(message.board).find().sort(mysort).toArray(function(err, result) {
         if (err) throw err;
@@ -536,10 +527,8 @@ function loadLeadeboard(message, ws){
         mes.board=result;
              
         webSockets[index].send(JSON.stringify(mes));
-        
         console.log(result);
   });
-    
 }
 
 function sendMessage(message){//For a later use of chatroom function
@@ -1404,7 +1393,7 @@ function fishRecord(message, ws){
         if(result.length>0){
             console.log("Entry already exists");
             /////////
-            if(result[0].moves > message.moves){
+            if(result[0].fourofs < message.four){
                 var newvalues = {$set: {screenname: webSockets[index].username, fourofs: message.fours}};
                 database.collection("Go Fish fourofs").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
