@@ -7,7 +7,7 @@ class Solpres {
      * dealing one card (other than an 8) to the discard pile,
      * and dealing 7 cards to each player.
      */
-    constructor() {
+    constructor(ws) {
         this.moves=0;
         this.actionRow=null;
         this.actionPos=-1;
@@ -19,17 +19,19 @@ class Solpres {
         this.extra.shuffle();
 	    this.solview = new Solview(this);
         this.placing=false;
+        this.socket=ws;
+        this.score=0;
         
         //arrays for each row of cards
-        this.row1=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
+        this.row1=new Array(new Card("h","k"),new Card("h","q"),new Card("h","j"),new Card("h","10"),new Card("h","9"),new Card("h","8"),new Card("h","7"),new Card("h","6"),new Card("h","5"),new Card("h","4"),new Card("h","3"),new Card("h","2"));
         this.row2=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row3=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
-        this.row4=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
+        this.row4=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(),new Card("h","a") );
         this.row5=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row6=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         
         for(var i=0; i<this.row1.length-1; i++){
-            this.row1[i].flip();
+            //this.row1[i].flip();
         }
         for(var i=0; i<this.row2.length-1; i++){
             this.row2[i].flip();
@@ -84,8 +86,6 @@ class Solpres {
                      }
                      if(this.row1[i].getSValue() != +this.row1[j].getSValue() + +1){
                          alert("Move fail");
-                         //alert("card 1 "+ this.row1[i] + " card 2 "+this.row1[j]);
-                         //alert("Value 1 "+ this.row1[i].getSValue() + " value 2 "+this.row1[j].getSValue());
                          this.solview.displayMessage("That card cannot be moved");
                          return;
                      }
@@ -100,8 +100,6 @@ class Solpres {
                      }
                      if(this.row2[i].getSValue() != +this.row2[j].getSValue() + +1){
                          alert("Move fail");
-                         //alert("card 1 "+ this.row2[i] + " card 2 "+this.row2[j]);
-                         //alert("Value 1 "+ this.row2[i].getSValue() + " value 2 "+this.row2[j].getSValue());
                          this.solview.displayMessage("That card cannot be moved");
                          return;
                      }
@@ -116,8 +114,6 @@ class Solpres {
                      }
                      if(this.row3[i].getSValue() != +this.row3[j].getSValue() + +1){
                          alert("Move fail");
-                         //alert("card 1 "+ this.row3[i] + " card 2 "+this.row3[j]);
-                         //alert("Value 1 "+ this.row3[i].getSValue() + " value 2 "+this.row3[j].getSValue());
                          this.solview.displayMessage("That card cannot be moved");
                          return;
                      }
@@ -132,8 +128,6 @@ class Solpres {
                      }
                      if(this.row4[i].getSValue() != +this.row4[j].getSValue() + +1){
                          alert("Move fail");
-                         //alert("card 1 "+ this.row4[i] + " card 2 "+this.row4[j]);
-                         //alert("Value 1 "+ this.row4[i].getSValue() + " value 2 "+this.row4[j].getSValue());
                          this.solview.displayMessage("That card cannot be moved");
                          return;
                      }
@@ -148,8 +142,6 @@ class Solpres {
                      }
                      if(this.row5[i].getSValue() != +this.row5[j].getSValue() + +1){
                          alert("Move fail");
-                         //alert("card 1 "+ this.row5[i] + " card 2 "+this.row5[j]);
-                         //alert("Value 1 "+ this.row5[i].getSValue() + " value 2 "+this.row5[j].getSValue());
                          this.solview.displayMessage("That card cannot be moved");
                          return;
                      }
@@ -164,8 +156,6 @@ class Solpres {
                      }
                      if(this.row6[i].getSValue() != +this.row6[j].getSValue() + +1){
                          alert("Move fail");
-                         //alert("card 1 "+ this.row6[i] + " card 2"+this.row6[j]);
-                         //alert("Value 1 "+ this.row6[i].getSValue() + " value 2"+this.row6[j].getSValue());
                          this.solview.displayMessage("That card cannot be moved");
                          return;
                      }
@@ -180,7 +170,6 @@ class Solpres {
             return;
         }else{
             /*
-             *
              * Section for determining if the move is legal
              * 
             */
@@ -219,7 +208,6 @@ class Solpres {
             } 
             }
             
-            //alert("Movable= "+movable);
             if(!movable){//if the move that we are making is not legal
                 this.solview.displayMessage("Illeagal move select cards to move again");
                 this.actionRow=null;
@@ -286,56 +274,25 @@ class Solpres {
                     }
                 }
             
-                if(this.actionRow=="row1"){
-                    this.row1.splice(this.actionPos);
-                }
-                else if(this.actionRow=="row2"){
-                    this.row2.splice(this.actionPos);
-                }
-                else if(this.actionRow=="row3"){
-                    this.row3.splice(this.actionPos);
-                }
-                else if(this.actionRow=="row4"){
-                    this.row4.splice(this.actionPos);
-                }
-                else if(this.actionRow=="row5"){
-                    this.row5.splice(this.actionPos);
-                }
-                
-                else if(this.actionRow=="row6"){
-                    this.row6.splice(this.actionPos);
-                }
+                if(this.actionRow=="row1"){this.row1.splice(this.actionPos);}
+                else if(this.actionRow=="row2"){this.row2.splice(this.actionPos);}
+                else if(this.actionRow=="row3"){this.row3.splice(this.actionPos);}
+                else if(this.actionRow=="row4"){this.row4.splice(this.actionPos);}
+                else if(this.actionRow=="row5"){this.row5.splice(this.actionPos);}
+                else if(this.actionRow=="row6"){this.row6.splice(this.actionPos);}
                 
             this.checkFlips();
             this.actionRow=null;
             this.placing=false;
-            if(this.row1.length>=13){
-                alert("Row 1 has a length greater than 13");
-                this.removeCards(this.row1);
-            }
-            if(this.row2.length>=13){
-                this.removeCards(this.row2);
-            }
-            
-            if(this.row3.length>=13){
-                this.removeCards(this.row3);
-            }
-            
-            if(this.row4.length>=13){
-                this.removeCards(this.row4);
-            }
-            
-            if(this.row5.length>=13){
-                this.removeCards(this.row5);
-            }
-            
-            if(this.row6.length>=13){
-                this.removeCards(this.row6);
-            }
-            
+            if(this.row1.length>=13){this.removeCards(this.row1);}
+            if(this.row2.length>=13){this.removeCards(this.row2);}
+            if(this.row3.length>=13){this.removeCards(this.row3);}
+            if(this.row4.length>=13){this.removeCards(this.row4);}
+            if(this.row5.length>=13){this.removeCards(this.row5);}
+            if(this.row6.length>=13){this.removeCards(this.row6);}
             
             if(this.checkWin()){
-                this.solview.displayMessage("Congradulations you win!!!")
+                this.solview.displayMessage("Congradulations you cleared all the cards!!!");
             }
             else{
                 this.solview.displayMessage("Select cards to have moved");
@@ -353,7 +310,13 @@ class Solpres {
      
     return;
  }
-    
+    recordResult(){
+        alert(this.score);
+        let obj={};
+        obj.action="Spider Solitare";
+        obj.score=this.score;
+        this.socket.send(JSON.stringify(obj));
+    }
     
     dealNewCards(){
         this.row1.push(this.deck.dealACard());
@@ -427,6 +390,7 @@ class Solpres {
                         break;
                     }
                     if(c1 == 0){
+                        this.score++;
                         row.splice(pos, 13);
                         let c=document.getElementById("Vicdecks");
                         let image=document.createElement("img");
