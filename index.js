@@ -96,11 +96,11 @@ var app = express();
 var router = express.Router();
 var port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname,'/public')));
-var http = require("http");
-setInterval(function() {
-    http.get("http://cardgames-seniorproject-node.herokuapp.com");
-    console.log("waking up");
-}, 7000); // every 10 seconds 5 minutes 
+//var http = require("http");
+//setInterval(function() {
+//    http.get("http://cardgames-seniorproject-node.herokuapp.com");
+///    console.log("waking up");
+//}, 7000); // every 10 seconds 5 minutes 
 
 let webSockets=[];
 //let clientcounter=0;
@@ -189,6 +189,9 @@ ws.on('connection', function connection(ws) {
         else if(userMess.action=="Leaderboard"){
             console.log("Loading a leaderboard to send to the user");
             loadLeadeboard(userMess,ws);
+        }
+        else if(userMess.action=="ping"){
+            console.log("Recieved a ping");
         }
     });
     ws.on('close',function close(){
