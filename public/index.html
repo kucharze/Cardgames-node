@@ -211,6 +211,12 @@ div.statusBox {
                     }
                 }
             }
+            
+            window.setInterval(pingServer,6000);
+        
+        function pingServer(){
+            ws.send(JSON.stringify({action:"ping"}));
+        }
     </script>
 	
 	
