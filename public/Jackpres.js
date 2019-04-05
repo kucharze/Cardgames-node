@@ -24,7 +24,7 @@ class Jackpres {
     
     hit(){
         this.jplayer.findValue();
-        alert("player value "+this.jplayer.getValue());
+        //alert("player value "+this.jplayer.getValue());
         if(this.jplayer.value == 21){
             this.jview.displayMessage("You have a blackjack");
             document.getElementById("hit").disabled=true;
@@ -63,7 +63,7 @@ class Jackpres {
     
     stand(){
         this.jplayer.findValue();
-        alert("player value "+this.jplayer.value);
+        //alert("player value "+this.jplayer.value);
         let obj={};
         if(this.jplayer.value == 21){
             this.jview.displayMessage("You have a blackjack");
@@ -107,7 +107,7 @@ class Jackpres {
             }
         }
         this.jview.displayComputerHand(this.dealer.getHandCopy());
-        alert("The dealer hand value is now" +this.dealer.value);
+        //alert("The dealer hand value is now" +this.dealer.value);
         
         document.getElementById("hit").disabled=true;
         document.getElementById("stand").disabled=true;
