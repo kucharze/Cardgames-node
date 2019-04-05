@@ -96,8 +96,13 @@ var app = express();
 var router = express.Router();
 var port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname,'/public')));
+app.use(function (req, res) {
+  var delayed = new DelayedResponse(req, res);
+  slowFunction(delayed.wait());
+});
+
 let webSockets=[];
-let clientcounter=0;
+//let clientcounter=0;
 
 //init mongodb for use of database
 var MongoClient=require('mongodb').MongoClient;
@@ -126,7 +131,7 @@ ws.on('connection', function connection(ws) {
     console.log("Sucessful connection");
     
     if(!webSockets.includes(ws)) {
-        ws.clientNumber=clientcounter++;
+        //ws.clientNumber=clientcounter++;
         ws.logedIn=logedin;
         ws.login="";
         webSockets.push(ws);
@@ -186,6 +191,7 @@ ws.on('connection', function connection(ws) {
         }
     });
     ws.on('close',function close(){
+        ws.send(JSON.stringify({action:"Bye"}));
         console.log("user is disconnecting");
         //Remove user websocket from all games if in any
         let index=eightSockets.indexOf(ws);
