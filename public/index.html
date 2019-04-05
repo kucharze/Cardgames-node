@@ -790,11 +790,12 @@ function resetBoard() {
           for(var i=0; i<cards.length; i++){
               cards[i].classList.remove('flip');
           }
-          cards.forEach(card => {
+          setTimeout(() => {cards.forEach(card => {
             let randomPos = Math.floor(Math.random() * 12);
             card.style.order = randomPos;
           })
-          cards.forEach(card => card.addEventListener('click', flipCard));
+          cards.forEach(card => card.addEventListener('click', flipCard));},2000);
+                           
           mmoves=0;
       }
 
