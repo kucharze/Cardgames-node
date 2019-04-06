@@ -11,9 +11,13 @@ https://stackoverflow.com/questions/41632942/how-to-measure-time-elapsed-on-java
 https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
 https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesson links on the site
 https://stackoverflow.com/questions/40711300/javascript-do-something-every-n-seconds
+https://www.w3.org/2005/10/howto-favicon
 -->
 <html lang="en">
 <head>
+    <link rel="icon" 
+      type="image/png" 
+      href="./Images/kc.png" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -213,7 +217,8 @@ div.statusBox {
                 }
             }
             
-            window.setInterval(pingServer,10000);
+            //Ping server every so often to prevent server timeout
+            window.setInterval(pingServer,12000);
         
         function pingServer(){
             ws.send(JSON.stringify({action:"ping"}));
@@ -344,7 +349,7 @@ div.statusBox {
     <div id="allCards">
     <!-- Computer's hand -->
     <div id="myHand" class="hand"></div>
-
+        <br><br><br><br><br><br><br>
     <!-- "table" is div holding deck and discard pile images.
          Initially show card back for pile (replaced by program). -->
     <div id="table"><img id="deck"
@@ -355,9 +360,10 @@ div.statusBox {
       src="./cardback.png" 
       alt="Discard pile top."
       class="card"/></div>
-
+        <br><br>
     <!-- User's hand -->
     <div id="yourHand" class="hand"></div>
+        <br><br><br><br>
     <!-- 
 	 The suit-picker popup displayed when the user plays an 8.
          Initially not visible.
@@ -543,7 +549,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h1>Snip Snap Snorum</h1>
-            <p>The cards in each suit rank: K (high), Q, J, 10, 9, 8, 7, 6, 5, 4, 3, 2, A.<br>
+            <p>The cards in each suit rank: K(high),Q,J,10,9,8,7,6,5,4,3,2,A.<br>
                 The goal is to be the first player to get rid of all his cards.<br>
                 Deal the cards out completely.  The object of the game is to get rid of all your cards.<br>
                 The player starts by placing any card down on the table.<br>

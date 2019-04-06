@@ -14,8 +14,10 @@ class HumanPlayer extends Player {
     }
 
   cardPicked(){
-    this.list.push(this.deck.dealACard());
-    this.view.displayHumanHand(this.getHandCopy());
+      let newCard=this.deck.dealACard(); 
+      this.list.push(newCard);
+      this.view.addHumanCard(newCard,this.list.length);
+      
   }
 
   cardSelected(cardString){

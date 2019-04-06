@@ -30,7 +30,7 @@ class View {
     humanwin.innerHTML="Congradulations! You win!";
   }
 
-  displayComputerHand(hand){
+  displayComputerHand(hand){//only needed for load up
      let cpu = document.querySelector("#myHand");
      while(cpu.hasChildNodes()){
 	 cpu.removeChild(cpu.lastChild);
@@ -40,12 +40,12 @@ class View {
 	   image.src ="./Images/cardback.png";
 	   image.title=hand[i].toString();
 	   image.class="card positionable";
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
+	   image.style="position:absolute; left:"+  (30*i) + "px; z-index:" + i +" hieght:10px";
 	   cpu.appendChild(image);
     }
   }
 
-  displayHumanHand(hand){
+  displayHumanHand(hand){//Only needed for load up
      let human = document.querySelector("#yourHand");
      while(human.hasChildNodes()){
 	 human.removeChild(human.lastChild);
@@ -55,10 +55,55 @@ class View {
 	       image.src ="./Images/"+hand[i].toString()+".png";
 	       image.title=hand[i].toString();
 	       image.class="card positionable";
-	       image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+	       image.style="position:absolute; left:"+ (30*i) + "px; z-index:" + i +"";
             human.appendChild(image);
      }
   }
+    
+    addComCard(card,numCards){
+        let cpu = document.querySelector("#myHand");
+     //alert("cpu");
+      let image=document.createElement("img");
+	   image.src ="./Images/cardback.png";
+	   image.title=card.toString();
+	   image.class="card positionable";
+	   image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
+	   cpu.appendChild(image);
+        this.moveCard(image,(30*(numCards-1)),-30);
+    }
+    
+    addHumanCard(card,numCards){//Have a card move in from offscreen
+        let human=document.querySelector("#yourHand");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+card.toString()+".png";
+	       image.title=card.toString();
+	       image.class="card positionable";
+	       image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
+            human.appendChild(image);
+        //alert(t);
+        this.moveCard(image,(30*(numCards-1)),-30);
+    }
+    
+    moveCard(image,pos,i){
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCard(image,pos,i+5);
+                //human.appendChild(image);
+            },30);
+        }
+    }
+    
+    addComputerCard(card,numCards){
+        let cpu=document.querySelector("#myHand");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+hand[i].toString()+".png";
+	       image.title=hand[i].toString();
+	       image.class="card positionable";
+	       image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
+            cpu.appendChild(image);
+    }
     
     eraseHands(){
         let human=document.querySelector("#yourHand");
@@ -82,13 +127,10 @@ class View {
 	 image.id="pile";
 	 image.title=this.topCard.getValue()+this.topCard.getSuit();
 	 image.class="card positionable";
-	 image.style="left: "+  (15*2) + " px; z-index:" + 2 +"";
+	 image.style="left: "+  (15*2) + "px; z-index:" + 2 +"";
 	 table.appendChild(image);
   }
     
-    addCard(){//Have a card move in from offscreen
-        
-    }
     
     toPile(){//move a card to the pile
         

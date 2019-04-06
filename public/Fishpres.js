@@ -221,10 +221,10 @@ class Fishpres {
 //Sets up the start of the game
  play(){
      //below is for purposes of testing and demoing
-     for(var i=0; i<17; i++){
+     for(var i=0; i<15; i++){
          this.human.list.push(this.deck.dealACard());
      }
-     for(var i=0; i<17; i++){
+     for(var i=0; i<15; i++){
          this.computer.list.push(this.deck.dealACard());
      }
      this.fview.displayComputerHand(this.computer.getHandCopy());
@@ -248,10 +248,11 @@ class Fishpres {
 	    //this.pile.acceptACard(this.deck.dealACard());
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
-        for(var i=0; i<17; i++){
+        //for loops for testing
+        for(var i=0; i<15; i++){
          this.human.list.push(this.deck.dealACard());
         }
-        for(var i=0; i<17; i++){
+        for(var i=0; i<15; i++){
          this.computer.list.push(this.deck.dealACard());
         } 
         
