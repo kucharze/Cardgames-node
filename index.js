@@ -94,7 +94,7 @@ for(var i=0; i<16; i++){
 var app = express();
 //init Express Router
 var router = express.Router();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 app.use(express.static(path.join(__dirname,'/public')));
 
 let webSockets=[];
@@ -136,7 +136,7 @@ ws.on('connection', function connection(ws) {
         let userMess = JSON.parse(message);
         
         //take an action based on the action of the message
-        console.log("action="+userMess.action);
+        //console.log("action="+userMess.action);
         if(userMess.action=="create"){
             createlogin(userMess,ws);
         }
@@ -551,7 +551,7 @@ function createlogin(action,ws){
     console.log('received: %s', action.user + " "+ action.password);
     
     var myobj = { name: action.user, screenname: action.screenname, password: action.password };
-    var query = { screename: action.screenname};
+    var query = { screenname: action.screenname};
     database.collection("users").find(query).toArray(function(err, result) {
         if (err) throw err;
         let index=webSockets.indexOf(ws);
@@ -567,7 +567,7 @@ function createlogin(action,ws){
                 console.log("1 user document inserted");
             });
             ws.logedIn=true;
-            //webSockets[index].logedIn=true;
+            webSockets[index].logedIn=true;
             ws.username=action.screenname;
             webSockets[index].username=action.screenname;
             console.log("websocket login is "+ws.username);
