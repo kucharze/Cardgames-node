@@ -17,12 +17,18 @@ class HumanPlayer extends Player {
       let newCard=this.deck.dealACard(); 
       this.list.push(newCard);
       this.view.addHumanCard(newCard,this.list.length);
-      
+  }
+    fishCardPicked(){
+      let newCard=this.deck.dealACard(); 
+      this.list.push(newCard);
+      //this.view.addHumanCard(newCard,this.list.length);
+      this.view.displayHumanHand(this.getHandCopy());
   }
 
   cardSelected(cardString){
 	let card = this.find(cardString);
-	
+      document.getElementById(cardString+"E");
+	//let d=document.getElementsByTagName(cardString+"E");
     //picked an ineligible card to play
 	if ((card == null || !this.pile.isValidToPlay(card))) {
 	    this.view.displayWrongCardMsg(cardString);
@@ -30,18 +36,22 @@ class HumanPlayer extends Player {
 	}
 	else {//card is eligible to play
         let suit=card.getSuit();
+        this.view.moveToPile(d);
 	    this.remove(this.list.indexOf(card));
-	    this.pile.acceptACard(card);
-	    this.view.displayPileTopCard(card);
-	    this.view.displayHumanHand(this.getHandCopy());
-	    if (card.getValue() === "8") {//user played an eight
-		  this.view.displaySuitPicker();
-		  return false;
-		// Continue after user picks a suit.
-	    }
-        this.view.displaySuit(card.getSuit());
-	    return true;
-	}
+        this.pile.acceptACard(card);
+       // setTimeout(()=> {
+	           this.view.displayPileTopCard(card);
+	           this.view.displayHumanHand(this.getHandCopy());
+            //},3000);
+	           if (card.getValue() === "8") {//user played an eight
+		          this.view.displaySuitPicker();
+		          return false;
+		      // Continue after user picks a suit.
+	           }
+                this.view.displaySuit(card.getSuit());
+	           return true;
+            
+	   }
     }
     
     nullifyCard(){

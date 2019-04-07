@@ -25,7 +25,7 @@ class Fishview {
 	    image.src ="./Images/cardback.png";
         image.title=hand[i].toString();
 	    image.class="card positionable";
-        image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
+        image.style="position: absolute; left: "+ ((40*i)) + "px; z-index:" + i +";";
 	    //image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
 	    cpu.appendChild(image);
     }
@@ -37,31 +37,72 @@ class Fishview {
      while(human.hasChildNodes()){
 	   human.removeChild(human.lastChild);
      }
-      
       if(hand!=null || hand.length>0){
           for(let i=0; i<hand.length; i++){
                 let image=document.createElement("img");
 	           image.src ="./Images/"+hand[i].toString()+".png";
 	           image.title=hand[i].toString();
+              image.id=hand[i].toString()+"F";
               image.class="card positionable";
-              image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
+              image.style="position: absolute; left: "+ ((40*i)) + "px; z-index:" + i +";";
               //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
                 human.appendChild(image);
           }
       }
   }
     
+    addComCard(card,numCards){
+        //alert("CPU");
+        let cpu = document.getElementById("fcpuhand");
+       let image=document.createElement("img");
+	   image.src ="./Images/cardback.png";
+	   image.title=card.toString();
+        image.id=card.toString()+"F";
+	   image.class="card positionable";
+	   image.style="position:absolute; left:"+  (-20) + "px; z-index:" + numCards +"; hieght:10px";
+	   cpu.appendChild(image);
+        this.moveCardIn(image,(40*(numCards-1)),-20);
+    }
+    
+    addHumanCard(card,numCards){//Have a card move in from offscreen
+        //alert("User");
+        //alert(numCards);
+        let human=document.getElementById("fuserhand");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+card.toString()+".png";
+	       image.title=card.toString();
+        image.id=card.toString()+"F";
+	       image.class="card positionable";
+	       image.style="position:absolute; left:"+  (-20) + "px; z-index:" + (numCards) +"; hieght:10px";
+            human.appendChild(image);
+        setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCardIn(image,(40*(numCards-1)),-20);
+            },150);
+    }
+    
+    moveCardIn(image,pos,i){//for handling card animations
+        console.log("Moving a card");
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCardIn(image,pos,i+5);
+            },45);
+        }
+    }
+    
     giveHumanPoint(card){
         //alert("Human point");
         let p=document.getElementById("playerfours");
         let image=document.createElement("img");
-	       image.src ="./Images/"+card.toString()+".png";
-	       image.title=card.toString();
-          image.class="card positionable";
-          image.style="left: "+ ((40*(this.humanPoints))+10 ) + "px; z-index:" + i +";";
-            //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+	    image.src ="./Images/"+card.toString()+".png";
+	    image.title=card.toString();
+        image.class="card positionable";
+        image.style="position: absolute; left: "+ (-30) + "px; z-index:" + i +";";
         this.humanPoints++;
         p.appendChild(image);
+        this.moveCardIn(image,((40*(this.humanPoints-1))),-30);
     }
     
     giveComPoint(card){
@@ -71,10 +112,11 @@ class Fishview {
 	       image.src ="./Images/"+card.toString()+".png";
 	       image.title=card.toString();
           image.class="card positionable";
-          image.style="left: "+ ((40*this.comPoints)+10 ) + "px; top:" + 370 +"px; z-index:" + i +";";
+          image.style="position: absolute; left: "+ -30 + "px; z-index:" + i +";";
         //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
         this.comPoints++;
         p.appendChild(image);
+        this.moveCardIn(image,((40*(this.comPoints-1) )),-30);
     }
     
     eraseHands(){

@@ -110,6 +110,56 @@ div.statusBox {
   border: 1px solid #ccc;
   border-top: none;
 }
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
 </style>
     <link rel="stylesheet" href="styles-g1.css">
     <link rel="stylesheet" href="Crazy8.css" />
@@ -381,7 +431,12 @@ div.statusBox {
     <br><br><!--Button options for Crazy eights page -->
     <input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()">
     <br><br>
-    <input type="button" value="Toggle Online Mode" id="8on" style="font-size: 18px"  onclick="onlineEight()">
+    <h2>Toggle Online mode</h2>
+<label class="switch">
+  <input type="checkbox" onclick="onlineEight()">
+  <span class="slider"></span>
+</label>
+        <br>
     <br><br>
     
     <button style="font-size: 20px" class="accordion">View Instructions</button>
@@ -436,12 +491,10 @@ div.statusBox {
         }
         
         function onlineEight(){
-            //alert("online button test");
             if(!online){
                 //clear current board and set up online presenter
                 presenter.goOnline();
                 presenter=new Presenter8O(ws);
-                //alert("we are now online");
                 document.getElementById("reset8").disabled=true;
                 online=true;
                 let on={};
@@ -450,8 +503,6 @@ div.statusBox {
                 ws.send(JSON.stringify(on));
             }
             else{
-                //buzz player that they will forfiet the game if they quit, switch back if they decide to continue;
-                if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                     //shut off online mode
                     online=false;
                     let quit={};
@@ -462,11 +513,6 @@ div.statusBox {
                     presenter=new Presenter();
                     presenter.play();
                     document.getElementById("reset8").disabled=false;
-                } else {
-                    // Do nothing! Just return to the game
-                    //alert("We are not shutting off online mode");
-                    return;
-                }
             }
         }
         
@@ -485,7 +531,9 @@ div.statusBox {
     <div id="Jack" class="tabcontent">
         <div id="jackstatus" class="statusBox">Blackjack</div>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
+        
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">
         <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">
         <br><br>
@@ -542,7 +590,11 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         </div>
         
         <br><br>
-        <input type="button" value="Toggle Online Mode" style="font-size: 18px" onclick="snipOnline()">
+        <h2>Toggle Online mode</h2>
+<label class="switch">
+  <input type="checkbox" onclick="snipOnline()">
+  <span class="slider"></span>
+</label>
         <br><br>
         <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
         <br><br>
@@ -601,7 +653,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     ws.send(JSON.stringify(mes));
                     document.getElementById("snipreset").disabled=true;
                 }else{
-                    if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                         //shut off online mode
                         document.getElementById("snipreset").disabled=false;
                         document.getElementById("passturn").disabled=false;
@@ -613,10 +664,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                         snip.goOffline();
                         snip=new Snippres();
                         snip.play();
-                    }else{
-                        // Do nothing! Just return to the game
-                        return;
-                    }
                 }
             }
             
@@ -624,6 +671,8 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                 //alert("message action is"+message.action);
                 if(snipOn){
                    snip.update(message); 
+                }
+                else{ document.getElementById('snipstatus').innerHTML=document.getElementById('snipstatus').innerHTML + " "+ message.message;
                 }
             }
         </script>
@@ -814,21 +863,26 @@ cards.forEach(card => card.addEventListener('click', flipCard));
             <div id="fishstatus" class="statusBox">Go Fish</div>
             <br>
             <div id="comfours"></div>
-            <br>
+            <br><br><br><br><br><br><br><br>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br><br>
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
             <br><br><br><br><br><br><br>
             <div id="playerfours"></div>
-            <br><br>
+            <br><br><br><br><br><br><br><br>
             <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
         </div>
         
         <br> <br>
+        
         <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>
-        <input type="button" value="Toggle Online Mode" onclick="fishOnline()" style="font-size: 18px">
-        <br><br>
+        <h2>Toggle Online mode</h2>
+<label class="switch">
+  <input type="checkbox" onclick="fishOnline()">
+  <span class="slider"></span>
+</label>
+        <br><br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>Go Fish</h2>
@@ -888,7 +942,6 @@ cards.forEach(card => card.addEventListener('click', flipCard));
                     ws.send(JSON.stringify(mes));
                     document.getElementById("fishreset").disabled=true;
                 }else{
-                    if(confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
                         //shut off online mode
                         //alert("shutting off online mode");
                         fishO=false;
@@ -900,10 +953,6 @@ cards.forEach(card => card.addEventListener('click', flipCard));
                         fpres.goOffline();
                         fpres=new Fishpres();
                         fpres.play();
-                } else {
-                        // Do nothing! Just return to the game
-                        return;
-                    }
                 }
                 
             }
@@ -911,6 +960,8 @@ cards.forEach(card => card.addEventListener('click', flipCard));
                 //call method for updating go fish while online
                 if(fishO){
                     fpres.update(message);
+                }
+                else{ document.getElementById('fishstatus').innerHTML=document.getElementById('fishstatus').innerHTML + " "+ message.message;
                 }
             }
         </script>

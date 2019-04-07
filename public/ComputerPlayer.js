@@ -25,6 +25,13 @@ class ComputerPlayer extends Player{
       this.fishCards=[];
   }
     
+    cardPicked(){
+        //alert("Calling Com cardpicked")
+        let newCard=this.deck.dealACard();
+        this.list.push(newCard);
+        this.view.addComCard(newCard,this.list.length);
+        //this.view.displayComputerHand(this.getHandCopy());
+    }
   /**
    * Play for the computer, updating the computer's hand as well as
    * the deck and pile as appropriate.  In this version, the computer 

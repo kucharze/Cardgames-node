@@ -21,12 +21,12 @@ class Jackview {
 	       image.src ="./Images/"+hand[i].toString()+".png";
 	       image.title=hand[i].toString();
 	       image.class="card positionable";
-	       image.style="left: "+  (15*i) + " px; z-index:" + i +""; 
+	       image.style="position:absolute; left:"+  (35*(i)) + "px; top:"+ (520) + "px; z-index:" + i +" hieght:10px";
       }else{
 	    image.src ="./Images/cardback.png";
 	    image.title=hand[i].toString();
 	    image.class="card positionable";
-	    image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
+	    image.style="position:absolute; left:"+  (35*(i)) + "px; top:"+ (520) + "px; z-index:" + i +" hieght:10px";
       }
 	   cpu.appendChild(image);
    }
@@ -42,10 +42,45 @@ class Jackview {
 	   image.src ="./Images/"+hand[i].toString()+".png";
 	   image.title=hand[i].toString();
 	   image.class="card positionable";
-	   image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+	   image.style="position:absolute; left:"+  (35*(i)) + "px; top:"+ (650) + "px; z-index:" + i +" hieght:10px";
 	   human.appendChild(image);
    }
   }
+    
+    addComCard(card,numCards){
+        let cpu = document.getElementById("dealerhand");
+       //alert("cpu");
+       let image=document.createElement("img");
+	   image.src ="./Images/"+card.toString()+".png";
+	   image.title=card.toString()+"E";
+        //image.id=card.toString()+"E";
+	   image.class="card positionable";
+	   image.style="position:absolute; left:"+  (-30) + "px; top:"+ (520) + "px; z-index:" + numCards +" hieght:10px";
+	   cpu.appendChild(image);
+        this.moveCard(image,(30*(numCards-1)),-30);
+    }
+    
+    addHumanCard(card,numCards){//Have a card move in from offscreen
+        let human=document.getElementById("playerhand");
+        let image=document.createElement("img");
+	       image.src ="./Images/"+card.toString()+".png";
+	       image.title=card.toString()+"E";
+          //image.id=card.toString()+"E";
+	       image.class="card positionable";
+	       image.style="position:absolute; left:"+  -35 + "px; top:"+ (650) + "px; z-index:" + i +" hieght:10px";
+            human.appendChild(image);
+        this.moveCard(image,(30*(numCards-1)),-30);
+    }
+    
+    moveCard(image,pos,i){//for handling card animations
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCard(image,pos,i+5);
+            },30);
+        }
+    }
     
     displayMessage(message){
         let mes=document.getElementById("jackstatus");

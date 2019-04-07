@@ -54,9 +54,15 @@ class Fishpres {
                 if(c!=null){
                     this.comNumFours++;
                     this.fview.giveComPoint(c);
+                    let num=this.human.list.length;
+                    setTimeout(()=> {
+                           this.fview.displayHumanHand(this.human.getHandCopy());
+                            this.fview.giveHumanPoint(c);
+                        },(num*500));
                     //alert("This computer has this many four ofs " + this.comNumFours);
                 }
-            this.fview.displayComputerHand(this.computer.getHandCopy());
+            
+            //this.fview.displayComputerHand(this.computer.getHandCopy());
         }
         this.human.fish=true;
         this.fview.displayMessage("Pick a card to ask for"); 
@@ -69,12 +75,11 @@ class Fishpres {
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
-            //alert("Recieving");
             if(this.human.give(cardstring, this.askCard)){
                 this.computer.add(card);
                 
             if(this.human.findValue(this.askCard.getValue())!=null ){
-                //player still has cards that he she can play
+                //player still has cards that he/she can play
                 return;
             }
                 let c=this.computer.checkAmount();
@@ -89,7 +94,6 @@ class Fishpres {
                         if(this.humNumFours>this.comNumFours){
                             this.fview.displayMessage("You win!!");
                             document.getElementById("No").disabled=true;
-                       
                             let obj={};
                             obj.action="Go Fish";
                             obj.gameact="record";
@@ -111,7 +115,7 @@ class Fishpres {
                 }
                     
                 if(this.computer.isHandEmpty()){
-                    this.fview.displayComputerCard(null);
+                    this.fview.displayComputerHand(null);
                 }else{
                     this.fview.displayComputerHand(this.computer.getHandCopy());
                 }
@@ -132,6 +136,8 @@ class Fishpres {
             }else{
                 for(var i=0; i<this.computer.fishCards.length; i++){
                     this.human.add(this.computer.fishCards[i]);
+                    this.fview.addHumanCard(this.computer.fishCards[i], this.human.list.length); 
+                    
                 }
                 this.computer.nullifyCard();
             }
@@ -140,7 +146,11 @@ class Fishpres {
             let c=this.human.checkAmount();
             if(c!=null){
                 this.humNumFours++;
-                this.fview.giveHumanPoint(c);
+                let num=this.human.list.length;
+                setTimeout(()=> {
+                           this.fview.displayHumanHand(this.human.getHandCopy());
+                            this.fview.giveHumanPoint(c);
+                           },(num*500));
                 alert("User has this many four ofs "+this.humNumFours);
             }
             
@@ -161,8 +171,8 @@ class Fishpres {
                            this.fview.displayComputerHand(null);
                         }
                        else{
-                            this.fview.displayHumanHand(this.human.getHandCopy());
-                            this.fview.displayComputerHand(this.computer.getHandCopy());
+                            //this.fview.displayHumanHand(this.human.getHandCopy());
+                           this.fview.displayComputerHand(this.computer.getHandCopy());
                         }
                        
                        return;
@@ -186,7 +196,7 @@ class Fishpres {
                 this.fview.displayComputerHand(null);
             }
             else{
-                this.fview.displayHumanHand(this.human.getHandCopy());
+                //this.fview.displayHumanHand(this.human.getHandCopy());
                 this.fview.displayComputerHand(this.computer.getHandCopy());
             }
             

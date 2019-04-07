@@ -23,6 +23,7 @@ class Jackpres {
     }
     
     hit(){
+        let obj={};
         this.jplayer.findValue();
         //alert("player value "+this.jplayer.getValue());
         if(this.jplayer.value == 21){
@@ -33,8 +34,10 @@ class Jackpres {
             this.jview.displayComputerHand(this.dealer.getHandCopy());
             return;
         }
-        this.jplayer.add(this.deck1.dealACard());
-        this.jview.displayHumanHand(this.jplayer.getHandCopy());
+        let newCard=this.deck1.dealACard();
+        this.jplayer.add(newCard);
+        this.jview.addHumanCard(newCard,this.jplayer.list.length);
+        //this.jview.displayHumanHand(this.jplayer.getHandCopy());
         this.jplayer.findValue();
         
         if(this.jplayer.value>=21){//Player hand value over 21
@@ -92,7 +95,9 @@ class Jackpres {
         }
         //alert("dealer value is "+ this.dealer.value);
         while(this.dealer.value < 17){//dealer hand value over 21
-            this.dealer.add(this.cdeck.dealACard());
+            let newCard=this.cdeck.dealACard();
+            this.dealer.add(newCard);
+            this.jview.addComCard(newCard,this.dealer.list.length);
             this.dealer.findValue();
             
             if(this.dealer.value>21){
@@ -106,7 +111,7 @@ class Jackpres {
                 }
             }
         }
-        this.jview.displayComputerHand(this.dealer.getHandCopy());
+        //this.jview.displayComputerHand(this.dealer.getHandCopy());
         //alert("The dealer hand value is now" +this.dealer.value);
         
         document.getElementById("hit").disabled=true;

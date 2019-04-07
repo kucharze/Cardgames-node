@@ -39,6 +39,7 @@ class View {
       let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
 	   image.title=hand[i].toString();
+      image.id=hand[i].toString()+"E";
 	   image.class="card positionable";
 	   image.style="position:absolute; left:"+  (30*i) + "px; z-index:" + i +" hieght:10px";
 	   cpu.appendChild(image);
@@ -48,12 +49,13 @@ class View {
   displayHumanHand(hand){//Only needed for load up
      let human = document.querySelector("#yourHand");
      while(human.hasChildNodes()){
-	 human.removeChild(human.lastChild);
-      }
+	   human.removeChild(human.lastChild);
+    }
      for(let i=0; i<hand.length; i++){
          let image=document.createElement("img");
 	       image.src ="./Images/"+hand[i].toString()+".png";
 	       image.title=hand[i].toString();
+           image.id=hand[i].toString()+"E";
 	       image.class="card positionable";
 	       image.style="position:absolute; left:"+ (30*i) + "px; z-index:" + i +"";
             human.appendChild(image);
@@ -62,10 +64,10 @@ class View {
     
     addComCard(card,numCards){
         let cpu = document.querySelector("#myHand");
-     //alert("cpu");
       let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
-	   image.title=card.toString();
+	   image.title=card.toString()+"E";
+        image.id=card.toString()+"E";
 	   image.class="card positionable";
 	   image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
 	   cpu.appendChild(image);
@@ -76,33 +78,22 @@ class View {
         let human=document.querySelector("#yourHand");
         let image=document.createElement("img");
 	       image.src ="./Images/"+card.toString()+".png";
-	       image.title=card.toString();
+	       image.title=card.toString()+"E";
+        image.id=card.toString()+"E";
 	       image.class="card positionable";
 	       image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
             human.appendChild(image);
-        //alert(t);
         this.moveCard(image,(30*(numCards-1)),-30);
     }
     
-    moveCard(image,pos,i){
+    moveCard(image,pos,i){//for handling card animations
         image.style.left=(i+5)+"px";
         if(i<pos){
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCard(image,pos,i+5);
-                //human.appendChild(image);
             },30);
         }
-    }
-    
-    addComputerCard(card,numCards){
-        let cpu=document.querySelector("#myHand");
-        let image=document.createElement("img");
-	       image.src ="./Images/"+hand[i].toString()+".png";
-	       image.title=hand[i].toString();
-	       image.class="card positionable";
-	       image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
-            cpu.appendChild(image);
     }
     
     eraseHands(){
@@ -131,9 +122,15 @@ class View {
 	 table.appendChild(image);
   }
     
-    
-    toPile(){//move a card to the pile
-        
+    moveToPile(image,i,pos){//move a card to the pile
+        alert("Moving to pile");
+        image.style.top=(i-5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCard(image,i-5,pos);
+            },30);
+        }
     }
 
 //makes the suit picker vissible

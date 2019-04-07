@@ -27,7 +27,7 @@ class Player {
         
         for(var i=0; i<hand.length; i++){
             total=this.countCard(hand[i]);
-            console.log(hand[i]);
+            //console.log(hand[i]);
             if(total==4){
                 let card=hand[i];
                 //alert("We are going to remove all "+hand[i]);
