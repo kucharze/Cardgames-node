@@ -103,7 +103,7 @@ let webSockets=[];
 //init mongodb for use of database
 var MongoClient=require('mongodb').MongoClient;
 var database=null;
-//var url = "mongodb://localhost:27017/mydb";
+//var url = "mongodb://localhost:27017/mydb";//on local machine
 
 var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
 //localhost:27017/cardgames";
@@ -1376,7 +1376,7 @@ function playGoFish(message, ws){
 function fishRecord(message, ws){
     let index=webSockets.indexOf(ws);
     if((webSockets[index].username=="") || (webSockets[index].username==null)){
-        console.log("Not logged in. Cannot record result");
+        console.log("Fish Not logged in. Cannot record result");
         let obj={};
         obj.action="Go Fish";
         obj.message="You are not logged in, you cannot record a result to the leaderboard";
@@ -2029,6 +2029,14 @@ function checkAmount(player){
 
 function quitFish(playernumber){
     console.log("Quitting Go Fish");
+    //////////////////////////////////////////
+    if(playernumber%2 == 0){
+        gamenum=(playernumber)/2;
+    }
+    else{
+        gamenum=(playernumber-1)/2;
+        odd=true;
+    }
     if(playernumber%2==0) {//Handles a player leaving the game
         let obj = {};
         if(fishSockets[playernumber+1]!=null  && !fishComplete[gamenum]){
