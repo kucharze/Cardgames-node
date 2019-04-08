@@ -4,9 +4,21 @@
   box-sizing: border-box;
 }
 
-p{
+p {
     font-size: 25px;
     color: #AF0808;
+}
+p.a {
+  font-style: italic;
+  color: #719c71;
+  text-align: center;
+  font-size: 18px;
+}
+p.b {
+  font-style: italic;
+  color: #1f3f0e;
+  text-align: center;
+  font-size: 18px;
 }
 input{
     font-size: 15px;

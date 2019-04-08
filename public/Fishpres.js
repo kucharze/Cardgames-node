@@ -12,9 +12,9 @@ class Fishpres {
 	    this.deck = new Deck();
 	    this.deck.shuffle();
 	    this.deck.shuffle();
+        this.deck.shuffle();
 	    
         this.pile = new Pile();
-	    //this.pile.acceptACard(this.deck.dealACard());
 	    this.fview = new Fishview(this);
         
         this.askCard=null;
@@ -22,7 +22,6 @@ class Fishpres {
         
         this.humNumFours=0;
         this.comNumFours=0;
-        this.moves=0;
         this.socket=ws;
         
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
@@ -46,21 +45,20 @@ class Fishpres {
             return;
         }
         else{
-            this.moves++;
+            //this.moves++;
             if(!this.deck.isEmpty()){
                 this.computer.cardPicked();
             }
             let c=this.computer.checkAmount();
-                if(c!=null){
-                    this.comNumFours++;
+            if(c!=null){
+                this.comNumFours++;
+                let num=this.computer.list.length;
+                setTimeout(()=> {
                     this.fview.giveComPoint(c);
-                    let num=this.human.list.length;
-                    setTimeout(()=> {
-                           this.fview.displayHumanHand(this.human.getHandCopy());
-                            this.fview.giveHumanPoint(c);
-                        },(num*500));
-                    //alert("This computer has this many four ofs " + this.comNumFours);
-                }
+                       this.fview.displayComputerHand(this.computer.getHandCopy());
+                    },(num*850));
+                //alert("This computer has this many four ofs " + this.comNumFours);
+            }
             
             //this.fview.displayComputerHand(this.computer.getHandCopy());
         }
@@ -77,17 +75,22 @@ class Fishpres {
         if(!this.human.fish){//For giving a card to the computer
             if(this.human.give(cardstring, this.askCard)){
                 this.computer.add(card);
-                
+                this.fview.addComCard(card,this.computer.list.length);
             if(this.human.findValue(this.askCard.getValue())!=null ){
                 //player still has cards that he/she can play
                 return;
             }
-                let c=this.computer.checkAmount();
-                if(c!=null){
-                    this.comNumFours++;
+            
+            let c=this.computer.checkAmount();
+            if(c!=null){
+                this.comNumFours++;
+                let num=this.computer.list.length;
+                setTimeout(()=> {
                     this.fview.giveComPoint(c);
-                    //alert("This computer has this many four ofs " + this.comNumFours);
-                }
+                       this.fview.displayComputerHand(this.computer.getHandCopy());
+                    },(num*850));
+                //alert("This computer has this many four ofs " + this.comNumFours);
+            }
                 
                 if(this.deck.isEmpty()){
                     if(this.human.isHandEmpty() && this.computer.isHandEmpty()){
@@ -116,8 +119,6 @@ class Fishpres {
                     
                 if(this.computer.isHandEmpty()){
                     this.fview.displayComputerHand(null);
-                }else{
-                    this.fview.displayComputerHand(this.computer.getHandCopy());
                 }
                 
                 this.fview.displayMessage("Pick a card to ask for");
@@ -148,9 +149,9 @@ class Fishpres {
                 this.humNumFours++;
                 let num=this.human.list.length;
                 setTimeout(()=> {
-                           this.fview.displayHumanHand(this.human.getHandCopy());
-                            this.fview.giveHumanPoint(c);
-                           },(num*500));
+                    this.fview.giveHumanPoint(c);
+                    this.fview.displayHumanHand(this.human.getHandCopy());        
+                     },(num*850));
                 alert("User has this many four ofs "+this.humNumFours);
             }
             
@@ -231,10 +232,10 @@ class Fishpres {
 //Sets up the start of the game
  play(){
      //below is for purposes of testing and demoing
-     for(var i=0; i<15; i++){
+     for(var i=0; i<12; i++){
          this.human.list.push(this.deck.dealACard());
      }
-     for(var i=0; i<15; i++){
+     for(var i=0; i<12; i++){
          this.computer.list.push(this.deck.dealACard());
      }
      this.fview.displayComputerHand(this.computer.getHandCopy());

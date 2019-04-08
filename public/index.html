@@ -55,14 +55,15 @@ body {
   display: none;
   overflow: hidden;
 }
-    
+    /*Style for title background color vilgax */
 div.statusBox {
     border: 2px solid black;
     padding: 3px 0px;
     margin: 3px 0px;
     font-size: 30pt;
     font-family: cursive;
-    background-color: #893838;
+    /*background-color: #893838;*/
+    background-color: #1f3f0e;
     text-align: center;
 }
     
@@ -90,9 +91,9 @@ div.statusBox {
   background-color: #ddd;
 }
 
-/* Create an active/current tablink class */
+/* Create an active/current tablink class vilgax #8B0000 */
 .tab button.active {
-  background-color: #8B0000;
+  background-color: #719c71;
 }
 .tablinks {
   background-color: #8B0000;
@@ -274,18 +275,23 @@ input:checked + .slider:before {
             ws.send(JSON.stringify({action:"ping"}));
         }
     </script>
-	
-	
+<!--		
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
 <img src="image-L.png" alt="cards" align="right" height="220">
-<img src="image-R.png" alt="cards" align="left" height="220">  
-<h2 style="text-align: center">Play your favorite game now or
-	<br> create an account to play online and track your high score.<br>
-    (* Online games.)</h2>
-    <p style="color: #9fa9a3; text-align: center"><br>
-        This site is currently under construction.  Some features might not work as intended.<br>The games on this site may not work with versions of Internet Explorer.</p>
-<br> <br><br>
+<img src="image-R.png" alt="cards" align="left" height="220">
+<h3 style="text-align: center; font-style: italic">
+	Play your favorite game. Create an account to log your high score.<br>
+    (* Online games.)</h3>
+-->
+	<center> <img src="PlayingCards4.jpg" alt="cards" align="Center" height="300"; height="300"></center>
 
+		<p class="a"> (* Online games.)</p>
+	<br>
+
+	<p class="a">
+        This site is currently under construction.  Some features might not work as intended.<br>
+		The games on this site may not work with versions of Internet Explorer.</p>
+<br>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
     <button class="tablinks" onclick="openTab(event, 'sugestions')">Suggestions</button>
@@ -491,10 +497,12 @@ input:checked + .slider:before {
         }
         
         function onlineEight(){
+            //alert("online button test");
             if(!online){
                 //clear current board and set up online presenter
                 presenter.goOnline();
                 presenter=new Presenter8O(ws);
+                //alert("we are now online");
                 document.getElementById("reset8").disabled=true;
                 online=true;
                 let on={};
@@ -531,14 +539,14 @@ input:checked + .slider:before {
     <div id="Jack" class="tabcontent">
         <div id="jackstatus" class="statusBox">Blackjack</div>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
-        
+        <br><br><br><br><br><br><br><br>
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br>
         <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">
         <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">
-        <br><br>
+        <br><br><br><br><br>
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()">
-        <br><br>
+        <br><br><br><br>
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
         <div class="panel">
         <p><h2>Blackjack Rules</h2>
@@ -861,15 +869,15 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     <div id="gofish" class="tabcontent">
         <div id="allfish">
             <div id="fishstatus" class="statusBox">Go Fish</div>
-            <br>
+            <br><br>
             <div id="comfours"></div>
-            <br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br><br>
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
-            <br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br>
             <div id="playerfours"></div>
-            <br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br>
             <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
         </div>
         
@@ -878,6 +886,7 @@ cards.forEach(card => card.addEventListener('click', flipCard));
         <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>
         <h2>Toggle Online mode</h2>
+        <br><br>
 <label class="switch">
   <input type="checkbox" onclick="fishOnline()">
   <span class="slider"></span>

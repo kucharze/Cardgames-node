@@ -65,8 +65,7 @@ class Fishview {
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
-        //alert("User");
-        //alert(numCards);
+        //alert("User");//alert(numCards);
         let human=document.getElementById("fuserhand");
         let image=document.createElement("img");
 	       image.src ="./Images/"+card.toString()+".png";
@@ -75,10 +74,10 @@ class Fishview {
 	       image.class="card positionable";
 	       image.style="position:absolute; left:"+  (-20) + "px; z-index:" + (numCards) +"; hieght:10px";
             human.appendChild(image);
-        setTimeout(()=> {
+       // setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,(40*(numCards-1)),-20);
-            },150);
+           // },150);
     }
     
     moveCardIn(image,pos,i){//for handling card animations
@@ -88,7 +87,7 @@ class Fishview {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,pos,i+5);
-            },45);
+            },30);
         }
     }
     

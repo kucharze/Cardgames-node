@@ -21,12 +21,12 @@ class Jackview {
 	       image.src ="./Images/"+hand[i].toString()+".png";
 	       image.title=hand[i].toString();
 	       image.class="card positionable";
-	       image.style="position:absolute; left:"+  (35*(i)) + "px; top:"+ (520) + "px; z-index:" + i +" hieght:10px";
+	       image.style="position:absolute; left:"+  (35*(i)) + "px; z-index:" + i +" hieght:10px";
       }else{
 	    image.src ="./Images/cardback.png";
 	    image.title=hand[i].toString();
 	    image.class="card positionable";
-	    image.style="position:absolute; left:"+  (35*(i)) + "px; top:"+ (520) + "px; z-index:" + i +" hieght:10px";
+	    image.style="position:absolute; left:"+  (35*(i)) + "px; z-index:" + i +" hieght:10px";
       }
 	   cpu.appendChild(image);
    }
@@ -42,7 +42,7 @@ class Jackview {
 	   image.src ="./Images/"+hand[i].toString()+".png";
 	   image.title=hand[i].toString();
 	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (35*(i)) + "px; top:"+ (650) + "px; z-index:" + i +" hieght:10px";
+	   image.style="position:absolute; left:"+  (35*(i)) + "px; z-index:" + i +" hieght:10px";
 	   human.appendChild(image);
    }
   }
@@ -55,7 +55,7 @@ class Jackview {
 	   image.title=card.toString()+"E";
         //image.id=card.toString()+"E";
 	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (-30) + "px; top:"+ (520) + "px; z-index:" + numCards +" hieght:10px";
+	   image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
 	   cpu.appendChild(image);
         this.moveCard(image,(30*(numCards-1)),-30);
     }
@@ -67,7 +67,7 @@ class Jackview {
 	       image.title=card.toString()+"E";
           //image.id=card.toString()+"E";
 	       image.class="card positionable";
-	       image.style="position:absolute; left:"+  -35 + "px; top:"+ (650) + "px; z-index:" + i +" hieght:10px";
+	       image.style="position:absolute; left:"+  -35 + "px; z-index:" + i +" hieght:10px";
             human.appendChild(image);
         this.moveCard(image,(30*(numCards-1)),-30);
     }
