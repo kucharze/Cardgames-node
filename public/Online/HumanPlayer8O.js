@@ -34,8 +34,6 @@ class HumanPlayer8O extends Player {
    */
   cardSelected(cardString) {
     let card = this.find(cardString);
-      //alert(this.find(cardString));
-      //alert("Human's pile card is "+this.pile.getTopCard());
     if (!card || !this.pile.isValidToPlay(card)) {
       this.view.displayWrongCardMsg(cardString);
       return false; // user failed to select a valid card to play

@@ -73,8 +73,11 @@ class View8O {
    * Display the top card of the discard pile.
    * @param {Card} card - The card to be displayed as the top of the pile.
    */
+     //display the top card of the pile
   displayPileTopCard(card) {
-    this.pileImg.src = card.getURL(); 
+    this.pileImg.src = card.getURL();
+    this.pileImg.style="position:absolute; left:"+ (-30) + "px; z-index:" + 1 +"";
+    this.moveCard(this.pileImg,100,-45);
   }
   /**
    * Display a "wrong card" message.
@@ -108,6 +111,40 @@ class View8O {
       this.addCardImage(hand[i], div, faceup);
     }
   }
+    
+    addComCard(numCards){
+        let cpu = document.querySelector("#myHand");
+        let image=document.createElement("img");
+	    image.src ="./Images/cardback.png";
+	    //image.title=card.toString();
+        //image.id=card.toString()+"E";
+	    image.class="card positionable";
+	    image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
+	    cpu.appendChild(image);
+        this.moveCard(image,(100*(numCards-1)),-30);
+    }
+    
+    addHumanCard(card,numCards){//Have a card move in from offscreen
+        let human=document.querySelector("#yourHand");
+        let image=document.createElement("img");
+	    image.src ="./Images/"+card.toString()+".png";
+	    image.title=card.toString();
+        image.id=card.toString()+"E";
+	    image.class="card positionable";
+	    image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
+        human.appendChild(image);
+        this.moveCard(image,(100*(numCards-1)),-30);
+    }
+    
+    moveCard(image,pos,i){//for handling card animations
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                this.moveCard(image,pos,i+5);
+            },30);
+        }
+    }
+    
   /**
    * Event handler for preventing click processing.
    * @param {Event} event - DOM Event object.
@@ -153,14 +190,10 @@ class View8O {
    * @param {boolean} faceup - Whether card should be faceup or not.
    */
   addCardImage(card, aDiv, faceup) {
-    //alert("aDiv="+aDiv.id);
     let cardPos = aDiv.children.length; // position of this card within div
     let newImg = document.createElement("img");
     newImg.src = faceup ? card.getURL() : card.getBackURL();
     newImg.title = faceup ? card.toString() : "";
-    //newImg.style.left = (cardPos * Card.pixelOffset) + "px";
-    //newImg.style.zIndex = String(cardPos+1);
-    //newImg.setAttribute("class", "card positionable" + (faceup?" clickable":""));
     aDiv.appendChild(newImg);
   }
     

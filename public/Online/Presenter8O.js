@@ -26,7 +26,6 @@ class Presenter8O {
 
  cardPicked(){
    this.view.displayStatus("Waiting for card to be dealt");
-     //alert("We are waiting for a card to be dealt");
    var mess = {"action":"Crazy Eights", "gameact":"cardPicked" };
    this.ws.send(JSON.stringify(mess));
    this.view.blockPlay();
@@ -36,7 +35,6 @@ class Presenter8O {
 //takes the string for a card and determines if the player's turn is over
 //if it is complete the cycle of the players turn and the humans turn
  cardSelected(cardString){
-     //alert("pile suit is "+this.pile.getAnnouncedSuit());
    if(this.human.cardSelected(cardString)){
 	this.completeMyTurn();
      }
@@ -46,7 +44,6 @@ class Presenter8O {
  completeMyTurn(){
     let cardPlayed=this.pile.getTopCard();
     let suit=this.pile.getAnnouncedSuit();
-   // alert(cardPlayed.suit + " "+ cardPlayed.getValue());
      let data={"action":"Crazy Eights","gameact":"cardSelected", "card":cardPlayed, "announcedSuit": suit};
     ws.send(JSON.stringify(data));
      
@@ -79,8 +76,27 @@ class Presenter8O {
 //*/
 	this.human.setHand(newHand);
 	this.view.displayStatus(message.status);
-	this.view.displayComputerHand(message.numberOfOpponentCards);
-	this.view.displayHumanHand(newHand);
+      
+      if(message.procedure=="cardPicked"){
+          alert("in card picked sextion");
+          if(message.drawCard){
+              alert("in card picked sextion");
+              let card=message.pileTopCard;
+    	       let ccard=JSON.parse( JSON.stringify(card), 
+	           (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+              this.view.addHumanCard(ccard,this.human.getHandCopy().length);
+              this.view.displayComputerHand(message.numberOfOpponentCards);
+          }else{
+              this.view.addComCard(message.numberOfOpponentCards);
+              this.view.displayHumanHand(newHand);
+          }
+      }
+      else if((message.procedure==null) || (message.procedure=="") ) {
+          this.view.displayComputerHand(message.numberOfOpponentCards);
+	       this.view.displayHumanHand(newHand);
+      }
+	//this.view.displayComputerHand(message.numberOfOpponentCards);
+	//this.view.displayHumanHand(newHand);
       
 	if(message.pileAnnouncedSuit) {
           this.pile.setAnnouncedSuit(message.pileAnnouncedSuit);
