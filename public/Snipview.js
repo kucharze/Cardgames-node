@@ -91,7 +91,7 @@ class Snipview {
           image.title=this.topCard.getValue()+this.topCard.getSuit();
       }
 	 
-	 image.id="pile";
+	 image.id="Snippile";
 	 image.class="card positionable";
 	 image.style="left: "+  (15*2) + " px; z-index:" + 2 +"";
 	 table.appendChild(image);

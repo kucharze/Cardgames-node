@@ -118,8 +118,9 @@ class View {
 	 image.id="pile";
 	 image.title=this.topCard.getValue()+this.topCard.getSuit();
 	 image.class="card positionable";
-	 image.style="left: "+  (15*2) + "px; z-index:" + 2 +"";
+	 image.style="position:absolute; left:"+ (-30) + "px; z-index:" + 1 +"";
 	 table.appendChild(image);
+      this.moveCard(image,100,-30);
   }
     
     moveToPile(image,ileft,itop,left,top){//move a card to the pile

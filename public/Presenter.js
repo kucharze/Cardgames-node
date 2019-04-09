@@ -44,7 +44,9 @@ class Presenter {
          this.date=new Date();
      }
      if(this.human.cardSelected(cardString)){
-         this.completeBothTurns();
+          setTimeout(()=> {
+	           this.completeBothTurns();
+            },1400);
      }
     return;
  }

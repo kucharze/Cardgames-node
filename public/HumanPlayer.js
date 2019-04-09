@@ -26,8 +26,10 @@ class HumanPlayer extends Player {
   }
 
   cardSelected(cardString){
+      let moving=true;
 	let card = this.find(cardString);
-      document.getElementById(cardString+"E");
+      let image=document.getElementById(cardString+"E");
+      let pimage=document.getElementById("pile");
 	//let d=document.getElementsByTagName(cardString+"E");
     //picked an ineligible card to play
 	if ((card == null || !this.pile.isValidToPlay(card))) {
@@ -36,13 +38,18 @@ class HumanPlayer extends Player {
 	}
 	else {//card is eligible to play
         let suit=card.getSuit();
-        this.view.moveToPile(d);
+        //this.view.moveToPile(d);
 	    this.remove(this.list.indexOf(card));
         this.pile.acceptACard(card);
-       // setTimeout(()=> {
+        //setTimeout(()=> {
 	           this.view.displayPileTopCard(card);
 	           this.view.displayHumanHand(this.getHandCopy());
-            //},3000);
+               // moving=false;
+                //alert("moved");
+           // },3000);
+       // while(moving){
+        //    console.log("waiting for piece to be moved");
+       // }
 	           if (card.getValue() === "8") {//user played an eight
 		          this.view.displaySuitPicker();
 		          return false;
@@ -50,7 +57,6 @@ class HumanPlayer extends Player {
 	           }
                 this.view.displaySuit(card.getSuit());
 	           return true;
-            
 	   }
     }
     
