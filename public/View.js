@@ -66,7 +66,7 @@ class View {
         let cpu = document.querySelector("#myHand");
       let image=document.createElement("img");
 	   image.src ="./Images/cardback.png";
-	   image.title=card.toString()+"E";
+	   image.title=card.toString();
         image.id=card.toString()+"E";
 	   image.class="card positionable";
 	   image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
@@ -78,7 +78,7 @@ class View {
         let human=document.querySelector("#yourHand");
         let image=document.createElement("img");
 	       image.src ="./Images/"+card.toString()+".png";
-	       image.title=card.toString()+"E";
+	       image.title=card.toString();
         image.id=card.toString()+"E";
 	       image.class="card positionable";
 	       image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
@@ -122,8 +122,9 @@ class View {
 	 table.appendChild(image);
   }
     
-    moveToPile(image,i,pos){//move a card to the pile
+    moveToPile(image,ileft,itop,left,top){//move a card to the pile
         alert("Moving to pile");
+        let pile=document.getElementById("pile");
         image.style.top=(i-5)+"px";
         if(i<pos){
             setTimeout(()=> {
