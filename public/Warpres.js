@@ -18,12 +18,11 @@ class Warpres {
         this.humanscore=0;
         this.computerscore=0;
         this.socket=ws;
+        this.w=0;
         
-	    this.pile = new Pile();
+	    //this.pile = new Pile();
 	    //this.pile.acceptACard(this.deck.dealACard());
 	    this.wview = new Warview(this);
-	    this.human=new HumanPlayer(this.deck1, this.pile, this.view);
-	    this.computer=new ComputerPlayer(this.cdeck, this.pile, this.view);
     }
 
 
@@ -41,6 +40,7 @@ class Warpres {
  }
     
     dealCards(){
+        this.w=0;
         let obj={};
         if(this.deck1.list.length<4){
             this.wview.disablePlay();
@@ -53,8 +53,7 @@ class Warpres {
             return;
         }
         
-        //alert("Dealing the cards");
-        this.wview.displayMessage("Dealing the cards");
+        //this.wview.displayMessage("Dealing the cards");
         let humancard=this.deck1.dealACard();
         let computercard=this.cdeck.dealACard();
         this.wview.displayHumanCard(humancard);
@@ -97,9 +96,9 @@ class Warpres {
         let comdown=this.cdeck.dealACard();
         let comwar=this.cdeck.dealACard();
         
-        this.wview.displayHumanWarCards(humandown, humanwar);
-        this.wview.displayComputerWarCards(comdown, comwar);
-        
+        this.wview.displayHumanWarCards(humandown, humanwar,this.w);
+        this.wview.displayComputerWarCards(comdown, comwar,this.w);
+        this.w=this.w+2;
         if(humanwar.warValue > comwar.warValue){
             this.humanscore++;
             if((this.deck1.isEmpty()) || (this.cdeck.isEmpty())){

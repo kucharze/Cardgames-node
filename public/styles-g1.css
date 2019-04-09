@@ -20,9 +20,17 @@ p.b {
   text-align: center;
   font-size: 18px;
 }
-input{
-    font-size: 15px;
+input {  /* button*/
+  background-color: #8cd98c; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
 }
+
 
 .memory-game {
   width: 640px;

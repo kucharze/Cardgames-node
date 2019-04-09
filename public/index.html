@@ -197,6 +197,22 @@ input:checked + .slider:before {
                     //Failed to create a login
                     document.getElementById("Creation status").innerHTML=message.status;
                 }
+                else if(message.action=="War"){
+                    let s=document.getElementById("warstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
+                else if(message.action=="Matching"){
+                    let s=document.getElementById("matchstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
+                else if(message.action=="SpiderSolitare"){
+                    let s=document.getElementById("Solstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
+                else if(message.action="Blackjack"){
+                    let s=document.getElementById("jackstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
                 else if(message.action=="Login"){
                     //failed to login succesfully
                     document.getElementById("Login status").innerHTML=message.status;
@@ -402,6 +418,7 @@ input:checked + .slider:before {
 <div id="Eight" class="tabcontent"><!--Crazy Eights-->
         <!-- Status area -->
     <div id="status" class="statusBox">Crazy Eights</div>
+    <center><input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()"></center>
     <div id="allCards">
     <!-- Computer's hand -->
     <div id="myHand" class="hand"></div>
@@ -419,7 +436,7 @@ input:checked + .slider:before {
         <br><br>
     <!-- User's hand -->
     <div id="yourHand" class="hand"></div>
-        <br><br><br><br>
+        <br><br><br>
     <!-- 
 	 The suit-picker popup displayed when the user plays an 8.
          Initially not visible.
@@ -434,8 +451,7 @@ input:checked + .slider:before {
       </div>
     </div>
     </div>
-    <br><br><!--Button options for Crazy eights page -->
-    <input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()">
+    <br><br>
     <br><br>
     <h2>Toggle Online mode</h2>
 <label class="switch">
@@ -488,7 +504,6 @@ input:checked + .slider:before {
     <script>
         //Play one round of Crazy Eights against the computer
         var presenter = new Presenter(ws);
-        //var onlinepres = new Presenter8O();
         presenter.play();
         let online = false;
         
@@ -538,14 +553,14 @@ input:checked + .slider:before {
     
     <div id="Jack" class="tabcontent">
         <div id="jackstatus" class="statusBox">Blackjack</div>
+        <center><input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">......... 
+        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">....... 
+        <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()"></center>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br><br><br>
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br><br><br>
-        <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">
-        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">
-        <br><br><br><br><br>
-        <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()">
+        
         <br><br><br><br>
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
         <div class="panel">
@@ -563,7 +578,6 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 6.	If the dealer does not bust, then the higher point total between the player and dealer will win.<br>
 </p>
         </div>
-        
         <script src="Jackplayer.js"></script>
         <script src="Jackpres.js"></script>
         <script src="Jackview.js"></script>
@@ -571,30 +585,25 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             let jack=new Jackpres(ws);
             jack.play();
             
-            function stand(){
-                jack.stand();
-            }
+            function stand(){jack.stand();}
             
-            function hit(){
-                jack.hit();
-            }
+            function hit(){jack.hit();}
             
-            function resetJack(){
-                jack.resetGame();
-            }
+            function resetJack(){jack.resetGame();}
         </script>
     </div>
     
     <div id="Snap" class="tabcontent">
         <div id="allSnips">
         <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
+            <center><input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">.... <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()"></center>
         <div id="scpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
         <br><br><br>
         <div id="suserhand"><img alt="playerhand" src="Images/cardback.png" title="start card"></div>
         <br><br><br><br><br><br>
-        <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
+        
         </div>
         
         <br><br>
@@ -604,7 +613,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
   <span class="slider"></span>
 </label>
         <br><br>
-        <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
+        
         <br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
@@ -869,7 +878,7 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     <div id="gofish" class="tabcontent">
         <div id="allfish">
             <div id="fishstatus" class="statusBox">Go Fish</div>
-            <br><br>
+            <center><input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">.... <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
             <div id="comfours"></div>
             <br><br><br><br><br><br><br>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
@@ -877,13 +886,9 @@ cards.forEach(card => card.addEventListener('click', flipCard));
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
             <br><br><br><br><br><br><br><br><br>
             <div id="playerfours"></div>
-            <br><br><br><br><br><br>
-            <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
+            <br><br><br><br>
         </div>
         
-        <br> <br>
-        
-        <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>
         <h2>Toggle Online mode</h2>
         <br><br>
@@ -978,6 +983,9 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     
     <div id="solitare" class="tabcontent">
         <div id="Solstatus" class="statusBox">Spider Solitare</div>
+        <center><input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">.... 
+        <input type="button" value="Upload to leaderboard" style="font-size: 18px" onclick="upload()"></center>
+        
         <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png" alt="row1"></div>
         <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png" alt="row2"></div>
         <div id="row3" style="position: absolute; left: 220px"><img src="Images/cardback.png" alt="row3"></div>
@@ -987,11 +995,7 @@ cards.forEach(card => card.addEventListener('click', flipCard));
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <div id="soldecks"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"></div>
         <div id="Vicdecks"></div>
-        <br>
-        <input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">
         <br><br>
-        <input type="button" value="Upload to leaderboard" style="font-size: 18px" onclick="upload()">
-        <br><br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>Solitare</h2>
@@ -1027,14 +1031,17 @@ cards.forEach(card => card.addEventListener('click', flipCard));
 
 <div id="War" class="tabcontent">
   <div id="warstatus" class="statusBox">War</div>
-    <div id="mywar"><img src="Images/cardback.png" alt="Computerwarcard"></div><br>
-    <div id="mycard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
-    <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
-    <div id="yourwar"><img src="Images/cardback.png" alt="playerwarcard"></div><br>
+    <center><input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">... <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()"></center>
+    <br>
+    <div id="mywar"></div>
+    <br><br><br><br><br><br>
+    <div id="mycard"></div>
+    <br><br><br><br><br><br>
+    <div id="yourcard"></div>
+    <br><br><br><br><br><br>
+    <div id="yourwar"></div>
+    <br><br><br><br><br><br><br>
     
-    <input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">
-    <br><br><br>
-    <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()">
     <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>War</h2>

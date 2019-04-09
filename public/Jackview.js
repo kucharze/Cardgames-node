@@ -21,12 +21,12 @@ class Jackview {
 	       image.src ="./Images/"+hand[i].toString()+".png";
 	       image.title=hand[i].toString();
 	       image.class="card positionable";
-	       image.style="position:absolute; left:"+  (35*(i)) + "px; z-index:" + i +" hieght:10px";
+	       image.style="position:absolute; left:"+  ((35*(i))+10) + "px; z-index:" + i +" hieght:10px";
       }else{
 	    image.src ="./Images/cardback.png";
 	    image.title=hand[i].toString();
 	    image.class="card positionable";
-	    image.style="position:absolute; left:"+  (35*(i)) + "px; z-index:" + i +" hieght:10px";
+	    image.style="position:absolute; left:"+  ((35*(i))+10) + "px; z-index:" + i +" hieght:10px";
       }
 	   cpu.appendChild(image);
    }
@@ -42,7 +42,7 @@ class Jackview {
 	   image.src ="./Images/"+hand[i].toString()+".png";
 	   image.title=hand[i].toString();
 	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (35*(i)) + "px; z-index:" + i +" hieght:10px";
+	   image.style="position:absolute; left:"+  ((35*(i))+10) + "px; z-index:" + i +" hieght:10px";
 	   human.appendChild(image);
    }
   }
