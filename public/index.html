@@ -595,24 +595,21 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <div id="allSnips">
         <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
             <center><input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">.... <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()"></center>
+            <br><br>
         <div id="scpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
-        <br><br><br>
+        <br><br><br><br><br><br><br>
         <div id="suserhand"><img alt="playerhand" src="Images/cardback.png" title="start card"></div>
-        <br><br><br><br><br><br>
-        
+        <br><br><br><br><br><br><br><br>
         </div>
         
-        <br><br>
         <h2>Toggle Online mode</h2>
 <label class="switch">
   <input type="checkbox" onclick="snipOnline()">
   <span class="slider"></span>
 </label>
-        <br><br>
-        
-        <br><br>
+        <br><br><br><br><br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h1>Snip Snap Snorum</h1>
@@ -651,7 +648,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     snip.sendMes();
                 }
                 else{//normal offline function
-                   snip.comTurn();
+                    snip.comTurn()
                 }
             }
             

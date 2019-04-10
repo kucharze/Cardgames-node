@@ -65,6 +65,7 @@ class View8O {
    * @param {number} numberOfCards - The number of cards in opponent's hand.
    */
   displayComputerHand(numberOfCards) {
+      this.comlength=numberOfCards;
     let hand = [];
     let card = new Card("b", "jok"); // any card will do, since showing backs
     for (let i=1; i<=numberOfCards; i++) {
@@ -96,6 +97,7 @@ class View8O {
    * @param {Card[]} hand - The human player's hand.
    */
   displayHumanHand(hand) {
+      this.humlength=hand.length;
     this.displayHand(hand, this.yourHandDiv, true);
   }  
   /**
@@ -111,10 +113,9 @@ class View8O {
       div.removeChild(div.children[0]);
     }
     for (let i=0; i<hand.length; i++) {
-      this.addCardImage(hand[i], div, faceup);
+      this.addCardImage(hand[i], div, faceup,i);
     }
   }
-    
         //this.myHandDiv = document.getElementById("myHand");
         //this.pileImg = document.getElementById("pile");
         //this.yourHandDiv = document.getElementById("yourHand");
@@ -129,7 +130,7 @@ class View8O {
 	    image.class="card positionable";
 	    image.style="position:absolute; left:"+  (-30) + "px; z-index:" + length +" hieght:10px";
 	    cpu.appendChild(image);
-        this.moveCard(image,(length),-30);
+        this.moveCard(image,(30*(this.comlength)),-30);
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
@@ -142,7 +143,7 @@ class View8O {
 	    image.class="card positionable";
 	    image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
         human.appendChild(image);
-        this.moveCard(image,(length),-30);
+        this.moveCard(image,(30*(this.humlength)),-30);
     }
     
     moveCard(image,pos,i){//for handling card animations
@@ -198,12 +199,12 @@ class View8O {
    * @param {Element} div - DOM div in which card is to be displayed.
    * @param {boolean} faceup - Whether card should be faceup or not.
    */
-  addCardImage(card, aDiv, faceup) {
+  addCardImage(card, aDiv, faceup,i) {
     let cardPos = aDiv.children.length; // position of this card within div
     let newImg = document.createElement("img");
     newImg.src = faceup ? card.getURL() : card.getBackURL();
     newImg.title = faceup ? card.toString() : "";
-    newImg.style="position:absolute; left:"+  (length) + "px; z-index:" + length +" hieght:10px";
+    newImg.style="position:absolute; left:"+  (30*i) + "px; z-index:" + i +" hieght:10px";
     aDiv.appendChild(newImg);
   }
     

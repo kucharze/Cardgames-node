@@ -16,6 +16,7 @@ class Snippres {
         this.snap=false;
         this.date=null;
         this.started=false;
+        this.over=true;
         this.min=0;
         this.secs=0;
         
@@ -103,17 +104,22 @@ class Snippres {
  }
     
     comTurn(){
-        if(!this.started){
-            this.started=true;
-            this.date=new Date();
-        }
-        if(!this.human.played){
-            this.snip=false;
-            this.snap=false;
-        }
+        setTimeout(()=>{
+            //alert("Passing play to the computer");
+            if(this.over){
+                this.over=false;
+               if(!this.started){
+                    this.started=true;
+                    this.date=new Date();
+                }
+                if(!this.human.played){
+                    this.snip=false;
+                    this.snap=false;
+                }
+            }
+
         this.human.played=false;
         //alert("Passing play to the computer");
-        while(true){
             if(!this.snip && !this.snap){
                 //alert("snip");
                 let pcard=this.pile.getTopCard();
@@ -131,6 +137,7 @@ class Snippres {
                 if(this.cpu.isHandEmpty()){
                     this.snipview.displayMessage("CPU wins!! Rematch?");
                     document.getElementById("passturn").disabled=true;
+                    this.over=true;
                     return;
                 }
                 
@@ -158,6 +165,7 @@ class Snippres {
                         if(this.cpu.isHandEmpty()){
                             this.snipview.displayMessage("CPU wins!! Rematch?");
                             document.getElementById("passturn").disabled=true;
+                            this.over=true;
                             return;
                         }
                         break;
@@ -168,25 +176,27 @@ class Snippres {
                     this.snip=false;
                     this.snap=false;
                     this.snipview.displayMessage("No Play made the round has been reset");
-                    break;
+                    this.over=true;
+                     this.snipview.passTurn();
+                    return;
                 }
                 if(!play){
                     this.cpu.played=false;
-                    break;
+                    this.over=true;
+                     this.snipview.passTurn();
+                    return;
                 }
             }
             else if(this.snip && this.snap){
+                //alert("Snorum play");
                 let pcard=this.pile.getTopCard();
                 let hand=this.cpu.getHandCopy();
                 let com=null;
                 let play=false;
                 for(var i=0; i<hand.length; i++){
                     if(hand[i].getValue() == this.pile.getTopCard().getValue()){
-                        //alert("Snorum play");
                         this.cpu.played=true;
                         com=hand[i];
-                        //alert("pcard: "+pcard);
-                        //alert("hand card: "+hand[i]);
                         play=true;
                         this.pile.acceptACard(hand[i]);
                         this.cpu.remove(this.cpu.indexOf(hand[i]));
@@ -198,8 +208,10 @@ class Snippres {
                         this.snipview.displayMessage("Snorum");
                         this.cpu.played=true;
                         if(this.cpu.isHandEmpty()){
+                            alert("win");
                             this.snipview.displayMessage("CPU wins!! Rematch?");
                             document.getElementById("passturn").disabled=true;
+                            this.over=true;
                             return;
                         }
                         break;
@@ -210,17 +222,20 @@ class Snippres {
                     this.snip=false;
                     this.snap=false;
                     this.snipview.displayMessage("No play made the round has been reset");
-                    break;
+                    this.over=true;
+                     this.snipview.passTurn();
+                    return;
                 }
                 
                 if(!play){
                     this.cpu.played=false;
-                    break;
+                    this.over=true;
+                     this.snipview.passTurn();
+                    return;
                 }
             }
-            
-        }
-        
+            this.comTurn();
+        },1000);
     }
 
 //Sets up the start of the game

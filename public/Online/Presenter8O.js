@@ -78,9 +78,9 @@ class Presenter8O {
 	this.view.displayStatus(message.status);
       
       if(message.procedure=="cardPicked"){
-          alert("in card picked sextion");
+          //alert("in card picked sextion");
           if(message.drawCard){
-              alert("in card picked sextion");
+              //alert("in card picked sextion");
               let card=message.pileTopCard;
     	       let ccard=JSON.parse( JSON.stringify(card), 
 	           (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
@@ -95,8 +95,6 @@ class Presenter8O {
           this.view.displayComputerHand(message.numberOfOpponentCards);
 	       this.view.displayHumanHand(newHand);
       }
-	//this.view.displayComputerHand(message.numberOfOpponentCards);
-	//this.view.displayHumanHand(newHand);
       
 	if(message.pileAnnouncedSuit) {
           this.pile.setAnnouncedSuit(message.pileAnnouncedSuit);
