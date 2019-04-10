@@ -216,7 +216,7 @@ function jackUpload(message, ws){
     if((webSockets[index].username=="") || (webSockets[index].username==null)){
         console.log("Not logged in. Cannot record result");
         let obj={};
-        obj.action="Blackjaack";
+        obj.action="Blackjack";
         obj.message="You are not logged in, you cannot record a result to the leaderboard";
         ws.send(JSON.stringify(obj));
         return;
@@ -959,6 +959,8 @@ function cardPicked(playerNumber){
     
     if(odd){//odd player number
         obj.action="Crazy Eights";
+        obj.procedure="cardPicked";
+        obj.drawCard=drawnCard;
         obj.status = "You selected card " + drawnCard.getValue() + drawnCard.getSuit();
         obj.numberOfOpponentCards = crazyEightPlayers[playerNumber-1].getHandCopy().length;
         obj.pileTopCard = eightPiles[gamenum].getTopCard();
@@ -968,6 +970,8 @@ function cardPicked(playerNumber){
         eightSockets[playerNumber].send(JSON.stringify(obj));
 
         obj.action="Crazy Eights";
+        obj.procedure="cardPicked";
+        obj.drawCard=null;
         obj.status = "Your turn. Suit is: " + eightPile.getAnnouncedSuit();
         obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
         obj.pileTopCard = eightPiles[gamenum].getTopCard();
@@ -978,6 +982,8 @@ function cardPicked(playerNumber){
         eightSockets[playerNumber-1].send(JSON.stringify(obj));
     }else{//even player number
         obj.action="Crazy Eights";
+        obj.procedure="cardPicked";
+        obj.drawCard=drawnCard;
         obj.status = "You selected card " + drawnCard.getValue() + drawnCard.getSuit();
         obj.numberOfOpponentCards = crazyEightPlayers[playerNumber+1].getHandCopy().length;
         obj.pileTopCard = eightPiles[gamenum].getTopCard();
@@ -988,6 +994,8 @@ function cardPicked(playerNumber){
         eightSockets[playerNumber].send(JSON.stringify(obj));
 
         obj.action="Crazy Eights";
+        obj.procedure="cardPicked";
+        obj.drawCard=null;
         obj.status = "Your turn. Suit is: " + eightPile.getAnnouncedSuit();
         obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
         obj.pileTopCard = eightPiles[gamenum].getTopCard();
