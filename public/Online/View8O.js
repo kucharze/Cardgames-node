@@ -28,6 +28,9 @@ class View8O {
     this.suitPickerDiv = document.getElementById("suitPicker");
     this.announcerDiv = document.getElementById("announcer");
     let deckImg = document.getElementById("deck");
+      
+      this.humlength=0;
+      this.comlength=0;
     ///*
       deckImg.addEventListener("click", event => 
       {presenter.cardPicked();});
@@ -112,19 +115,25 @@ class View8O {
     }
   }
     
+        //this.myHandDiv = document.getElementById("myHand");
+        //this.pileImg = document.getElementById("pile");
+        //this.yourHandDiv = document.getElementById("yourHand");
+        //let cardPos = aDiv.children.length; // position of this card within div
     addComCard(numCards){
+        let length=this.myHandDiv.children.length;
         let cpu = document.querySelector("#myHand");
         let image=document.createElement("img");
 	    image.src ="./Images/cardback.png";
 	    //image.title=card.toString();
         //image.id=card.toString()+"E";
 	    image.class="card positionable";
-	    image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
+	    image.style="position:absolute; left:"+  (-30) + "px; z-index:" + length +" hieght:10px";
 	    cpu.appendChild(image);
-        this.moveCard(image,(100*(numCards-1)),-30);
+        this.moveCard(image,(length),-30);
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
+        let length=this.yourHandDiv.children.length;
         let human=document.querySelector("#yourHand");
         let image=document.createElement("img");
 	    image.src ="./Images/"+card.toString()+".png";
@@ -133,7 +142,7 @@ class View8O {
 	    image.class="card positionable";
 	    image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
         human.appendChild(image);
-        this.moveCard(image,(100*(numCards-1)),-30);
+        this.moveCard(image,(length),-30);
     }
     
     moveCard(image,pos,i){//for handling card animations
@@ -194,6 +203,7 @@ class View8O {
     let newImg = document.createElement("img");
     newImg.src = faceup ? card.getURL() : card.getBackURL();
     newImg.title = faceup ? card.toString() : "";
+    newImg.style="position:absolute; left:"+  (length) + "px; z-index:" + length +" hieght:10px";
     aDiv.appendChild(newImg);
   }
     
