@@ -854,14 +854,18 @@ function resetBoard() {
 })();
       
       function resetGame(){
+          firstCard=null;
+          secondCard=null;
+          hasFlippedCard=false;
           for(var i=0; i<cards.length; i++){
               cards[i].classList.remove('flip');
           }
-          setTimeout(() => {cards.forEach(card => {
+          setTimeout(() => {
+              cards.forEach(card => {
             let randomPos = Math.floor(Math.random() * 12);
             card.style.order = randomPos;
-          })
-          cards.forEach(card => card.addEventListener('click', flipCard));},2000);
+          });
+         cards.forEach(card => card.addEventListener('click', flipCard));},500);
                            
           mmoves=0;
       }
@@ -872,7 +876,8 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     
     <div id="gofish" class="tabcontent">
         <div id="allfish">
-            <div id="fishstatus" class="statusBox">Go Fish</div>
+            <div id="fishstatus" class="statusBox">Go Fish<br>
+                Click one of your cards to ask for it</div>
             <center><input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">.... <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
             <div id="comfours"></div>
             <br><br><br><br><br><br><br>

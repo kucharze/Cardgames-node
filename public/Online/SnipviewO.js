@@ -105,6 +105,15 @@ class SnipviewO {
 	 table.appendChild(image);
   }
     
+     moveCard(image,pos,i){//for handling card animations
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                this.moveCard(image,pos,i+5);
+            },30);
+        }
+    }
+    
     displayMessage(message){
         let mes=document.getElementById("snipstatus");
         mes.innerHTML=message;
