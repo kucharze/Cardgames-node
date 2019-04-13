@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<!--This project contains code from the following sources
+Previous assignments done in class
+https://www.w3schools.com/howto/howto_js_tabs.asp
+https://blog.liveedu.tv/javascript-select-value/
+https://stackoverflow.com/questions/14496531/adding-two-numbers-concatenates-them-instead-of-calculating-the-sum
+https://stackoverflow.com/questions/6341774/keep-track-of-how-much-time-is-spent-showing-certain-elements-on-the-page
+https://marina-ferreira.github.io/projects/js/memory-game/
+https://www.w3schools.com/howto/howto_js_accordion.asp
+https://stackoverflow.com/questions/41632942/how-to-measure-time-elapsed-on-javascript
+https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesson links on the site
+-->
+<html>
+<head>
+    <title>CardGames.org</title>
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/">
+<style>
+    /* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background-color: #DCDCDC;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+    
+body {
+  height: 100vh;
+  background: #696969; 
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+  background-color: #696969;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  padding: 0 18px;
+  background-color: #696969;
+  display: none;
+  overflow: hidden;
+}
+    
+/*Style for title background color vilgax */
+div.statusBox {
+    border: 2px solid black;
+    padding: 3px 0px;
+    margin: 3px 0px;
+    font-size: 30pt;
+    font-family: cursive;
+    /*background-color: #893838;*/
+    background-color: #1f3f0e;
+    text-align: center;
+}
+    
+/* Style the tabs for list of games */
+.tab {
+  overflow: hidden;
+  border: 1px solid #8B0000;
+  background-color: #696969;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 20px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #8B0000;
+}
+.tablinks {
+  background-color: #8B0000;
+}
+#Account {
+  display: block;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+    <link rel="stylesheet" href="styles-g1.css">
+    <link rel="stylesheet" href="Crazy8.css" />
+</head>
+<body>
+    <script>
+            let sign = false;
+            var host=location.origin.replace(/^http/,'ws');
+            var ws=new WebSocket(host);
+            ws.onmessage=function(event){
+                let message=JSON.parse(event.data);
+                console.log(message.action);
+                console.log("Message status is"+message.status);
+                if(message.action=="Crazy Eights"){
+                    //alert("Crazy Eights online update");
+                    console.log("Message status ="+message.status);
+                    onlineMes(message);
+                }
+                else if(message.action=="Snip Snap Snorum"){
+                    //alert("Snip Snap Snorum online update");
+                    snipUpdate(message);
+                }
+                else if(message.action=="Go Fish"){
+                    //alert("Go Fish Online update");
+                    fishUpdate(message);
+                }
+                else if(message.action=="Show user"){
+                    document.getElementById("User").innerHTML=message.user;
+                }
+                else if(message.action=="Creation"){
+                    //Failed to create a login
+                    document.getElementById("Creation status").innerHTML=message.status;
+                }
+                else if(message.action=="Login"){
+                    //failed to login succesfully
+                    document.getElementById("Login status").innerHTML=message.status;
+                }
+                else if(message.action=="Leaderboard"){
+                    //Display the leaderboard in the message
+                    alert("attempting to load a leaderboard");
+                    let l=message.board;
+                    let length=l.length
+                    if(l.length>20){
+                        length=20;
+                    }
+                    let b=document.getElementById("board");
+                    for(var i=0; i<length; i++){
+                        if(message.type=="Crazy Eights moves"){
+                            //alert("Printing Crazy Eights leaderboard");
+                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].moves+"<br>";
+                        }
+                        else if(message.type=="Snip Snap Snorum times"){
+                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].mins+" mins "+l[i].secs+" secs<br>";
+                        }
+                        else if(message.type=="Go Fish moves"){
+                            
+                        }
+                        else if(message.type=="War wins"){
+                            
+                        }
+                        
+                    }
+                }
+            }
+    </script>
+<div id="Title" class="statusBox">Welcome to CardGames.org</div>
+    <label>Active User:</label>
+    <label id="User">No User logged in</label>
+<center><p>Choose your game.</p></center><br>
+    <center><p style="color: darkgreen">This site is currently under construction.  Some features might not work as intended.</p></center>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
+    <button class="tablinks" onclick="openTab(event, 'sugestions')">Suggestions</button>
+    <button class="tablinks" onclick="openTab(event, 'boards')">Leaderboards</button>
+</div>
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Eight')">Crazy Eights</button>
+    <button class="tablinks" onclick="openTab(event, 'Snap')">Snip Snap Snorum</button>
+    <button class="tablinks" onclick="openTab(event, 'Jack')">Blackjack</button>
+    <button class="tablinks" onclick="openTab(event, 'Match')">Matching</button>
+    <button class="tablinks" onclick="openTab(event, 'gofish')">Go fish</button>
+    <button class="tablinks" onclick="openTab(event, 'solitare')">Spider Solitare</button>
+    <button class="tablinks" onclick="openTab(event, 'War')">War</button>
+</div>
+
+<div id="Account" class="tabcontent">
+    <h1>Card Games Login </h1>
+    <h2>Create a Login to have your name added to leaderboards</h2>
+    <p id="Creation status"></p>
+    <h3>Username</h3>
+    <input id="user" type="text">
+    <h3>Screenname</h3>
+    <input id="screenname"><br>
+    <h3>Password</h3>
+    <input id="pass" type="password">
+    <h3>Confirm Password</h3>
+    <input id="pass2" type="password">
+    <p>You must have a password of at least 8 characters</p>
+    <input type="button" onclick=insert() value="Create an account">
+    <br><br>
+        <h2>Already have a login? Sign in here</h2>
+        <p id="Login status"></p>
+            <h3>Username or Screenname</h3>
+            <input type="text" id="username" name="User">
+            <h3>Password</h3>
+            <input type="password" id="password" name="Pass">
+            <input type="submit" value="Login" onclick="login()">
+        
+        <script>
+            function insert(){
+                var user = document.getElementById("user").value;
+                var screen=document.getElementById("screenname").value;
+                var pass = document.getElementById("pass").value;
+                var pass2=document.getElementById("pass2").value;
+                //var table=document.getElementById("data");
+                if(user=="" || pass=="" || pass2=="" || screen==""){
+                    alert("Not enough information provided");
+                }
+                if(pass.length<8){
+                    alert("Password must be at least 8 characters long");
+                    document.getElementById("user").value="";
+                    document.getElementById("screenname").value="";
+                    document.getElementById("pass").value="";
+                    document.getElementById("pass2").value="";
+                    return;
+                }
+                if(pass != pass2){
+                    alert("Passwords do not match");
+                    document.getElementById("screenname").value="";
+                    document.getElementById("user").value="";
+                    document.getElementById("pass").value="";
+                    document.getElementById("pass2").value="";
+                    return;
+                }
+                
+                sign=true;
+                let data={};
+                data.action="create";
+                data.user=user;
+                data.screenname=screen;
+                data.password=pass;
+                ws.send(JSON.stringify(data));
+            
+                document.getElementById("8on").disabled=false;
+                //table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
+                document.getElementById("screenname").value="";
+                document.getElementById("user").value="";
+                document.getElementById("pass").value="";
+                document.getElementById("pass2").value="";
+            }
+            
+            function login(){
+                var user=document.getElementById("username").value;
+                var pass=document.getElementById("password").value;
+                let mess={};
+                mess.action="login";
+                mess.user=user;
+                mess.password=pass;
+                ws.send(JSON.stringify(mess));
+            }
+            
+        </script>
+    </div>
+
+<div id="Eight" class="tabcontent"><!--Crazy Eights-->
+        <!-- Status area -->
+    <div id="status" class="statusBox">Crazy Eights</div>
+    <div id="allCards">
+    <!-- Computer's hand -->
+    <div id="myHand" class="hand"></div>
+
+    <!-- "table" is div holding deck and discard pile images.
+         Initially show card back for pile (replaced by program). -->
+    <div id="table"><img id="deck"
+      src="./Images/cardback.png" 
+      alt="Deck: click to pick a card."
+      class="card clickable"/>
+        <img id="pile"
+      src="./cardback.png" 
+      alt="Discard pile top."
+      class="card"/></div>
+
+    <!-- User's hand -->
+    <div id="yourHand" class="hand"></div>
+    <!-- 
+	 The suit-picker popup displayed when the user plays an 8.
+         Initially not visible.
+      -->
+    <div id="suitPicker">
+      Pick a suit:
+      <div id="suitImages">
+	   <span id="c" class="clickable">&clubs;</span>
+	   <span id="d" class="clickable">&diams;</span>
+	   <span id="h" class="clickable">&hearts;</span>
+	   <span id="s" class="clickable">&spades;</span>
+      </div>
+    </div>
+    </div>
+    <br><br><!--Button options for Crazy eights page -->
+    <input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()">
+    <br><br>
+    <input type="button" value="Toggle Online Mode" id="8on" style="font-size: 18px"  onclick="onlineEight()">
+    <br><br>
+    
+    <button style="font-size: 20px" class="accordion">View Instructions</button>
+    <div class="panel">
+        <h2>Crazy Eights rules</h2>
+        <p>Seven cards are dealt to each player.<br>
+            The remaining cards of the deck are placed face down on the table.<br> 
+            The top card is then turned face up to start the game.<br>
+            Goal is to get rid of all your cards first.<br>
+            When it is your turn, select a card from your hand with matching number/rank or suit with the top card of the discard pile.<br>
+            If you are unable to match card or number, and you have an 8; you can play it.<br>
+            If you do not have an 8 or matching card, you must draw a card from the stockpile.<br> 
+
+            When a player plays an 8, they must declare the suit that the next player is to play; that player must then follow the named suit or play another 8.<br>
+            Example: a 6 clubs is currently on the pile. You can<br>
+            - play any 6<br>
+            - play any card with suit clubs<br>
+            - play any 8 (You must then declare a suit)<br> 
+            - draw from the stockpile<br>
+
+            The first player to empty their hand wins.<br></p>
+    </div>
+    
+  <!--  <script src="test.js"></script>
+    <!-- Load the model classes. -->
+    <script src="Card.js"></script>
+    <script src="Deck.js"></script>
+    <script src="Pile.js"></script>
+    <script src="Player.js"></script>
+
+    <!-- Load the view class. -->
+    <script src="View.js"></script>
+
+    <!-- Load the presenter classes. -->
+    <script src="ComputerPlayer.js"></script>
+    <script src="HumanPlayer.js"></script>
+    <script src="Presenter.js"></script>
+    <script src="Online/Presenter8O.js"></script>
+    <script src="Online/HumanPlayer8O.js"></script>
+    <script src="Online/View8O.js"></script>
+
+    <!-- Run the program. -->
+    <script>
+    "use strict";
+        //Play one round of Crazy Eights against the computer
+        var presenter = new Presenter(ws);
+        //var onlinepres = new Presenter8O();
+        presenter.play();
+        let online = false;
+        
+        function crazyReset(){
+            presenter.resetGame();
+        }
+        
+        function onlineEight(){
+            //alert("online button test");
+            if(!online){
+                //clear current board and set up online presenter
+                presenter.goOnline();
+                presenter=new Presenter8O(ws);
+                //alert("we are now online");
+                document.getElementById("reset8").disabled=true;
+                online=true;
+                let on={};
+                on.action="Crazy Eights";
+                on.gameact="Play";
+                ws.send(JSON.stringify(on));
+            }
+            else{
+                //buzz player that they will forfiet the game if they quit, switch back if they decide to continue;
+                if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
+                    //shut off online mode
+                    online=false;
+                    let quit={};
+                    quit.action="Crazy Eights";
+                    quit.gameact="quit";
+                    ws.send(JSON.stringify(quit));
+                    presenter.goOffline();
+                    presenter=new Presenter();
+                    presenter.play();
+                    document.getElementById("reset8").disabled=false;
+                } else {
+                    // Do nothing! Just return to the game
+                    //alert("We are not shutting off online mode");
+                    return;
+                }
+            }
+        }
+        
+        function onlineMes(message){
+            //call online presenter update function
+            if(online){
+                presenter.update(message);
+            }
+            else{
+                document.getElementById('status').innerHTML=document.getElementById('status').innerHTML + " "+ message.message;
+            }
+        }
+    </script>
+    </div>
+    
+    <div id="Jack" class="tabcontent">
+        <div id="jackstatus" class="statusBox">Blackjack</div>
+        <div id="dealerhand"><img src="Images/cardback.png"></div>
+        <div id="playerhand"><img src="Images/cardback.png"></div>
+        <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">
+        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">
+        <br><br>
+        <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()">
+        <br><br>
+        <button style="font-size: 20px" class="accordion">View Game Instructions</button>
+        <div class="panel">
+        <p><h2>Blackjack Rules</h2>
+        <p>Most think the object of blackjack is to get to 21 as possible. <br>
+        The main object is to beat the dealer without going over.<br>
+To beat the dealer the player must first not go over 21 and either outscore the dealer or have the dealer go over 21. Here are the full rules of the game.<br>
+1.	Aces may be counted as 1 or 11 points, 2 to 9 according to pip value, and tens and face cards count as ten points.<br>
+2.	The value of a hand is the sum of the point values of the individual cards. A "blackjack" is the highest hand.  (Any 10-point card and an Ace = 21 points).<br>
+3.	The following are the choices available to the player: <br>
+•	Stand: Player stands pat with his cards.<br>
+•	Hit: Player draws another card (and more if he wishes). If this card causes the player's total points to exceed 21 (known as "breaking" or "busting") then he loses.<br>
+4.	After each player has had his turn, the dealer will turn over his hole card. If the dealer has 16 or less, then he will draw another card. A special situation is when the dealer has an ace and any number of cards totaling six points (known as a "soft 17"). At some tables, the dealer will also hit a soft 17.<br>
+5.	If the dealer goes over 21 points, then any player who didn't already bust will win.<br>
+6.	If the dealer does not bust, then the higher point total between the player and dealer will win.<br>
+</p>
+        </div>
+        
+        <script src="Jackplayer.js"></script>
+        <script src="Jackpres.js"></script>
+        <script src="Jackview.js"></script>
+        <script>
+            let jack=new Jackpres();
+            jack.play();
+            
+            function stand(){
+                jack.stand();
+            }
+            
+            function hit(){
+                jack.hit();
+            }
+            
+            function resetJack(){
+                jack.resetGame();
+            }
+        </script>
+    </div>
+    
+    <div id="Snap" class="tabcontent">
+        <div id="allSnips">
+        <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
+        <div id="scpuhand"><img src="Images/cardback.png"></div>
+        <br><br><br><br><br><br>
+        <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
+        <br><br><br>
+        <div id="suserhand"><img src="Images/cardback.png" title="start card"></div>
+        <br><br><br><br><br><br>
+        <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
+        </div>
+        
+        <br><br>
+        <input type="button" value="Toggle Online Mode" style="font-size: 18px" onclick="snipOnline()">
+        <br><br>
+        <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
+        <br><br>
+        <button style="font-size: 20px" class="accordion">View Instructions</button>
+        <div class="panel">
+            <h1>Snip Snap Snorum</h1>
+            <p>The cards in each suit rank: K (high), Q, J, 10, 9, 8, 7, 6, 5, 4, 3, 2, A.<br>
+                The goal is to be the first player to get rid of all his cards.<br>
+                Deal the cards out completely.  The object of the game is to get rid of all your cards.<br>
+                The player starts by placing any card down on the table.<br>
+                The next player looks to see if they have a card of the same rank.<br> 
+                If they do, they place it down on top of the card, saying "Snip".<br>
+                If they have another card of the same rank, they place it down too, saying "Snap". <br>
+                If they don't, play passes to the next player<br>
+                If that player passes play back without making a move, the round will be reset at snip witht eh first player's turn<br>
+                Whoever places the final card of that rank says "Snorem" and wins the right to start the next round with the card of their choice.<br>
+                Example: the first card played = 5 Clubs, the next card to be played = 5 Hearts, then 5 Diamonds, and 5 Spades.</p>
+            </div>
+        <script src="Snippres.js"></script>
+        <script src="Snipview.js"></script>
+        <script src="Snipcpu.js"></script>
+        <script src="Sniphuman.js"></script>
+        <script src="Online/SnippresO.js"></script>
+        <script src="Online/SnipviewO.js"></script>
+        <script>
+            let snip=new Snippres(ws);
+            snip.play();
+            let snipOn=false;//to determine if we are online or offline
+            
+            function snipReset(){
+                snip.resetGame();
+            }
+            
+            function cpuTurn(){
+                if(snipOn){
+                    //presenter.passturn
+                    //send info to websocket about card on pile,
+                    //status and cards in players hand
+                    snip.sendMes();
+                }
+                else{//normal offline function
+                   snip.comTurn();
+                }
+            }
+            
+            function snipOnline(){
+                if(!snipOn){
+                    //call online snip snap snorum function
+                    snipOn=true;
+                    snip.goOnline();
+                    snip=new SnippresO(ws);
+                    
+                    let mes={};
+                    mes.action="Snip Snap Snorum";
+                    mes.gameact="Play";
+                    ws.send(JSON.stringify(mes));
+                    document.getElementById("snipreset").disabled=true;
+                }else{
+                    if (confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
+                        //shut off online mode
+                        document.getElementById("snipreset").disabled=false;
+                        document.getElementById("passturn").disabled=false;
+                        snipOn=false;
+                        let quit={};
+                        quit.action="Snip Snap Snorum";
+                        quit.gameact="quit";
+                        ws.send(JSON.stringify(quit));
+                        snip.goOffline();
+                        snip=new Snippres();
+                        snip.play();
+                    }else{
+                        // Do nothing! Just return to the game
+                        return;
+                    }
+                }
+            }
+            
+            function snipUpdate(message){
+                //alert("message action is"+message.action);
+                if(snipOn){
+                   snip.update(message); 
+                }
+            }
+        </script>
+    </div>
+
+<div id="Match" class="tabcontent">
+    <div id="matchstatus" class="statusBox">Memory Matcher</div>
+        <label class="moves">You finished the game with this many moves: Number of moves will go here</label><br>
+        <label class="mem">Try to match the cards in as little turns as possible</label><br>
+    <button style="font-size: 20px" class="accordion">View Instructions</button>
+        <div class="panel">
+            <p><h2>Matching</h2>
+        <p>Flip over two cards.<br>
+        If they have the same image on them keep them flipped over.<br>
+        Otherwise flip them back.<br>
+        Flip over all cards to win.</p>
+        </div>
+        <BR><BR>
+        <input type="button" value="Reset the game" style="font-size: 18px">
+     <section class="memory-game">
+    <div class="memory-card" data-framework="apple1">
+      <img class="front-face" src="cards/apple1.PNG" alt="card"  />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+    <div class="memory-card" data-framework="apple1">
+      <img class="front-face" src="cards/apple1.PNG" alt="card" />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+
+    <div class="memory-card" data-framework="butterfly1">
+      <img class="front-face" src="cards/butterfly1.PNG" alt="card" />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+    <div class="memory-card" data-framework="butterfly1">
+      <img class="front-face" src="cards/butterfly1.PNG" alt="card" />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+
+    <div class="memory-card" data-framework="cow1">
+     <img class="front-face" src="cards/cow1.PNG" alt="card" />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+    <div class="memory-card" data-framework="cow1">
+          <img class="front-face" src="cards/cow1.PNG" alt="card" />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+
+    <div class="memory-card" data-framework="dog1">
+        <img class="front-face" src="cards/dog1.PNG" alt="card" />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+    <div class="memory-card" data-framework="dog1">
+         <img class="front-face" src="cards/dog1.PNG" alt="card" />
+      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+
+    <div class="memory-card" data-framework="flower">
+           <img class="front-face" src="cards/flower.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+    <div class="memory-card" data-framework="flower">
+         <img class="front-face" src="cards/flower.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+
+    <div class="memory-card" data-framework="heart1">
+       <img class="front-face" src="cards/heart1.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+    <div class="memory-card" data-framework="heart1">
+      <img class="front-face" src="cards/heart1.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+	 </div>
+
+	     <div class="memory-card" data-framework="hand1">
+       <img class="front-face" src="cards/hand1.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+    <div class="memory-card" data-framework="hand1">
+      <img class="front-face" src="cards/hand1.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+	 </div>
+
+	 <div class="memory-card" data-framework="lightbulb1">
+       <img class="front-face" src="cards/lightbulb1.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+    </div>
+     <div class="memory-card" data-framework="lightbulb1">
+       <img class="front-face" src="cards/lightbulb1.PNG" alt="card" />
+     <img class="back-face" src="Images/cardback.png" alt="bluefront" />
+	 </div>
+	</section>
+            
+  <script src="scripts-g1.js"></script>
+</div>
+    
+    <div id="gofish" class="tabcontent">
+        <div id="allfish">
+            <div id="fishstatus" class="statusBox">Go Fish</div>
+            <br><br><br><br>
+            <div id="comfours"></div>
+            <br><br><br><br>
+            <div id="fcpuhand"><img src="Images/cardback.png"></div>
+            <br><br><br><br><br><br><br>
+            <div id="fuserhand"><img src="Images/cardback.png" title="start card"></div>
+            <br><br><br><br><br><br><br><br>
+            <div id="playerfours"></div>
+            <br><br><br><br><br><br><br>
+            <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
+        </div>
+        
+        <br> <br>
+        <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
+        <br><br>
+        <input type="button" value="Toggle Online Mode" onclick="fishOnline()" style="font-size: 18px">
+        <br><br>
+        <button style="font-size: 20px" class="accordion">View Instructions</button>
+        <div class="panel">
+            <h2>Go Fish</h2>
+            <p>Each Player starts out with 7 cards<br> 
+                You can ask another player if they have a card matching one in your hand.<br>
+                Simply click on the card you want to ask for.<br>
+                If they have that card, he/she gives it to you.<br>
+                If you don't you draw a card.<br>
+                Your opponent will do the same thing to you<br>
+                When asked for a card, click on all copies of that card to give them to your opponent.<br>
+                If you do not have a card to play, simply hit the go fish button.
+                If a player has 4 of a kind in their hand. They may get rid of those cards and set them aside.<br>
+                If a player has no more cards in hand, that player draws five cards.<br>
+                When there are no more cards, whoever has the most 4 of a kinds wins.<br>
+                </p>
+                <br><br>
+                <p><b>Old rules</b><br>
+            You can ask another player if they have a card matching one in your hand.<br>
+            If they have that card, both you and your opponent place that card down.<br>
+            If you don't you draw a card.<br>
+            The first player to get rid of all the cards in their hand wins.</p>
+        </div>
+        
+        <script src="Fishpres.js"></script>
+        <script src="Fishview.js"></script>
+        <script src="Online/FishpresO.js"></script>
+        <script src="Online/FishviewO.js"></script>
+        <script>
+            'use strict'
+            var fpres=new Fishpres(ws);
+            fpres.play();
+            let fishO=false;
+            
+            function no(){
+                if(fishO){//call online version of go fish function
+                    fpres.goFish();
+                }
+                else{
+                    fpres.sayNo();
+                }
+            }
+            
+            function fishRes(){//reset the game offline
+                fpres.resetGame();
+            }
+            
+            function fishOnline(){//toggle online mode with go fish
+                //alert("We are going online for Go fish");
+                if(!fishO){//Port Go fish to online mode
+                    fishO=true;
+                    fpres.goOnline();
+                    fpres=new FishpresO(ws);
+                    
+                    let mes={};
+                    mes.action="Go Fish";
+                    mes.gameact="Play";
+                    ws.send(JSON.stringify(mes));
+                    document.getElementById("fishreset").disabled=true;
+                }else{
+                    if(confirm('Are you sure? If the game is not over, You will forfiet and your opponent will win.')) {
+                        //shut off online mode
+                        //alert("shutting off online mode");
+                        fishO=false;
+                        let quit={};
+                        quit.action="Go Fish";
+                        quit.gameact="quit";
+                        ws.send(JSON.stringify(quit));
+                        document.getElementById("fishreset").disabled=false;
+                        fpres.goOffline();
+                        fpres=new Fishpres();
+                        fpres.play();
+                } else {
+                        // Do nothing! Just return to the game
+                        return;
+                    }
+                }
+                
+            }
+            function fishUpdate(message){
+                //call method for updating go fish while online
+                if(fishO){
+                    fpres.update(message);
+                }
+            }
+        </script>
+    </div>
+    
+    <div id="solitare" class="tabcontent">
+        <div id="Solstatus" class="statusBox">Spider Solitare</div>
+        <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png"></div>
+        <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png"></div>
+        <div id="row3" style="position: absolute; left: 220px"><img src="Images/cardback.png"></div>
+        <div id="row4" style="position: absolute; left: 320px"><img src="Images/cardback.png"></div>
+        <div id="row5" style="position: absolute; left: 420px"><img src="Images/cardback.png"></div>
+        <div id="row6" style="position: absolute; left: 530px"><img src="Images/cardback.png"></div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div id="soldecks"><img src="Images/cardback.png"><img src="Images/cardback.png"><img src="Images/cardback.png"><img src="Images/cardback.png"></div>
+        <div id="Vicdecks"></div>
+        <br>
+        <input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">
+        <br><br>
+        <button style="font-size: 20px" class="accordion">View Instructions</button>
+        <div class="panel">
+            <h2>Solitare</h2>
+            <p>The object of the game is to arrange each set of cards in order from ace to king<br>
+            You will move cards around so that each card sits in front of the card that is one value point higher than it.<br>
+            To move a card first click on the card you want to move, this will set up that card and each card below it to be moved.<br>
+            Then, simply click the position that you want to move the card to.  The game will check if you made a legal move.<br>    
+            If you run out of moves, you may take a side set of cards and deal them out, placing each card at the front of each row.<br>
+            Flip over a card at the front of the row if there are no other cards in front of it.<br>    
+            Once you get a group of cards in order from ace to king, ace having a value of one, take each of those cards and move them off to the side.<br>
+            Once all of the cards are gone, you win the game.</p>
+        </div>
+        
+        <script src="Solpres.js"></script>
+        <script src="Solview.js"></script>
+        <script src="Soldeck.js"></script>
+    <script>
+    "use strict";
+        //Play one round of Solitare
+        var spres = new Solpres();
+        spres.play();
+        
+        function solreset(){
+            spres.resetGame();
+        }
+        </script>
+    </div>
+
+<div id="War" class="tabcontent">
+  <div id="warstatus" class="statusBox">War</div>
+    <div id="mywar"><img src="Images/cardback.png" alt="Computerwarcard"></div><br>
+    <div id="mycard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
+    <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
+    <div id="yourwar"><img src="Images/cardback.png" alt="playerwarcard"></div><br>
+    
+    <input type="button" style="font-size: 18px" onclick="deal()" value="Play a Round">
+    <br><br><br>
+    <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()">
+    <button style="font-size: 20px" class="accordion">View Instructions</button>
+        <div class="panel">
+            <h2>War</h2>
+            <p>The objective of the game is to win all cards.<br>
+In unison, each player reveals the top card of their deck and the player with the higher card takes both of the cards played and moves them to their stack. Aces are high, and suits are ignored.<br>
+If the two cards played are of equal value, then there is a "war".<br>
+Both players place the next card of their pile face down, depending on the variant, and then another card face-up.<br> 
+The owner of the higher face-up card wins the war and adds all six cards on the table to the bottom of their deck.<br>
+If the face-up cards are again equal then the battle repeats with another set of face-down/up cards. <br>
+            This repeats until one player's face-up card is higher than their opponent's.<br>
+.</p>
+        </div>
+    
+    <script src="Warpres.js"></script>
+    <script src="Warview.js"></script>
+    <script>
+        "use strict"
+        let warpres = new Warpres();
+        
+        function deal(){
+            warpres.dealCards();
+        }
+        
+        function warReset(){
+            alert("Trying to reset war");
+            warpres.resetGame();
+        }
+    </script>
+    
+</div>
+    
+<div id="sugestions" class="tabcontent">
+  <h1 style="font-size: 40px">Suggestions</h1>
+  <p>Have any ideas or complaints about our website.<br>
+    You may submit them down below.</p>.
+    
+    <textarea id="sug"></textarea><br>
+    
+    <input type="button" onclick=suggest() value="Submit" font-size="25px">
+    <script>
+        function suggest(){
+            let obj={};
+            obj.action="Suggest";
+            var suggestion = document.getElementById("sug").value;
+            obj.suggestion=suggestion;
+            var table=document.getElementById("suggestion");
+            document.getElementById("sug").value=" ";
+            //table.innerHTML=table.innerHTML+user+"<br>";
+            document.getElementById("sug").value=" ";
+            ws.send(JSON.stringify(obj));
+           // document.getElementById("pass").value=" ";
+        }
+    </script>
+    
+</div>
+    
+<div id="boards" class="tabcontent">
+  <h3>Leaderbaords</h3>
+  <p>Use the controls below to view each of the leaderboards.</p>.
+    <select id="leaderboards" name="Leaderboards">
+        <option value="none">Select a leaderboard</option>
+        <option>Crazy Eights moves</option>
+        <option>Snip Snap Snorum times</option>
+        <option>BlackJack wins</option>
+        <option>Matching moves</option>
+        <option>Go Fish moves</option>
+        <option>Solitare score</option>
+        <option>War wins</option>
+    </select>
+    
+    <input type="button" onclick=load() value="Load Leaderboard" font-size="20px" ><br>
+    <p id="score">Your result will appear hear if your are logged in</p>
+    <p id="board">This is the spot where the leaderboards will appear
+    when the button is clicked with a value selected<br></p>
+    <script>
+        function load(){
+            let obj={};
+            obj.action="Leaderboard";
+            var e = document.getElementById("leaderboards");
+            var strUser = e.options[e.selectedIndex].text;
+            document.getElementById("board").innerHTML=strUser+"<br>";
+            obj.board=strUser;
+            ws.send(JSON.stringify(obj));
+        }
+    </script>
+    
+</div>
+    
+<script>
+function openTab(evt, cityName) {//Code for opening tabs
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+    //evt.currentTarget.className += " active";
+}
+</script>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
+
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+        panel.style.display = "none";
+        } else {
+        panel.style.display = "block";
+        }
+        });
+        }
+    </script>
+
+</body>
+</html>
