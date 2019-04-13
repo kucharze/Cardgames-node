@@ -55,22 +55,21 @@ body {
   display: none;
   overflow: hidden;
 }
-    /*Style for title background color vilgax */
+    
 div.statusBox {
     border: 2px solid black;
     padding: 3px 0px;
     margin: 3px 0px;
     font-size: 30pt;
     font-family: cursive;
-    /*background-color: #893838;*/
-    background-color: #1f3f0e;
+    background-color: #893838;
     text-align: center;
 }
     
 /* Style the tabs for list of games */
 .tab {
   overflow: hidden;
-  border: 1px solid #1f3f0e;
+  border: 1px solid #8B0000;
   background-color: #9fa9a3;
 }
 
@@ -91,9 +90,9 @@ div.statusBox {
   background-color: #ddd;
 }
 
-/* Create an active/current tablink class vilgax #8B0000 */
+/* Create an active/current tablink class */
 .tab button.active {
-  background-color: #719c71;
+  background-color: #8B0000;
 }
 .tablinks {
   background-color: #8B0000;
@@ -173,7 +172,6 @@ input:checked + .slider:before {
             ws.onmessage=function(event){
                 let message=JSON.parse(event.data);
                 console.log(message.action);
-                alert(message.action);
                 //console.log("Message status is"+message.status);
                 if(message.action=="Crazy Eights"){
                     //alert("Crazy Eights online update");
@@ -188,6 +186,22 @@ input:checked + .slider:before {
                     //alert("Go Fish Online update");
                     fishUpdate(message);
                 }
+                else if(message.action=="War"){
+                    let s=document.getElementById("warstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
+                else if(message.action=="Matching"){
+                    let s=document.getElementById("matchstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
+                else if(message.action=="SpiderSolitare"){
+                    let s=document.getElementById("Solstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
+                else if(message.action="Blackjack"){
+                    let s=document.getElementById("jackstatus");
+                    s.innerHTML=s.innerHTML+message.message;
+                }
                 else if(message.action=="Show user"){
                     document.getElementById("User").innerHTML=message.user;
                 }
@@ -196,13 +210,12 @@ input:checked + .slider:before {
                     document.getElementById("Creation status").innerHTML=message.status;
                 }
                 else if(message.action=="Login"){
-                    alert("Processing a login");
-                    document.getElementById("Login_status").innerHTML=message.status;
+                    //failed to login succesfully
+                    document.getElementById("Login status").innerHTML=message.status;
                 }
                 else if(message.action=="Solo"){
                     //Display your position on the leaderboard
                     ///////////
-                    alert("Trying to load a solo leaderboard result");
                     let l=message.board;
                     //alert("Attempting a solo leaderboard "+message.type);
                     let b=document.getElementById("score");
@@ -239,9 +252,6 @@ input:checked + .slider:before {
                     if(l.length>20){
                         length=20;
                     }
-                    //alert("Printing Crazy Eights leaderboard");
-                     //<p id="score">Your result will appear hear if your are logged in</p>
-                    // <p id="board">This is
                     let b=document.getElementById("board");
                     for(var i=0; i<length; i++){
                         if(message.type=="Crazy Eights moves"){
@@ -268,53 +278,27 @@ input:checked + .slider:before {
                         }
                     }
                 }
-                ///*
-                else if(message.action=="War"){
-                    alert("war");
-                    let s=document.getElementById("warstatus");
-                    s.innerHTML=s.innerHTML+message.message;
-                }
-                else if(message.action=="Matching"){
-                     alert("match");
-                    let s=document.getElementById("matchstatus");
-                    s.innerHTML=s.innerHTML+message.message;
-                }
-                else if(message.action=="SpiderSolitare"){
-                     alert("spider");
-                    let s=document.getElementById("Solstatus");
-                    s.innerHTML=s.innerHTML+message.message;
-                }
-                else if(message.action="Blackjack"){
-                     alert("jack");
-                    let s=document.getElementById("jackstatus");
-                    s.innerHTML=s.innerHTML+message.message;
-                }//*/
             }
             
             //Ping server every so often to prevent server timeout
-            window.setInterval(pingServer,15000);
+            window.setInterval(pingServer,12000);
         
         function pingServer(){
             ws.send(JSON.stringify({action:"ping"}));
         }
     </script>
-<!--		
+	
+	
 <div id="Title" class="statusBox">Welcome to CardGames.org</div>
 <img src="image-L.png" alt="cards" align="right" height="220">
-<img src="image-R.png" alt="cards" align="left" height="220">
-<h3 style="text-align: center; font-style: italic">
-	Play your favorite game. Create an account to log your high score.<br>
-    (* Online games.)</h3>
--->
-	<center> <img src="PlayingCards4.jpg" alt="cards" align="Center" height="300"; height="300"></center>
+<img src="image-R.png" alt="cards" align="left" height="220">  
+<h2 style="text-align: center">Play your favorite game now or
+	<br> create an account to play online and track your high score.<br>
+    (* Online games.)</h2>
+    <p style="color: #9fa9a3; text-align: center"><br>
+        This site is currently under construction.  Some features might not work as intended.<br>The games on this site may not work with versions of Internet Explorer.</p>
+<br> <br><br>
 
-		<p class="a"> (* Online games.)</p>
-	<br>
-
-	<p class="a">
-        This site is currently under construction. Some features might not work as intended.<br>
-		The games on this site may not work with versions of Internet Explorer.</p>
-<br>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
     <button class="tablinks" onclick="openTab(event, 'sugestions')">Suggestions</button>
@@ -358,7 +342,7 @@ input:checked + .slider:before {
 	<br><br> 
 	<h2>Already have an account? Sign in here.</h2>
 
-        <p id="Login_status"></p>
+        <p id="Login status"></p>
             <h3>Screen username</h3>
             <input type="text" id="username" name="User">
             <h3>Password</h3>
@@ -425,7 +409,6 @@ input:checked + .slider:before {
 <div id="Eight" class="tabcontent"><!--Crazy Eights-->
         <!-- Status area -->
     <div id="status" class="statusBox">Crazy Eights</div>
-    <center><input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()"></center>
     <div id="allCards">
     <!-- Computer's hand -->
     <div id="myHand" class="hand"></div>
@@ -443,7 +426,7 @@ input:checked + .slider:before {
         <br><br>
     <!-- User's hand -->
     <div id="yourHand" class="hand"></div>
-        <br><br><br>
+        <br><br><br><br>
     <!-- 
 	 The suit-picker popup displayed when the user plays an 8.
          Initially not visible.
@@ -458,7 +441,8 @@ input:checked + .slider:before {
       </div>
     </div>
     </div>
-    <br><br>
+    <br><br><!--Button options for Crazy eights page -->
+    <input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()">
     <br><br>
     <h2>Toggle Online mode</h2>
 <label class="switch">
@@ -511,6 +495,7 @@ input:checked + .slider:before {
     <script>
         //Play one round of Crazy Eights against the computer
         var presenter = new Presenter(ws);
+        //var onlinepres = new Presenter8O();
         presenter.play();
         let online = false;
         
@@ -519,12 +504,10 @@ input:checked + .slider:before {
         }
         
         function onlineEight(){
-            //alert("online button test");
             if(!online){
                 //clear current board and set up online presenter
                 presenter.goOnline();
                 presenter=new Presenter8O(ws);
-                //alert("we are now online");
                 document.getElementById("reset8").disabled=true;
                 online=true;
                 let on={};
@@ -560,13 +543,15 @@ input:checked + .slider:before {
     
     <div id="Jack" class="tabcontent">
         <div id="jackstatus" class="statusBox">Blackjack</div>
-        <center><input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">......... 
-        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">....... 
-        <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()"></center>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
-        <br><br><br><br><br><br><br><br>
+        
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">
+        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">
+        <br><br>
+        <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()">
+        <br><br>
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
         <div class="panel">
         <p><h2>Blackjack Rules</h2>
@@ -583,6 +568,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 6.	If the dealer does not bust, then the higher point total between the player and dealer will win.<br>
 </p>
         </div>
+        
         <script src="Jackplayer.js"></script>
         <script src="Jackpres.js"></script>
         <script src="Jackview.js"></script>
@@ -590,33 +576,41 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             let jack=new Jackpres(ws);
             jack.play();
             
-            function stand(){jack.stand();}
+            function stand(){
+                jack.stand();
+            }
             
-            function hit(){jack.hit();}
+            function hit(){
+                jack.hit();
+            }
             
-            function resetJack(){jack.resetGame();}
+            function resetJack(){
+                jack.resetGame();
+            }
         </script>
     </div>
     
     <div id="Snap" class="tabcontent">
         <div id="allSnips">
         <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
-            <center><input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">.... <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()"></center>
-            <br><br>
         <div id="scpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
-        <br><br><br><br><br><br><br>
+        <br><br><br>
         <div id="suserhand"><img alt="playerhand" src="Images/cardback.png" title="start card"></div>
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br>
+        <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
         </div>
         
+        <br><br>
         <h2>Toggle Online mode</h2>
 <label class="switch">
   <input type="checkbox" onclick="snipOnline()">
   <span class="slider"></span>
 </label>
-        <br><br><br><br><br><br>
+        <br><br>
+        <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()">
+        <br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h1>Snip Snap Snorum</h1>
@@ -655,7 +649,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     snip.sendMes();
                 }
                 else{//normal offline function
-                    snip.comTurn()
+                   snip.comTurn();
                 }
             }
             
@@ -861,18 +855,14 @@ function resetBoard() {
 })();
       
       function resetGame(){
-          firstCard=null;
-          secondCard=null;
-          hasFlippedCard=false;
           for(var i=0; i<cards.length; i++){
               cards[i].classList.remove('flip');
           }
-          setTimeout(() => {
-              cards.forEach(card => {
+          setTimeout(() => {cards.forEach(card => {
             let randomPos = Math.floor(Math.random() * 12);
             card.style.order = randomPos;
-          });
-         cards.forEach(card => card.addEventListener('click', flipCard));},500);
+          })
+          cards.forEach(card => card.addEventListener('click', flipCard));},2000);
                            
           mmoves=0;
       }
@@ -883,22 +873,24 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     
     <div id="gofish" class="tabcontent">
         <div id="allfish">
-            <div id="fishstatus" class="statusBox">Go Fish<br>
-                Click one of your cards to ask for it</div>
-            <center><input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">.... <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
+            <div id="fishstatus" class="statusBox">Go Fish</div>
+            <br>
             <div id="comfours"></div>
-            <br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br><br>
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
-            <br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br>
             <div id="playerfours"></div>
-            <br><br><br><br>
+            <br><br><br><br><br><br><br><br>
+            <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
         </div>
         
+        <br> <br>
+        
+        <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()">
         <br><br>
         <h2>Toggle Online mode</h2>
-        <br><br>
 <label class="switch">
   <input type="checkbox" onclick="fishOnline()">
   <span class="slider"></span>
@@ -990,9 +982,6 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     
     <div id="solitare" class="tabcontent">
         <div id="Solstatus" class="statusBox">Spider Solitare</div>
-        <center><input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">.... 
-        <input type="button" value="Upload to leaderboard" style="font-size: 18px" onclick="upload()"></center>
-        
         <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png" alt="row1"></div>
         <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png" alt="row2"></div>
         <div id="row3" style="position: absolute; left: 220px"><img src="Images/cardback.png" alt="row3"></div>
@@ -1002,7 +991,11 @@ cards.forEach(card => card.addEventListener('click', flipCard));
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <div id="soldecks"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"></div>
         <div id="Vicdecks"></div>
+        <br>
+        <input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">
         <br><br>
+        <input type="button" value="Upload to leaderboard" style="font-size: 18px" onclick="upload()">
+        <br><br><br>
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>Solitare</h2>
@@ -1038,17 +1031,14 @@ cards.forEach(card => card.addEventListener('click', flipCard));
 
 <div id="War" class="tabcontent">
   <div id="warstatus" class="statusBox">War</div>
-    <center><input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">... <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()"></center>
-    <br>
-    <div id="mywar"></div>
-    <br><br><br><br><br><br>
-    <div id="mycard"></div>
-    <br><br><br><br><br><br>
-    <div id="yourcard"></div>
-    <br><br><br><br><br><br>
-    <div id="yourwar"></div>
-    <br><br><br><br><br><br><br>
+    <div id="mywar"><img src="Images/cardback.png" alt="Computerwarcard"></div><br>
+    <div id="mycard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
+    <div id="yourcard"><img src="Images/cardback.png" alt="playerdeck"></div><br>
+    <div id="yourwar"><img src="Images/cardback.png" alt="playerwarcard"></div><br>
     
+    <input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">
+    <br><br><br>
+    <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()">
     <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>War</h2>
@@ -1118,7 +1108,6 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>Go Fish fourofs</option>
         <option>Solitare score</option>
         <option>War record</option>
-        <option>Board</option>
     </select>
     
    <input type="button" onclick=load() value="Load Leaderboard" ><br>
