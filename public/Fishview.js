@@ -68,16 +68,13 @@ class Fishview {
         //alert("User");//alert(numCards);
         let human=document.getElementById("fuserhand");
         let image=document.createElement("img");
-	       image.src ="./Images/"+card.toString()+".png";
-	       image.title=card.toString();
+	   image.src ="./Images/"+card.toString()+".png";
+	   image.title=card.toString();
         image.id=card.toString()+"F";
-	       image.class="card positionable";
-	       image.style="position:absolute; left:"+  (-20) + "px; z-index:" + (numCards) +"; hieght:10px";
-            human.appendChild(image);
-       // setTimeout(()=> {
-                //console.log("timeout function");
-                this.moveCardIn(image,(40*(numCards-1)),-20);
-           // },150);
+	   image.class="card positionable";
+	   image.style="position:absolute; left:"+  (-20) + "px; z-index:" + (numCards) +"; hieght:10px";
+        human.appendChild(image);
+        this.moveCardIn(image,(40*(numCards-1)),-20);
     }
     
     moveCardIn(image,pos,i){//for handling card animations
@@ -105,17 +102,17 @@ class Fishview {
     }
     
     giveComPoint(card){
-        //alert("Computer point");
-        let p=document.getElementById("comfours");
-        let image=document.createElement("img");
-	       image.src ="./Images/"+card.toString()+".png";
-	       image.title=card.toString();
-          image.class="card positionable";
-          image.style="position: absolute; left: "+ -30 + "px; z-index:" + i +";";
-        //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
-        this.comPoints++;
-        p.appendChild(image);
-        this.moveCardIn(image,((40*(this.comPoints-1) )),-30);
+       //alert("Computer point");
+       let p=document.getElementById("comfours");
+       let image=document.createElement("img");
+	   image.src ="./Images/"+card.toString()+".png";
+	   image.title=card.toString();
+       image.class="card positionable";
+       image.style="position: absolute; left: "+ -30 + "px; z-index:" + i +";";
+       //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
+       this.comPoints++;
+       p.appendChild(image);
+       this.moveCardIn(image,((40*(this.comPoints-1) )),-30);
     }
     
     eraseHands(){
@@ -135,6 +132,8 @@ class Fishview {
         while(cp.hasChildNodes()){
 	       cp.removeChild(cp.lastChild);
         }
+        this.humanPoints=0;
+        this.comPoints=0;
     }
     
     displayMessage(message){

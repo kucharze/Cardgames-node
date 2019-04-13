@@ -173,7 +173,7 @@ input:checked + .slider:before {
             ws.onmessage=function(event){
                 let message=JSON.parse(event.data);
                 console.log(message.action);
-                alert(message.action);
+                //alert(message.action);
                 //console.log("Message status is"+message.status);
                 if(message.action=="Crazy Eights"){
                     //alert("Crazy Eights online update");
@@ -193,16 +193,15 @@ input:checked + .slider:before {
                 }
                 else if(message.action=="Creation"){
                     //Failed to create a login
-                    document.getElementById("Creation status").innerHTML=message.status;
+                    document.getElementById("Creation_status").innerHTML=message.status;
                 }
                 else if(message.action=="Login"){
-                    alert("Processing a login");
+                    //alert("Processing a login");
                     document.getElementById("Login_status").innerHTML=message.status;
                 }
                 else if(message.action=="Solo"){
                     //Display your position on the leaderboard
                     ///////////
-                    alert("Trying to load a solo leaderboard result");
                     let l=message.board;
                     //alert("Attempting a solo leaderboard "+message.type);
                     let b=document.getElementById("score");
@@ -215,8 +214,8 @@ input:checked + .slider:before {
                         else if(message.type=="Snip Snap Snorum times"){
                             b.innerHTML=l.screenname+" "+l.mins+" mins "+l.secs+" secs";
                         }
-                        else if(message.type=="Go Fish fourofs"){
-                            b.innerHTML=l.screenname+" "+l.fourofs+" fourofs";
+                        else if(message.type=="Go Fish fours"){
+                            b.innerHTML=l.screenname+" "+l.fours+" fours";
                         }
                         else if(message.type=="War record"){
                             b.innerHTML=l.screenname+" "+l.wins+" wins "+l.losses+" losses";
@@ -240,8 +239,6 @@ input:checked + .slider:before {
                         length=20;
                     }
                     //alert("Printing Crazy Eights leaderboard");
-                     //<p id="score">Your result will appear hear if your are logged in</p>
-                    // <p id="board">This is
                     let b=document.getElementById("board");
                     for(var i=0; i<length; i++){
                         if(message.type=="Crazy Eights moves"){
@@ -251,8 +248,8 @@ input:checked + .slider:before {
                         else if(message.type=="Snip Snap Snorum times"){
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].mins+" mins "+l[i].secs+" secs<br>";
                         }
-                        else if(message.type=="Go Fish fourofs"){
-                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].fourofs+" fourofs<br>";
+                        else if(message.type=="Go Fish fours"){
+                            b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].fours+" fours<br>";
                         }
                         else if(message.type=="War record"){
                             b.innerHTML=b.innerHTML+(i+1)+" "+l[i].screenname+" "+l[i].wins+" wins "+l[i].losses+" losses<br>";
@@ -306,7 +303,7 @@ input:checked + .slider:before {
 	Play your favorite game. Create an account to log your high score.<br>
     (* Online games.)</h3>
 -->
-	<center> <img src="PlayingCards4.jpg" alt="cards" align="Center" height="300"; height="300"></center>
+	<center> <img src="PlayingCards4.jpg" alt="cards" align="Center" height="300"></center>
 
 		<p class="a"> (* Online games.)</p>
 	<br>
@@ -341,7 +338,7 @@ input:checked + .slider:before {
 	<h2>Create a Login to have your name added to leaderboards</h2>
 </div>
 		
-	<p id="Creation status"></p>
+	<p id="Creation_status"></p>
     <h3>Your name:</h3>
     <input id="user" type="text">
     <h3>Screen username:</h3>
@@ -1115,7 +1112,7 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>Snip Snap Snorum times</option>
         <option>Blackjack record</option>
         <option>Match moves</option>
-        <option>Go Fish fourofs</option>
+        <option>Go Fish fours</option>
         <option>Solitare score</option>
         <option>War record</option>
         <option>Board</option>

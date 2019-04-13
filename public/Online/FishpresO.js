@@ -100,8 +100,8 @@ class FishpresO {
        ///* 
 	   let hand = message.yourCards;
 	   let newHand = JSON.parse( JSON.stringify( hand ),
-                            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-                            //*/
+                        (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+            //*/
         this.turnToFish=message.fish;
         if(message.askCard!=null){
             let askCard=message.askCard;

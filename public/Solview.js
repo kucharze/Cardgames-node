@@ -82,6 +82,50 @@ class Solview {
         }
     }
     
+    moveCardleft(image,pos,i){//for handling card animations
+        console.log("Moving a card");
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCardIn(image,pos,i+5);
+            },30);
+        }
+    }
+    
+    moveCardright(image,pos,i){//for handling card animations
+        console.log("Moving a card");
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCardIn(image,pos,i+5);
+            },30);
+        }
+    }
+    
+    moveCardDown(image,pos,i){//for handling card animations
+        console.log("Moving a card");
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCardIn(image,pos,i+5);
+            },30);
+        }
+    }
+    
+    moveCardUp(image,pos,i){//for handling card animations
+        console.log("Moving a card");
+        image.style.left=(i+5)+"px";
+        if(i<pos){
+            setTimeout(()=> {
+                //console.log("timeout function");
+                this.moveCardIn(image,pos,i+5);
+            },30);
+        }
+    }
+    
     eraseRows(){
         let row1=document.getElementById("row1");
         let row2=document.getElementById("row2");
