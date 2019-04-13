@@ -116,7 +116,7 @@ MongoClient.connect(url, function(err, db) {
 
 //return static page with websocket client
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname + '/index-new.html'));
 });
 var server = app.listen(port, function () {
     console.log('node.js static server listening on port: ' + port + ", with websockets listener")
@@ -507,10 +507,10 @@ function loadLeadeboard(message, ws){
             
        // }
     }
-    /////////////////////////////
-    if(message.board=="Crazy Eights moves"){mysort = {moves: 1 };}
+    /////////////////////////////leaderboards
+    if(message.board=="Crazy Eights moves"){mysort = {moves: 1};}
     else if(message.board=="Snip Snap Snorum times"){mysort = {mins: 1 , secs: 1};}
-    else if(message.board=="Go Fish fourofs"){mysort={fourofs:-1};}
+    else if(message.board=="Go Fish fours"){mysort={fours:-1};}
     else if(message.board=="War record"){mysort={wins:-1,losses:1};}
     else if(message.board=="Match moves"){mysort={moves:1};}
     else if(message.board=="Blackjack record"){mysort={wins:-1,losses:1};}
@@ -526,6 +526,7 @@ function loadLeadeboard(message, ws){
         mes.board=result;
              
         webSockets[index].send(JSON.stringify(mes));
+        console.log("result");
         console.log(result);
   });
 }
@@ -677,7 +678,6 @@ function eightRecord(message, ws){
     }
     else{
         var query={screenname: webSockets[index].username};
-        //console.log("Clientcounter = "+clientCounter)
     }
     
     database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
@@ -686,7 +686,7 @@ function eightRecord(message, ws){
             console.log("Entry already exists");
             /////////
             if(result[0].moves > message.moves){
-                var newvalues = { $set: {screename: webSockets[index].username, moves: message.moves } };
+                var newvalues = { $set: {screenname: webSockets[index].username, moves: message.moves } };
                 database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Crazy Eights moves document updated");
@@ -705,7 +705,6 @@ function eightRecord(message, ws){
 }
 
 function eightsPlay(ws){
-    //console.log("inside eightsPlay");
     eightSockets.push(ws);
     let index=eightSockets.indexOf(ws);
     let gamenum=0;
@@ -1066,6 +1065,10 @@ function snipSnapSnorum(message,ws){
         console.log("A player has won the game");
         victory(message, snipSockets.indexOf(ws));
     }
+    else if(message.gameact=="update"){
+        console.log("Updating info for the other player");
+        update(message,snipSockets.indexOf(ws));
+    }
     else if(message.gameact=="quit"){
         console.log("Quitting snip snap snorum");
         snipQuit(snipSockets.indexOf(ws));
@@ -1238,7 +1241,7 @@ function victory(message, playerNumber){
     }
 }
 
-function switchUser(message, playerNumber){
+function update(message, playerNumber){
     let pileCard = message.pileCard;
     let tempCard = new Card(pileCard.suit, pileCard.value);
     snipPile.acceptACard(tempCard);
@@ -1247,6 +1250,7 @@ function switchUser(message, playerNumber){
             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
     
     snipPlayers[playerNumber].setHand(hand);
+    let odd=false;
     
     let snip=message.snip;
     let snap=message.snap;
@@ -1260,7 +1264,75 @@ function switchUser(message, playerNumber){
     }
     
     let obj={};
+    //console.log("Player number is "+playerNumber);
+    if(odd){
+       obj.action="Snip Snap Snorum";
+        obj.gameact="update";
+        obj.pileTopCard=snipPile.getTopCard();
+        obj.yourCards=snipPlayers[playerNumber-1].getHandCopy();
+        obj.snip=snip;
+        obj.snap=snap;
+        obj.numberOfOpponentCards=snipPlayers[playerNumber].getHandCopy().length;
+        obj.readyToPlay=false;
+        snipSockets[playerNumber-1].send(JSON.stringify(obj));
+
     
+        //obj.action="Snip Snap Snorum";
+        //obj.status="Please wait for the other player to play";
+        //obj.pileTopCard=snipPile.getTopCard();
+        //obj.yourCards=snipPlayers[playerNumber].getHandCopy();
+        //obj.snip=snip;
+        //obj.snap=snap;
+        //obj.numberOfOpponentCards=snipPlayers[playerNumber-1].getHandCopy().length;
+        //obj.readyToPlay=false;
+        //snipSockets[playerNumber].send(JSON.stringify(obj)); 
+    }else{
+        obj.action="Snip Snap Snorum";
+        obj.gameact="update";
+        obj.pileTopCard=snipPile.getTopCard();
+        obj.yourCards=snipPlayers[playerNumber+1].getHandCopy();
+        obj.snip=snip;
+        obj.snap=snap;
+        obj.numberOfOpponentCards=snipPlayers[playerNumber].getHandCopy().length;
+        obj.readyToPlay=false;
+        snipSockets[playerNumber+1].send(JSON.stringify(obj));
+    
+        //obj.action="Snip Snap Snorum";
+        //obj.status="Please wait for the other player to play";
+        //obj.pileTopCard=snipPile.getTopCard();
+        //obj.yourCards=snipPlayers[playerNumber].getHandCopy();
+        //obj.snip=snip;
+        //obj.snap=snap;
+        //obj.numberOfOpponentCards=snipPlayers[playerNumber+1].getHandCopy().length;
+        //obj.readyToPlay=false;
+        //snipSockets[playerNumber].send(JSON.stringify(obj));
+    }   
+}
+
+function switchUser(message, playerNumber){
+    let pileCard = message.pileCard;
+    let tempCard = new Card(pileCard.suit, pileCard.value);
+    snipPile.acceptACard(tempCard);
+    let hand = message.hand;
+    let newHand = JSON.parse(JSON.stringify( hand ),
+            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+    
+    snipPlayers[playerNumber].setHand(hand);
+    let odd=false;
+    
+    let snip=message.snip;
+    let snap=message.snap;
+    let gamenum=0;
+    if(playerNumber%2 == 0){
+        gamenum=(playerNumber)/2;
+    }
+    else{
+        gamenum=(playerNumber-1)/2;
+        odd=true;
+    }
+    
+    let obj={};
+    //console.log("Player number is "+playerNumber);
     if(odd){
        obj.action="Snip Snap Snorum";
         obj.status="It is now your turn";
@@ -1275,7 +1347,7 @@ function switchUser(message, playerNumber){
     
         obj.action="Snip Snap Snorum";
         obj.status="Please wait for the other player to play";
-        obj.pileTopCard=snipPile.getTopCard();
+        //obj.pileTopCard=snipPile.getTopCard();
         obj.yourCards=snipPlayers[playerNumber].getHandCopy();
         obj.snip=snip;
         obj.snap=snap;
@@ -1295,7 +1367,7 @@ function switchUser(message, playerNumber){
     
         obj.action="Snip Snap Snorum";
         obj.status="Please wait for the other player to play";
-        obj.pileTopCard=snipPile.getTopCard();
+        //obj.pileTopCard=snipPile.getTopCard();
         obj.yourCards=snipPlayers[playerNumber].getHandCopy();
         obj.snip=snip;
         obj.snap=snap;
@@ -1323,7 +1395,7 @@ function snipQuit(playernumber){
             obj.numberOfOpponentCards = snipPlayers[playernumber].getHandCopy().length;
             obj.snip=false;
             obj.snap=false;
-            obj.pileTopCard = snipPiles[gamenum].getTopCard();
+            //obj.pileTopCard = snipPiles[gamenum].getTopCard();
             obj.yourCards = snipPlayers[playernumber+1].getHandCopy();
             obj.readyToPlay = false;
        
@@ -1337,7 +1409,7 @@ function snipQuit(playernumber){
             obj.action="Snip Snap Snorum";
             obj.status = "You win!! Opponent has left the game!";
             obj.numberOfOpponentCards = snipPlayers[playernumber].getHandCopy().length;
-            obj.pileTopCard = snipPiles[gamenum].getTopCard();
+            //obj.pileTopCard = snipPiles[gamenum].getTopCard();
             obj.snip=false;
             obj.snap=false;
             obj.yourCards = snipPlayers[playernumber-1].getHandCopy();
@@ -1351,7 +1423,7 @@ function snipQuit(playernumber){
     snipComplete[gamenum]==true;
     cleanUp();
 }
-
+//go fish
 function playGoFish(message, ws){
     if(message.gameact=="Play"){
         fishPlay(ws);
@@ -1395,22 +1467,22 @@ function fishRecord(message, ws){
         var query={screenname: webSockets[index].username};
     }
     
-    database.collection("Go Fish fourofs").find(query).toArray(function(err, result) {
+    database.collection("Go Fish fours").find(query).toArray(function(err, result) {
         if (err) throw err;
         if(result.length>0){
             console.log("Entry already exists");
             /////////
-            if(result[0].fourofs < message.four){
-                var newvalues = {$set: {screenname: webSockets[index].username, fourofs: message.fours}};
-                database.collection("Go Fish fourofs").updateOne(query, newvalues, function(err, res) {
+            if(result[0].fours < message.four){
+                var newvalues = {$set: {screenname: webSockets[index].username, fours: message.fours}};
+                database.collection("Go Fish fours").updateOne(query, newvalues, function(err, res) {
                     if (err) throw err;
                     console.log("1 Go Fish moves document updated");
                 });
             }
         }
         else{
-            query={screenname: webSockets[index].username, fourofs: message.fours};
-            database.collection("Go Fish fourofs").insertOne(query, function(err, res) {
+            query={screenname: webSockets[index].username, fours: message.fours};
+            database.collection("Go Fish fours").insertOne(query, function(err, res) {
                 if (err) throw err;
                 console.log("1 Go Fish moves document inserted");
             }); 
@@ -1479,7 +1551,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
         gamenum=(playerNumber-1)/2;
         odd=true;
     }
-    
+    let drawnCard=fishDeck.dealACard();
     let c=null;
     if(fishDeck.list.length==0){
         empty=true;
@@ -1490,7 +1562,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
             if(c!=null){
                 score=true;
                 fourOfs[playerNumber-1]++;
-                console.log((playerNumber) +" Player has this many four ofs " +fourOfs[playerNumber-1]);
+                console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber-1]);
             }
         }else{
             fishPlayers[playerNumber+1].add(fishDeck.dealACard());
@@ -1498,7 +1570,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
             if(c!=null){
                 score=true;
                 fourOfs[playerNumber+1]++;
-                console.log((playerNumber) +" Player has this many four ofs " +fourOfs[playerNumber]);
+                console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber]);
             }
         }
     
@@ -1506,7 +1578,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
     
     if(newHand.length==0){
         console.log("A player's hand is empty");
-        console.log("This many cards left in the deck"+fishDeck.list.length);
+        //console.log("This many cards left in the deck"+fishDeck.list.length);
         var row=0;
         let newHand=new Array();
         while(row<5){
@@ -1526,7 +1598,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
         let phand=fishPlayers[playerNumber-1].getHandCopy();
         if(phand.length==0){
             console.log("Other player's hand is empty gofish");
-            console.log("This many cards left in the deck"+fishDeck.list.length);
+            //console.log("This many cards left in the deck"+fishDeck.list.length);
             var row=0;
             phand=new Array();
             while(row<5){
@@ -1544,7 +1616,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
         let phand=fishPlayers[playerNumber+1].getHandCopy();
         if(phand.length==0){
             console.log("Other player's hand is empty gofish");
-            console.log("This many cards left in the deck"+fishDeck.list.length);
+            //console.log("This many cards left in the deck"+fishDeck.list.length);
             var row=0;
             phand=new Array();
             while(row<5){
@@ -1650,6 +1722,88 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
             fishSockets[playerNumber].send(JSON.stringify(obj));
         }
     }
+    
+      /////
+    ////
+    /////
+    /*
+            if(odd){
+            fishPlayers[playerNumber-1].add(fishDeck.dealACard());
+            c=checkAmount(fishPlayers[playerNumber-1]);    
+            if(c!=null){
+                score=true;
+                fourOfs[playerNumber-1]++;
+                console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber-1]);
+            }
+        }else{
+            fishPlayers[playerNumber+1].add(fishDeck.dealACard());
+            c=checkAmount(fishPlayers[playerNumber+1]);    
+            if(c!=null){
+                score=true;
+                fourOfs[playerNumber+1]++;
+                console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber]);
+            }
+        }
+  
+    let newHand=fishPlayers[playerNumber].getHandCopy();
+    
+    if(newHand.length==0){
+        console.log("A player's hand is empty");
+        //console.log("This many cards left in the deck"+fishDeck.list.length);
+        var row=0;
+        let newHand=new Array();
+        while(row<5){
+            if(fishDeck.list.length==0){
+                break;
+            }
+            console.log("adding to newHand goFish");
+            newHand.push(fishDeck.dealACard());
+            row++;
+        }
+        console.log("This many cards left in the deck"+fishDeck.list.length);
+        fishPlayers[playerNumber].setHand(newHand);
+    }
+    
+    //console.log("hand is after");//console.log(newHand);
+    if(odd){
+        let phand=fishPlayers[playerNumber-1].getHandCopy();
+        if(phand.length==0){
+            console.log("Other player's hand is empty gofish");
+            //console.log("This many cards left in the deck"+fishDeck.list.length);
+            var row=0;
+            phand=new Array();
+            while(row<5){
+                if(fishDeck.list.length==0){
+                    break;
+                }
+                console.log("adding to phand gofish");
+                phand.push(fishDeck.dealACard());
+                row++;
+            }
+            console.log("This many cards left in the deck"+fishDeck.list.length);
+            fishPlayers[playerNumber-1].setHand(phand);
+        }
+    }else{
+        let phand=fishPlayers[playerNumber+1].getHandCopy();
+        if(phand.length==0){
+            console.log("Other player's hand is empty gofish");
+            //console.log("This many cards left in the deck"+fishDeck.list.length);
+            var row=0;
+            phand=new Array();
+            while(row<5){
+                if(fishDeck.list.length==0){
+                    break;
+                }
+                console.log("adding to phand gofish");
+                phand.push(fishDeck.dealACard());
+                row++;
+            }
+            console.log("This many cards left in the deck"+fishDeck.list.length);
+            fishPlayers[playerNumber+1].setHand(phand);
+        }
+        //console.log("phand is after");//console.log(phand);
+    }
+      */
 }
 
 function giveCard(message, playerNumber){
