@@ -84,7 +84,7 @@ class Fishview {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,pos,i+5);
-            },30);
+            },20);
         }
     }
     

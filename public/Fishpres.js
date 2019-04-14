@@ -240,7 +240,17 @@ class Fishpres {
      }
      this.fview.displayComputerHand(this.computer.getHandCopy());
      this.fview.displayHumanHand(this.human.getHandCopy());
-     return;
+     
+    // let r1=document.getElementById("row1").childElementCount;
+    //for(var i=0; i<r1; i++){
+    //    dragElement(document.getElementById("row1").childNodes[i]);
+    //}
+        
+       // dragElement(document.getElementById("row2").childNodes);
+        //dragElement(document.getElementById("row3"));
+        //dragElement(document.getElementById("row4"));
+    //    dragElement(document.getElementById("row5"));
+    //    dragElement(document.getElementById("row6"));
  }
     
     resetGame(){
@@ -260,10 +270,10 @@ class Fishpres {
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
         //for loops for testing
-        for(var i=0; i<15; i++){
+        for(var i=0; i<13; i++){
          this.human.list.push(this.deck.dealACard());
         }
-        for(var i=0; i<15; i++){
+        for(var i=0; i<13; i++){
          this.computer.list.push(this.deck.dealACard());
         } 
         

@@ -11,13 +11,15 @@ class Solview {
         this.topCardString = "";
         this.errorString = "";
     
-        document.getElementById("soldecks").addEventListener("click", function(){presenter.dealNewCards();});
-        document.getElementById("row1").addEventListener("click", function(){presenter.cardSelected(event.target.id,this.id);});
-        document.getElementById("row2").addEventListener("click", function(){presenter.cardSelected(event.target.id,this.id);});
-        document.getElementById("row3").addEventListener("click", function(){presenter.cardSelected(event.target.id,this.id);});
-        document.getElementById("row4").addEventListener("click", function(){presenter.cardSelected(event.target.id,this.id);});
-        document.getElementById("row5").addEventListener("click", function(){presenter.cardSelected(event.target.id,this.id);});
-        document.getElementById("row6").addEventListener("click", function(){presenter.cardSelected(event.target.id,this.id);});
+        document.getElementById("soldecks").addEventListener("click", function(){ presenter.dealNewCards();});
+        
+        document.getElementById("row1").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
+        
+        document.getElementById("row2").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
+        document.getElementById("row3").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
+        document.getElementById("row4").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
+        document.getElementById("row5").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
+        document.getElementById("row6").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         
   }
 
@@ -82,46 +84,48 @@ class Solview {
         }
     }
     
-    moveCardleft(image,pos,i){//for handling card animations
-        console.log("Moving a card");
-        image.style.left=(i+5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                //console.log("timeout function");
-                this.moveCardIn(image,pos,i+5);
-            },30);
-        }
+    
+    removeCards(cards,row){
+        
     }
     
-    moveCardright(image,pos,i){//for handling card animations
-        console.log("Moving a card");
-        image.style.left=(i+5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                //console.log("timeout function");
-                this.moveCardIn(image,pos,i+5);
-            },30);
-        }
+    addCard(card,row){
+            let r=document.getElementById(row);
+        //for(var i=0; i<cards.length; i++){
+            let image=document.createElement("img");
+            image.src ="./Images/"+card.toString()+".png";
+	        image.title=card.toString();
+            image.id=(i);
+	        image.class="card positionable";
+            image.style="position: absolute; top: "+(-20)+"px; z-index:" + r.childElementCount +";";
+            r.appendChild(image);
+            this.moveCardDown(image,(30*(r.childElementCount-1)), -20);
+        //}
+
+    }
+    
+    removeCard(card,row){
+        
     }
     
     moveCardDown(image,pos,i){//for handling card animations
-        console.log("Moving a card");
-        image.style.left=(i+5)+"px";
+        console.log("Moving a card down");
+        image.style.top=(i+5)+"px";
         if(i<pos){
             setTimeout(()=> {
                 //console.log("timeout function");
-                this.moveCardIn(image,pos,i+5);
-            },30);
+                this.moveCardDown(image,pos,i+5);
+            },25);
         }
     }
     
     moveCardUp(image,pos,i){//for handling card animations
-        console.log("Moving a card");
-        image.style.left=(i+5)+"px";
+        console.log("Moving a card up");
+        image.style.top=(i-5)+"px";
         if(i<pos){
             setTimeout(()=> {
                 //console.log("timeout function");
-                this.moveCardIn(image,pos,i+5);
+                this.moveCardIn(image,pos,i-5);
             },30);
         }
     }
