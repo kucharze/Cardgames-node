@@ -59,7 +59,7 @@ class Solview {
             }else{
                 let image=document.createElement("img");
                 image.src ="./Images/cardback.png";
-	            //image.title=row[i].toString();
+	            image.title=row[i].toString();
                 image.id=i;
 	            image.class="card positionable";
                 image.style="position: absolute; top: "+ (30*i) + "px; z-index:" + i +";";
@@ -100,8 +100,9 @@ class Solview {
     }
     
     removeCard(card,row){
-        let cardImg=document.getElementsByClassName(card.toString()+"S");
-        alert(cardImg.toString());
+        //alert(card.toString()+"   "+"."+card.toString()+"S");
+        let cardImg=document.getElementsByClassName((card.toString()+"S"));
+        //alert(cardImg[0]);
         let r=document.getElementById(row);
         this.moveCardUp(cardImg,-20,30*r.childElementCount);
     }
@@ -111,7 +112,6 @@ class Solview {
         image.style.top=(i+5)+"px";
         if(i<pos){
             setTimeout(()=> {
-                //console.log("timeout function");
                 this.moveCardDown(image,pos,i+5);
             },20);
         }
