@@ -14,10 +14,11 @@ class Solview {
         document.getElementById("soldecks").addEventListener("click", function(){ presenter.dealNewCards();});
         
         document.getElementById("row1").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
-        
         document.getElementById("row2").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         document.getElementById("row3").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
-        document.getElementById("row4").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
+        document.getElementById("row4").addEventListener("click", function(){
+            alert(event.target.class);
+            presenter.cardSelected(event.target.id,this.id);});
         document.getElementById("row5").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         document.getElementById("row6").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         
@@ -52,7 +53,7 @@ class Solview {
                 image.src ="./Images/"+row[i].toString()+".png";
 	            image.title=row[i].toString();
                 image.id=(i);
-	            image.class="card positionable";
+	            image.class=row[i].toString()+"S";
                 image.style="position: absolute; top: "+ (30*i) + "px; z-index:" + i +";";
                 card.appendChild(image);
             }else{
@@ -84,28 +85,25 @@ class Solview {
         }
     }
     
-    
-    removeCards(cards,row){
-        
-    }
-    
     addCard(card,row){
             let r=document.getElementById(row);
         //for(var i=0; i<cards.length; i++){
             let image=document.createElement("img");
             image.src ="./Images/"+card.toString()+".png";
 	        image.title=card.toString();
-            image.id=(i);
-	        image.class="card positionable";
+            //image.id=(i);
+	        image.class=card.toString()+"S";
             image.style="position: absolute; top: "+(-20)+"px; z-index:" + r.childElementCount +";";
             r.appendChild(image);
             this.moveCardDown(image,(30*(r.childElementCount-1)), -20);
         //}
-
     }
     
     removeCard(card,row){
-        
+        let cardImg=document.getElementsByClassName(card.toString()+"S");
+        alert(cardImg.toString());
+        let r=document.getElementById(row);
+        this.moveCardUp(cardImg,-20,30*r.childElementCount);
     }
     
     moveCardDown(image,pos,i){//for handling card animations
@@ -115,7 +113,7 @@ class Solview {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardDown(image,pos,i+5);
-            },25);
+            },20);
         }
     }
     
@@ -126,7 +124,7 @@ class Solview {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,pos,i-5);
-            },30);
+            },20);
         }
     }
     

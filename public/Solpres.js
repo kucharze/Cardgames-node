@@ -14,9 +14,9 @@ class Solpres {
         this.deck = new Soldeck();
 	    this.deck.shuffle();
         this.deck.shuffle();
-        this.extra=new Soldeck();//deck used for dealing out extra cards
-        this.extra.shuffle();
-        this.extra.shuffle();
+        //this.extra=new Soldeck();//deck used for dealing out extra cards
+        //this.extra.shuffle();
+        //this.extra.shuffle();
 	    this.solview = new Solview(this);
         this.placing=false;
         this.socket=ws;
@@ -183,28 +183,22 @@ class Solpres {
             else{
                  //Run checks to make sure the move that we are making is legal
             if(this.actionRow=="row1"){
-                    if(this.row1[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
-                    else{movable=false;}
+                    if(this.row1[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}else{movable=false;}
             }
             else if(this.actionRow=="row2"){
-                    if(this.row2[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
-                    else{movable=false;}
+                    if(this.row2[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}else{movable=false;}
             }
             else if(this.actionRow=="row3"){
-                    if(this.row3[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
-                    else{movable=false;}
+                    if(this.row3[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}else{movable=false;}
             }
             else if(this.actionRow=="row4"){
-                    if(this.row4[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
-                    else{movable=false;}
+                    if(this.row4[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}else{movable=false;}
             }
             else if(this.actionRow=="row5"){
-                    if(this.row5[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}
-                    else{movable=false;}
+                    if(this.row5[this.actionPos].getSValue() == (+card.getSValue() - +1)){movable=true;}else{movable=false;}
             }
             else if(this.actionRow=="row6"){
-                    if(this.row6[this.actionPos].getSValue() == (+card.getSValue() - +1) ){movable=true;}
-                    else{movable=false;}
+                    if(this.row6[this.actionPos].getSValue() == (+card.getSValue() - +1) ){movable=true;}else{movable=false;}
             } 
             }
             
@@ -221,32 +215,32 @@ class Solpres {
                 for(var i=this.actionPos; i<this.row1.length; i++){
                     mrow.push(this.row1[i]);
                     //this.solview.addCard(this.row1[i],row);
-                    //this.solview.removecards()
+                    this.solview.removeCard(this.row1[i],this.actionRow);
                 }
             }else if(this.actionRow=="row2"){
                 for(var i=this.actionPos; i<this.row2.length; i++){
                     mrow.push(this.row2[i]);
-                    //this.solview.addCard(this.row2[i],row);
+                    this.solview.removeCard(this.row2[i],this.actionRow);
                 }
             }else if(this.actionRow=="row3"){
                 for(var i=this.actionPos; i<this.row3.length; i++){
                     mrow.push(this.row3[i]);
-                    //this.solview.addCard(this.row3[i],row);
+                    this.solview.removeCard(this.row3[i],this.actionRow);
                 }
             }else if(this.actionRow=="row4"){
                 for(var i=this.actionPos; i<this.row4.length; i++){
                     mrow.push(this.row4[i]);
-                    //this.solview.addCard(this.row4[i],row);
+                    this.solview.removeCard(this.row4[i],this.actionRow);
                 }
             }else if(this.actionRow=="row5"){
                 for(var i=this.actionPos; i<this.row5.length; i++){
                     mrow.push(this.row5[i]);
-                    //this.solview.addCard(this.row5[i],row);
+                    this.solview.removeCard(this.row5[i],this.actionRow);
                 }
             }else if(this.actionRow=="row6"){
                 for(var i=this.actionPos; i<this.row6.length; i++){
                     mrow.push(this.row6[i]);
-                    //this.solview.addCard(this.row6[i],row);
+                    this.solview.removeCard(this.row6[i],this.actionRow);
                 }
             }
             
@@ -318,7 +312,7 @@ class Solpres {
                     this.solview.displayRow(this.row5, 5);
                     this.solview.displayRow(this.row6, 6); 
                 }
-            },2200);
+            },1800);
 
             
         }
@@ -357,12 +351,14 @@ class Solpres {
         this.solview.addCard(card5,"row5");
         this.solview.addCard(card6,"row6");
         
-        //this.solview.displayRow(this.row1, 1);
-        //this.solview.displayRow(this.row2, 2);
-        //this.solview.displayRow(this.row3, 3);
-        //this.solview.displayRow(this.row4, 4);
-        //this.solview.displayRow(this.row5, 5);
-        //this.solview.displayRow(this.row6, 6);
+        setTimeout(()=>{
+            this.solview.displayRow(this.row1, 1);
+            this.solview.displayRow(this.row2, 2);
+            this.solview.displayRow(this.row3, 3);
+            this.solview.displayRow(this.row4, 4);
+            this.solview.displayRow(this.row5, 5);
+            this.solview.displayRow(this.row6, 6);
+        },1500);
         
         this.solview.eraseDeck();
         this.decksadded++;
