@@ -211,37 +211,50 @@ class Solpres {
             }
             
             let mrow=new Array();
+                
             if(this.actionRow=="row1"){
                 for(var i=this.actionPos; i<this.row1.length; i++){
                     mrow.push(this.row1[i]);
                     //this.solview.addCard(this.row1[i],row);
-                    this.solview.removeCard(this.row1[i],this.actionRow);
+                    //this.solview.removeCard(this.row1[i],this.actionRow);
                 }
+                this.row1.splice(this.actionPos);
+                  this.solview.displayRow(this.row1, 1);
             }else if(this.actionRow=="row2"){
                 for(var i=this.actionPos; i<this.row2.length; i++){
                     mrow.push(this.row2[i]);
-                    this.solview.removeCard(this.row2[i],this.actionRow);
+                    //this.solview.removeCard(this.row2[i],this.actionRow);
                 }
+                this.row2.splice(this.actionPos);
+                this.solview.displayRow(this.row2, 2);
             }else if(this.actionRow=="row3"){
                 for(var i=this.actionPos; i<this.row3.length; i++){
                     mrow.push(this.row3[i]);
-                    this.solview.removeCard(this.row3[i],this.actionRow);
+                    //this.solview.removeCard(this.row3[i],this.actionRow);
                 }
+                this.row3.splice(this.actionPos);
+                this.solview.displayRow(this.row3, 3);
             }else if(this.actionRow=="row4"){
                 for(var i=this.actionPos; i<this.row4.length; i++){
                     mrow.push(this.row4[i]);
-                    this.solview.removeCard(this.row4[i],this.actionRow);
+                    //this.solview.removeCard(this.row4[i],this.actionRow);
                 }
+                this.row4.splice(this.actionPos);
+                this.solview.displayRow(this.row4, 4);
             }else if(this.actionRow=="row5"){
                 for(var i=this.actionPos; i<this.row5.length; i++){
                     mrow.push(this.row5[i]);
-                    this.solview.removeCard(this.row5[i],this.actionRow);
+                   // this.solview.removeCard(this.row5[i],this.actionRow);
                 }
+                this.row5.splice(this.actionPos);
+                this.solview.displayRow(this.row5, 5);
             }else if(this.actionRow=="row6"){
                 for(var i=this.actionPos; i<this.row6.length; i++){
                     mrow.push(this.row6[i]);
-                    this.solview.removeCard(this.row6[i],this.actionRow);
+                    //this.solview.removeCard(this.row6[i],this.actionRow);
                 }
+                this.row6.splice(this.actionPos);
+                this.solview.displayRow(this.row6, 6);
             }
             
                 if(row=="row1"){
@@ -281,12 +294,6 @@ class Solpres {
                     }
                 }
             
-                if(this.actionRow=="row1"){this.row1.splice(this.actionPos);}
-                else if(this.actionRow=="row2"){this.row2.splice(this.actionPos);}
-                else if(this.actionRow=="row3"){this.row3.splice(this.actionPos);}
-                else if(this.actionRow=="row4"){this.row4.splice(this.actionPos);}
-                else if(this.actionRow=="row5"){this.row5.splice(this.actionPos);}
-                else if(this.actionRow=="row6"){this.row6.splice(this.actionPos);}
                 
             setTimeout(()=>{
                 this.checkFlips();

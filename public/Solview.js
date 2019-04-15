@@ -99,13 +99,6 @@ class Solview {
         //}
     }
     
-    removeCard(card,row){
-        //alert(card.toString()+"   "+"."+card.toString()+"S");
-        let cardImg=document.getElementsByClassName((card.toString()+"S"));
-        //alert(cardImg[0]);
-        let r=document.getElementById(row);
-        this.moveCardUp(cardImg,-20,30*r.childElementCount);
-    }
     
     moveCardDown(image,pos,i){//for handling card animations
         console.log("Moving a card down");
@@ -116,17 +109,7 @@ class Solview {
             },20);
         }
     }
-    
-    moveCardUp(image,pos,i){//for handling card animations
-        console.log("Moving a card up");
-        image.style.top=(i-5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                //console.log("timeout function");
-                this.moveCardIn(image,pos,i-5);
-            },20);
-        }
-    }
+
     
     eraseRows(){
         let row1=document.getElementById("row1");
