@@ -74,11 +74,13 @@ class Presenter {
         this.socket.send(JSON.stringify(obj));
         
 	   this.view.announceHumanWinner();
+        this.view.blockPlay();
 	   return;
     }
     this.computer.takeATurn();
     if(this.computer.isHandEmpty()){
-	this.view.announceComputerWinner();
+	    this.view.announceComputerWinner();
+        this.view.blockPlay();
      }
      if(this.deck.isEmpty()){
          this.deck=new Deck();
@@ -103,6 +105,7 @@ class Presenter {
         this.view.eraseHands();
         this.deck=new Deck();
         this.moves=0;
+        this.view.unblockPlay();
         
 	    this.deck.shuffle();
 	    while(this.deck.isTopCardAnEight()){

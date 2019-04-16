@@ -289,7 +289,7 @@ input:checked + .slider:before {
             }
             
             //Ping server every so often to prevent server timeout
-            window.setInterval(pingServer,15000);
+            window.setInterval(pingServer,10000);
         
         function pingServer(){
             ws.send(JSON.stringify({action:"ping"}));
