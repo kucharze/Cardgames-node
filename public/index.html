@@ -267,22 +267,22 @@ input:checked + .slider:before {
                 }
                 ///*
                 else if(message.action=="War"){
-                    alert("war");
+                    //alert("war");
                     let s=document.getElementById("warstatus");
                     s.innerHTML=s.innerHTML+message.message;
                 }
                 else if(message.action=="Matching"){
-                     alert("match");
+                     //alert("match");
                     let s=document.getElementById("matchstatus");
                     s.innerHTML=s.innerHTML+message.message;
                 }
                 else if(message.action=="SpiderSolitare"){
-                     alert("spider");
+                     //alert("spider");
                     let s=document.getElementById("Solstatus");
                     s.innerHTML=s.innerHTML+message.message;
                 }
                 else if(message.action="Blackjack"){
-                     alert("jack");
+                    // alert("jack");
                     let s=document.getElementById("jackstatus");
                     s.innerHTML=s.innerHTML+message.message;
                 }//*/
@@ -1046,7 +1046,8 @@ cards.forEach(card => card.addEventListener('click', flipCard));
 <div id="War" class="tabcontent">
   <div id="warstatus" class="statusBox">War</div>
     <center><input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">... <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()"></center>
-    <br>
+    <h2>Click play a round to play. Play until deck is empty to upload your score.</h2>
+    <br><br>
     <div id="mywar"></div>
     <br><br><br><br><br><br>
     <div id="mycard"></div>

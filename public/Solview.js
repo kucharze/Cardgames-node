@@ -17,8 +17,7 @@ class Solview {
         document.getElementById("row2").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         document.getElementById("row3").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         document.getElementById("row4").addEventListener("click", function(){
-            alert(event.target.class);
-            presenter.cardSelected(event.target.id,this.id);});
+        presenter.cardSelected(event.target.id,this.id);});
         document.getElementById("row5").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         document.getElementById("row6").addEventListener("click", function(){ presenter.cardSelected(event.target.id,this.id);});
         
@@ -142,9 +141,5 @@ class Solview {
         let mes=document.getElementById("Solstatus");
         mes.innerHTML=message;
     }
-
-   displayWrongCardMsg(cardstring){
-	   alert("That play is invalid try again");
-   }
 
 }
