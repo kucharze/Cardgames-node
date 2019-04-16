@@ -54,7 +54,7 @@ class Presenter {
  completeBothTurns(){
      this.moves++;
     if(this.human.isHandEmpty()){
-       alert("You won in this many moves:"+this.moves);
+       //alert("You won in this many moves:"+this.moves);
         let elapsed=new Date();
         this.secs=elapsed - this.date;
         this.secs/=1000;
@@ -65,7 +65,7 @@ class Presenter {
             this.secs=this.secs-60;
             this.min++;
         }
-        alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
+        //alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
         let obj={};
         obj.action="Crazy Eights";
         obj.gameact="record";

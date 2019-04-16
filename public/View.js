@@ -144,21 +144,21 @@ class View {
   }
     
 blockPlay() {
-    alert("attempting to block play");
+    //alert("attempting to block play");
     // Capture and ignore all clicks
     document.getElementById("allCards").addEventListener("click", this.clickBlocker, true);
     // Dim the cards to indicate that play is blocked.
-    document.getElementById("allCards").style.opacity = 0.5;
+    //document.getElementById("allCards").style.opacity = 0.5;
   }
   /**
    * Unblock user from playing.
    */
   unblockPlay() {
-      alert("attempting to unblock play");
+      //alert("attempting to unblock play");
     // Remove capturing listener
     document.getElementById("allCards").removeEventListener("click", this.clickBlocker, true);
     // Undim the cards to indicate that play is no longer blocked.
-    document.getElementById("allCards").style.opacity = 1.0;
+    //document.getElementById("allCards").style.opacity = 1.0;
   }
 
 //makes the suit picker vissible

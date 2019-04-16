@@ -69,7 +69,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        alert("Deck has this many cards left"+this.deck.list.length);
+        //alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
@@ -152,7 +152,7 @@ class Fishpres {
                     this.fview.giveHumanPoint(c);
                     this.fview.displayHumanHand(this.human.getHandCopy());        
                      },(num*900));
-                alert("User has this many four ofs "+this.humNumFours);
+                //alert("User has this many four ofs "+this.humNumFours);
             }
             
             if(this.deck.isEmpty()){
@@ -215,7 +215,7 @@ class Fishpres {
                     if(this.deck.isEmpty()){
                         break;
                     }
-                     alert("adding cards to player's hand from deck "+i);
+                    alert("adding cards to player's hand from deck "+i);
                     this.human.add(this.deck.dealACard());
                 }
             }
