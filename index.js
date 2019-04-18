@@ -82,11 +82,8 @@ fishPlayers.push(new Player(fishDeck));
 fishPlayers.push(new Player(fishDeck));
 
 //below temporary for testing
-for(var i=0; i<16; i++){
+for(var i=0; i<9; i++){
     fishPlayers[0].add(fishDeck.dealACard());
-}
-
-for(var i=0; i<16; i++){
     fishPlayers[1].add(fishDeck.dealACard());
 }
 
@@ -1499,6 +1496,7 @@ function fishPlay(ws){
     if(index%2==0) {
         ///*
         obj.action="Go Fish";
+        obj.gameact="Setup";
         obj.status = "Waiting for player to join";
         obj.fish=false;
         obj.askCard=null;
@@ -1509,6 +1507,7 @@ function fishPlay(ws){
         //*/
     } else if(fishSockets.indexOf(ws)%2==1){
         obj.action="Go Fish";
+        obj.gameact="Setup";
         obj.status = "Your turn";
         obj.fish=true;
         obj.askCard=null;
@@ -1527,7 +1526,7 @@ function fishPlay(ws){
                 let p1=new Player(deck);
                 let p2=new Player(deck);
         
-            for(var i=0; i<15; i++){
+            for(var i=0; i<12; i++){
                 p1.add(deck.dealACard());
                 p2.add(deck.dealACard());
             }
@@ -1536,7 +1535,7 @@ function fishPlay(ws){
             fishPlayers.push(p2);
     }
 }
-
+///*
 function goFish(message, playerNumber){//Go Fish player has said go fish
     //let drawCard=fishDeck.dealACard();
     console.log("This many cards left in the deck"+fishDeck.list.length);
@@ -1553,258 +1552,260 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
     }
     let drawnCard=fishDeck.dealACard();
     let c=null;
+    let obj={};
     if(fishDeck.list.length==0){
         empty=true;
     }else{
+        let newCard=fishDecks[gamenum].dealACard();
+        //Handle an odd numbered player
         if(odd){
-            fishPlayers[playerNumber-1].add(fishDeck.dealACard());
-            c=checkAmount(fishPlayers[playerNumber-1]);    
+            fishPlayers[playerNumber-1].add(newCard);//Add card to other player's hand
+            
+            //Send info to players
+            obj.status="Recieving a card from the deck";
+            obj.action="Go Fish";
+            obj.gameact="Go Fish draw";
+            obj.drawCard=newCard;
+            obj.yourCards=fishPlayers[playerNumber-1].getHandCopy();
+            obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+            obj.fish=false;
+            obj.askCard=null;
+            obj.readyToPlay=false;
+            fishSockets[playerNumber-1].send(JSON.stringify(obj));
+        
+            obj.status="Processing move";
+            obj.action="Go Fish";
+            obj.gameact="Go Fish deal";
+            obj.drawCard=newCard;
+            obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+            obj.numberOfOpponentCards=fishPlayers[playerNumber-1].getHandCopy().length;
+            obj.askCard=null;
+            obj.fish=true;
+            obj.readyToPlay=false;
+            fishSockets[playerNumber].send(JSON.stringify(obj));
+            
+            /*
+                Check for this player scoring a poing
+            */
+            setTimeout(()=>{
+            c=checkAmount(fishPlayers[playerNumber-1]);
             if(c!=null){
                 score=true;
                 fourOfs[playerNumber-1]++;
                 console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber-1]);
-            }
-        }else{
-            fishPlayers[playerNumber+1].add(fishDeck.dealACard());
-            c=checkAmount(fishPlayers[playerNumber+1]);    
-            if(c!=null){
-                score=true;
-                fourOfs[playerNumber+1]++;
-                console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber]);
-            }
-        }
-    
-    let newHand=fishPlayers[playerNumber].getHandCopy();
-    
-    if(newHand.length==0){
-        console.log("A player's hand is empty");
-        //console.log("This many cards left in the deck"+fishDeck.list.length);
-        var row=0;
-        let newHand=new Array();
-        while(row<5){
-            if(fishDeck.list.length==0){
-                break;
-            }
-            console.log("adding to newHand goFish");
-            newHand.push(fishDeck.dealACard());
-            row++;
-        }
-        console.log("This many cards left in the deck"+fishDeck.list.length);
-        fishPlayers[playerNumber].setHand(newHand);
-    }
-    
-    //console.log("hand is after");//console.log(newHand);
-    if(odd){
-        let phand=fishPlayers[playerNumber-1].getHandCopy();
-        if(phand.length==0){
-            console.log("Other player's hand is empty gofish");
-            //console.log("This many cards left in the deck"+fishDeck.list.length);
-            var row=0;
-            phand=new Array();
-            while(row<5){
-                if(fishDeck.list.length==0){
-                    break;
+                //check if the game is over
+                if((fishDeck.list.length==0) && (fishPlayers[playerNumber].list.length==0) && (fishPlayers[playerNumber-1].list.length==0)){
+                    fishWinner(message, playerNumber);
                 }
-                console.log("adding to phand gofish");
-                phand.push(fishDeck.dealACard());
-                row++;
-            }
-            console.log("This many cards left in the deck"+fishDeck.list.length);
-            fishPlayers[playerNumber-1].setHand(phand);
-        }
-    }else{
-        let phand=fishPlayers[playerNumber+1].getHandCopy();
-        if(phand.length==0){
-            console.log("Other player's hand is empty gofish");
-            //console.log("This many cards left in the deck"+fishDeck.list.length);
-            var row=0;
-            phand=new Array();
-            while(row<5){
-                if(fishDeck.list.length==0){
-                    break;
+                else{
+                    let phand=fishPlayers[playerNumber-1].getHandCopy();
+                    //check if other player's hand is empty
+                    if(phand.length==0){//if so that player draws cards from the deck
+                        console.log("Other player's hand is empty gofish");
+                        //var row=0;
+                        phand=new Array();
+                        for(var i=0; i<5; i++){
+                            if(fishDeck.list.length==0){
+                                break;
+                            }
+                            console.log("adding to phand gofish");
+                            phand.push(fishDeck.dealACard());
+                            //row++;
+                        }
+                        console.log("This many cards left in the deck"+fishDeck.list.length);
+                        fishPlayers[playerNumber-1].setHand(phand);
+                    }
+                    
+                    //Send info to players
+                    //other player
+                    obj.action="Go Fish";
+                    obj.gameact="Player Score";
+                    obj.status="You have scored a point";
+                    obj.drawCard=newCard;
+                    obj.yourCards=fishPlayers[playerNumber-1].getHandCopy();
+                    obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+                    obj.fish=false;
+                    obj.score=c;
+                    obj.askCard=null;
+                    obj.readyToPlay=false;
+                    fishSockets[playerNumber-1].send(JSON.stringify(obj));
+
+                    //this player
+                    obj.action="Go Fish";
+                    obj.gameact="Opponent Score";
+                    obj.status="Opponent has scored a point";
+                    obj.drawCard=newCard;
+                    obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+                    obj.numberOfOpponentCards=fishPlayers[playerNumber-1].getHandCopy().length;
+                    obj.askCard=null;
+                    //obj.score=c; this is already true
+                    obj.fish=true;
+                    obj.readyToPlay=true;
+                    fishSockets[playerNumber].send(JSON.stringify(obj));
                 }
-                console.log("adding to phand gofish");
-                phand.push(fishDeck.dealACard());
-                row++;
             }
-            console.log("This many cards left in the deck"+fishDeck.list.length);
-            fishPlayers[playerNumber+1].setHand(phand);
-        }
-        //console.log("phand is after");//console.log(phand);
-    }
-        
-    }
-    let obj={};
-    
-    let win=false;
-    if(odd){
-       if((fishDeck.list.length==0) && (fishPlayers[playerNumber].list.length==0) && (fishPlayers[playerNumber-1].list.length==0)){
-        fishWinner(message, playerNumber);
-    } 
-    }else{
-        if((fishDeck.list.length==0) && (fishPlayers[playerNumber].list.length==0) && (fishPlayers[playerNumber+1].list.length==0)){
-            fishWinner(message, playerNumber);
-            win=true;
-        }
-    }
-    if(!win){
-        if(odd){//Handle odd player number
-            if(empty){
-                obj.status="No Cards found. No cards left to draw";
+            else{//Send info to players
+                if(empty){//send info to the player
+                    obj.status="No Cards found. No cards left to draw";
+                }
+                else{
+                    obj.status="Drawing a card from the deck";
+                }
+                obj.action="Go Fish";
+                obj.gameact="Update";
+                obj.drawCard=newCard;
+                obj.yourCards=fishPlayers[playerNumber-1].getHandCopy();
+                obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+                obj.fish=false;
+
+                obj.askCard=null;
+                obj.readyToPlay=false;
+                fishSockets[playerNumber-1].send(JSON.stringify(obj));
+
+                if(empty){
+                    obj.status="No cards left in deck. Choose a card to ask for";
+                }
+                else{
+                    obj.status="Choose a card to ask for";
+                }
+                obj.action="Go Fish";
+                obj.gameact="Update";
+                obj.drawCard=newCard;
+                obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+                obj.numberOfOpponentCards=fishPlayers[playerNumber-1].getHandCopy().length;
+                obj.askCard=null;
+
+                obj.fish=true;
+                obj.readyToPlay=true;
+                fishSockets[playerNumber].send(JSON.stringify(obj));
             }
-            else{
-                obj.status="No cards found. Drawing a card";
-            }
+            },3000);
+            
+        }else{//handle an Even numbered player
+            fishPlayers[playerNumber+1].add(newCard);
+            
+            //Send info to players
+            obj.status="Waiting to recieving a card from the deck";
             obj.action="Go Fish";
-            obj.yourCards=fishPlayers[playerNumber-1].getHandCopy();
+            obj.gameact="Go Fish draw";
+            obj.drawCard=newCard;
+            obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
             obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
             obj.fish=false;
-            if(score){
-                obj.score=c;
-            }
             obj.askCard=null;
             obj.readyToPlay=false;
-            fishSockets[playerNumber-1].send(JSON.stringify(obj));
-            obj.score=null;
+            fishSockets[playerNumber+1].send(JSON.stringify(obj));
         
-        
-            if(empty){
-                obj.status="No cards left in deck. Choose a card to ask for";
-            }
-            else{
-                obj.status="Choose a card to ask for";
-            }
+            obj.status="Processing move";
             obj.action="Go Fish";
+            obj.gameact="Go Fish deal";
+            obj.drawCard=newCard;
             obj.yourCards=fishPlayers[playerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[playerNumber-1].getHandCopy().length;
+            obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
             obj.askCard=null;
-            if(score){
-                obj.comScore=c;
-            }
+          
             obj.fish=true;
             obj.readyToPlay=true;
             fishSockets[playerNumber].send(JSON.stringify(obj));
             
-        }else{//Handle an even numbered player
-            if(empty){
-                obj.status="No Cards found. No cards left to draw";
-            }
-            else{
-                obj.status="No cards found. Drawing a card";
-            }
-            obj.action="Go Fish";
-            obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
-            obj.fish=false;
-            if(score){
-                obj.score=c;
-            }
-            obj.askCard=null;
-            obj.readyToPlay=false;
-            fishSockets[playerNumber+1].send(JSON.stringify(obj));
-            obj.score=null;
-        
-            if(empty){
-                obj.status="No cards left in deck. Choose a card to ask for";
-            }
-            else{
-                obj.status="Choose a card to ask for";
-            }
-            obj.action="Go Fish";
-            obj.yourCards=fishPlayers[playerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
-            obj.askCard=null;
-            if(score){
-                obj.comScore=c;
-            }
-            obj.fish=true;
-            obj.readyToPlay=true;
-            fishSockets[playerNumber].send(JSON.stringify(obj));
-        }
-    }
-    
-      /////
-    ////
-    /////
-    /*
-            if(odd){
-            fishPlayers[playerNumber-1].add(fishDeck.dealACard());
-            c=checkAmount(fishPlayers[playerNumber-1]);    
-            if(c!=null){
-                score=true;
-                fourOfs[playerNumber-1]++;
-                console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber-1]);
-            }
-        }else{
-            fishPlayers[playerNumber+1].add(fishDeck.dealACard());
+            
+            //Check if other player has scored a point
+            setTimeout(()=>{
             c=checkAmount(fishPlayers[playerNumber+1]);    
             if(c!=null){
                 score=true;
                 fourOfs[playerNumber+1]++;
                 console.log((playerNumber)+" Player num four ofs "+fourOfs[playerNumber]);
-            }
-        }
-  
-    let newHand=fishPlayers[playerNumber].getHandCopy();
-    
-    if(newHand.length==0){
-        console.log("A player's hand is empty");
-        //console.log("This many cards left in the deck"+fishDeck.list.length);
-        var row=0;
-        let newHand=new Array();
-        while(row<5){
-            if(fishDeck.list.length==0){
-                break;
-            }
-            console.log("adding to newHand goFish");
-            newHand.push(fishDeck.dealACard());
-            row++;
-        }
-        console.log("This many cards left in the deck"+fishDeck.list.length);
-        fishPlayers[playerNumber].setHand(newHand);
-    }
-    
-    //console.log("hand is after");//console.log(newHand);
-    if(odd){
-        let phand=fishPlayers[playerNumber-1].getHandCopy();
-        if(phand.length==0){
-            console.log("Other player's hand is empty gofish");
-            //console.log("This many cards left in the deck"+fishDeck.list.length);
-            var row=0;
-            phand=new Array();
-            while(row<5){
-                if(fishDeck.list.length==0){
-                    break;
+                if((fishDeck.list.length==0) && (fishPlayers[playerNumber].list.length==0) && (fishPlayers[playerNumber+1].list.length==0)){//game is over
+                    fishWinner(message, playerNumber);
+                    win=true;
                 }
-                console.log("adding to phand gofish");
-                phand.push(fishDeck.dealACard());
-                row++;
-            }
-            console.log("This many cards left in the deck"+fishDeck.list.length);
-            fishPlayers[playerNumber-1].setHand(phand);
-        }
-    }else{
-        let phand=fishPlayers[playerNumber+1].getHandCopy();
-        if(phand.length==0){
-            console.log("Other player's hand is empty gofish");
-            //console.log("This many cards left in the deck"+fishDeck.list.length);
-            var row=0;
-            phand=new Array();
-            while(row<5){
-                if(fishDeck.list.length==0){
-                    break;
+                else{//game is not over yet
+                    let phand=fishPlayers[playerNumber+1].getHandCopy();
+                    if(phand.length==0){
+                        console.log("Other player's hand is empty gofish");
+                        //console.log("This many cards left in the deck"+fishDeck.list.length);
+                        var row=0;
+                        phand=new Array();
+                        while(row<5){
+                            if(fishDeck.list.length==0){
+                                break;
+                            }
+                            console.log("adding to phand gofish");
+                            phand.push(fishDeck.dealACard());
+                            row++;
+                        }
+                        console.log("This many cards left in the deck"+fishDeck.list.length);
+                        fishPlayers[playerNumber+1].setHand(phand);
+                    }
+                    
+                     //Send info to players
+                    //other player
+                    obj.action="Go Fish";
+                    obj.gameact="Player Score";
+                    obj.status="You have scored a point";
+                    //obj.drawCard=newCard;
+                    obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
+                    obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+                    obj.fish=false;
+                    obj.score=c;
+                    obj.askCard=null;
+                    obj.readyToPlay=false;
+                    fishSockets[playerNumber+1].send(JSON.stringify(obj));
+
+                    //this player
+                    obj.action="Go Fish";
+                    obj.gameact="Opponent Score";
+                    obj.status="Opponent has scored a point";
+                    //obj.drawCard=newCard;
+                    obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+                    obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
+                    obj.askCard=null;
+                    //obj.score=c; this is already true
+                    obj.fish=true;
+                    obj.readyToPlay=true;
+                    fishSockets[playerNumber].send(JSON.stringify(obj));
                 }
-                console.log("adding to phand gofish");
-                phand.push(fishDeck.dealACard());
-                row++;
             }
-            console.log("This many cards left in the deck"+fishDeck.list.length);
-            fishPlayers[playerNumber+1].setHand(phand);
+            else{
+                //Send info to players
+                if(empty){//send info to the player
+                    obj.status="No Cards found. No cards left to draw";
+                }
+                else{
+                    obj.status="Recieving a card from the deck";
+                }
+                obj.action="Go Fish";
+                obj.gameact="Update";
+                //obj.drawCard=newCard;
+                obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
+                obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+                obj.fish=false;
+                obj.askCard=null;
+                obj.readyToPlay=false;
+                fishSockets[playerNumber+1].send(JSON.stringify(obj));
+
+                if(empty){
+                    obj.status="No cards left in deck. Choose a card to ask for";
+                }
+                else{
+                    obj.status="Choose a card to ask for";
+                }
+                obj.action="Go Fish";
+                obj.gameact="Update";
+                //obj.drawCard=newCard;
+                obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+                obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
+                obj.askCard=null;
+
+                obj.fish=true;
+                obj.readyToPlay=true;
+                fishSockets[playerNumber].send(JSON.stringify(obj));
+            }
+                },3000);
         }
-        //console.log("phand is after");//console.log(phand);
     }
-      */
-}
+}//End go fish function
 
 function giveCard(message, playerNumber){
     console.log("Giving a card to the opponent");
@@ -1816,7 +1817,6 @@ function giveCard(message, playerNumber){
             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
     fishPlayers[playerNumber].setHand(newHand);
     let score=false;
-    //console.log("hand is");//console.log(newHand);
     let odd=false;
     let gamenum=0;
     if(playerNumber%2 == 0){
@@ -1826,6 +1826,7 @@ function giveCard(message, playerNumber){
         gamenum=(playerNumber-1)/2;
         odd=true;
     }
+    
     let c=null;
     if(newHand.length==0){
         console.log("A player's hand is empty");
@@ -1843,9 +1844,8 @@ function giveCard(message, playerNumber){
         console.log("This many cards left in the deck"+fishDeck.list.length);
         fishPlayers[playerNumber].setHand(newHand);
     }
-    
-    //console.log("hand is after");//console.log(newHand);
     if(odd){
+        //Handling for an odd numbered player
         console.log(playerNumber-1);
         console.log(fishPlayers[playerNumber-1]);
         for(var i=0; i<tempcards.length; i++){
@@ -1856,6 +1856,136 @@ function giveCard(message, playerNumber){
             score=true;
             fourOfs[playerNumber-1]++;
             console.log((playerNumber-1) +" Player has this many four ofs " +fourOfs[playerNumber-1]);
+        }
+        
+        let phand=fishPlayers[playerNumber-1].getHandCopy();
+        if(phand.length==0){
+            console.log("Other player's hand is empty");
+            //console.log("This many cards left in the deck"+fishDeck.list.length);
+            var row=0;
+            phand=new Array();
+            while(row<5){
+                if(fishDeck.list.length==0){
+                    break;
+                }
+                console.log("adding to phand");
+                phand.push(fishDeck.dealACard());
+                row++;
+            }
+            //console.log("This many cards left in the deck"+fishDeck.list.length);
+            fishPlayers[playerNumber-1].setHand(phand);
+        }
+        
+        if((fishDecks[gamenum].list.length==0) && (fishPlayers[playerNumber].list.length==0) && (fishPlayers[playerNumber-1].list.length==0)){
+            fishWinner(message, playerNumber);
+        }
+        
+            obj.action="Go Fish";
+            obj.gameact="Recieving cards";
+            obj.status="Recieving cards";
+            obj.yourCards=fishPlayers[playerNumber-1].getHandCopy();
+            obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+            obj.fish=false;
+            if(score){
+                obj.score=c;
+            }
+            obj.askCard=null;
+            obj.readyToPlay=false;
+            fishSockets[playerNumber-1].send(JSON.stringify(obj));
+            obj.score=null;
+    
+            obj.action="Go Fish";
+            obj.status="Cards sent. Choose a card to ask for";
+            obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+            obj.numberOfOpponentCards=fishPlayers[playerNumber-1].getHandCopy().length;
+            obj.askCard=null;
+            if(score){
+                obj.comScore=c;
+            }
+            obj.fish=true;
+            obj.readyToPlay=true;
+            fishSockets[playerNumber].send(JSON.stringify(obj));
+        
+    }
+    else{//Handling for an even numbered player
+        for(var i=0; i<tempcards.length; i++){
+            fishPlayers[playerNumber+1].add(tempcards[i]);
+        }
+        c=checkAmount(fishPlayers[playerNumber+1]);    
+        if(c!=null){
+            score=true;
+            fourOfs[playerNumber+1]++;
+            console.log((playerNumber+1) +" Player has this many four ofs " +fourOfs[playerNumber+1]);
+        }
+        
+        let phand=fishPlayers[playerNumber+1].getHandCopy();
+        //console.log("phand is");//console.log(phand);
+        if(phand.length==0){
+            console.log("Other player's hand is empty");
+            console.log("This many cards left in the deck"+fishDeck.list.length);
+            var row=0;
+            phand=new Array();
+            while(row<5){
+                if(fishDeck.list.length==0){
+                    break;
+                }
+                console.log("adding to phand");
+                phand.push(fishDeck.dealACard());
+                row++;
+            }
+            console.log("This many cards left in the deck"+fishDeck.list.length);
+            fishPlayers[playerNumber+1].setHand(phand);
+        }
+        
+        if((fishDecks[gamenum].list.length==0) && (fishPlayers[playerNumber].list.length==0) && (fishPlayers[playerNumber+1].list.length==0)){
+            fishWinner(message, playerNumber);
+            win=true;
+        }
+        
+        obj.action="Go Fish";
+            obj.gameact="Recieving cards";
+            obj.status="Recieving cards";
+            obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
+            obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+            obj.fish=false;
+            if(score){
+                obj.score=c;
+            }
+            obj.askCard=null;
+            obj.readyToPlay=false;
+            fishSockets[playerNumber+1].send(JSON.stringify(obj));
+            obj.score=null;
+    
+            obj.action="Go Fish";
+            obj.status="Cards sent. Choose a card to ask for";
+            obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+            obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
+            obj.askCard=null;
+            if(score){
+                obj.comScore=c;
+            }
+            obj.fish=true;
+            obj.readyToPlay=true;
+            fishSockets[playerNumber].send(JSON.stringify(obj));
+        
+    }
+    
+    
+    ////
+    //////
+    
+    //console.log("hand is after");//console.log(newHand);
+    if(odd){
+        //console.log(playerNumber-1);
+        //console.log(fishPlayers[playerNumber-1]);
+        for(var i=0; i<tempcards.length; i++){
+            fishPlayers[playerNumber-1].add(tempcards[i]);
+        }
+        c=checkAmount(fishPlayers[playerNumber-1]);    
+        if(c!=null){
+            score=true;
+            fourOfs[playerNumber-1]++;
+            console.log((playerNumber-1)+" Player has this many four ofs "+fourOfs[playerNumber-1]);
         }
     }else{
         for(var i=0; i<tempcards.length; i++){
@@ -1926,6 +2056,7 @@ function giveCard(message, playerNumber){
         let obj={};
         if(odd){//handle an odd player number
             obj.action="Go Fish";
+            obj.gameact="Recieving cards";
             obj.status="Recieving cards";
             obj.yourCards=fishPlayers[playerNumber-1].getHandCopy();
             obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
@@ -1952,6 +2083,7 @@ function giveCard(message, playerNumber){
             
         }else{//Handle an even player number
             obj.action="Go Fish";
+            obj.gameact="Recieving cards";
             obj.status="Recieving cards";
             obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
             obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
@@ -2004,6 +2136,7 @@ function askForCard(message, playerNumber){
     
     if(odd){//Handle odd player number
         obj.action="Go Fish";
+        obj.gameact="Ask for cards";
         obj.status="Do you have any "+ tempCard.getValue()+"'s";
         obj.yourCards=fishPlayers[playerNumber-1].getHandCopy();
         obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
@@ -2022,6 +2155,7 @@ function askForCard(message, playerNumber){
         fishSockets[playerNumber].send(JSON.stringify(obj)); 
     }else{//Handle even player number
         obj.action="Go Fish";
+        obj.gameact="Ask for cards";
         obj.status="Do you have any "+ tempCard.getValue()+"'s";
         obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
         obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
@@ -2151,11 +2285,9 @@ function checkAmount(player){
             let card=newHand[i];
             while(true){
                 let hand=player.getHandCopy();
-                let Hands = JSON.parse(JSON.stringify( hand ),
-                            (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-                //console.log("In while loop");
+                let Hands = JSON.parse(JSON.stringify(hand),
+                        (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
                 for(var j=0; j<Hands.length; j++){
-                 //console.log("In for loop");
                     if(Hands[j].getValue() == card.getValue()){
                         //console.log("Removing card at pos "+j);
                         player.remove(j);
@@ -2191,7 +2323,7 @@ function checkAmount(player){
 
 function quitFish(playernumber){
     console.log("Quitting Go Fish");
-    //////////////////////////////////////////
+    ///////////////////////////////
     if(playernumber%2 == 0){
         gamenum=(playernumber)/2;
     }
@@ -2203,6 +2335,7 @@ function quitFish(playernumber){
         let obj = {};
         if(fishSockets[playernumber+1]!=null  && !fishComplete[gamenum]){
             obj.action="Go Fish";
+            obj.gameact="Quit";
             obj.status = "You win!! Opponent has left the game!";
             obj.numberOfOpponentCards = fishPlayers[playernumber+1].getHandCopy().length;
             obj.askCard=null;
@@ -2218,6 +2351,7 @@ function quitFish(playernumber){
         let obj = {};
         if(fishSockets[playernumber-1]!=null && !fishComplete[gamenum]){
             obj.action="Go Fish";
+            obj.gameact="Quit";
             obj.status = "You win!! Opponent has left the game!";
             obj.numberOfOpponentCards = fishPlayers[playernumber-1].getHandCopy().length;
             obj.askCard=null;
