@@ -93,8 +93,6 @@ class ComputerPlayer extends Player{
               this.pile.setAnnouncedSuit("s");
               this.view.displaySuit("s");
           }
-          //this.pile.setAnnouncedSuit(card.getSuit());
-          //this.view.displaySuit(card.getSuit());
           this.view.displayComputerHand(this.getHandCopy());
       }
       else{
@@ -107,7 +105,6 @@ class ComputerPlayer extends Player{
             this.view.displayComputerHand(this.getHandCopy());
         }
         else {
-            //alert("Com cardpicked")
             let newCard=this.deck.dealACard();
             //this.list.push(newCard);
             this.add(this.deck.dealACard());

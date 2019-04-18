@@ -47,9 +47,6 @@ class HumanPlayer extends Player {
                // moving=false;
                 //alert("moved");
            // },3000);
-       // while(moving){
-        //    console.log("waiting for piece to be moved");
-       // }
 	           if (card.getValue() === "8") {//user played an eight
 		          this.view.displaySuitPicker();
 		          return false;
