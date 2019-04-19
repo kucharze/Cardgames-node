@@ -94,8 +94,7 @@ class FishpresO {
     
     update(message){
         //alert("Updating Go Fish");
-	   var playerhand=[];
-        
+	    var playerhand=[];
         this.fview.displayMessage(message.status);
        ///* 
 	   let hand = message.yourCards;
@@ -107,21 +106,78 @@ class FishpresO {
             let askCard=message.askCard;
             this.askCard= new Card(askCard.suit, askCard.value);
         }
-        
-        if(message.score!=null){
-            let card = message.score;
-            let tempCard = new Card(card.suit, card.value);
-            this.fview.giveHumanPoint(tempCard);
+        this.human.setHand(newHand);
+        //alert(message.gameact);
+        if(message.gameact=="Setup"){
+            this.fview.displayComputerHand(message.numberOfOpponentCards);
+            this.fview.displayHumanHand(newHand);
         }
-        if(message.comScore!=null){
-            let card = message.comScore;
-            let tempCard = new Card(card.suit, card.value);
-            this.fview.giveComPoint(tempCard);
+        else if(message.gameact=="Go Fish draw"){
+            let card=message.drawCard;
+            let ccard = new Card(card.suit, card.value);
+            this.fview.addHumanCard(ccard,this.human.getHandCopy().length);
+            
+            //this.fview.addHumanCard(ccard,this.human.getHandCopy().length);
+            
         }
-        
-	    this.human.setHand(newHand);
-        this.fview.displayComputerHand(message.numberOfOpponentCards);
-	    this.fview.displayHumanHand(newHand);
+        else if(message.gameact=="Go Fish deal"){
+            this.fview.addComCard(message.numberOfOpponentCards);
+            this.fview.displayHumanHand(newHand);
+        }
+        else if(message.gameact=="Receive cards"){
+            //alert("Receiving cards");
+            let newCards = message.newCards;
+	        let cardstoAdd = JSON.parse( JSON.stringify( newCards ),
+                (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+            
+            for(var i=0; i<cardstoAdd.length; i++){
+                //alert("Adding human cards");
+                this.fview.addHumanCard(cardstoAdd[i],
+                                    (this.human.getHandCopy().length-i)); 
+            }
+            this.fview.displayComputerHand(message.numberOfOpponentCards);
+        }
+        else if(message.gameact=="Give cards"){
+            for(var i=0; i<message.numCards; i++){
+                //alert("Adding CPU cards");
+                this.fview.addComCard((message.numberOfOpponentCards-i)); 
+            }
+            
+            this.fview.displayHumanHand(newHand);
+            //this.fview.displayComputerHand(message.numberOfOpponentCards);
+        }
+        else if(message.gameact=="Ask for cards"){
+            this.fview.displayHumanHand(newHand);
+            this.fview.displayComputerHand(message.numberOfOpponentCards);
+        }
+        else if(message.gameact=="Player Score"){
+            if(message.score!=null){
+                let card = message.score;
+                let tempCard = new Card(card.suit, card.value);
+                this.fview.giveHumanPoint(tempCard);
+            }
+            this.fview.displayHumanHand(newHand);
+            this.fview.displayComputerHand(message.numberOfOpponentCards);
+        }
+        else if(message.gameact=="Opponent Score"){
+           if(message.comScore!=null){
+                let card = message.comScore;
+                let tempCard = new Card(card.suit, card.value);
+                this.fview.giveComPoint(tempCard);
+            }
+            this.fview.displayHumanHand(newHand);
+            this.fview.displayComputerHand(message.numberOfOpponentCards);
+        }
+        else if(message.gameact=="Update"){
+            //nothing additional happens here
+        }
+        else if(sendMessage.gameact=="Empty"){
+            this.fview.displayHumanHand(newHand);
+            this.fview.displayComputerHand(message.numberOfOpponentCards);
+        }
+        else if(message.gameact=="Quit"){
+            this.fview.displayMessage(message.status);
+        }
 
 	    if (message.readyToPlay) {this.fview.unblockPlay();}
 	    else {this.fview.blockPlay();}

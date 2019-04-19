@@ -29,12 +29,10 @@ class FishviewO {
       
     for(let i=0; i<hand.length; i++){
         let image=document.createElement("img");
-	   image.src ="./Images/cardback.png";
-	   image.class="card positionable";
-        //image.title=hand[i].toString();
+	    image.src ="./Images/cardback.png";
+	    image.class="card positionable";
         image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
-	   //image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
-	   cpu.appendChild(image);
+	    cpu.appendChild(image);
     }
   }
 
@@ -44,38 +42,36 @@ class FishviewO {
 	   human.removeChild(human.lastChild);
      }
      for(let i=0; i<hand.length; i++){
+         
          let image=document.createElement("img");
-	   image.src ="./Images/"+hand[i].toString()+".png";
-	   image.title=hand[i].toString();
-	   image.class="card positionable";
-        image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
-	   //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
-	   human.appendChild(image);
+	     image.src ="./Images/"+hand[i].toString()+".png";
+	     image.title=hand[i].toString();
+	     image.class="card positionable";
+         image.style="position: absolute; left: "+ ((40*i)+10 ) + "px; z-index:" + i +";";
+	     human.appendChild(image);
     }
   }
     
-  addComCard(card,numCards){
-        //alert("CPU");
-        let cpu = document.getElementById("fcpuhand");
-       let image=document.createElement("img");
-	   image.src ="./Images/cardback.png";
-	   image.title=card.toString();
-        image.id=card.toString()+"F";
-	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (-20) + "px; z-index:" + numCards +"; hieght:10px";
-	   cpu.appendChild(image);
-        this.moveCardIn(image,(40*(numCards-1)),-20);
+  addComCard(numCards){
+      //alert("CPU");
+      let cpu = document.getElementById("fcpuhand");
+      let image=document.createElement("img");
+	  image.src ="./Images/cardback.png";
+	  image.class="card positionable";
+	  image.style="position:absolute; left:"+  (-20) + "px; z-index:" + numCards +"; hieght:10px";
+	  cpu.appendChild(image);
+      this.moveCardIn(image,(40*(numCards-1)),-20);
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
         //alert("User");//alert(numCards);
         let human=document.getElementById("fuserhand");
         let image=document.createElement("img");
-	   image.src ="./Images/"+card.toString()+".png";
-	   image.title=card.toString();
+	    image.src ="./Images/"+card.toString()+".png";
+	    image.title=card.toString();
         image.id=card.toString()+"F";
-	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (-20) + "px; z-index:" + (numCards) +"; hieght:10px";
+        image.class="card positionable";
+	    image.style="position:absolute; left:"+(-20)+"px; z-index:" +(numCards)+"; hieght:10px";
         human.appendChild(image);
         this.moveCardIn(image,(40*(numCards-1)),-20);
     }
@@ -101,7 +97,6 @@ class FishviewO {
 	   image.title=card.toString();
         image.class="card positionable";
         image.style="position: absolute; left: "+ -30 + "px; z-index:" + i +";";
-        //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
         this.comPoints++;
         p.appendChild(image);
         this.moveCardIn(image,((40*(this.comPoints-1) )),-30);
@@ -117,11 +112,11 @@ class FishviewO {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,pos,i+5);
-            },30);
+            },20);
         }
     }
     
-      /**
+  /**
    * Block user from playing.
    */
   blockPlay() {
