@@ -65,7 +65,6 @@ class Fishview {
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
-        //alert("User");//alert(numCards);
         let human=document.getElementById("fuserhand");
         let image=document.createElement("img");
 	   image.src ="./Images/"+card.toString()+".png";
@@ -84,12 +83,11 @@ class Fishview {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,pos,i+5);
-            },20);
+            },17);
         }
     }
     
     giveHumanPoint(card){
-        //alert("Human point");
         let p=document.getElementById("playerfours");
         let image=document.createElement("img");
 	    image.src ="./Images/"+card.toString()+".png";

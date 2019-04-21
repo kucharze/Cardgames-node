@@ -36,7 +36,7 @@ class Fishpres {
     
     sayNo(){
         if(this.human.fish){
-            this.fview.displayMessage("Cannot do that right now");
+            this.fview.displayMessage("Cannot do that please ask for a card");
             return;
         }
         else{
@@ -45,7 +45,6 @@ class Fishpres {
             return;
         }
         else{
-            //this.moves++;
             if(!this.deck.isEmpty()){
                 this.computer.cardPicked();
             }
@@ -56,7 +55,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*900));
+                    },(num*850));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
             
@@ -69,7 +68,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        //alert("Deck has this many cards left"+this.deck.list.length);
+        alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
@@ -88,7 +87,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*900));
+                    },(num*850));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
                 
@@ -151,7 +150,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveHumanPoint(c);
                     this.fview.displayHumanHand(this.human.getHandCopy());        
-                     },(num*900));
+                     },(num*850));
                 //alert("User has this many four ofs "+this.humNumFours);
             }
             
@@ -232,25 +231,14 @@ class Fishpres {
 //Sets up the start of the game
  play(){
      //below is for purposes of testing and demoing
-     for(var i=0; i<12; i++){
+     for(var i=0; i<10; i++){
          this.human.list.push(this.deck.dealACard());
-     }
-     for(var i=0; i<12; i++){
          this.computer.list.push(this.deck.dealACard());
      }
+     
      this.fview.displayComputerHand(this.computer.getHandCopy());
      this.fview.displayHumanHand(this.human.getHandCopy());
      
-    // let r1=document.getElementById("row1").childElementCount;
-    //for(var i=0; i<r1; i++){
-    //    dragElement(document.getElementById("row1").childNodes[i]);
-    //}
-        
-       // dragElement(document.getElementById("row2").childNodes);
-        //dragElement(document.getElementById("row3"));
-        //dragElement(document.getElementById("row4"));
-    //    dragElement(document.getElementById("row5"));
-    //    dragElement(document.getElementById("row6"));
  }
     
     resetGame(){
