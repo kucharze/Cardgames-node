@@ -51,7 +51,7 @@ class FishpresO {
         let card=this.human.find(cardstring);
         let mes={};
         mes.action="Go Fish";
-        
+        alert(typeof(this.askCard));
         if(!this.turnToFish){//For giving a card to the computer
             if(this.human.give(cardstring, this.askCard)){
                 this.giveCards.push(card);
@@ -164,16 +164,17 @@ class FishpresO {
         else if(message.gameact=="Update"){
             //nothing additional happens here
         }
-        else if(sendMessage.gameact=="Empty"){
-            this.fview.displayHumanHand(newHand);
-            this.fview.displayComputerHand(message.numberOfOpponentCards);
-        }
         else if(message.gameact=="Quit"){
             this.fview.displayMessage(message.status);
         }
 
-	    if (message.readyToPlay) {this.fview.unblockPlay();}
-	    else {this.fview.blockPlay();}
+	    if(message.readyToPlay==true){
+            alert("You are good to play");
+            this.fview.unblockPlay();
+        }
+	    else {
+            this.fview.blockPlay();
+        }
     }
     
 
