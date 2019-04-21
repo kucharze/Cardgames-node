@@ -112,7 +112,7 @@ class FishviewO {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,pos,i+5);
-            },20);
+            },16);
         }
     }
     
