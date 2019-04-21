@@ -77,7 +77,6 @@ class FishviewO {
     }
     
     giveHumanPoint(card){
-        //alert("Human point");
         let p=document.getElementById("playerfours");
         let image=document.createElement("img");
 	    image.src ="./Images/"+card.toString()+".png";
@@ -90,7 +89,6 @@ class FishviewO {
     }
     
     giveComPoint(card){
-        //alert("Computer point");
         let p=document.getElementById("comfours");
         let image=document.createElement("img");
 	   image.src ="./Images/"+card.toString()+".png";

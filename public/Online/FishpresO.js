@@ -29,7 +29,7 @@ class FishpresO {
         let mes={};
         mes.action="Go Fish";
         if(this.turnToFish){
-            this.fview.displayMessage("Cannot do that right now");
+            this.fview.displayMessage("Cannot do that right now Please ask for a card");
             return;
         }
         else{
@@ -42,7 +42,6 @@ class FishpresO {
                 this.ws.send(JSON.stringify(mes));
                 this.human.fish=true;
             }
-            
             //this.fview.displayMessage("Pick a card to ask for");
         }
     }
@@ -93,14 +92,12 @@ class FishpresO {
     }
     
     update(message){
-        //alert("Updating Go Fish");
 	    var playerhand=[];
         this.fview.displayMessage(message.status);
-       ///* 
-	   let hand = message.yourCards;
-	   let newHand = JSON.parse( JSON.stringify( hand ),
+	    let hand = message.yourCards;
+	    let newHand = JSON.parse( JSON.stringify( hand ),
                         (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-            //*/
+        
         this.turnToFish=message.fish;
         if(message.askCard!=null){
             let askCard=message.askCard;
@@ -116,9 +113,6 @@ class FishpresO {
             let card=message.drawCard;
             let ccard = new Card(card.suit, card.value);
             this.fview.addHumanCard(ccard,this.human.getHandCopy().length);
-            
-            //this.fview.addHumanCard(ccard,this.human.getHandCopy().length);
-            
         }
         else if(message.gameact=="Go Fish deal"){
             this.fview.addComCard(message.numberOfOpponentCards);
@@ -139,7 +133,6 @@ class FishpresO {
         }
         else if(message.gameact=="Give cards"){
             for(var i=0; i<message.numCards; i++){
-                //alert("Adding CPU cards");
                 this.fview.addComCard((message.numberOfOpponentCards-i)); 
             }
             
