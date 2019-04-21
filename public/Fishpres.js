@@ -55,7 +55,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*850));
+                    },(num*800));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
             
@@ -87,7 +87,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*850));
+                    },(num*800));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
                 
@@ -150,7 +150,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveHumanPoint(c);
                     this.fview.displayHumanHand(this.human.getHandCopy());        
-                     },(num*850));
+                     },(num*800));
                 //alert("User has this many four ofs "+this.humNumFours);
             }
             
@@ -231,7 +231,7 @@ class Fishpres {
 //Sets up the start of the game
  play(){
      //below is for purposes of testing and demoing
-     for(var i=0; i<10; i++){
+     for(var i=0; i<12; i++){
          this.human.list.push(this.deck.dealACard());
          this.computer.list.push(this.deck.dealACard());
      }

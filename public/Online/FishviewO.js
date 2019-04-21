@@ -110,10 +110,18 @@ class FishviewO {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCardIn(image,pos,i+5);
-            },16);
+            },15);
         }
     }
     
+    
+    /**
+   * Event handler for preventing click processing.
+   * @param {Event} event - DOM Event object.
+   */
+  clickBlocker(event) {
+    event.stopPropagation();
+  }
   /**
    * Block user from playing.
    */
@@ -152,7 +160,7 @@ class FishviewO {
     
     displayWrongCardMsg(card){
 	   let mes=document.getElementById("fishstatus");
-        mes.innerHTML="Illegal Play please give a "+card.toString();
+        mes.innerHTML="Illegal Play please give a "+card.getValue();
    }
     
     removeEvents(){//clone objects to remove event listeners
