@@ -1654,7 +1654,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
                     //this player
                     obj.action="Go Fish";
                     obj.gameact="Opponent Score";
-                    obj.status="Opponent has scored a point";
+                    obj.status="Opponent has scored a point Choose a card to ask for";
                     //obj.drawCard=newCard;
                     obj.yourCards=fishPlayers[playerNumber].getHandCopy();
                     obj.numberOfOpponentCards=fishPlayers[playerNumber-1].getHandCopy().length;
@@ -1768,7 +1768,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
                     //this player
                     obj.action="Go Fish";
                     obj.gameact="Opponent Score";
-                    obj.status="Opponent has scored a point";
+                    obj.status="Opponent has scored a point Choose a card to ask for";
                     //obj.drawCard=newCard;
                     obj.yourCards=fishPlayers[playerNumber].getHandCopy();
                     obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
