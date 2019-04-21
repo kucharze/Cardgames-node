@@ -51,7 +51,7 @@ class FishpresO {
         let card=this.human.find(cardstring);
         let mes={};
         mes.action="Go Fish";
-        alert(typeof(this.askCard));
+        //alert(typeof(this.askCard));
         if(!this.turnToFish){//For giving a card to the computer
             if(this.human.give(cardstring, this.askCard)){
                 this.giveCards.push(card);
@@ -85,7 +85,6 @@ class FishpresO {
             mes.fish=false;
             
             this.ws.send(JSON.stringify(mes));
-            
             
             this.turnToFish=false;
         }
@@ -169,7 +168,7 @@ class FishpresO {
         }
 
 	    if(message.readyToPlay==true){
-            alert("You are good to play");
+            //alert("You are good to play");
             this.fview.unblockPlay();
         }
 	    else {
