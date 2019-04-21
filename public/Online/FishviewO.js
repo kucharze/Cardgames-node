@@ -150,9 +150,9 @@ class FishviewO {
         mes.innerHTML=message;
     }
     
-    displayWrongCardMsg(){
+    displayWrongCardMsg(card){
 	   let mes=document.getElementById("fishstatus");
-        mes.innerHTML="You cannot play that card";
+        mes.innerHTML="Illegal Play please give a "+card.toString();
    }
     
     removeEvents(){//clone objects to remove event listeners

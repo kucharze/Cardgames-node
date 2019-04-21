@@ -117,6 +117,32 @@ class SnipviewO {
         }
     }
     
+      /**
+   * Event handler for preventing click processing.
+   * @param {Event} event - DOM Event object.
+   */
+  clickBlocker(event) {
+    event.stopPropagation();
+  }
+  /**
+   * Block user from playing.
+   */
+  blockPlay() {
+    // Capture and ignore all clicks
+    document.getElementById("allCards").addEventListener("click", this.clickBlocker, true);
+    // Dim the cards to indicate that play is blocked.
+    this.allCardsDiv.style.opacity = 0.5;
+  }
+  /**
+   * Unblock user from playing.
+   */
+  unblockPlay() {
+    // Remove capturing listener
+    document.getElementById("allCards").removeEventListener("click", this.clickBlocker, true);
+    // Undim the cards to indicate that play is no longer blocked.
+    this.allCardsDiv.style.opacity = 1.0;
+  }
+    
     displayMessage(message){
         let mes=document.getElementById("snipstatus");
         mes.innerHTML=message;

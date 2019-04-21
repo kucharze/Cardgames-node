@@ -83,7 +83,7 @@ class HumanPlayer extends Player {
     give(cardString, comCard){
         let card=this.find(cardString);
         if((card==null || (card.getValue() != comCard.getValue()))){
-           this.view.displayWrongCardMsg(cardString);
+           this.view.displayWrongCardMsg(comCard);
             return false;
         }
         else{
