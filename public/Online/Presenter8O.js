@@ -81,7 +81,7 @@ class Presenter8O {
           //alert("in card picked sextion");
           if(message.drawCard){
               //alert("in card picked sextion");
-              let card=message.pileTopCard;
+              let card=message.drawCard;
     	       let ccard=JSON.parse( JSON.stringify(card), 
 	           (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
               this.view.addHumanCard(ccard,this.human.getHandCopy().length);
