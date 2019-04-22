@@ -172,8 +172,8 @@ class SnippresO {
 	this.snipview.displayComputerHand(message.numberOfOpponentCards);
 	this.snipview.displayHumanHand(newHand);
 
-	if (message.readyToPlay) {this.snipview.unblockPlay();}
-	else {this.snipview.blockPlay();}
+	if(message.readyToPlay){this.snipview.unblockPlay();}
+	else{this.snipview.blockPlay();}
   }
     
     goOffline(){
