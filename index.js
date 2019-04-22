@@ -1650,11 +1650,10 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
                     obj.action="Go Fish";
                     obj.gameact="Opponent Score";
                     obj.status="Opponent has scored a point Choose a card to ask for";
-                    //obj.drawCard=newCard;
                     obj.yourCards=fishPlayers[playerNumber].getHandCopy();
                     obj.numberOfOpponentCards=fishPlayers[playerNumber-1].getHandCopy().length;
                     obj.askCard=null;
-                    //obj.score=c; this is already true
+                    obj.score=c;// this is already true
                     obj.fish=true;
                     obj.readyToPlay=true;
                     fishSockets[playerNumber].send(JSON.stringify(obj));
@@ -1751,7 +1750,6 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
                     obj.action="Go Fish";
                     obj.gameact="Player Score";
                     obj.status="You have scored a point";
-                    //obj.drawCard=newCard;
                     obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
                     obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
                     obj.fish=false;
@@ -1768,7 +1766,7 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
                     obj.yourCards=fishPlayers[playerNumber].getHandCopy();
                     obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
                     obj.askCard=null;
-                    //obj.score=c; this is already true
+                    obj.score=c;// this is already true
                     obj.fish=true;
                     obj.readyToPlay=true;
                     fishSockets[playerNumber].send(JSON.stringify(obj));
