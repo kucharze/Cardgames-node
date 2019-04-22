@@ -141,7 +141,7 @@ class Fishview {
     
     displayWrongCardMsg(card){
 	   let mes=document.getElementById("fishstatus");
-        mes.innerHTML="Illegal Play please give a "+card.getValue;
+        mes.innerHTML="Illegal Play please give a "+card.getValue();
    }
     
     removeEvents(){//clone objects to remove event listeners
