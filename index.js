@@ -2040,8 +2040,8 @@ function giveCard(message, playerNumber){
         }
         else{//Noone scored a point
             obj.action="Go Fish";
-            obj.gameact="Receive cards";
-            obj.status="Cards have been received";
+            obj.gameact="Update";
+            obj.status="Cards have been succesfully transfered to you";
             obj.yourCards=fishPlayers[playerNumber+1].getHandCopy();
             obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
             obj.fish=false;
@@ -2050,7 +2050,7 @@ function giveCard(message, playerNumber){
             fishSockets[playerNumber+1].send(JSON.stringify(obj));
 
             obj.action="Go Fish";
-            obj.gameact="Give Cards";
+            obj.gameact="Update";
             obj.newCards=tempcards;
             obj.status="Cards sent. Choose a card to ask for";
             obj.yourCards=fishPlayers[playerNumber].getHandCopy();
