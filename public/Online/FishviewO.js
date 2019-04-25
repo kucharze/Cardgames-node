@@ -127,7 +127,7 @@ class FishviewO {
    */
   blockPlay() {
     // Capture and ignore all clicks
-    document.getElementById("allfish").addEventListener("click", this.clickBlocker, true);
+    this.allCardsDiv.addEventListener("click", this.clickBlocker, true);
     // Dim the cards to indicate that play is blocked.
     this.allCardsDiv.style.opacity = 0.5;
   }
@@ -137,7 +137,7 @@ class FishviewO {
    */
   unblockPlay() {
     // Remove capturing listener
-    document.getElementById("allfish").removeEventListener("click", this.clickBlocker, true);
+    this.allCardsDiv.removeEventListener("click", this.clickBlocker, true);
     // Undim the cards to indicate that play is no longer blocked.
     this.allCardsDiv.style.opacity = 1.0;
   }

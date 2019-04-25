@@ -68,7 +68,7 @@ class Fishpres {
     }
     
     fish(cardstring){
-        alert("Deck has this many cards left"+this.deck.list.length);
+        //alert("Deck has this many cards left"+this.deck.list.length);
         let card=this.human.find(cardstring);
         
         if(!this.human.fish){//For giving a card to the computer
@@ -214,7 +214,7 @@ class Fishpres {
                     if(this.deck.isEmpty()){
                         break;
                     }
-                    alert("adding cards to player's hand from deck "+i);
+                    //alert("adding cards to player's hand from deck "+i);
                     this.human.add(this.deck.dealACard());
                 }
             }
@@ -231,10 +231,10 @@ class Fishpres {
 //Sets up the start of the game
  play(){
      //below is for purposes of testing and demoing
-     for(var i=0; i<12; i++){
-         this.human.list.push(this.deck.dealACard());
-         this.computer.list.push(this.deck.dealACard());
-     }
+    // for(var i=0; i<12; i++){
+    //     this.human.list.push(this.deck.dealACard());
+    //     this.computer.list.push(this.deck.dealACard());
+     //}
      
      this.fview.displayComputerHand(this.computer.getHandCopy());
      this.fview.displayHumanHand(this.human.getHandCopy());
@@ -258,12 +258,11 @@ class Fishpres {
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
         //for loops for testing
+        /*
         for(var i=0; i<13; i++){
-         this.human.list.push(this.deck.dealACard());
-        }
-        for(var i=0; i<13; i++){
-         this.computer.list.push(this.deck.dealACard());
-        } 
+            this.human.list.push(this.deck.dealACard());
+            this.computer.list.push(this.deck.dealACard());
+        }*/
         
         //this.fview.displayPileTopCard(this.pile.getTopCard());
         this.fview.displayComputerHand(this.computer.getHandCopy());

@@ -308,11 +308,12 @@ input:checked + .slider:before {
 		
 	<br>
 
-	<p class="a">
+	<p class="a" style="color: black">
         This site is currently under construction. Some features might not work as intended.<br>
 		The games on this site may not work with versions of Internet Explorer.<br>
     </p>
-    <p class="a"> (* Online games.)<br>Leaderboard records offline games only</p>
+    <br>
+    <p class="a" style="color: black"> (* Online games.)<br>Leaderboard records offline games only</p>
 <br>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
@@ -367,6 +368,7 @@ input:checked + .slider:before {
 
         <script>
             function insert(){
+                let c=document.getElementById("Creation_status");
                 var user = document.getElementById("user").value;
                 var screen=document.getElementById("screenname").value;
                 var pass = document.getElementById("pass").value;
@@ -562,8 +564,10 @@ input:checked + .slider:before {
         <center><input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">......... 
         <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">....... 
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()"></center>
+        <h3>Dealer</h3>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br><br><br>
+        <h3>Player</h3>
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br><br><br>
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
@@ -1050,10 +1054,12 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     <center><input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">... <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()"></center>
     <h2>Click play a round to play. Play until deck is empty to upload your score.</h2>
     <br><br>
+    <h3>Computer</h3>
     <div id="mywar"></div>
     <br><br><br><br><br><br>
     <div id="mycard"></div>
     <br><br><br><br><br><br>
+    <h3>Player</h3>
     <div id="yourcard"></div>
     <br><br><br><br><br><br>
     <div id="yourwar"></div>
