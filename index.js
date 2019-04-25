@@ -55,9 +55,6 @@ snipPlayers.push(new Player(snipDeck));
 
 for(var i=0; i<17; i++){
     snipPlayers[0].list.push(snipDeck.dealACard());
-}
-
-for(var i=0; i<17; i++){
     snipPlayers[1].list.push(snipDeck.dealACard());
 }
 
@@ -68,7 +65,6 @@ let fishDeck=new Deck();
 fishDeck.shuffle();
 fishDeck.shuffle();
 
-//let fishPile=new Pile();
 fishDecks.push(fishDeck);
 let fishPlayers=[];
 let fishSockets=[];
@@ -82,10 +78,11 @@ fishPlayers.push(new Player(fishDeck));
 fishPlayers.push(new Player(fishDeck));
 
 //below temporary for testing
+/*
 for(var i=0; i<12; i++){
     fishPlayers[0].add(fishDeck.dealACard());
     fishPlayers[1].add(fishDeck.dealACard());
-}
+}*/
 
 //init Express
 var app = express();
