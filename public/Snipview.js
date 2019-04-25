@@ -6,7 +6,7 @@
 class Snipview {
     constructor(presenter) {
     this.presenter = presenter;
-    //this.topCard = null;
+    this.topCard = null;
     this.topCardString = "";
     //this.errorString = "";
     
@@ -72,10 +72,11 @@ class Snipview {
 	 let table=document.getElementById("stable");
 	 table.removeChild(table.lastChild);
 	 let pile = document.getElementById("spile")
-     //this.topCard=card;
+     this.topCard=card;
 	 let image=document.createElement("img");
       if(card==null){
           image.src ="./Images/cardback.png";
+          image.title="Card Back";
       }else{
           image.src ="./Images/"+card.toString()+".png";
           image.title=this.topCard.getValue()+this.topCard.getSuit();
