@@ -31,6 +31,9 @@ class Jackpres {
             document.getElementById("hit").disabled=true;
             document.getElementById("stand").disabled=true;
             this.dealer.list[0].flip();
+            obj.action="Blackjack";
+            obj.result="win";
+            this.socket.send(JSON.stringify(obj));
             this.jview.displayComputerHand(this.dealer.getHandCopy());
             return;
         }
