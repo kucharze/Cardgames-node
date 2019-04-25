@@ -1521,10 +1521,10 @@ function fishPlay(ws){
                 let p1=new Player(deck);
                 let p2=new Player(deck);
         
-            for(var i=0; i<12; i++){
-                p1.add(deck.dealACard());
-                p2.add(deck.dealACard());
-            }
+            //for(var i=0; i<12; i++){
+            //    p1.add(deck.dealACard());
+            //    p2.add(deck.dealACard());
+            //}
             fishComplete.push(false);
             fishPlayers.push(p1);
             fishPlayers.push(p2);
@@ -1762,7 +1762,6 @@ function goFish(message, playerNumber){//Go Fish player has said go fish
                     obj.action="Go Fish";
                     obj.gameact="Opponent Score";
                     obj.status="Opponent has scored a point Choose a card to ask for";
-                    //obj.drawCard=newCard;
                     obj.yourCards=fishPlayers[playerNumber].getHandCopy();
                     obj.numberOfOpponentCards=fishPlayers[playerNumber+1].getHandCopy().length;
                     obj.askCard=null;
