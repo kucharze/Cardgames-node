@@ -58,7 +58,7 @@ class Solview {
             }else{
                 let image=document.createElement("img");
                 image.src ="./Images/cardback.png";
-	            image.title=row[i].toString();
+	            image.title="Card Back";
                 image.id=i;
 	            image.class="card positionable";
                 image.style="position: absolute; top: "+ (30*i) + "px; z-index:" + i +";";
@@ -86,7 +86,6 @@ class Solview {
     
     addCard(card,row){
             let r=document.getElementById(row);
-        //for(var i=0; i<cards.length; i++){
             let image=document.createElement("img");
             image.src ="./Images/"+card.toString()+".png";
 	        image.title=card.toString();
@@ -95,7 +94,6 @@ class Solview {
             image.style="position: absolute; top: "+(-20)+"px; z-index:" + r.childElementCount +";";
             r.appendChild(image);
             this.moveCardDown(image,(30*(r.childElementCount-1)), -20);
-        //}
     }
     
     

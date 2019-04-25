@@ -21,14 +21,13 @@ class Fishview {
       }
       if(hand!=null || hand.length>0){
           for(let i=0; i<hand.length; i++){
-        let image=document.createElement("img");
-	    image.src ="./Images/cardback.png";
-        image.title=hand[i].toString();
-	    image.class="card positionable";
-        image.style="position: absolute; left: "+ ((40*i)) + "px; z-index:" + i +";";
-	    //image.style="left: "+  (15*i) + " px; z-index:" + i +" hieght:10px";
-	    cpu.appendChild(image);
-    }
+              let image=document.createElement("img");
+	          image.src ="./Images/cardback.png";
+              image.title="Card back";
+	          image.class="card positionable";
+              image.style="position: absolute; left: "+ ((40*i)) + "px; z-index:" + i +";";
+	          cpu.appendChild(image);
+            }
       }
   }
 
@@ -39,28 +38,26 @@ class Fishview {
      }
       if(hand!=null || hand.length>0){
           for(let i=0; i<hand.length; i++){
-                let image=document.createElement("img");
-	           image.src ="./Images/"+hand[i].toString()+".png";
-	           image.title=hand[i].toString();
+              let image=document.createElement("img");
+	          image.src ="./Images/"+hand[i].toString()+".png";
+	          image.title=hand[i].toString();
               image.id=hand[i].toString()+"F";
               image.class="card positionable";
               image.style="position: absolute; left: "+ ((40*i)) + "px; z-index:" + i +";";
-              //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
-                human.appendChild(image);
+              human.appendChild(image);
           }
       }
   }
     
     addComCard(card,numCards){
-        //alert("CPU");
         let cpu = document.getElementById("fcpuhand");
-       let image=document.createElement("img");
-	   image.src ="./Images/cardback.png";
-	   image.title=card.toString();
+        let image=document.createElement("img");
+	    image.src ="./Images/cardback.png";
+	    image.title=card.toString();
         image.id=card.toString()+"F";
-	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (-20) + "px; z-index:" + numCards +"; hieght:10px";
-	   cpu.appendChild(image);
+	    image.class="card positionable";
+	    image.style="position:absolute; left:"+  (-20) + "px; z-index:" + numCards +"; hieght:10px";
+	    cpu.appendChild(image);
         this.moveCardIn(image,(40*(numCards-1)),-20);
     }
     
@@ -107,7 +104,6 @@ class Fishview {
 	   image.title=card.toString();
        image.class="card positionable";
        image.style="position: absolute; left: "+ -30 + "px; z-index:" + i +";";
-       //image.style="left: "+  (15*i) + " px; z-index:" + i +"";
        this.comPoints++;
        p.appendChild(image);
        this.moveCardIn(image,((40*(this.comPoints-1) )),-30);

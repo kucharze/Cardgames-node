@@ -33,16 +33,17 @@ class View {
   displayComputerHand(hand){//only needed for load up
      let cpu = document.querySelector("#myHand");
      while(cpu.hasChildNodes()){
-	 cpu.removeChild(cpu.lastChild);
-      }
+	     cpu.removeChild(cpu.lastChild);
+     }
+      
   for(let i=0; i<hand.length; i++){
       let image=document.createElement("img");
-	   image.src ="./Images/cardback.png";
-	   image.title=hand[i].toString();
+	  image.src ="./Images/cardback.png";
+	  image.title="Card Back";
       image.id=hand[i].toString()+"E";
-	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (30*i) + "px; z-index:" + i +" hieght:10px";
-	   cpu.appendChild(image);
+	  image.class="card positionable";
+	  image.style="position:absolute; left:"+  (30*i) + "px; z-index:" + i +" hieght:10px";
+	  cpu.appendChild(image);
     }
   }
 
@@ -64,25 +65,25 @@ class View {
     
     addComCard(card,numCards){
         let cpu = document.querySelector("#myHand");
-      let image=document.createElement("img");
-	   image.src ="./Images/cardback.png";
-	   image.title=card.toString();
+        let image=document.createElement("img");
+	    image.src ="./Images/cardback.png";
+	    image.title="Card Back";
         image.id=card.toString()+"E";
-	   image.class="card positionable";
-	   image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
-	   cpu.appendChild(image);
+	    image.class="card positionable";
+	    image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
+	    cpu.appendChild(image);
         this.moveCard(image,(30*(numCards-1)),-30);
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
         let human=document.querySelector("#yourHand");
         let image=document.createElement("img");
-	       image.src ="./Images/"+card.toString()+".png";
-	       image.title=card.toString();
+	    image.src ="./Images/"+card.toString()+".png";
+	    image.title=card.toString();
         image.id=card.toString()+"E";
-	       image.class="card positionable";
-	       image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
-            human.appendChild(image);
+	    image.class="card positionable";
+	    image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
+        human.appendChild(image);
         this.moveCard(image,(30*(numCards-1)),-30);
     }
     
@@ -92,7 +93,7 @@ class View {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCard(image,pos,i+5);
-            },30);
+            },25);
         }
     }
     

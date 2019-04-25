@@ -6,7 +6,7 @@
 class Snipview {
     constructor(presenter) {
     this.presenter = presenter;
-    this.topCard = null;
+    //this.topCard = null;
     this.topCardString = "";
     //this.errorString = "";
     
@@ -16,13 +16,11 @@ class Snipview {
   announceComputerWinner(){
     let CPUwinner = document.getElementById("status");
     CPUwinner.innerHTML="Thanks for being a good loser";
-    //CPUwinner.style="display: block";
   }
 
   announceHumanWinner(){
     let humanwin = document.getElementById("status");
     humanwin.innerHTML="Congradulations! You win!";
-    //humanwin.style="display: block";
   }
 
   displayComputerHand(hand){
@@ -35,8 +33,8 @@ class Snipview {
             //alert("Player "+hand[i].toString());
             let image=document.createElement("img");
             image.src ="./Images/cardback.png";
-	       image.title=hand[i].toString();
-	       image.class="card positionable";
+	        image.title="Card Back";
+	        image.class="card positionable";
             image.style="position: absolute; left: "+ ((35*i)+10) + "px; z-index:" + i +";";
         
             cpu.appendChild(image);
@@ -46,24 +44,16 @@ class Snipview {
   displayHumanHand(hand){
      let human = document.getElementById("suserhand");
      while(human.hasChildNodes()){
-	 human.removeChild(human.lastChild);
+         human.removeChild(human.lastChild);
       }
      for(let i=0; i<hand.length; i++){
-         //alert("Computer "+hand[i].toString());
         let image=document.createElement("img");
 	    image.src ="./Images/"+hand[i].toString()+".png";
         image.title=hand[i].toString();
 	    image.class="card positionable";
         image.style="position: absolute; left: "+ ((35*i)+10 ) + "px; z-index:" + i +";";
 	    human.appendChild(image);
-   }
-      /*
-            image.src ="./Images/"+row[i].toString()+".png";
-	        image.title=row[i].toString();
-            image.id=(i);
-	        image.class="card positionable";
-            image.style="position: absolute; top: "+ (30*i) + "px; z-index:" + i +";";
-            */
+     }
   }
     
     eraseHands(){
@@ -82,7 +72,7 @@ class Snipview {
 	 let table=document.getElementById("stable");
 	 table.removeChild(table.lastChild);
 	 let pile = document.getElementById("spile")
-     this.topCard=card;
+     //this.topCard=card;
 	 let image=document.createElement("img");
       if(card==null){
           image.src ="./Images/cardback.png";
@@ -104,7 +94,7 @@ class Snipview {
             setTimeout(()=> {
                 //console.log("timeout function");
                 this.moveCard(image,pos,i+5);
-            },30);
+            },25);
         }
     }
     
@@ -121,9 +111,7 @@ class Snipview {
     removeEvents(){
         //alert("removing online event listeners");
         var old1 = document.getElementById("suserhand");
-        
         var new1 = old1.cloneNode(true);
-        //var new_element = old_element.cloneNode(true);
         old1.parentNode.replaceChild(new1, old1);
     }
 

@@ -333,7 +333,7 @@ input:checked + .slider:before {
 
 <div style="text-align: center" id="Account" class="tabcontent">
 	
-    <h2><label>Active User:</label></h2>
+    <p>Active User:</p>
 	<label id="User">No User logged in</label>
 
 <div>		
@@ -341,17 +341,14 @@ input:checked + .slider:before {
 	<h2>Create a Login to have your name added to leaderboards</h2>
 </div>
 		
-	<p id="Creation_status"></p>
-    <h3>Your name:</h3>
-    <input id="user" type="text">
-    <h3>Screen username:</h3>
-    <input id="screenname"><br>
-    <h3>Password</h3><h5>(Must be 8 characters)</h5>
-    <input id="pass" type="password">
-    <h3>Confirm Password</h3>
-    <input id="pass2" type="password">
-
-    <input type="button" onclick=insert() value="Create an account">
+	<p id="Creation_status">login</p>
+    <pre style="font-size: 20px; color: black; font-family:inherit">Name                   Screenname</pre>
+    <input id="user" type="text"> <input id="screenname" type="text"><br>
+    <pre style="font-size: 20px; color: black; font-family:inherit">Password                  Confirm Password
+    (Must be 8 characters)</pre>
+    <input id="pass" type="password"> <input id="pass2" type="password">
+    <br><br>
+    <input type="button" onclick="insert()" value="Create an account">
     <br><br>
 	
 	<div>		
@@ -359,38 +356,43 @@ input:checked + .slider:before {
 	<h2>Already have an account? Sign in here.</h2>
 
         <p id="Login_status"></p>
-            <h3>Screen username</h3>
-            <input type="text" id="username" name="User">
-            <h3>Password</h3>
-            <input type="password" id="password" name="Pass">
+            <pre style="font-size: 20px; color: black; font-family:inherit">Screenname                       Password</pre>
+            <input type="text" id="username" name="User"> <input type="password" id="password" name="Pass">
+            <br><br>
             <input type="submit" value="Login" onclick="login()">
 	</div>
 
         <script>
             function insert(){
-                let c=document.getElementById("Creation_status");
+                /*    else if(message.action=="Show user"){
+                    document.getElementById("User").innerHTML=message.user;
+                }
+                else if(message.action=="Creation"){
+                    //Failed to create a login
+                    document.getElementById("Creation_status").innerHTML=message.status;
+                    */
+                //alert("Processing login");
                 var user = document.getElementById("user").value;
                 var screen=document.getElementById("screenname").value;
                 var pass = document.getElementById("pass").value;
                 var pass2=document.getElementById("pass2").value;
                 //var table=document.getElementById("data");
-                if(user=="" || pass=="" || pass2=="" || screen==""){
-                    alert("Not enough information provided");
+                if(user=="" || pass=="" || pass2=="" || screen=="" || user==null || pass==null || pass2==null || screen==null){
+                    //let cr=document.getElementById("Creation_status");
+                    //alert(cr);
+                    document.getElementById("Creation_status").innerHTML="Not enough information provided";
+                    //cr.innerHTML="Not enough information provided";
+                    //alert("Not enough information provided");
+                    return;
                 }
                 if(pass.length<8){
-                    alert("Password must be at least 8 characters long");
-                    document.getElementById("user").value="";
-                    document.getElementById("screenname").value="";
-                    document.getElementById("pass").value="";
-                    document.getElementById("pass2").value="";
+                    //cr.innerHTML="Password must be at least 8 characters long";
+                     document.getElementById("Creation_status").innerHTML="Password must contain at least 8 characters";
                     return;
                 }
                 if(pass != pass2){
-                    alert("Passwords do not match");
-                    document.getElementById("screenname").value="";
-                    document.getElementById("user").value="";
-                    document.getElementById("pass").value="";
-                    document.getElementById("pass2").value="";
+                    //cr.innerHTML="Passwords do not match";
+                     document.getElementById("Creation_status").innerHTML="Passwords do not match";
                     return;
                 }
                 
@@ -404,10 +406,10 @@ input:checked + .slider:before {
             
                 document.getElementById("8on").disabled=false;
                 //table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
-                document.getElementById("screenname").value="";
-                document.getElementById("user").value="";
-                document.getElementById("pass").value="";
-                document.getElementById("pass2").value="";
+                document.getElementById("screenname").innerHTML="";
+                document.getElementById("user").innerHTML="";
+                document.getElementById("pass").innerHTML="";
+                document.getElementById("pass2").innerHTML="";
             }
             
             function login(){
