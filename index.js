@@ -174,7 +174,7 @@ ws.on('connection', function connection(ws) {
             loadLeadeboard(userMess,ws);
         }
         else if(userMess.action=="ping"){
-            console.log("Recieved a ping");
+            //console.log("Recieved a ping");
         }
     });
     ws.on('close',function close(){
@@ -550,8 +550,9 @@ function createlogin(action,ws){
     database.collection("users").find(query).toArray(function(err, result) {
         if (err) throw err;
         let index=webSockets.indexOf(ws);
-        if(result.length>0){
+        if(result.length > 0){
             console.log("User name already exists");
+            let mes={};
             mes.action="Creation";
             mes.status="That screenname already exists";
             webSockets[index].send(JSON.stringify(mes));
