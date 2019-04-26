@@ -326,7 +326,7 @@ input:checked + .slider:before {
     <button class="tablinks" onclick="openTab(event, 'Snap')">Snip Snap Snorum*</button>
     <button class="tablinks" onclick="openTab(event, 'Jack')">Blackjack</button>
     <button class="tablinks" onclick="openTab(event, 'Match')">Matching</button>
-    <button class="tablinks" onclick="openTab(event, 'gofish')">Go fish*</button>
+    <button class="tablinks" onclick="openTab(event, 'gofish')">Go Fish*</button>
     <button class="tablinks" onclick="openTab(event, 'solitare')">Spider Solitare</button>
     <button class="tablinks" onclick="openTab(event, 'War')">War</button>
 </div>
@@ -1099,15 +1099,21 @@ If the face-up cards are again equal then the battle repeats with another set of
 </div>
     
 <div id="sugestions" class="tabcontent">
+    <center>
   <h3 style="font-size: 25px">Suggestions</h3>
-  <p>Have any ideas or complaints about our website.<br>
+  <p style="font-size: 18px">If you have any suggestions you would like to make
+      or would like to report a bug,
     You may submit them down below.</p>.
     
     <textarea id="sug"></textarea><br>
     
     <input type="button" onclick=suggest() value="Submit">
+    </center>
     <script>
         function suggest(){
+            if(document.getElementById("sug").value==""){
+                return;
+            }
             let obj={};
             obj.action="Suggest";
             var suggestion = document.getElementById("sug").value;
@@ -1124,9 +1130,10 @@ If the face-up cards are again equal then the battle repeats with another set of
 </div>
     
 <div id="boards" class="tabcontent">
+    <center>
 <h3 style="font-size: 25px">Leaderboards</h3>
 	
-  <p>Select the game to view the leaderboards.</p>.
+  <p style="font-size: 18px">Select the game to view the leaderboards.</p><br>
     <select id="leaderboards" name="Leaderboards">
         <option value="none">Select a leaderboard option</option>
         <option>Crazy Eights moves</option>
@@ -1137,11 +1144,11 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>Solitare score</option>
         <option>War record</option>
     </select>
-    
+    <br><br>
    <input type="button" onclick=load() value="Load Leaderboard" ><br>
-    <p id="score">Your result will appear hear if your are logged in</p>
-    <p id="board">This is the spot where the leaderboards will appear
-    when the button is clicked with a value selected<br></p>
+    <p id="score" style="font-size: 20px">If logged in, you will see your result appear first</p>
+    <p id="board" style="font-size: 20px"></p>
+        </center>
     <script>
 		
         function load(){
