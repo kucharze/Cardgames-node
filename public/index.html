@@ -1128,7 +1128,7 @@ If the face-up cards are again equal then the battle repeats with another set of
 	
   <p>Select the game to view the leaderboards.</p>.
     <select id="leaderboards" name="Leaderboards">
-        <option value="none">Select a leaderboard</option>
+        <option value="none">Select a leaderboard option</option>
         <option>Crazy Eights moves</option>
         <option>Snip Snap Snorum times</option>
         <option>Blackjack record</option>
@@ -1136,7 +1136,6 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>Go Fish fours</option>
         <option>Solitare score</option>
         <option>War record</option>
-        <option>Board</option>
     </select>
     
    <input type="button" onclick=load() value="Load Leaderboard" ><br>
@@ -1150,6 +1149,10 @@ If the face-up cards are again equal then the battle repeats with another set of
             obj.action="Leaderboard";
             var e = document.getElementById("leaderboards");
             var strUser = e.options[e.selectedIndex].text;
+            if(strUser=="Select a leaderboard option"){
+                document.getElementById("board").innerHTML="Please select a leaderboard option";
+                return;
+            }
             document.getElementById("board").innerHTML=strUser+"<br>";
             obj.board=strUser;
             ws.send(JSON.stringify(obj));
