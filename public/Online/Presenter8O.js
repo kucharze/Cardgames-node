@@ -66,13 +66,15 @@ class Presenter8O {
 	let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
 ///*
-	if(message.pileTopCard!=undefined){
-	let pilecard=message.pileTopCard;
-    	let topcard=JSON.parse( JSON.stringify( pilecard ), 
-	(k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
-    	this.view.displayPileTopCard(topcard);
-    	this.pile.acceptACard(topcard);
-	}
+      if(message.procedure!="cardPicked"){
+	       if(message.pileTopCard!=undefined){
+	       let pilecard=message.pileTopCard;
+    	   let topcard=JSON.parse( JSON.stringify( pilecard ), 
+	       (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
+    	   this.view.displayPileTopCard(topcard);
+    	   this.pile.acceptACard(topcard);
+	       }
+        }
 //*/
 	this.human.setHand(newHand);
 	this.view.displayStatus(message.status);
