@@ -784,7 +784,7 @@ function cardSelected(message, playerNumber){
     }
     crazyEightPlayers[playerNumber].remove(index); // Could be 1
     eightPiles[gamenum].acceptACard(tempCard);
-
+    
     if (tempCard.getValue() == "8") {
         //console.log("Card is an eight, Chaning suit to "+announcedSuit);
         eightPiles[gamenum].setAnnouncedSuit(announcedSuit);
@@ -796,7 +796,7 @@ function cardSelected(message, playerNumber){
         if(crazyEightPlayers[playerNumber].isHandEmpty()) {
             //console.log("odd player wins");
             obj.action="Crazy Eights";
-           obj.status = "Congratulations, You won";
+            obj.status = "Congratulations, You won";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber-1].getHandCopy().length;
             obj.pileTopCard = eightPiles[gamenum].getTopCard();
             obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
@@ -851,7 +851,7 @@ function cardSelected(message, playerNumber){
             eightSockets[playerNumber].send(JSON.stringify(obj));
     
             obj.action="Crazy Eights";
-            obj.status = "Your turn. Suit is "+announcedSuit;
+            obj.status = "Your turn. Suit is "+eightPiles[gamenum].getAnnouncedSuit();
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
             obj.pileTopCard = eightPiles[gamenum].getTopCard();
             obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
