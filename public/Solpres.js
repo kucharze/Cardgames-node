@@ -31,7 +31,7 @@ class Solpres {
         this.row6=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         
         for(var i=0; i<this.row1.length-1; i++){
-            //this.row1[i].flip();
+            this.row1[i].flip();
         }
         for(var i=0; i<this.row2.length-1; i++){
             this.row2[i].flip();
