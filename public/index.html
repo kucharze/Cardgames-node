@@ -13,6 +13,9 @@ https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesso
 https://stackoverflow.com/questions/40711300/javascript-do-something-every-n-seconds
 https://www.w3.org/2005/10/howto-favicon
 Code used from Dylan Porter's class project on Crazy Eights
+
+Possibly
+https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-deprecated-warning-by-setting-usenewurlpars
 -->
 <html lang="en">
 <head>
@@ -167,6 +170,7 @@ input:checked + .slider:before {
     <link rel="stylesheet" href="Crazy8.css" />
 </head>
 <body>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
     <script>
             let sign = false;
             var host=location.origin.replace(/^http/,'ws');
@@ -1105,10 +1109,11 @@ If the face-up cards are again equal then the battle repeats with another set of
   <p style="font-size: 18px">If you have any suggestions you would like to make
       or would like to report a bug,
     You may submit them down below.</p>.
-    
+    <br><br>
     <textarea id="sug"></textarea><br>
-    
+    <br><br>
     <input type="button" onclick=suggest() value="Submit">
+    <br><br><br><br>
     </center>
     <script>
         function suggest(){
@@ -1146,9 +1151,11 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>War record</option>
     </select>
     <br><br>
-   <input type="button" onclick=load() value="Load Leaderboard" ><br>
+   <input type="button" onclick=load() value="Load Leaderboard" ><br><br>
     <p id="score" style="font-size: 20px">If logged in, you will see your result appear first</p>
+        <br><br><br><br>
     <p id="board" style="font-size: 20px"></p>
+        <br><br><br><br>
         </center>
     <script>
 		
