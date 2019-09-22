@@ -117,7 +117,7 @@ class View {
 	 table.appendChild(image);
      this.moveCard(image,100);
   }
-    
+    /*
     moveToPile(image,ileft,itop,left,top){//move a card to the pile
         alert("Moving to pile");
         let pile=document.getElementById("pile");
@@ -129,7 +129,7 @@ class View {
             },30);
         }
     }
-    
+    */
  /**
    * Event handler for preventing click processing.
    * @param {Event} event - DOM Event object.

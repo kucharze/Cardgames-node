@@ -5,11 +5,11 @@
  */
 class FishviewO {
     constructor(presenter) {
-	//alert("called");
-    this.presenter = presenter;
-    this.topCard = null;
-    this.topCardString = "";
-    this.errorString = "";
+	   //alert("called");
+        this.presenter = presenter;
+        this.topCard = null;
+        this.topCardString = "";
+        this.errorString = "";
         this.comPoints=0;
         this.humanPoints=0;
         this.allCardsDiv=document.getElementById("allfish");
@@ -60,7 +60,7 @@ class FishviewO {
 	  image.class="card positionable";
 	  image.style="position:absolute; left:"+  (-20) + "px; z-index:" + numCards +"; hieght:10px";
 	  cpu.appendChild(image);
-      this.moveCardIn(image,(40*(numCards-1)),-20);
+      this.moveCardIn(image,(40*(numCards-1)));
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
@@ -73,7 +73,7 @@ class FishviewO {
         image.class="card positionable";
 	    image.style="position:absolute; left:"+(-20)+"px; z-index:" +(numCards)+"; hieght:10px";
         human.appendChild(image);
-        this.moveCardIn(image,(40*(numCards-1)),-20);
+        this.moveCardIn(image,(40*(numCards-1)));
     }
     
     giveHumanPoint(card){
@@ -85,7 +85,7 @@ class FishviewO {
         image.style="position: absolute; left: "+ (-30) + "px; z-index:" + i +";";
         this.humanPoints++;
         p.appendChild(image);
-        this.moveCardIn(image,((40*(this.humanPoints-1))),-30);
+        this.moveCardIn(image,((40*(this.humanPoints-1))));
     }
     
     giveComPoint(card){
@@ -97,21 +97,15 @@ class FishviewO {
         image.style="position: absolute; left: "+ -30 + "px; z-index:" + i +";";
         this.comPoints++;
         p.appendChild(image);
-        this.moveCardIn(image,((40*(this.comPoints-1) )),-30);
+        this.moveCardIn(image,((40*(this.comPoints-1) )));
     }
     
     /**
       Move card across the screen to its appropriate spot
     **/
-    moveCardIn(image,pos,i){//for handling card animations
-        console.log("Moving a card");
-        image.style.left=(i+5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                //console.log("timeout function");
-                this.moveCardIn(image,pos,i+5);
-            },15);
-        }
+    moveCardIn(image,pos){//for handling card animations
+        //console.log("Moving a card");
+        $(image).animate({left: pos},800);
     }
     
     
