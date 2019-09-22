@@ -74,7 +74,7 @@ class Snipview {
 	 let pile = document.getElementById("spile")
      this.topCard=card;
 	 let image=document.createElement("img");
-      if(card==null){
+     if(card==null){
           image.src ="./Images/cardback.png";
           image.title="Card Back";
       }else{
@@ -84,19 +84,13 @@ class Snipview {
 	 
 	 image.id="Snippile";
 	 image.class="card positionable";
-	 image.style="position: absolute; left: "+  (-30) + " px; z-index:" + 1 +"";
+	 image.style="position: absolute; left: "+  (-50) + " px; z-index:" + 1 +"";
 	 table.appendChild(image);
-      this.moveCard(image, 50, -30);
+      this.moveCard(image, 50);
   }
     
-    moveCard(image,pos,i){//for handling card animations
-        image.style.left=(i+5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                //console.log("timeout function");
-                this.moveCard(image,pos,i+5);
-            },25);
-        }
+    moveCard(image,pos){//for handling card animations
+        $(image).animate({left: pos},800);
     }
     
     displayMessage(message){
