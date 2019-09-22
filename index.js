@@ -34,7 +34,6 @@ crazyEightPlayers.push(new Player(eightDeck));
 
 eightPile.acceptACard(eightDeck.dealACard());
 
-
 //Snip Snap Snorum necessities
 let snipPiles=[];
 let snipDecks=[];
@@ -102,12 +101,14 @@ var database=null;
 var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
 //localhost:27017/cardgames";
 
-MongoClient.connect(url, function(err, db) {
+
+///*
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
   var dbo = db.db("node_deploy");
     database=dbo;
 });
-
+//*/
 //return static page with websocket client
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index-new.html'));
@@ -636,7 +637,16 @@ Options can be either online or offline
 */
 function crazyEights(message,ws){
     console.log("We are playing Crazy eights");
-    
+    /*
+    if(eightSockets.indexOf(ws) == 0){
+        gamenum=(playerNumber)/2;
+        otherplayerNumber=playerNumber-1;
+    }else{
+        gamenum=(playerNumber-1)/2;
+        odd=true;
+        otherplayerNumber=playerNumber+1;
+    }
+    */
     if(message.gameact=="Play"){
         //console.log("beginning to play Crazy Eights");
         eightsPlay(ws);
@@ -762,16 +772,19 @@ function cardSelected(message, playerNumber){
     let hand = crazyEightPlayers[playerNumber].getHandCopy();
     let gamenum=0;
     let odd=false;
+    let otherplayerNumber=0;
     
     //determine which game to play
     if(playerNumber%2 == 0){
         //console.log("Even Player");
         gamenum=(playerNumber)/2;
+        otherplayerNumber=playerNumber-1;
     }
     else{
         //console.log("odd player");
         gamenum=(playerNumber-1)/2;
         odd=true;
+        otherplayerNumber=playerNumber+1
     }
 
    //Remove the card selected by client from Player's hand
@@ -838,8 +851,7 @@ function cardSelected(message, playerNumber){
 
             eightSockets[1-playerNumber].send(JSON.stringify(obj));
             eightComplete[gamenum]=true;
-    }else{
-       // console.log("odd player, no winners yet");
+    }else{//console.log("odd player, no winners yet");
             obj.action="Crazy Eights";
             obj.status = "Waiting for opponent to play";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber-1].getHandCopy().length;
@@ -907,8 +919,7 @@ function cardSelected(message, playerNumber){
             eightSockets[playerNumber+1].send(JSON.stringify(obj));
         eightComplete[gamenum]=true;
     }
-      else {
-          //console.log("Even player, no winner yet");
+      else {//console.log("Even player, no winner yet");
           obj.action="Crazy Eights";
             obj.status = "Waiting for opponent to play";
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber+1].getHandCopy().length;
@@ -934,13 +945,18 @@ function cardSelected(message, playerNumber){
 
 function cardPicked(playerNumber){
     let odd=false;
+    let otherplayerNumber = 0;
     
     if(playerNumber%2 == 0){
         gamenum=(playerNumber)/2;
+        otherplayerNumber=(playerNumber+1);
     }else{
         gamenum=(playerNumber-1)/2;
         odd=true;
+        otherplayerNumber=(playerNumber-1);
     }
+    console.log(playerNumber);
+    console.log(otherplayerNumber);
     
     let Eight = eightDecks[gamenum].isTopCardAnEight();
     let drawnCard = eightDecks[gamenum].dealACard();
@@ -948,12 +964,11 @@ function cardPicked(playerNumber){
 
     let obj = {};
     
-    if(odd){//odd player number
         obj.action="Crazy Eights";
         obj.procedure="cardPicked";
         obj.drawCard=drawnCard;
         obj.status = "You selected card " + drawnCard.getValue() + drawnCard.getSuit();
-        obj.numberOfOpponentCards = crazyEightPlayers[playerNumber-1].getHandCopy().length;
+        obj.numberOfOpponentCards = crazyEightPlayers[otherplayerNumber].getHandCopy().length;
         obj.pileTopCard = eightPiles[gamenum].getTopCard();
         obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
         obj.yourCards = crazyEightPlayers[playerNumber].getHandCopy();
@@ -967,35 +982,11 @@ function cardPicked(playerNumber){
         obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
         obj.pileTopCard = eightPiles[gamenum].getTopCard();
         obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
-        obj.yourCards = crazyEightPlayers[playerNumber-1].getHandCopy();
+        obj.yourCards = crazyEightPlayers[otherplayerNumber].getHandCopy();
         obj.readyToPlay = true;
 
-        eightSockets[playerNumber-1].send(JSON.stringify(obj));
-    }else{//even player number
-        obj.action="Crazy Eights";
-        obj.procedure="cardPicked";
-        obj.drawCard=drawnCard;
-        obj.status = "You selected card " + drawnCard.getValue() + drawnCard.getSuit();
-        obj.numberOfOpponentCards = crazyEightPlayers[playerNumber+1].getHandCopy().length;
-        obj.pileTopCard = eightPiles[gamenum].getTopCard();
-        obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
-        obj.yourCards = crazyEightPlayers[playerNumber].getHandCopy();
-        obj.readyToPlay = false;
-
-        eightSockets[playerNumber].send(JSON.stringify(obj));
-
-        obj.action="Crazy Eights";
-        obj.procedure="cardPicked";
-        obj.drawCard=null;
-        obj.status = "Your turn. Suit is: " + eightPile.getAnnouncedSuit();
-        obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
-        obj.pileTopCard = eightPiles[gamenum].getTopCard();
-        obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
-        obj.yourCards = crazyEightPlayers[playerNumber+1].getHandCopy();
-        obj.readyToPlay = true;
-
-        eightSockets[playerNumber+1].send(JSON.stringify(obj));
-    }
+        eightSockets[otherplayerNumber].send(JSON.stringify(obj));
+    
 }
 
 function eightQuit(playernumber){
@@ -1366,7 +1357,6 @@ function switchUser(message, playerNumber){
         snipSockets[playerNumber].send(JSON.stringify(obj));
     }   
 }
-
 
 function snipQuit(playernumber){
     let gamenum=0;
