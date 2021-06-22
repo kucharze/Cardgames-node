@@ -98,11 +98,12 @@ var MongoClient=require('mongodb').MongoClient;
 var database=null;
 //var url = "mongodb://localhost:27017/mydb";//on local machine
 
-var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
+//Removed database link since site got removed
+//var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
 //localhost:27017/cardgames";
 
 
-///*
+/*
 MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
   var dbo = db.db("node_deploy");
@@ -171,8 +172,8 @@ ws.on('connection', function connection(ws) {
             matchUpload(userMess,ws);
         }
         else if(userMess.action=="Leaderboard"){
-            console.log("Loading a leaderboard to send to the user");
-            loadLeadeboard(userMess,ws);
+            console.log("Loading a leaderboard to send to the user - Temporarily disabled");
+            //loadLeadeboardloadLeadeboard(userMess,ws);
         }
         else if(userMess.action=="ping"){
             //console.log("Recieved a ping");
@@ -205,7 +206,7 @@ ws.on('connection', function connection(ws) {
         cleanUp();
     });
 });
-
+/*
 function jackUpload(message, ws){
     let index=webSockets.indexOf(ws);
     if((webSockets[index].username=="") || (webSockets[index].username==null)){
@@ -363,7 +364,7 @@ function spiderUpload(message, ws){
         }
         console.log(result);
     });
-}
+}*/
 
 function cleanUp(){
     console.log("Attempting a clean up");
@@ -465,7 +466,7 @@ function cleanUp(){
     }
     
 }
-
+/*
 function suggest(message){
     let suggestion=message.suggestion;
     
@@ -525,7 +526,7 @@ function loadLeadeboard(message, ws){
         console.log(result);
   });
 }
-
+*/
 function sendMessage(message){//For a later use of chatroom function
     console.log("sending a chat message");
     
@@ -541,6 +542,7 @@ function sendMessage(message){//For a later use of chatroom function
 }
 
 //Creates a login for the site
+/*
 function createlogin(action,ws){
     let good=true;
     console.log("Setting up a login");
@@ -630,6 +632,7 @@ function login(action,ws){
     });
     
 }
+*/
 
 /*
 Options that can take place while playing Crazy Eights
@@ -664,13 +667,14 @@ function crazyEights(message,ws){
         //and that they have won the game
         eightQuit(eightSockets.indexOf(ws));
     }
+    /*
     else if(message.gameact=="record"){
         //record data from offline into the database
         console.log("Recoding into Crazy Eights database");
         eightRecord(message,ws)
-    }
+    }*/
 }
-
+/*
 function eightRecord(message, ws){
     let index=webSockets.indexOf(ws);
     if((webSockets[index].username=="") || (webSockets[index].username==null)){
@@ -707,7 +711,7 @@ function eightRecord(message, ws){
         }
         console.log(result);
     });
-}
+}*/
 
 function eightsPlay(ws){
     eightSockets.push(ws);
@@ -771,7 +775,6 @@ function cardSelected(message, playerNumber){
     let tempCard = new Card(card.suit, card.value);
     let hand = crazyEightPlayers[playerNumber].getHandCopy();
     let gamenum=0;
-    let odd=false;
     let otherplayerNumber = 0;
     
     if(playerNumber%2 == 0){
@@ -817,7 +820,7 @@ function cardSelected(message, playerNumber){
             obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
             obj.pileTopCard = eightPiles[gamenum].getTopCard();
             obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
-            obj.yourCards = crazyEightPlayers[otherplayerNumber.getHandCopy();
+            obj.yourCards = crazyEightPlayers[otherplayerNumber].getHandCopy();
             obj.readyToPlay = false;
 
             eightSockets[otherplayerNumber].send(JSON.stringify(obj));
@@ -978,12 +981,13 @@ function snipSnapSnorum(message,ws){
         console.log("Quitting snip snap snorum");
         snipQuit(snipSockets.indexOf(ws));
     }
+    /*
     else if(message.gameact=="record"){
         console.log("We are recording a result to the database");
         snipRecord(message,ws);
-    }
+    }*/
 }
-
+/*
 function snipRecord(message, ws){
     let index=webSockets.indexOf(ws);
     if((webSockets[index].username=="") || (webSockets[index].username==null)){
@@ -1021,7 +1025,7 @@ function snipRecord(message, ws){
         }
         console.log(result);
     });
-}
+}*/
 
 //*/
 function snipPlay(ws){
@@ -1086,7 +1090,6 @@ function victory(message, playerNumber){
     
     let snip=message.snip;
     let snap=message.snap;
-    let odd=false;
     let gamenum=0;
     let otherplayerNumber = 0;
     
@@ -1132,7 +1135,6 @@ function update(message, playerNumber){
             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
     
     snipPlayers[playerNumber].setHand(hand);
-    let odd=false;
     
     let snip=message.snip;
     let snap=message.snap;
@@ -1180,7 +1182,6 @@ function switchUser(message, playerNumber){
             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
     
     snipPlayers[playerNumber].setHand(hand);
-    let odd=false;
     
     let snip=message.snip;
     let snap=message.snap;
@@ -1288,12 +1289,13 @@ function playGoFish(message, ws){
         console.log("Quitting play for go fish");
         quitFish(fishSockets.indexOf(ws));
     }
+    /*
     else if(message.gameact=="record"){
         console.log("Recording a go fish result");
         fishRecord(message,ws);
-    }
+    }*/
 }
-
+/*
 function fishRecord(message, ws){
     let index=webSockets.indexOf(ws);
     if((webSockets[index].username=="") || (webSockets[index].username==null)){
@@ -1330,7 +1332,7 @@ function fishRecord(message, ws){
         }
         console.log(result);
     });
-}
+}*/
 
 function fishPlay(ws){
     console.log("We are playing Go Fish");
@@ -1380,7 +1382,6 @@ function fishPlay(ws){
 function goFish(message, playerNumber){//Go Fish player has said go fish
     let empty=false;
     let score=false;
-    //let odd=false;
     let otherplayerNumber = 0;
     
     if(playerNumber%2 == 0){
@@ -1549,7 +1550,6 @@ function giveCard(message, playerNumber){
             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
     fishPlayers[playerNumber].setHand(newHand);
     let score=false;
-    //let odd=false;
     let otherplayerNumber = 0;
     
     if(playerNumber%2 == 0){
@@ -1689,7 +1689,6 @@ function askForCard(message, playerNumber){
             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
     
     fishPlayers[playerNumber].setHand(hand);
-    //let odd=false;
     let otherplayerNumber = 0;
     
     if(playerNumber%2 == 0){
@@ -1725,7 +1724,6 @@ function askForCard(message, playerNumber){
 function fishWinner(message, playerNumber){
     console.log("Calculating the winner");
     let obj={};
-    //let odd=false;
     let otherplayerNumber = 0;
     
     if(playerNumber%2 == 0){
