@@ -13,6 +13,9 @@ https://www.w3schools.com/nodejs/nodejs_mongodb.asp and subsequent MongoDB lesso
 https://stackoverflow.com/questions/40711300/javascript-do-something-every-n-seconds
 https://www.w3.org/2005/10/howto-favicon
 Code used from Dylan Porter's class project on Crazy Eights
+
+Possibly
+https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-deprecated-warning-by-setting-usenewurlpars
 -->
 <html lang="en">
 <head>
@@ -167,6 +170,7 @@ input:checked + .slider:before {
     <link rel="stylesheet" href="Crazy8.css" />
 </head>
 <body>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
     <script>
             let sign = false;
             var host=location.origin.replace(/^http/,'ws');
@@ -314,7 +318,8 @@ input:checked + .slider:before {
 		The games on this site may not work with versions of Internet Explorer.<br>
     </p>
     <br>
-    <p class="a" style="color: black"> (* Online games.)<br>Leaderboard records offline games only</p>
+    <!--<p class="a" style="color: black"> (* Online games.)<br>Leaderboard records offline games only</p>-->
+    <p class="a" style="color: black"> (* Online games.)<br><b>All Leaderboards and login functions have been temporaily disabled</b></p>
 <br>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
@@ -349,7 +354,7 @@ input:checked + .slider:before {
     (Must be 8 characters)</pre>
     <input id="pass" type="password"> <input id="pass2" type="password">
     <br><br>
-    <input type="button" onclick="insert()" value="Create an account">
+    <input type="button" disabled onclick="insert()" value="Create an account-Disabled">
     <br><br>
 	
 	<div>		
@@ -360,7 +365,7 @@ input:checked + .slider:before {
             <pre style="font-size: 20px; color: black; font-family:inherit">Screenname                       Password</pre>
             <input type="text" id="username" name="User"> <input type="password" id="password" name="Pass">
             <br><br>
-            <input type="submit" value="Login" onclick="login()">
+            <input type="submit" disabled value="Login-Disabled" onclick="login()">
 	</div>
 
         <script>
@@ -471,7 +476,10 @@ input:checked + .slider:before {
 </label>
         <br>
     <br><br>
-    
+    <h3>Feature coming soon</h3>
+    <textarea maxlength="200"></textarea>
+    <input type="text" size="50">
+    <button value="Sumbit">Sumbit value</button>
     <button style="font-size: 20px" class="accordion">View Instructions</button>
     <div class="panel">
         <h2>Crazy Eights rules</h2>
@@ -575,6 +583,12 @@ input:checked + .slider:before {
         <br><br><br><br><br><br><br><br>
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
         <div class="panel">
+            
+            <h3>Feature coming soon</h3>
+    <textarea maxlength="200"></textarea>
+    <input type="text" size="50">
+    <button value="Sumbit">Sumbit value</button>
+            
         <p><h2>Blackjack Rules</h2>
         <p>Most think the object of blackjack is to get to 21 as possible. <br>
         The main object is to beat the dealer without going over.<br>
@@ -623,6 +637,13 @@ To beat the dealer the player must first not go over 21 and either outscore the 
   <span class="slider"></span>
 </label>
         <br><br><br><br><br><br>
+        
+        <h3>Feature coming soon</h3>
+    <textarea maxlength="200"></textarea>
+    <input type="text" size="50">
+    <button value="Sumbit">Sumbit value</button>
+        <br><br>
+        
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h1>Snip Snap Snorum</h1>
@@ -706,6 +727,11 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 <div id="Match" class="tabcontent">
     <div id="matchstatus" class="statusBox">Memory Matcher</div>
         <label class="mem">Try to match the cards in as little turns as possible</label><br>
+    <h3>Feature coming soon</h3>
+    <textarea maxlength="200"></textarea>
+    <input type="text" size="50">
+    <button value="Sumbit">Sumbit value</button>
+    
     <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <p><h2>Matching</h2>
@@ -910,6 +936,11 @@ cards.forEach(card => card.addEventListener('click', flipCard));
   <span class="slider"></span>
 </label>
         <br><br><br>
+        <h3>Feature coming soon</h3>
+    <textarea maxlength="200"></textarea>
+    <input type="text" size="50">
+    <button value="Sumbit">Sumbit value</button>
+        
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>Go Fish</h2>
@@ -997,7 +1028,7 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     <div id="solitare" class="tabcontent">
         <div id="Solstatus" class="statusBox">Spider Solitare</div>
         <center><input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">.... 
-        <input type="button" value="Upload to leaderboard" style="font-size: 18px" onclick="upload()"></center>
+        <input type="button" disabled value="Upload to leaderboard-Disabled" style="font-size: 18px" onclick="upload()"></center>
         
         <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png" alt="row1"></div>
         <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png" alt="row2"></div>
@@ -1009,6 +1040,11 @@ cards.forEach(card => card.addEventListener('click', flipCard));
         <div id="soldecks"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"><img alt="cards" src="Images/cardback.png"></div>
         <div id="Vicdecks"></div>
         <br><br>
+        <h3>Feature coming soon</h3>
+    <textarea maxlength="200"></textarea>
+    <input type="text" size="50">
+    <button value="Sumbit">Sumbit value</button>
+        
         <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
             <h2>Solitare</h2>
@@ -1070,6 +1106,11 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     
     <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
+            <h3>Feature coming soon</h3>
+    <textarea maxlength="200"></textarea>
+    <input type="text" size="50">
+    <button value="Sumbit">Sumbit value</button>
+            
             <h2>War</h2>
             <p>The objective of the game is to win all cards.<br>
 In unison, each player reveals the top card of their deck and the player with the higher card takes both of the cards played and moves them to their stack. Aces are high, and suits are ignored.<br>
@@ -1105,10 +1146,11 @@ If the face-up cards are again equal then the battle repeats with another set of
   <p style="font-size: 18px">If you have any suggestions you would like to make
       or would like to report a bug,
     You may submit them down below.</p>.
-    
+    <br><br>
     <textarea id="sug"></textarea><br>
-    
-    <input type="button" onclick=suggest() value="Submit">
+    <br><br>
+    <input type="button" disabled onclick=suggest() value="Submit-Disabled">
+    <br><br><br><br>
     </center>
     <script>
         function suggest(){
@@ -1146,9 +1188,11 @@ If the face-up cards are again equal then the battle repeats with another set of
         <option>War record</option>
     </select>
     <br><br>
-   <input type="button" onclick=load() value="Load Leaderboard" ><br>
+   <input type="button" disabled onclick=load() value="Load Leaderboard-Disabled" ><br><br>
     <p id="score" style="font-size: 20px">If logged in, you will see your result appear first</p>
+        <br><br><br><br>
     <p id="board" style="font-size: 20px"></p>
+        <br><br><br><br>
         </center>
     <script>
 		
