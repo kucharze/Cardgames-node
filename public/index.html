@@ -319,7 +319,8 @@ input:checked + .slider:before {
     </p>
     <br>
     <!--<p class="a" style="color: black"> (* Online games.)<br>Leaderboard records offline games only</p>-->
-    <p class="a" style="color: black"> (* Online games.)<br><b>All Leaderboards and login functions have been temporaily disabled</b></p>
+    <p class="a" style="color: black"> (* Online games.)<br><b>All Leaderboards and login functions have been temporaily disabled</b><br>
+        <a href="https://github.com/kucharze/Cardgames-node">See the githubpage behind this page</a></p>
 <br>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Account')">Handle accounts</button>
@@ -1028,7 +1029,7 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     <div id="solitare" class="tabcontent">
         <div id="Solstatus" class="statusBox">Spider Solitare</div>
         <center><input type="button" value="Reset the game" style="font-size: 18px" onclick="solreset()">.... 
-        <input type="button" value="Upload to leaderboard" style="font-size: 18px" onclick="upload()"></center>
+        <input type="button" disabled value="Upload to leaderboard-Disabled" style="font-size: 18px" onclick="upload()"></center>
         
         <div id="row1" style="position: absolute; left: 20px"><img src="Images/cardback.png" alt="row1"></div>
         <div id="row2" style="position: absolute; left: 120px"><img src="Images/cardback.png" alt="row2"></div>
