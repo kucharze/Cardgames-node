@@ -84,17 +84,11 @@ class View {
 	    image.class="card positionable";
 	    image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
         human.appendChild(image);
-        this.moveCard(image,(30*(numCards-1)),-30);
+        this.moveCard(image,(30*(numCards-1)));
     }
     
-    moveCard(image,pos,i){//for handling card animations
-        image.style.left=(i+5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                //console.log("timeout function");
-                this.moveCard(image,pos,i+5);
-            },25);
-        }
+    moveCard(image,pos){//for handling card animations
+        $(image).animate({left: pos},800);
     }
     
     eraseHands(){
@@ -121,9 +115,9 @@ class View {
 	 image.class="card positionable";
 	 image.style="position:absolute; left:"+ (-30) + "px; z-index:" + 1 +"";
 	 table.appendChild(image);
-      this.moveCard(image,100,-30);
+     this.moveCard(image,100);
   }
-    
+    /*
     moveToPile(image,ileft,itop,left,top){//move a card to the pile
         alert("Moving to pile");
         let pile=document.getElementById("pile");
@@ -135,7 +129,7 @@ class View {
             },30);
         }
     }
-    
+    */
  /**
    * Event handler for preventing click processing.
    * @param {Event} event - DOM Event object.

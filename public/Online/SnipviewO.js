@@ -105,16 +105,11 @@ class SnipviewO {
 	 table.appendChild(image);
      image.style="position: absolute; left: "+  (-30) + " px; z-index:" + 1 +"";
 	 table.appendChild(image);
-     this.moveCard(image, 50, -30);
+     this.moveCard(image, 50);
   }
     
-     moveCard(image,pos,i){//for handling card animations
-        image.style.left=(i+5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                this.moveCard(image,pos,i+5);
-            },30);
-        }
+     moveCard(image,pos){//for handling card animations
+        $(image).animate({left: pos},800);
     }
     
  /**

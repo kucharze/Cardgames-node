@@ -143,16 +143,11 @@ class View8O {
 	    image.class="card positionable";
 	    image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
         human.appendChild(image);
-        this.moveCard(image,(30*(this.humlength)),-30);
+        this.moveCard(image,(30*(this.humlength)));
     }
     
-    moveCard(image,pos,i){//for handling card animations
-        image.style.left=(i+5)+"px";
-        if(i<pos){
-            setTimeout(()=> {
-                this.moveCard(image,pos,i+5);
-            },30);
-        }
+    moveCard(image,pos){//for handling card animations
+        $(image).animate({left: pos},800);
     }
     
   /**
