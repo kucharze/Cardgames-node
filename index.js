@@ -94,8 +94,8 @@ let webSockets=[];
 //let clientcounter=0;
 
 //init mongodb for use of database
-var MongoClient=require('mongodb').MongoClient;
-var database=null;
+//var MongoClient=require('mongodb').MongoClient;
+//var database=null;
 //var url = "mongodb://localhost:27017/mydb";//on local machine
 
 //Removed database link since site got removed
