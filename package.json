@@ -13,7 +13,7 @@
     "express": "^4.17.1",
     "mongodb": "^3.2.2",
     "mongoose": "^6.1.1",
-    "mysql": "^2.16.0",
+    "mysql": "^2.18.1",
     "save": "^2.3.3",
     "socket.io": "^2.4.1",
     "utf-8-validate": "5.0.2",
