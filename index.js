@@ -156,20 +156,20 @@ ws.on('connection', function connection(ws) {
             suggest(userMess);
         }
         else if(userMess.action=="Blackjack"){
-            console.log("Making an update to the Blackjack database");
-            jackUpload(userMess,ws);
+            console.log("Making an update to the Blackjack database - Temporarily disabled");
+            //jackUpload(userMess,ws);
         }
         else if(userMess.action=="War"){
-            console.log("Making an update to the war database");
-            warUpload(userMess,ws);
+            console.log("Making an update to the war database - Temporarily disabled");
+            //warUpload(userMess,ws);
         }
         else if(userMess.action=="Spider Solitare"){
-            console.log("Making an update to the Spider Solitare database");
-            spiderUpload(userMess,ws);
+            console.log("Making an update to the Spider Solitare database - Temporarily disabled");
+            //spiderUpload(userMess,ws);
         }
         else if(userMess.action=="Match"){
-            console.log("Making an update to the Matching database");
-            matchUpload(userMess,ws);
+            console.log("Making an update to the Matching database - Temporarily disabled");
+            //matchUpload(userMess,ws);
         }
         else if(userMess.action=="Leaderboard"){
             console.log("Loading a leaderboard to send to the user - Temporarily disabled");
