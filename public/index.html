@@ -582,14 +582,15 @@ input:checked + .slider:before {
         <h3>Player</h3>
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br><br><br>
+
+        <h3>Feature coming soon</h3>
+        <textarea maxlength="200"></textarea>
+        <input type="text" size="50">
+        <button value="Sumbit">Sumbit value</button>
+
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
         <div class="panel">
-            
-            <h3>Feature coming soon</h3>
-    <textarea maxlength="200"></textarea>
-    <input type="text" size="50">
-    <button value="Sumbit">Sumbit value</button>
-            
+                        
         <p><h2>Blackjack Rules</h2>
         <p>Most think the object of blackjack is to get to 21 as possible. <br>
         The main object is to beat the dealer without going over.<br>
@@ -604,9 +605,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 6.	If the dealer does not bust, then the higher point total between the player and dealer will win.<br>
 </p>
         </div>
-        <script src="Jackplayer.js"></script>
-        <script src="Jackpres.js"></script>
-        <script src="Jackview.js"></script>
+        <script src="Blackjack/Jackplayer.js"></script>
+        <script src="Blackjack/Jackpres.js"></script>
+        <script src="Blackjack/Jackview.js"></script>
         <script>
             let jack=new Jackpres(ws);
             jack.play();
@@ -659,11 +660,13 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                 If that player passes play back without making a move, the round will be reset at snip witht eh first player's turn<br>
                 Whoever places the final card of that rank says "Snorem" and wins the right to start the next round with the card of their choice.<br>
                 Example: the first card played = 5 Clubs, the next card to be played = 5 Hearts, then 5 Diamonds, and 5 Spades.</p>
-            </div>
-        <script src="Snippres.js"></script>
-        <script src="Snipview.js"></script>
-        <script src="Snipcpu.js"></script>
-        <script src="Sniphuman.js"></script>
+            </div> 
+            <script src="Snip-Snap-Snorum/Snippres.js"></script>
+            <script src="Snip-Snap-Snorum/Snipview.js"></script>
+            <script src="Snip-Snap-Snorum/Snipcpu.js"></script>
+            <script src="Snip-Snap-Snorum/Sniphuman.js"></script>
+
+
         <script src="Online/SnippresO.js"></script>
         <script src="Online/SnipviewO.js"></script>
         <script>
@@ -965,8 +968,8 @@ cards.forEach(card => card.addEventListener('click', flipCard));
             The first player to get rid of all the cards in their hand wins.</p>
         </div>
         
-        <script src="Fishpres.js"></script>
-        <script src="Fishview.js"></script>
+        <script src="Go-Fish/Fishpres.js"></script>
+        <script src="Go-Fish/Fishview.js"></script>
         <script src="Online/FishpresO.js"></script>
         <script src="Online/FishviewO.js"></script>
         <script>
@@ -1059,9 +1062,9 @@ cards.forEach(card => card.addEventListener('click', flipCard));
             Once all of the cards are gone, you win the game.</p>
         </div>
         
-        <script src="Solpres.js"></script>
-        <script src="Solview.js"></script>
-        <script src="Soldeck.js"></script>
+        <script src="Solitare/Solpres.js"></script>
+        <script src="Solitare/Solview.js"></script>
+        <script src="Solitare/Soldeck.js"></script>
     <script>
     "use strict";
         //Play one round of Solitare
