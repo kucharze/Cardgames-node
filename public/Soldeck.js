@@ -50,8 +50,9 @@ class Soldeck {
    * Indicate whether or not top card of deck is an 8.
    * This method is intended to be used only during game
    * initialization to avoid starting the pile with an 8.
-   */
+   
   isTopCardAnEight() {
     return this.list[0].getValue() == "8";
   }
+  */
 }
