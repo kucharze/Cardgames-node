@@ -21,6 +21,16 @@ class Jackpres {
         this.jplayer=new Jackplayer(this.deck1,false);//the player
         this.dealer=new Jackplayer(this.cdeck,true);//the computer/dealer
     }
+
+    displayPlayerValue(){
+        let value= this.jplayer.getValue();
+        document.getElementById("Hand value").value=v;
+    }
+
+    displayDelearValue(){
+        let v=this.dealer.getValue();
+        document.getElementById("Delear value").value=v;
+    }
     
     hit(){
         let obj={};
