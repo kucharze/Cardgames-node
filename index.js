@@ -161,7 +161,7 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="Blackjack"){
             console.log("Making an update to the Blackjack database - Temporarily disabled");
-            upload.jackUpload(userMess,ws,webSockets);
+            //upload.jackUpload(userMess,ws,webSockets);
         }
         else if(userMess.action=="War"){
             console.log("Making an update to the war database - Temporarily disabled");
