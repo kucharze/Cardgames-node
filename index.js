@@ -182,6 +182,10 @@ ws.on('connection', function connection(ws) {
         else if(userMess.action=="ping"){
             //console.log("Recieved a ping");
         }
+        else if(userMess.action=="message"){//Used for debugging
+            Console.log("Displaying a message");
+            console.log(userMess.mess);
+        }
     });
     ws.on('close',function close(){
         //ws.send(JSON.stringify({action:"Bye"}));
