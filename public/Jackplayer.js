@@ -27,13 +27,23 @@ class Jackplayer {
     }
     
     findValue(){
-        let hand=this.list;
-        this.value=0;
-        //this.value2=0;
-        for(let i=0; i<hand.length; i++){
-            this.value=(+this.value + +hand[i].jackValue);
+      //console.log("attempting to find a value");
+      let hand=this.list;
+      this.value=0;
+      //this.value2=0;
+      for(let i=0; i<hand.length; i++){
+          this.value=(+this.value + +hand[i].jackValue);
+      }
+      
+      if(this.value>21){
+        let a=this.countAces();
+
+        for(let i=0; i<a; i++){
+          this.subtractAce();
         }
-        return this.value;
+      }
+      
+      return this.value;
     }
     
     hasAce(){

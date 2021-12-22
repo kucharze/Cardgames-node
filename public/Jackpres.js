@@ -23,13 +23,15 @@ class Jackpres {
     }
 
     displayPlayerValue(){
-        let value= this.jplayer.getValue();
-        document.getElementById("Hand value").value=v;
+        this.jplayer.findValue();
+        let v= this.jplayer.getValue();
+        document.getElementById("Hand value").innerHTML=v;
     }
 
     displayDelearValue(){
+        this.dealer.findValue();
         let v=this.dealer.getValue();
-        document.getElementById("Delear value").value=v;
+        document.getElementById("Dealer value").innerHTML=v;
     }
     
     hit(){
@@ -51,9 +53,10 @@ class Jackpres {
         this.jplayer.add(newCard);
         this.jview.addHumanCard(newCard,this.jplayer.list.length);
         //this.jview.displayHumanHand(this.jplayer.getHandCopy());
-        this.jplayer.findValue();
+        this.displayPlayerValue();
         
         if(this.jplayer.value>=21){//Player hand value over 21
+            /*
             if(this.jplayer.hasAce()){//check for any aces
                 this.jplayer.numAces=this.jplayer.countAces();
                 var a=0;
@@ -62,8 +65,9 @@ class Jackpres {
                     a++;
                 }
             }
-            
+            */
             if(this.jplayer.value>21){
+                this.displayDelearValue();
                 this.jview.displayMessage("You have busted");
                 document.getElementById("hit").disabled=true;
                 document.getElementById("stand").disabled=true;
@@ -95,7 +99,7 @@ class Jackpres {
         //alert("Player has decided to stand");
         this.dealer.list[0].flip();
         this.jview.displayComputerHand(this.dealer.getHandCopy());
-        this.dealer.findValue();
+        this.displayDelearValue();
         
         if(this.dealer.value == 21){
             this.jview.displayMessage("Dealer has a blackjack");
@@ -111,9 +115,10 @@ class Jackpres {
             let newCard=this.cdeck.dealACard();
             this.dealer.add(newCard);
             this.jview.addComCard(newCard,this.dealer.list.length);
-            this.dealer.findValue();
+            this.displayDelearValue();
             
             if(this.dealer.value>21){
+                /*
                 if(this.dealer.hasAce()){
                     this.dealer.numAces=this.dealer.countAces();
                     var a=0;
@@ -122,6 +127,7 @@ class Jackpres {
                         a++;
                     }
                 }
+                */
             }
         }
         //this.jview.displayComputerHand(this.dealer.getHandCopy());
@@ -129,8 +135,8 @@ class Jackpres {
         
         document.getElementById("hit").disabled=true;
         document.getElementById("stand").disabled=true;
-        this.jplayer.findValue();
-        this.dealer.findValue();
+        this.displayDelearValue();
+        this.displayPlayerValue();
         
         if(this.dealer.value>21){
             this.jview.displayMessage("Player wins, dealer has busted");
@@ -161,7 +167,9 @@ class Jackpres {
  play(){//Set up for playing crazy eights
      this.jview.displayComputerHand(this.dealer.getHandCopy());
      this.jview.displayHumanHand(this.jplayer.getHandCopy());
-     //this.jplayer.findValue();
+     this.jplayer.findValue();
+     this.displayPlayerValue();
+     
      //this.dealer.findValue();
      return;
  }
@@ -174,6 +182,7 @@ class Jackpres {
             this.deck1.shuffle();
             this.cdeck.shuffle();
             this.cdeck.shuffle();
+           
         
             document.getElementById("hit").disabled=false;
             document.getElementById("stand").disabled=false;
@@ -183,6 +192,9 @@ class Jackpres {
            //this.view.displayPileTopCard(this.pile.getTopCard());
             this.jview.displayComputerHand(this.dealer.getHandCopy());
             this.jview.displayHumanHand(this.jplayer.getHandCopy());
+
+            this.displayPlayerValue();
+            document.getElementById("Dealer value").innerHTML="";
         
             this.jview.displayMessage("Welcome to Blackjack");
             
