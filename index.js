@@ -165,19 +165,19 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="War"){
             console.log("Making an update to the war database - Temporarily disabled");
-            //warUpload(userMess,ws);
+            //upload.warUpload(userMess,ws);
         }
         else if(userMess.action=="Spider Solitare"){
             console.log("Making an update to the Spider Solitare database - Temporarily disabled");
-            //spiderUpload(userMess,ws);
+            //upload.spiderUpload(userMess,ws);
         }
         else if(userMess.action=="Match"){
             console.log("Making an update to the Matching database - Temporarily disabled");
-            matchUpload(userMess,ws);
+            //upload.matchUpload(userMess,ws);
         }
         else if(userMess.action=="Leaderboard"){
             console.log("Loading a leaderboard to send to the user - Temporarily disabled");
-            //loadLeadeboardloadLeadeboard(userMess,ws);
+            //upload.loadLeadeboardloadLeadeboard(userMess,ws);
         }
         else if(userMess.action=="ping"){
             //console.log("Recieved a ping");
