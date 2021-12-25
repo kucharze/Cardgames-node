@@ -35,6 +35,23 @@ class Jackplayer {
           this.value=(+this.value + +hand[i].jackValue);
       }
       
+
+      let a=this.countAces();
+      let i=0;
+      while(this.value>21)
+      {
+        if(a>0)
+        {
+          this.subtractAce();
+          i++;
+
+          if(a==i)
+          {
+            break;
+          }
+        }
+      }
+      /*
       if(this.value>21){
         let a=this.countAces();
 
@@ -42,7 +59,7 @@ class Jackplayer {
           this.subtractAce();
         }
       }
-      
+      */
       return this.value;
     }
     
