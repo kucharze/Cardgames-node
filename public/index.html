@@ -578,15 +578,23 @@ input:checked + .slider:before {
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()"></center>
         <h3>Dealer</h3>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br>
+        <h3>Dealer Hand value</h3>
+        <label id="Dealer value"></label>
+        <br><br><br><br><br>
         <h3>Player</h3>
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        <h3>Player Hand value</h3>
+        <label id="Hand value"></label>
+        <br><br><br><br><br>
 
         <h3>Feature coming soon</h3>
         <textarea maxlength="200"></textarea>
         <input type="text" size="50">
         <button value="Sumbit">Sumbit value</button>
+
+        
 
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
         <div class="panel">
@@ -605,9 +613,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 6.	If the dealer does not bust, then the higher point total between the player and dealer will win.<br>
 </p>
         </div>
-        <script src="Blackjack/Jackplayer.js"></script>
-        <script src="Blackjack/Jackpres.js"></script>
-        <script src="Blackjack/Jackview.js"></script>
+        <script src="Jackplayer.js"></script>
+        <script src="Jackpres.js"></script>
+        <script src="Jackview.js"></script>
         <script>
             let jack=new Jackpres(ws);
             jack.play();
@@ -1062,9 +1070,9 @@ cards.forEach(card => card.addEventListener('click', flipCard));
             Once all of the cards are gone, you win the game.</p>
         </div>
         
-        <script src="Solitare/Solpres.js"></script>
-        <script src="Solitare/Solview.js"></script>
-        <script src="Solitare/Soldeck.js"></script>
+        <script src="Solpres.js"></script>
+        <script src="Solview.js"></script>
+        <script src="Soldeck.js"></script>
     <script>
     "use strict";
         //Play one round of Solitare
