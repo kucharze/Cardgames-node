@@ -573,28 +573,28 @@ input:checked + .slider:before {
     
     <div id="Jack" class="tabcontent">
         <div id="jackstatus" class="statusBox">Blackjack</div>
-        <center><input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px">......... 
-        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">....... 
-        <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()"></center>
+        <center><input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()"></center>
+        
         <h3>Dealer</h3>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <h3>Dealer Hand value</h3>
         <label id="Dealer value"></label>
-        <br><br><br><br><br>
+        <br><br><br>
         <h3>Player</h3>
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br><br>
         <h3>Player Hand value</h3>
         <label id="Hand value"></label>
-        <br><br><br><br><br>
+        <br><br>
+        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">...........
+        <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px"> 
+        <br><br><br>
 
         <h3>Feature coming soon</h3>
         <textarea maxlength="200"></textarea>
         <input type="text" size="50">
         <button value="Sumbit">Sumbit value</button>
-
-        
 
         <button style="font-size: 20px" class="accordion">View Game Instructions</button>
         <div class="panel">
