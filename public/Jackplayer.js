@@ -4,26 +4,37 @@
  */
 class Jackplayer {
   
-    constructor(deck,dealer) {
+  constructor(deck,dealer) {
     /** This player's hand. */
-      this.list = new Array();
+    
+    this.list = new Array();
       
     // Get 2 cards from the deck and store them in this hand.
     for (let i=1; i<=2; i++) {
       this.list.push(deck.dealACard());
     }
-        if(dealer==true){
-             for (let i=0; i<1; i++) {
-                this.list[i].flip();
-            }
+
+    //Used for debugging
+    // this.list.push(new Card("h","q"));
+    // this.list.push(new Card("h","a"));
+
+    if(dealer==true){
+        for (let i=0; i<1; i++) {
+            this.list[i].flip();
         }
-        this.value=0;
-        //this.value2=0;
-        this.numAces=0;
+    }
+    
+    this.value=0;
+    //this.value2=0;
+    this.numAces=0;
   }
     
     getValue(){
         return this.value;
+    }
+
+    getlength(){
+      return this.list.length;
     }
     
     findValue(){
