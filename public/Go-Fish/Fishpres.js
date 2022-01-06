@@ -27,6 +27,11 @@ class Fishpres {
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
     }
+
+    displayDeckSize(){
+        let s = this.deck.getSize();
+        document.getElementById("Deck size").innerHTML=s;
+    }
     
     comTurn(){
         let card=this.computer.fish();
