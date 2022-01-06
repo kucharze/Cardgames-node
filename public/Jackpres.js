@@ -93,14 +93,6 @@ class Jackpres {
                 this.dealerturn();
             }
 
-            // this.jview.displayMessage("You have a blackjack");
-            // document.getElementById("hit").disabled=true;
-            // document.getElementById("stand").disabled=true;
-            
-            // this.jview.displayComputerHand(this.dealer.getHandCopy());
-            // obj.action="Blackjack";
-            // obj.result="win";
-            // this.socket.send(JSON.stringify(obj));
             return;
         }
         //alert("Player has decided to stand");
@@ -146,14 +138,6 @@ class Jackpres {
         if(this.dealer.value == 21  && this.dealer.getlength() == 2){
             this.blackjack(this.dealer);
             return;
-            
-            
-            // this.jview.displayMessage("Dealer has a blackjack");
-            // document.getElementById("hit").disabled=true;
-            // document.getElementById("stand").disabled=true;
-            // obj.action="Blackjack";
-            // obj.result="loss";
-            // this.socket.send(JSON.stringify(obj));
         }
         
         //alert("dealer value is "+ this.dealer.value);
