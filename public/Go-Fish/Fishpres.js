@@ -60,7 +60,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*350));
+                    },(1500));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
             
@@ -93,7 +93,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*350));
+                    },(1500));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
                 
@@ -157,7 +157,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveHumanPoint(c);
                     this.fview.displayHumanHand(this.human.getHandCopy());        
-                     },(num*350));
+                     },(1500));
                 //alert("User has this many four ofs "+this.humNumFours);
             }
             
