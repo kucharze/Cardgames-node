@@ -67,7 +67,8 @@ class Fishpres {
             //this.fview.displayComputerHand(this.computer.getHandCopy());
         }
         this.human.fish=true;
-        this.fview.displayMessage("Pick a card to ask for"); 
+        this.fview.displayMessage("Pick a card to ask for");
+        this.displayDeckSize();
         }
         
     }
@@ -127,6 +128,7 @@ class Fishpres {
                 
                 this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
+                this.displayDeckSize();
             }
             return;
         }
@@ -206,6 +208,7 @@ class Fishpres {
             }
             
             this.human.fish=false;
+            this.displayDeckSize();
             this.comTurn();
         }
         
@@ -214,23 +217,24 @@ class Fishpres {
     //Player draws cards because they have none in hand
     drawCards(playerval){
         var i=0;
-            if(playerval==true){
-                for(var i=0; i<5; i++){
-                    if(this.deck.isEmpty()){
-                        break;
-                    }
-                    //alert("adding cards to player's hand from deck "+i);
-                    this.human.add(this.deck.dealACard());
+        if(playerval==true){
+            for(var i=0; i<5; i++){
+                if(this.deck.isEmpty()){
+                    break;
                 }
+                //alert("adding cards to player's hand from deck "+i);
+                this.human.add(this.deck.dealACard());
             }
-            else{
-                for(var i=0; i<5; i++){
-                    if(this.deck.isEmpty()){
-                        break;
-                    }
-                    this.computer.add(this.deck.dealACard());
+        }
+        else{
+            for(var i=0; i<5; i++){
+                if(this.deck.isEmpty()){
+                    break;
                 }
+                this.computer.add(this.deck.dealACard());
             }
+        }
+        this.displayDeckSize();
     }
 
 //Sets up the start of the game
@@ -243,6 +247,7 @@ class Fishpres {
      
      this.fview.displayComputerHand(this.computer.getHandCopy());
      this.fview.displayHumanHand(this.human.getHandCopy());
+     this.displayDeckSize();
      
  }
     
