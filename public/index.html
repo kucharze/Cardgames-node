@@ -929,18 +929,21 @@ cards.forEach(card => card.addEventListener('click', flipCard));
         <div id="allfish">
             <div id="fishstatus" class="statusBox">Go Fish<br>
                 Click one of your cards to ask for it</div>
-            <center><input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">.... <input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
+            <center><input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
             <div id="comfours"></div>
             <br><br><br><br><br><br><br>
+            <h1>Computer</h1>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br>
             <h3>Cards left in deck</h3>
             <label id="Deck size"></label>
             <br><br>
+            <h1>Player 1</h1>
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
             <br><br><br><br><br><br><br><br><br>
             <div id="playerfours"></div>
             <br><br><br><br>
+            <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
         </div>
         
         <br><br>
