@@ -40,6 +40,10 @@ class Deck {
   dealACard() {
     return this.list.shift();
   }
+
+  getSize(){
+    return this.list.length;
+  }
     
     /**
     * Determines if the deck is empty.

@@ -27,6 +27,11 @@ class Fishpres {
 	    this.human = new HumanPlayer(this.deck, this.pile, this.fview);
 	    this.computer = new ComputerPlayer(this.deck, this.pile, this.fview);
     }
+
+    displayDeckSize(){
+        let s = this.deck.getSize();
+        document.getElementById("Deck size").innerHTML=s;
+    }
     
     comTurn(){
         let card=this.computer.fish();
@@ -55,14 +60,15 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*800));
+                    },(1200));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
             
             //this.fview.displayComputerHand(this.computer.getHandCopy());
         }
         this.human.fish=true;
-        this.fview.displayMessage("Pick a card to ask for"); 
+        this.fview.displayMessage("Pick a card to ask for");
+        this.displayDeckSize();
         }
         
     }
@@ -87,7 +93,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveComPoint(c);
                        this.fview.displayComputerHand(this.computer.getHandCopy());
-                    },(num*800));
+                    },(1200));
                 //alert("This computer has this many four ofs " + this.comNumFours);
             }
                 
@@ -122,6 +128,7 @@ class Fishpres {
                 
                 this.fview.displayMessage("Pick a card to ask for");
                 this.human.fish=true;
+                this.displayDeckSize();
             }
             return;
         }
@@ -150,7 +157,7 @@ class Fishpres {
                 setTimeout(()=> {
                     this.fview.giveHumanPoint(c);
                     this.fview.displayHumanHand(this.human.getHandCopy());        
-                     },(num*800));
+                     },(1200));
                 //alert("User has this many four ofs "+this.humNumFours);
             }
             
@@ -201,6 +208,7 @@ class Fishpres {
             }
             
             this.human.fish=false;
+            this.displayDeckSize();
             this.comTurn();
         }
         
@@ -209,23 +217,24 @@ class Fishpres {
     //Player draws cards because they have none in hand
     drawCards(playerval){
         var i=0;
-            if(playerval==true){
-                for(var i=0; i<5; i++){
-                    if(this.deck.isEmpty()){
-                        break;
-                    }
-                    //alert("adding cards to player's hand from deck "+i);
-                    this.human.add(this.deck.dealACard());
+        if(playerval==true){
+            for(var i=0; i<5; i++){
+                if(this.deck.isEmpty()){
+                    break;
                 }
+                //alert("adding cards to player's hand from deck "+i);
+                this.human.add(this.deck.dealACard());
             }
-            else{
-                for(var i=0; i<5; i++){
-                    if(this.deck.isEmpty()){
-                        break;
-                    }
-                    this.computer.add(this.deck.dealACard());
+        }
+        else{
+            for(var i=0; i<5; i++){
+                if(this.deck.isEmpty()){
+                    break;
                 }
+                this.computer.add(this.deck.dealACard());
             }
+        }
+        this.displayDeckSize();
     }
 
 //Sets up the start of the game
@@ -234,10 +243,11 @@ class Fishpres {
     // for(var i=0; i<12; i++){
     //     this.human.list.push(this.deck.dealACard());
     //     this.computer.list.push(this.deck.dealACard());
-     //}
+    //  }
      
      this.fview.displayComputerHand(this.computer.getHandCopy());
      this.fview.displayHumanHand(this.human.getHandCopy());
+     this.displayDeckSize();
      
  }
     

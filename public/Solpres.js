@@ -295,7 +295,7 @@ class Solpres {
                     }
                 }
             
-                
+                //Delay further actions until animation has finished.
             setTimeout(()=>{
                 this.checkFlips();
                 this.actionRow=null;
