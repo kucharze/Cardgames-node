@@ -1506,63 +1506,63 @@ function fishWinner(message, playerNumber){
         otherplayerNumber=(playerNumber-1);
     }
     
-        if(fourOfs[otherplayerNumber]>fourOfs[playerNumber]){
-            obj.action="Go Fish";
-            obj.status="You win!";
-            obj.yourCards=fishPlayers[otherplayerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
-            obj.fish=false;
-            obj.askCard=null;
-            obj.readyToPlay=false;
-            fishSockets[otherplayerNumber].send(JSON.stringify(obj));
+    if(fourOfs[otherplayerNumber]>fourOfs[playerNumber]){
+        obj.action="Go Fish";
+        obj.status="You win!";
+        obj.yourCards=fishPlayers[otherplayerNumber].getHandCopy();
+        obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+        obj.fish=false;
+        obj.askCard=null;
+        obj.readyToPlay=false;
+        fishSockets[otherplayerNumber].send(JSON.stringify(obj));
     
-            obj.action="Go Fish";
-            obj.status="Sorry You lose!";
-            obj.yourCards=fishPlayers[playerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[otherplayerNumber].getHandCopy().length;
-            obj.askCard=null;
-            obj.fish=true;
-            obj.readyToPlay=false;
-            fishSockets[playerNumber].send(JSON.stringify(obj));
-        }
-        else if(fourOfs[otherplayerNumber]<fourOfs[playerNumber]){
-            obj.action="Go Fish";
-            obj.status="Sorry You Lose!";
-            obj.yourCards=fishPlayers[otherplayerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
-            obj.fish=false;
-            obj.askCard=null;
-            obj.readyToPlay=false;
-            fishSockets[otherplayerNumber].send(JSON.stringify(obj));
+        obj.action="Go Fish";
+        obj.status="Sorry You lose!";
+        obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+        obj.numberOfOpponentCards=fishPlayers[otherplayerNumber].getHandCopy().length;
+        obj.askCard=null;
+        obj.fish=true;
+        obj.readyToPlay=false;
+        fishSockets[playerNumber].send(JSON.stringify(obj));
+    }
+    else if(fourOfs[otherplayerNumber]<fourOfs[playerNumber]){
+        obj.action="Go Fish";
+        obj.status="Sorry You Lose!";
+        obj.yourCards=fishPlayers[otherplayerNumber].getHandCopy();
+        obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+        obj.fish=false;
+        obj.askCard=null;
+        obj.readyToPlay=false;
+        fishSockets[otherplayerNumber].send(JSON.stringify(obj));
     
-            obj.action="Go Fish";
-            obj.status="You win!";
-            obj.yourCards=fishPlayers[playerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[otherplayerNumber].getHandCopy().length;
-            obj.askCard=null;
-            obj.fish=true;
-            obj.readyToPlay=false;
-            fishSockets[playerNumber].send(JSON.stringify(obj));
-        }
-        else{//tie
-            obj.action="Go Fish";
-            obj.status="It's a tie!";
-            obj.yourCards=fishPlayers[otherplayerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
-            obj.fish=false;
-            obj.askCard=null;
-            obj.readyToPlay=false;
-            fishSockets[otherplayerNumber].send(JSON.stringify(obj));
+        obj.action="Go Fish";
+        obj.status="You win!";
+        obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+        obj.numberOfOpponentCards=fishPlayers[otherplayerNumber].getHandCopy().length;
+        obj.askCard=null;
+        obj.fish=true;
+        obj.readyToPlay=false;
+        fishSockets[playerNumber].send(JSON.stringify(obj));
+    }
+    else{//tie
+        obj.action="Go Fish";
+        obj.status="It's a tie!";
+        obj.yourCards=fishPlayers[otherplayerNumber].getHandCopy();
+        obj.numberOfOpponentCards=fishPlayers[playerNumber].getHandCopy().length;
+        obj.fish=false;
+        obj.askCard=null;
+        obj.readyToPlay=false;
+        fishSockets[otherplayerNumber].send(JSON.stringify(obj));
     
-            obj.action="Go Fish";
-            obj.status="It's a tie!";
-            obj.yourCards=fishPlayers[playerNumber].getHandCopy();
-            obj.numberOfOpponentCards=fishPlayers[otherplayerNumber].getHandCopy().length;
-            obj.askCard=null;
-            obj.fish=true;
-            obj.readyToPlay=false;
-            fishSockets[playerNumber].send(JSON.stringify(obj));
-        }
+        obj.action="Go Fish";
+        obj.status="It's a tie!";
+        obj.yourCards=fishPlayers[playerNumber].getHandCopy();
+        obj.numberOfOpponentCards=fishPlayers[otherplayerNumber].getHandCopy().length;
+        obj.askCard=null;
+        obj.fish=true;
+        obj.readyToPlay=false;
+        fishSockets[playerNumber].send(JSON.stringify(obj));
+    }
         
     fishComplete[gamenum]=true;
 }
@@ -1602,7 +1602,7 @@ function checkAmount(player){
     /*Find the duplicates in a hand*/
    function countCard(card,player){//Count occurences of a single card
         let hand=player.getHandCopy();
-       let newHand = JSON.parse( JSON.stringify( hand ),
+        let newHand = JSON.parse( JSON.stringify( hand ),
                             (k,v)=>(typeof v.suit)!=="undefined" ? new Card(v.suit, v.value) : v);
         var tot=0;
         for(let i=0; i<newHand.length; i++){
