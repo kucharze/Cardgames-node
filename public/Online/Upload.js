@@ -1,7 +1,8 @@
-/*
+///*
 if (typeof Uploader === "undefined") {
-    Card = require('./Card');
-  }*/
+    Card = require('./Uploader');
+  }
+  //*/
 class Uploader{
 
     constructor(){
@@ -166,6 +167,85 @@ class Uploader{
             console.log(result);
         });
     }
+
+    eightRecord(message, ws){
+        let index=webSockets.indexOf(ws);
+        if((webSockets[index].username=="") || (webSockets[index].username==null)){
+            console.log("Not logged in. Cannot record result");
+            let obj={};
+            obj.action="Crazy Eights";
+            obj.message="You are not logged in, you cannot record a result to the leaderboard";
+            ws.send(JSON.stringify(obj));
+            return;
+        }
+        else{
+            var query={screenname: webSockets[index].username};
+        }
+        
+        database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
+            if (err) throw err;
+            if(result.length>0){
+                console.log("Entry already exists");
+                /////////
+                if(result[0].moves > message.moves){
+                    var newvalues = { $set: {screenname: webSockets[index].username, moves: message.moves } };
+                    database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
+                        if (err) throw err;
+                        console.log("1 Crazy Eights moves document updated");
+                    });
+                }
+            }
+            else{
+                query={screenname: webSockets[index].username, moves: message.moves};
+                database.collection("Crazy Eights moves").insertOne(query, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 Crazy Eights moves document inserted");
+                });
+            }
+            console.log(result);
+        });
+    }
+
+    
+    snipRecord(message, ws){
+        let index=webSockets.indexOf(ws);
+        if((webSockets[index].username=="") || (webSockets[index].username==null)){
+            console.log("Not logged in. Cannot record result");
+            let obj={};
+            obj.action="Snip Snap Snorum";
+            obj.message="You are not logged in, you cannot record a result to the leaderboard";
+            ws.send(JSON.stringify(obj));
+            return;
+        }
+        else{
+            var query={screenname: webSockets[index].username};
+        }
+        
+        database.collection("Snip Snap Snorum times").find(query).toArray(function(err, result) {
+            if (err) throw err;
+            if(result.length>0){
+                console.log("Entry already exists");
+                if((result[0].mins > message.mins) || ((result[0].mins == message.mins) && (result[0].secs > message.secs))){
+                    console.log("Atempting to update a value");
+                    var newvalues = { $set: {screenname: webSockets[index].username, mins: message.mins, secs: message.secs} };
+                    database.collection("Snip Snap Snorum times").updateOne(query, newvalues, function(err, res) {
+                        if (err) throw err;
+                        console.log("1 Snip Snap Snorum times document updated");
+                    });
+                }
+            }
+            else{
+                query={screenname: webSockets[index].username, mins: message.mins, secs: message.secs};
+                database.collection("Snip Snap Snorum times").insertOne(query, function(err, res) {
+                    if (err) throw err;
+                    console.log("1 Snip Snap Snorum times document inserted");
+                });
+                
+            }
+            console.log(result);
+        });
+    }
+
 }
 if (typeof module === "object") {
     module.exports = Uploader;

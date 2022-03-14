@@ -106,7 +106,6 @@ let webSockets=[];
 //var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
 //localhost:27017/cardgames";
 
-
 /*
 MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
@@ -114,6 +113,7 @@ MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
     database=dbo;
 });
 //*/
+
 //return static page with websocket client
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index-new.html'));
@@ -520,47 +520,9 @@ function crazyEights(message,ws){
     else if(message.gameact=="record"){
         //record data from offline into the database
         console.log("Recoding into Crazy Eights database");
-        eightRecord(message,ws)
+        Uploader.eightRecord(message,ws)
     }*/
 }
-/*
-function eightRecord(message, ws){
-    let index=webSockets.indexOf(ws);
-    if((webSockets[index].username=="") || (webSockets[index].username==null)){
-        console.log("Not logged in. Cannot record result");
-        let obj={};
-        obj.action="Crazy Eights";
-        obj.message="You are not logged in, you cannot record a result to the leaderboard";
-        ws.send(JSON.stringify(obj));
-        return;
-    }
-    else{
-        var query={screenname: webSockets[index].username};
-    }
-    
-    database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
-        if (err) throw err;
-        if(result.length>0){
-            console.log("Entry already exists");
-            /////////
-            if(result[0].moves > message.moves){
-                var newvalues = { $set: {screenname: webSockets[index].username, moves: message.moves } };
-                database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
-                    if (err) throw err;
-                    console.log("1 Crazy Eights moves document updated");
-                });
-            }
-        }
-        else{
-            query={screenname: webSockets[index].username, moves: message.moves};
-            database.collection("Crazy Eights moves").insertOne(query, function(err, res) {
-                if (err) throw err;
-                console.log("1 Crazy Eights moves document inserted");
-            });
-        }
-        console.log(result);
-    });
-}*/
 
 function eightsPlay(ws){
     eightSockets.push(ws);
@@ -833,48 +795,9 @@ function snipSnapSnorum(message,ws){
     /*
     else if(message.gameact=="record"){
         console.log("We are recording a result to the database");
-        snipRecord(message,ws);
+        Uploader.snipRecord(message,ws);
     }*/
 }
-/*
-function snipRecord(message, ws){
-    let index=webSockets.indexOf(ws);
-    if((webSockets[index].username=="") || (webSockets[index].username==null)){
-        console.log("Not logged in. Cannot record result");
-        let obj={};
-        obj.action="Snip Snap Snorum";
-        obj.message="You are not logged in, you cannot record a result to the leaderboard";
-        ws.send(JSON.stringify(obj));
-        return;
-    }
-    else{
-        var query={screenname: webSockets[index].username};
-    }
-    
-    database.collection("Snip Snap Snorum times").find(query).toArray(function(err, result) {
-        if (err) throw err;
-        if(result.length>0){
-            console.log("Entry already exists");
-            if((result[0].mins > message.mins) || ((result[0].mins == message.mins) && (result[0].secs > message.secs))){
-                console.log("Atempting to update a value");
-                var newvalues = { $set: {screenname: webSockets[index].username, mins: message.mins, secs: message.secs} };
-                database.collection("Snip Snap Snorum times").updateOne(query, newvalues, function(err, res) {
-                    if (err) throw err;
-                    console.log("1 Snip Snap Snorum times document updated");
-                });
-            }
-        }
-        else{
-            query={screenname: webSockets[index].username, mins: message.mins, secs: message.secs};
-            database.collection("Snip Snap Snorum times").insertOne(query, function(err, res) {
-                if (err) throw err;
-                console.log("1 Snip Snap Snorum times document inserted");
-            });
-            
-        }
-        console.log(result);
-    });
-}*/
 
 //*/
 function snipPlay(ws){
