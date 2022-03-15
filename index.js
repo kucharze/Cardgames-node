@@ -317,67 +317,7 @@ function cleanUp(){
     }
     
 }
-/*
-function suggest(message){
-    let suggestion=message.suggestion;
-    
-    query={suggestion: message.suggestion};
-    database.collection("Suggestions").insertOne(query, function(err, res) {
-        if (err) throw err;
-        console.log("1 Suggestions document inserted");
-    });
-}
 
-function loadLeadeboard(message, ws){
-    var mysort=null;
-    let index=webSockets.indexOf(ws);
-    if(!(webSockets[index].username=="") && !(webSockets[index].username==null)){
-        //while(false){
-            let mess={};
-            mess.action="Solo";
-            mess.type=message.board;
-            //ws.send(JSON.stringify(obj));
-            query={screenname: webSockets[index].username};
-       database.collection(message.board).find(query).toArray(function(err, result) {
-           if (err) throw err;
-            let index=webSockets.indexOf(ws);
-            if(result.length != 0){//found a result
-                console.log("Found user in leaderboard");
-                mess.board=result[0];
-            }
-            else{
-                console.log("No user in leaderboard found");
-            }
-            webSockets[index].send(JSON.stringify(mess));
-            console.log(result);
-        });
-            
-       // }
-    }
-    /////////////////////////////leaderboards
-    if(message.board=="Crazy Eights moves"){mysort = {moves: 1};}
-    else if(message.board=="Snip Snap Snorum times"){mysort = {mins: 1 , secs: 1};}
-    else if(message.board=="Go Fish fours"){mysort={fours:-1};}
-    else if(message.board=="War record"){mysort={wins:-1,losses:1};}
-    else if(message.board=="Match moves"){mysort={moves:1};}
-    else if(message.board=="Blackjack record"){mysort={wins:-1,losses:1};}
-    else if(message.board=="Solitare score"){mysort={score:-1};}
-    
-      console.log("Attempting to display a board");
-    database.collection(message.board).find().sort(mysort).toArray(function(err, result) {
-        if (err) throw err;
-        let mes={};
-        console.log("Displaying a leaderboard");
-        mes.type=message.board;
-        mes.action="Leaderboard";
-        mes.board=result;
-             
-        webSockets[index].send(JSON.stringify(mes));
-        console.log("result");
-        console.log(result);
-  });
-}
-*/
 function sendMessage(message){//For a later use of chatroom function
     console.log("sending a chat message");
     
@@ -391,99 +331,6 @@ function sendMessage(message){//For a later use of chatroom function
         console.log("Send message to go fish chat room");
     }
 }
-
-//Creates a login for the site
-/*
-function createlogin(action,ws){
-    let good=true;
-    console.log("Setting up a login");
-    console.log('received: %s', action.user + " "+ action.password);
-    
-    var myobj = { name: action.user, screenname: action.screenname, password: action.password };
-    var query = { screenname: action.screenname};
-    database.collection("users").find(query).toArray(function(err, result) {
-        if (err) throw err;
-        let index=webSockets.indexOf(ws);
-        if(result.length > 0){
-            console.log("User name already exists");
-            let mes={};
-            mes.action="Creation";
-            mes.status="That screenname already exists";
-            webSockets[index].send(JSON.stringify(mes));
-        }
-        else{
-            database.collection("users").insertOne(myobj, function(err, res) {
-                if (err) throw err;
-                console.log("1 user document inserted");
-            });
-            ws.logedIn=true;
-            webSockets[index].logedIn=true;
-            ws.username=action.screenname;
-            webSockets[index].username=action.screenname;
-            console.log("websocket login is "+ws.username);
-            console.log("websocket list login is "+webSockets[index].username);
-            
-            let mes={};
-            mes.action="Show user";
-            mes.user=action.user;
-            webSockets[index].send(JSON.stringify(mes));
-            
-            mes.action="Creation";
-            mes.status="Succesfully created an account";
-            webSockets[index].send(JSON.stringify(mes));
-            console.log("We are tring to log in");
-            console.log("Loged in");
-        }
-        console.log(result);
-    });
-}
-
-//Login to the website
-//Check if given name and pass are in the database
-//If not do not allow login
-function login(action,ws){
-    let good=false;
-    console.log("Attempting to log in");
-    console.log('received: %s', action.user + " "+ action.password);
-    var query = { screenname: action.user, password: action.password };
-    var query2 = { name: action.user, password: action.password };
-    database.collection("users").find(query).toArray(function(err, result) {
-        if (err) throw err;
-        let mes={};
-        if(result.length>0){
-            console.log("The username and pass are good");
-            ws.logedIn=true;
-            let index=webSockets.indexOf(ws);
-            webSockets[index].logedIn=true;
-            ws.username=action.user;
-            webSockets[index].username=action.user;
-            console.log("login websocket login is "+ws.username);
-            console.log("login websocket list login is "+webSockets[index].username);
-            
-            mes.action="Show user";
-            mes.user=action.user;
-            console.log("We are tring to log in");
-            webSockets[0].send(JSON.stringify(mes));
-            
-            mes.action="Login";
-            mes.status="Succesfully logged in";
-            console.log("We are tring to log in");
-            webSockets[0].send(JSON.stringify(mes));
-        }
-        else{
-            console.log("Username or Password not found");
-            mes.action="Login";
-            mes.status="Login failed. Username or password not found";
-            console.log("We are tring to log in");
-    
-            webSockets[0].send(JSON.stringify(mes));
-        }
-        console.log("Login");
-        console.log(result);
-    });
-    
-}
-*/
 
 /*
 Options that can take place while playing Crazy Eights
@@ -682,7 +529,6 @@ function cardSelected(message, playerNumber){
 
             eightSockets[otherplayerNumber].send(JSON.stringify(obj)); 
       }
-    
 }
 
 function cardPicked(playerNumber){
@@ -702,28 +548,28 @@ function cardPicked(playerNumber){
 
     let obj = {};
     
-        obj.action="Crazy Eights";
-        obj.procedure="cardPicked";
-        obj.drawCard=drawnCard;
-        obj.status = "You selected card " + drawnCard.getValue() + drawnCard.getSuit();
-        obj.numberOfOpponentCards = crazyEightPlayers[otherplayerNumber].getHandCopy().length;
-        obj.pileTopCard = eightPiles[gamenum].getTopCard();
-        obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
-        obj.yourCards = crazyEightPlayers[playerNumber].getHandCopy();
-        obj.readyToPlay = false;
-        eightSockets[playerNumber].send(JSON.stringify(obj));
+    obj.action="Crazy Eights";
+    obj.procedure="cardPicked";
+    obj.drawCard=drawnCard;
+    obj.status = "You selected card " + drawnCard.getValue() + drawnCard.getSuit();
+    obj.numberOfOpponentCards = crazyEightPlayers[otherplayerNumber].getHandCopy().length;
+    obj.pileTopCard = eightPiles[gamenum].getTopCard();
+    obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
+    obj.yourCards = crazyEightPlayers[playerNumber].getHandCopy();
+    obj.readyToPlay = false;
+    eightSockets[playerNumber].send(JSON.stringify(obj));
 
-        obj.action="Crazy Eights";
-        obj.procedure="cardPicked";
-        obj.drawCard=null;
-        obj.status = "Your turn. Suit is: " + eightPile.getAnnouncedSuit();
-        obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
-        obj.pileTopCard = eightPiles[gamenum].getTopCard();
-        obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
-        obj.yourCards = crazyEightPlayers[otherplayerNumber].getHandCopy();
-        obj.readyToPlay = true;
+    obj.action="Crazy Eights";
+    obj.procedure="cardPicked";
+    obj.drawCard=null;
+    obj.status = "Your turn. Suit is: " + eightPile.getAnnouncedSuit();
+    obj.numberOfOpponentCards = crazyEightPlayers[playerNumber].getHandCopy().length;
+    obj.pileTopCard = eightPiles[gamenum].getTopCard();
+    obj.pileAnnouncedSuit = eightPiles[gamenum].getAnnouncedSuit();
+    obj.yourCards = crazyEightPlayers[otherplayerNumber].getHandCopy();
+    obj.readyToPlay = true;
 
-        eightSockets[otherplayerNumber].send(JSON.stringify(obj));
+    eightSockets[otherplayerNumber].send(JSON.stringify(obj));
     
 }
 
