@@ -69,7 +69,7 @@ class SnippresO {
      let obj={};
      obj.action="Snip Snap Snorum";
      if(this.human.isHandEmpty()){
-         //this.snipview.displayMessage("Congradulations! You win!!!");
+         //this.snipview.displayMessage("Congratulations! You win!!!");
          obj.gameact="victory";
          obj.hand=this.human.getHandCopy();
          obj.snip=this.snip;

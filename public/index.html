@@ -438,6 +438,7 @@ input:checked + .slider:before {
     <center><input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()"></center>
     <div id="allCards">
     <!-- Computer's hand -->
+    <h2>Computer</h2>
     <div id="myHand" class="hand"></div>
         <br><br><br><br><br><br><br>
     <!-- "table" is div holding deck and discard pile images.
@@ -452,6 +453,7 @@ input:checked + .slider:before {
       class="card"/></div>
         <br><br>
     <!-- User's hand -->
+    <h2>Player 1</h2>
     <div id="yourHand" class="hand"></div>
         <br><br><br>
     <!-- 
@@ -546,16 +548,16 @@ input:checked + .slider:before {
                 ws.send(JSON.stringify(on));
             }
             else{
-                    //shut off online mode
-                    online=false;
-                    let quit={};
-                    quit.action="Crazy Eights";
-                    quit.gameact="quit";
-                    ws.send(JSON.stringify(quit));
-                    presenter.goOffline();
-                    presenter=new Presenter();
-                    presenter.play();
-                    document.getElementById("reset8").disabled=false;
+                //shut off online mode
+                online=false;
+                let quit={};
+                quit.action="Crazy Eights";
+                quit.gameact="quit";
+                ws.send(JSON.stringify(quit));
+                presenter.goOffline();
+                presenter=new Presenter();
+                presenter.play();
+                document.getElementById("reset8").disabled=false;
             }
         }
         
@@ -578,10 +580,10 @@ input:checked + .slider:before {
         <h3>Dealer</h3>
         <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
-        <h3>Dealer Hand value</h3>
+        <h2>Dealer Hand value</h2>
         <label id="Dealer value"></label>
         <br><br>
-        <h3>Player</h3>
+        <h2>Player</h2>
         <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <h3>Player Hand value</h3>
@@ -633,25 +635,29 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
             <center><input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">.... <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()"></center>
             <br><br>
+            <h2>Computer</h2>
         <div id="scpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
+        
         <br><br><br><br><br><br><br>
+        
+        <h2>Player 1</h2>
         <div id="suserhand"><img alt="playerhand" src="Images/cardback.png" title="start card"></div>
         <br><br><br><br><br><br><br><br>
         </div>
         
         <h2>Toggle Online mode</h2>
-<label class="switch">
-  <input type="checkbox" onclick="snipOnline()">
-  <span class="slider"></span>
-</label>
+        <label class="switch">
+        <input type="checkbox" onclick="snipOnline()">
+        <span class="slider"></span>
+        </label>
         <br><br><br><br><br><br>
         
         <h3>Feature coming soon</h3>
-    <textarea maxlength="200"></textarea>
-    <input type="text" size="50">
-    <button value="Sumbit">Sumbit value</button>
+        <textarea maxlength="200"></textarea>
+        <input type="text" size="50">
+        <button value="Sumbit">Sumbit value</button>
         <br><br>
         
         <button style="font-size: 20px" class="accordion">View Instructions</button>
@@ -711,17 +717,17 @@ To beat the dealer the player must first not go over 21 and either outscore the 
                     ws.send(JSON.stringify(mes));
                     document.getElementById("snipreset").disabled=true;
                 }else{
-                        //shut off online mode
-                        document.getElementById("snipreset").disabled=false;
-                        document.getElementById("passturn").disabled=false;
-                        snipOn=false;
-                        let quit={};
-                        quit.action="Snip Snap Snorum";
-                        quit.gameact="quit";
-                        ws.send(JSON.stringify(quit));
-                        snip.goOffline();
-                        snip=new Snippres();
-                        snip.play();
+                    //shut off online mode
+                    document.getElementById("snipreset").disabled=false;
+                    document.getElementById("passturn").disabled=false;
+                    snipOn=false;
+                    let quit={};
+                    quit.action="Snip Snap Snorum";
+                    quit.gameact="quit";
+                    ws.send(JSON.stringify(quit));
+                    snip.goOffline();
+                    snip=new Snippres();
+                    snip.play();
                 }
             }
             
@@ -754,7 +760,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         </div>
         <br><br>
         <input type="button" value="Reset the game" style="font-size: 18px" onclick="resetGame()">
-     <div class="memory-game">
+    <div class="memory-game">
     <div class="memory-card" data-framework="apple1">
       <img class="front-face" src="cards/apple1.PNG" alt="card"  />
       <img class="back-face" src="Images/cardback.png" alt="bluefront" />
@@ -809,7 +815,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
 	 </div>
 
-	     <div class="memory-card" data-framework="hand1">
+	<div class="memory-card" data-framework="hand1">
        <img class="front-face" src="cards/hand1.PNG" alt="card" />
      <img class="back-face" src="Images/cardback.png" alt="bluefront" />
     </div>
@@ -873,7 +879,7 @@ function disableCards() {
 
 function win(){
     let win=document.getElementById("matchstatus");
-    win.innerHTML="Congradulations, you won in "+ mmoves + " moves";
+    win.innerHTML="Congratulations, you won in "+ mmoves + " moves";
     let obj={};
     obj.action="Match";
     obj.moves=mmoves;
@@ -932,13 +938,13 @@ cards.forEach(card => card.addEventListener('click', flipCard));
             <center><input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
             <div id="comfours"></div>
             <br><br><br><br><br><br><br>
-            <h1>Computer</h1>
+            <h2>Computer</h2>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br>
             <h3>Cards left in deck</h3>
             <label id="Deck size"></label>
             <br><br>
-            <h1>Player 1</h1>
+            <h2>Player 1</h2>
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
             <br><br><br><br><br><br><br><br><br>
             <div id="playerfours"></div>
@@ -1111,12 +1117,12 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     <center><input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">... <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()"></center>
     <h2>Click play a round to play. Play until deck is empty to upload your score.</h2>
     <br><br>
-    <h3>Computer</h3>
+    <h2>Computer</h2>
     <div id="mywar"></div>
     <br><br><br><br><br><br>
     <div id="mycard"></div>
     <br><br><br><br><br><br>
-    <h3>Player</h3>
+    <h2>Player</h2>
     <div id="yourcard"></div>
     <br><br><br><br><br><br>
     <div id="yourwar"></div>

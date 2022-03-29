@@ -308,7 +308,7 @@ class Solpres {
                 if(this.row6.length>=13){this.removeCards(this.row6);}
             
                 if(this.checkWin()){
-                    this.solview.displayMessage("Congradulations you cleared all the cards!!!");
+                    this.solview.displayMessage("Congratulations you cleared all the cards!!!");
                 }
                 else{
                     this.solview.displayMessage("Select cards to have moved");
