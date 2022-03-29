@@ -734,7 +734,7 @@ function victory(message, playerNumber){
         snipSockets[otherplayerNumber].send(JSON.stringify(obj));
             
         obj.action="Snip Snap Snorum";
-        obj.status="Congradulations You win";
+        obj.status="Congratulations You win";
         obj.pileTopCard=snipPile.getTopCard();
         obj.yourCards=snipPlayers[playerNumber].getHandCopy();
         obj.snip=false;

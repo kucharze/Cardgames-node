@@ -78,7 +78,7 @@ class Snippres {
          }
      }
      if(this.human.isHandEmpty()){
-            this.snipview.displayMessage("Congradulations! You win!!!");
+            this.snipview.displayMessage("Congratulations! You win!!!");
             document.getElementById("passturn").disabled=true;
             let elapsed=new Date();
             this.secs=elapsed - this.date;

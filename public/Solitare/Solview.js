@@ -25,7 +25,7 @@ class Solview {
 
   announceHumanWinner(){
     let humanwin = document.getElementById("announcer");
-    humanwin.textContent="Congradulations! You win!";
+    humanwin.textContent="Congratulations! You win!";
     humanwin.style="display: block";
   }
     

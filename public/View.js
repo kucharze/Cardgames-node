@@ -27,7 +27,7 @@ class View {
 
   announceHumanWinner(){
     let humanwin = document.getElementById("status");
-    humanwin.innerHTML="Congradulations! You win!";
+    humanwin.innerHTML="Congratulations! You win!";
   }
 
   displayComputerHand(hand){//only needed for load up

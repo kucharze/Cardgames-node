@@ -17,7 +17,7 @@ class Warview {
 
   announceHumanWinner(){
     let humanwin = document.getElementById("warstatus");
-    humanwin.innerHTML="Congradulations! You win!";
+    humanwin.innerHTML="Congratulations! You win!";
   }
     
     disablePlay(){
