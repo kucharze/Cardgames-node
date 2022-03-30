@@ -1,4 +1,4 @@
-///*
+/*
 if (typeof Uploader === "undefined") {
     Card = require('./Uploader');
   }
