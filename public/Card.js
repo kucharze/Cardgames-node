@@ -18,43 +18,43 @@ class Card {
       this.setValues(aValue);
   }
     
-    setValues(aValue){//Used to set card values for use in certain games
-        if(aValue=="k"){
-            this.jackValue=10;
-            this.sValue=13;
-            this.warValue=13;
-        }
-        else if(aValue=="j"){
-            this.jackValue=10;
-            this.sValue=11;
-            this.warValue=11;
-        }
-        else if(aValue=="q"){
-            this.jackValue=10;
-            this.sValue=12;
-            this.warValue=12;
-        }
-        else if(aValue=="a"){
-            this.jackValue=11;
-            this.sValue=1;
-            this.warValue=14;
-        }
-        else{
-            this.jackValue=aValue;
-            this.sValue=aValue;
-            this.warValue=aValue;
-        }
+  setValues(aValue){//Used to set card values for use in certain games
+    if(aValue=="k"){
+      this.jackValue=10;
+      this.sValue=13;
+      this.warValue=13;
     }
+    else if(aValue=="j"){
+      this.jackValue=10;
+      this.sValue=11;
+      this.warValue=11;
+    }
+    else if(aValue=="q"){
+      this.jackValue=10;
+      this.sValue=12;
+      this.warValue=12;
+    }
+    else if(aValue=="a"){
+      this.jackValue=11;
+      this.sValue=1;
+      this.warValue=14;
+    }
+    else{
+      this.jackValue=aValue;
+      this.sValue=aValue;
+      this.warValue=aValue;
+    }
+  }
     
   getSuit() { return this.suit; }
   getValue() { return this.value; }
-    getSValue(){return this.sValue;}
-    getJackValue(){return this.jackValue;}
-    getWarValue(){return this.warValue;}
+  getSValue(){return this.sValue;}
+  getJackValue(){return this.jackValue;}
+  getWarValue(){return this.warValue;}
     
-    flip(){
-        this.flipped=!this.flipped;
-    }
+  flip(){
+    this.flipped=!this.flipped;
+  }
   /**
    * Return a string representation of this card.
    */
