@@ -10,11 +10,11 @@ const Deck = require('./public/Deck.js');
 const Pile = require('./public/Pile.js');
 const Player = require('./public/Player.js');
 
-//const Uploader = require('./public/Online/Upload.js');
+const Uploader = require('./public/Online/Upload.js');
 
 const LoginHandler = require('./public/Online/LoginHandler.js');
 
-//let upload = new Uploader();
+let upload = new Uploader();
 
 //neccesities to play Crazy eights
 let crazyGames=0;
