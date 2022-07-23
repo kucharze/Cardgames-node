@@ -69,6 +69,11 @@ class ComputerPlayer extends Player{
      
      // actual hand will change below, so don't continue to use copy
       if(playeight){
+          if(this.list.length == 0)
+          {
+            this.view.displayComputerHand(this.getHandCopy());
+            return;
+          }
           //card=hand[eight];
           hand = null;
           //alert("Computer is playing an eight");
