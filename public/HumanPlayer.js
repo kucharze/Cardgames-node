@@ -50,7 +50,7 @@ class HumanPlayer extends Player {
 	           if (card.getValue() === "8") {//user played an eight
                   if(this.list.length == 0)
                   {
-                      return false;
+                      return true;
                   }
                   else
                   {
