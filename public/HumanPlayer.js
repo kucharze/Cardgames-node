@@ -54,8 +54,8 @@ class HumanPlayer extends Player {
                   }
                   else
                   {
-                    this.view.displaySuitPicker();
-                    return false;
+                      this.view.displaySuitPicker();
+                      return false;
                   }
 		          
 		      // Continue after user picks a suit.
