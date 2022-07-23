@@ -48,8 +48,16 @@ class HumanPlayer extends Player {
                 //alert("moved");
            // },3000);
 	           if (card.getValue() === "8") {//user played an eight
-		          this.view.displaySuitPicker();
-		          return false;
+                  if(this.list.length == 0)
+                  {
+                      return false;
+                  }
+                  else
+                  {
+                    this.view.displaySuitPicker();
+                    return false;
+                  }
+		          
 		      // Continue after user picks a suit.
 	           }
                 this.view.displaySuit(card.getSuit());
