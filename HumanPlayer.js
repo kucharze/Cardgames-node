@@ -92,5 +92,4 @@ class HumanPlayer extends Player {
       this.view.undisplaySuitPicker();
       return true;
   }
-
 }
