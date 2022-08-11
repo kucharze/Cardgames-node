@@ -106,15 +106,17 @@ let webSockets=[];
 
 //Removed database link since site got removed
 //var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
+//var url = "mongodb+srv://admin:Zekxlr8323%21@node-deploy.z0pjs.mongodb.net/?retryWrites=true&w=majority";
 //localhost:27017/cardgames";
 
-/*
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("node_deploy");
-    database=dbo;
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://admin:Zekxlr8323%21@node-deploy.z0pjs.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
 });
-//*/
 
 //return static page with websocket client
 app.get('/', function(req, res) {
