@@ -3,17 +3,17 @@ if (typeof Uploader === "undefined") {
     Card = require('./Uploader');
   }
   //*/
-class Uploader{
+class Upload{
 
-    constructor(){
-        //this.s="hello";
+    constructor(collection){
+        this.database=collection;
     }
 
     suggest(message){
         let suggestion=message.suggestion;
         
-        query={suggestion: message.suggestion};
-        database.collection("Suggestions").insertOne(query, function(err, res) {
+        var query={suggestion: message.suggestion};
+        this.database.collection("Suggestions").insertOne(query, function(err, res) {
             if (err) throw err;
             console.log("1 Suggestions document inserted");
         });
@@ -309,5 +309,5 @@ class Uploader{
 
 }
 if (typeof module === "object") {
-    module.exports = Uploader;
+    module.exports = Upload;
  }

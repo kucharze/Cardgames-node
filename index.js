@@ -10,11 +10,11 @@ const Deck = require('./public/Deck.js');
 const Pile = require('./public/Pile.js');
 const Player = require('./public/Player.js');
 
-const Uploader = require('./public/Online/Upload.js');
+const Upload = require('./public/Online/Upload.js');
 
 const LoginHandler = require('./public/Online/LoginHandler.js');
 
-let upload = new Uploader();
+let upload = new Upload();
 
 //neccesities to play Crazy eights
 let crazyGames=0;
@@ -97,25 +97,33 @@ var port = process.env.PORT || 8080;
 app.use(express.static(path.join(__dirname,'/public')));
 
 let webSockets=[];
-//let clientcounter=0;
+let clientcounter=0;
 
 //init mongodb for use of database
-//var MongoClient=require('mongodb').MongoClient;
-//var database=null;
-//var url = "mongodb://localhost:27017/mydb";//on local machine
 
 //Removed database link since site got removed
 //var url = "mongodb://admin:Javaking23@ds159631.mlab.com:59631/node_deploy";
 //var url = "mongodb+srv://admin:Zekxlr8323%21@node-deploy.z0pjs.mongodb.net/?retryWrites=true&w=majority";
 //localhost:27017/cardgames";
 
+/*
+MongoClient.connect(url,{ useNewUrlParser: true },{ useUnifiedTopology: true } , function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("Logins");
+    database=dbo;
+});
+//*/
+
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://admin:Zekxlr8323%21@node-deploy.z0pjs.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1, keepAlive: 1 });
+var database;
 client.connect(err => {
-  const collection = client.db("test").collection("devices");
+  const collection = client.db("Logins");
   // perform actions on the collection object
-  client.close();
+  console.log("status of login " +err);
+  database=collection;
+  //client.close()
 });
 
 //return static page with websocket client
@@ -138,6 +146,7 @@ ws.on('connection', function connection(ws) {
     //on connect message
     ws.on('message', function incoming(message) {
         let userMess = JSON.parse(message);
+        let connection=new Upload(database);
         
         //take an action based on the action of the message
         //console.log("action="+userMess.action);
@@ -161,7 +170,7 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="Suggest"){
             console.log("Making a suggestion");
-            suggest(userMess);
+            connection.suggest(userMess);
         }
         else if(userMess.action=="Blackjack"){
             console.log("Making an update to the Blackjack database - Temporarily disabled");
@@ -193,6 +202,7 @@ ws.on('connection', function connection(ws) {
     });
     ws.on('close',function close(){
         //ws.send(JSON.stringify({action:"Bye"}));
+        client.close();
         console.log("user is disconnecting");
         //Remove user websocket from all games if in any
         let index=eightSockets.indexOf(ws);
