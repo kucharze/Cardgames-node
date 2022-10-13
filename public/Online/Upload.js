@@ -18,7 +18,6 @@ class Upload{
             console.log("1 Suggestions document inserted");
         });
     }
-
     
     loadLeadeboard(message, ws){
         var mysort=null;
@@ -267,7 +266,6 @@ class Upload{
         });
     }
 
-    
     snipRecord(message, ws){
         let index=webSockets.indexOf(ws);
         if((webSockets[index].username=="") || (webSockets[index].username==null)){
