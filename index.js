@@ -147,14 +147,17 @@ ws.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         let userMess = JSON.parse(message);
         let connection=new Upload(database);
+        let handler = new LoginHandler(database,webSockets);
         
         //take an action based on the action of the message
         //console.log("action="+userMess.action);
         if(userMess.action=="create"){
-            createlogin(userMess,ws);
+            //Update websoket list when completed
+            handler.createlogin(userMess,ws);
         }
         else if(userMess.action=="login"){
-            login(userMess,ws);
+            //Update websoket list when completed
+            handler.login(userMess,ws);
         }
         else if(userMess.action=="Crazy Eights"){
             console.log("Going to Crazy Eights");
