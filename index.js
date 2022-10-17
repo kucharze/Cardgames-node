@@ -154,7 +154,7 @@ ws.on('connection', function connection(ws) {
         if(userMess.action=="create"){
             //Update websoket list when completed
             console.log("Sockets" + webSockets);
-            webSockets = handler.createlogin(userMess,webSockets);
+            webSockets = handler.createlogin(userMess, ws, webSockets);
         }
         else if(userMess.action=="login"){
             //Update websoket list when completed

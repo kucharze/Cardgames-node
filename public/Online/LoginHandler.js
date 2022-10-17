@@ -5,18 +5,21 @@ if (typeof Uploader === "undefined") {
   //*/
 class LoginHandler{
 
-    constructor(){
-        //this.s="hello";
+    constructor(collection,sockets){
+        this.database=collection;
     }
 
-    createlogin(action,ws){
+    //Insert a connection into the database
+    //Return passed in socket when completed
+    createlogin(action,ws,webSockets){
         let good=true;
         console.log("Setting up a login");
         console.log('received: %s', action.user + " "+ action.password);
         
         var myobj = { name: action.user, screenname: action.screenname, password: action.password };
         var query = { screenname: action.screenname};
-        database.collection("users").find(query).toArray(function(err, result) {
+        var self = this;
+        this.database.collection("Logins").find(query).toArray(function(err, result) {
             if (err) throw err;
             let index=webSockets.indexOf(ws);
             if(result.length > 0){
@@ -27,7 +30,7 @@ class LoginHandler{
                 webSockets[index].send(JSON.stringify(mes));
             }
             else{
-                database.collection("users").insertOne(myobj, function(err, res) {
+                self.database.collection("Logins").insertOne(myobj, function(err, res) {
                     if (err) throw err;
                     console.log("1 user document inserted");
                 });
@@ -51,6 +54,7 @@ class LoginHandler{
             }
             console.log(result);
         });
+        return this.webSockets;
     }
 
     //Login to the website
