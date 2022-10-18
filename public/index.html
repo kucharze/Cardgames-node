@@ -372,52 +372,51 @@ input:checked + .slider:before {
 
         <script>
             function insert(){
-                /*    else if(message.action=="Show user"){
-                    document.getElementById("User").innerHTML=message.user;
+                
+                if(valid()==true)
+                {
+                    sign=true;
+                    let data={};
+                    data.action="create";
+                    data.user=user;
+                    data.screenname=screen;
+                    data.password=pass;
+                    ws.send(JSON.stringify(data));
+                
+                    //document.getElementById("8on").disabled=false;
+                    //table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
+                    document.getElementById("screenname").innerHTML="";
+                    document.getElementById("user").innerHTML="";
+                    document.getElementById("pass").innerHTML="";
+                    document.getElementById("pass2").innerHTML="";
                 }
-                else if(message.action=="Creation"){
-                    //Failed to create a login
-                    document.getElementById("Creation_status").innerHTML=message.status;
-                    */
-                //alert("Processing login");
+            }
+
+            function valid(){
                 var user = document.getElementById("user").value;
                 var screen=document.getElementById("screenname").value;
                 var pass = document.getElementById("pass").value;
                 var pass2=document.getElementById("pass2").value;
-                //var table=document.getElementById("data");
+
                 if(user=="" || pass=="" || pass2=="" || screen=="" || user==null || pass==null || pass2==null || screen==null){
                     //let cr=document.getElementById("Creation_status");
                     //alert(cr);
                     document.getElementById("Creation_status").innerHTML="Not enough information provided";
                     //cr.innerHTML="Not enough information provided";
                     //alert("Not enough information provided");
-                    return;
+                    return false;
                 }
-                if(pass.length<8){
+                else if(pass.length<8){
                     //cr.innerHTML="Password must be at least 8 characters long";
                      document.getElementById("Creation_status").innerHTML="Password must contain at least 8 characters";
-                    return;
+                    return false;
                 }
-                if(pass != pass2){
+                else if(pass != pass2){
                     //cr.innerHTML="Passwords do not match";
                      document.getElementById("Creation_status").innerHTML="Passwords do not match";
-                    return;
+                    return false;
                 }
-                
-                sign=true;
-                let data={};
-                data.action="create";
-                data.user=user;
-                data.screenname=screen;
-                data.password=pass;
-                ws.send(JSON.stringify(data));
-            
-                //document.getElementById("8on").disabled=false;
-                //table.innerHTML=table.innerHTML+"Username:"+user+" Password:"+pass;
-                document.getElementById("screenname").innerHTML="";
-                document.getElementById("user").innerHTML="";
-                document.getElementById("pass").innerHTML="";
-                document.getElementById("pass2").innerHTML="";
+                return true;
             }
             
             function login(){
