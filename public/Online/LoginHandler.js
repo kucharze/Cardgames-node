@@ -19,6 +19,7 @@ class LoginHandler{
         var myobj = { name: action.user, screenname: action.screenname, password: action.password };
         var query = { screenname: action.screenname};
         var self = this;
+        
         this.database.collection("Logins").find(query).toArray(function(err, result) {
             if (err) throw err;
             let index=webSockets.indexOf(ws);
@@ -63,14 +64,9 @@ class LoginHandler{
     login(action,ws,webSockets){
         let good=false;
         console.log("Attempting to log in");
-        console.log('received: %s', action.user + " "+ action.password);
+        //console.log('received: %s', action.user + " "+ action.password);
         var query = { screenname: action.user, password: action.password};
-
-        // var myobj = { name: action.user, screenname: action.screenname, password: action.password };
-        // var query = { screenname: action.screenname};
-
         var self = this;
-        //var query2 = { name: action.user, password: action.password };
        
         this.database.collection("Logins").find(query).toArray(function(err, result) {
             if (err) throw err;
@@ -97,10 +93,9 @@ class LoginHandler{
                 webSockets[index].send(JSON.stringify(mes));
             }
             else{
-                console.log("Username or Password not found");
+                console.log("Username or Password not found. Login Failed");
                 mes.action="Login";
                 mes.status="Login failed. Username or password not found";
-                console.log("Failed logged in");
         
                 webSockets[index].send(JSON.stringify(mes));
             }
