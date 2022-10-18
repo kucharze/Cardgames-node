@@ -54,53 +54,61 @@ class LoginHandler{
             }
             console.log(result);
         });
-        return this.webSockets;
+        return webSockets;
     }
 
     //Login to the website
     //Check if given name and pass are in the database
     //If not do not allow login
-    login(action,ws){
+    login(action,ws,webSockets){
         let good=false;
         console.log("Attempting to log in");
         console.log('received: %s', action.user + " "+ action.password);
-        var query = { screenname: action.user, password: action.password };
-        var query2 = { name: action.user, password: action.password };
-        database.collection("users").find(query).toArray(function(err, result) {
+        var query = { screenname: action.user, password: action.password};
+
+        // var myobj = { name: action.user, screenname: action.screenname, password: action.password };
+        // var query = { screenname: action.screenname};
+
+        var self = this;
+        //var query2 = { name: action.user, password: action.password };
+       
+        this.database.collection("Logins").find(query).toArray(function(err, result) {
             if (err) throw err;
             let mes={};
+            let index=webSockets.indexOf(ws);
+            console.log("We are tring to log in");
+            console.log(result);
             if(result.length>0){
                 console.log("The username and pass are good");
                 ws.logedIn=true;
-                let index=webSockets.indexOf(ws);
                 webSockets[index].logedIn=true;
                 ws.username=action.user;
                 webSockets[index].username=action.user;
-                console.log("login websocket login is "+ws.username);
-                console.log("login websocket list login is "+webSockets[index].username);
+                console.log("login websocket login is " + ws.username);
+                console.log("login websocket list login is " + webSockets[index].username);
                 
                 mes.action="Show user";
                 mes.user=action.user;
-                console.log("We are tring to log in");
-                webSockets[0].send(JSON.stringify(mes));
+                webSockets[index].send(JSON.stringify(mes));
                 
                 mes.action="Login";
                 mes.status="Succesfully logged in";
-                console.log("We are tring to log in");
-                webSockets[0].send(JSON.stringify(mes));
+                console.log("Succesfully logged in");
+                webSockets[index].send(JSON.stringify(mes));
             }
             else{
                 console.log("Username or Password not found");
                 mes.action="Login";
                 mes.status="Login failed. Username or password not found";
-                console.log("We are tring to log in");
+                console.log("Failed logged in");
         
-                webSockets[0].send(JSON.stringify(mes));
+                webSockets[index].send(JSON.stringify(mes));
             }
             console.log("Login");
             console.log(result);
         });
         
+        return webSockets;
     }
 
 

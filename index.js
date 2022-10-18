@@ -158,7 +158,7 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="login"){
             //Update websoket list when completed
-            handler.login(userMess, ws, webSockets);
+            webSockets = handler.login(userMess, ws, webSockets);
         }
         else if(userMess.action=="Crazy Eights"){
             console.log("Going to Crazy Eights");
