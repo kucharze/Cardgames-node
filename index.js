@@ -158,7 +158,7 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="login"){
             //Update websoket list when completed
-            handler.login(userMess,ws);
+            handler.login(userMess, ws, webSockets);
         }
         else if(userMess.action=="Crazy Eights"){
             console.log("Going to Crazy Eights");
@@ -331,7 +331,7 @@ function cleanUp(){
         fishPlayers.push(p2);
         fishComplete.push(false);
     }
-    
+    console.log("Cleanup Successful");
 }
 
 function sendMessage(message){//For a later use of chatroom function
