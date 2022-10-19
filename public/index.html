@@ -590,7 +590,7 @@ input:checked + .slider:before {
         <h3>Player Hand value</h3>
         <label id="Hand value"></label>
         <br><br>
-        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px">...........
+        <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px"> ..........
         <input type="button" id="stand" value="Stand" onclick=stand() style="font-size: 18px"> 
         <br><br><br>
 
@@ -634,7 +634,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
     <div id="Snap" class="tabcontent">
         <div id="allSnips">
         <div id="snipstatus" class="statusBox">Snip Snap Snorum</div>
-            <center><input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">.... <input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()"></center>
+            <center><input type="button" id="snipreset" value="Reset the game" style="font-size: 18px" onclick="snipReset()"></center>
             <br><br>
             <h2>Computer</h2>
         <div id="scpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
@@ -645,7 +645,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         
         <h2>Player 1</h2>
         <div id="suserhand"><img alt="playerhand" src="Images/cardback.png" title="start card"></div>
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br>
+        <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
+        <br><br>
         </div>
         
         <h2>Toggle Online mode</h2>
@@ -653,7 +655,7 @@ To beat the dealer the player must first not go over 21 and either outscore the 
         <input type="checkbox" onclick="snipOnline()">
         <span class="slider"></span>
         </label>
-        <br><br><br><br><br><br>
+        <br><br><br><br>
         
         <h3>Feature coming soon</h3>
         <textarea maxlength="200"></textarea>
@@ -937,28 +939,29 @@ cards.forEach(card => card.addEventListener('click', flipCard));
             <div id="GoFish" class="statusBox">Go Fish</div>
             <center><input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
             <div id="comfours"></div>
-            <br><br><br><br><br><br><br>
+            <br><br><br><br><br><br>
             <h2>Computer</h2>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br>
-            <h3 style="font-size: 25px;">Cards left in deck</h3>
-            <label id="Deck size" style="font-size: 20px;"></label>
+            <h3 style="font-size: 20px;">Cards left in deck</h3>
+            <label id="Deck size" style="font-size: 18px;"></label>
             <br><br>
             <div id="fishstatus" >
-                <label id="fishstatus" style="font-size: 30px;">Click one of your cards to ask for it</label>
+                <label style="font-size: 30px;">Click one of your cards to ask for it</label>
             </div>
             <br>
+            <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
+            <br><br>
             <h2>Player 1</h2>
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
-            <br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br>
             <div id="playerfours"></div>
             <br><br><br><br>
-            <input type="button" value="Go Fish" id="No" style="font-size: 18px" onclick="no()">
         </div>
         
         <br><br>
         <h2>Toggle Online mode</h2>
-        <br><br>
+        <br>
 <label class="switch">
   <input type="checkbox" onclick="fishOnline()">
   <span class="slider"></span>
@@ -1118,7 +1121,7 @@ cards.forEach(card => card.addEventListener('click', flipCard));
 
 <div id="War" class="tabcontent">
   <div id="warstatus" class="statusBox">War</div>
-    <center><input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">... <input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()"></center>
+    <center><input type="button" style="font-size: 18px" value="Reset the game" onclick="warReset()"></center>
     <h2>Click play a round to play. Play until deck is empty to upload your score.</h2>
     <br><br>
     <h2>Computer</h2>
@@ -1131,6 +1134,7 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     <br><br><br><br><br><br>
     <div id="yourwar"></div>
     <br><br><br><br><br><br><br>
+    <input type="button" id="warplay" style="font-size: 18px" onclick="deal()" value="Play a Round">
     
     <button style="font-size: 20px" class="accordion">View Instructions</button>
         <div class="panel">
