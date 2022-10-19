@@ -125,6 +125,8 @@ client.connect(err => {
   database=collection;
   //client.close()
 });
+var connect;
+var handler;
 
 //return static page with websocket client
 app.get('/', function(req, res) {
@@ -137,6 +139,8 @@ const ws = new SocketServer({ server });
 //init Websocket ws and handle incoming connect requests
 ws.on('connection', function connection(ws) {
     console.log("Sucessful connection");
+    connect = new Upload(database);
+    handler = new LoginHandler(database,webSockets);
     
     if(!webSockets.includes(ws)) {
         ws.logedIn=logedin;
@@ -146,8 +150,6 @@ ws.on('connection', function connection(ws) {
     //on connect message
     ws.on('message', function incoming(message) {
         let userMess = JSON.parse(message);
-        let connection=new Upload(database);
-        let handler = new LoginHandler(database);
         
         //take an action based on the action of the message
         //console.log("action="+userMess.action);
@@ -155,6 +157,7 @@ ws.on('connection', function connection(ws) {
             //Update websoket list when completed
             console.log("Sockets" + webSockets);
             webSockets = handler.createlogin(userMess, ws, webSockets);
+            console.log("Sockets" + webSockets);
         }
         else if(userMess.action=="login"){
             //Update websoket list when completed
@@ -174,7 +177,7 @@ ws.on('connection', function connection(ws) {
         }
         else if(userMess.action=="Suggest"){
             console.log("Making a suggestion");
-            connection.suggest(userMess);
+            connect.suggest(userMess);
         }
         else if(userMess.action=="Blackjack"){
             console.log("Making an update to the Blackjack database - Temporarily disabled");
@@ -381,12 +384,13 @@ function crazyEights(message,ws){
         //and that they have won the game
         eightQuit(eightSockets.indexOf(ws));
     }
-    /*
+    ///*
     else if(message.gameact=="record"){
         //record data from offline into the database
         console.log("Recoding into Crazy Eights database");
-        Uploader.eightRecord(message,ws)
-    }*/
+        connect.eightRecord(message,ws,webSockets);
+    }
+    //*/
 }
 
 function eightsPlay(ws){

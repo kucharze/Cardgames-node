@@ -228,7 +228,7 @@ class Upload{
         });
     }
 
-    eightRecord(message, ws){
+    eightRecord(message, ws, webSockets){
         let index=webSockets.indexOf(ws);
         if((webSockets[index].username=="") || (webSockets[index].username==null)){
             console.log("Not logged in. Cannot record result");
@@ -241,15 +241,16 @@ class Upload{
         else{
             var query={screenname: webSockets[index].username};
         }
+        let self = this;
         
-        database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
+        this.database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
             if (err) throw err;
             if(result.length>0){
                 console.log("Entry already exists");
                 /////////
                 if(result[0].moves > message.moves){
                     var newvalues = { $set: {screenname: webSockets[index].username, moves: message.moves } };
-                    database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
+                    self.database.collection("Crazy Eights moves").updateOne(query, newvalues, function(err, res) {
                         if (err) throw err;
                         console.log("1 Crazy Eights moves document updated");
                     });
@@ -257,7 +258,7 @@ class Upload{
             }
             else{
                 query={screenname: webSockets[index].username, moves: message.moves};
-                database.collection("Crazy Eights moves").insertOne(query, function(err, res) {
+                self.database.collection("Crazy Eights moves").insertOne(query, function(err, res) {
                     if (err) throw err;
                     console.log("1 Crazy Eights moves document inserted");
                 });

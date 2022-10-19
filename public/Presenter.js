@@ -73,9 +73,9 @@ class Presenter {
         
         this.socket.send(JSON.stringify(obj));
         
-	   this.view.announceHumanWinner();
+	    this.view.announceHumanWinner();
         this.view.blockPlay();
-	   return;
+	    return;
     }
     this.computer.takeATurn();
     if(this.computer.isHandEmpty()){
