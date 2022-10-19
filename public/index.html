@@ -59,7 +59,8 @@ body {
   display: none;
   overflow: hidden;
 }
-    /*Style for title background color vilgax */
+
+/*Style for title background color vilgax */
 div.statusBox {
     border: 2px solid black;
     padding: 3px 0px;
@@ -933,17 +934,20 @@ cards.forEach(card => card.addEventListener('click', flipCard));
     
     <div id="gofish" class="tabcontent">
         <div id="allfish">
-            <div id="fishstatus" class="statusBox">Go Fish<br>
-                Click one of your cards to ask for it</div>
+            <div id="GoFish" class="statusBox">Go Fish</div>
             <center><input type="button" id="fishreset" value="Reset the game" style="font-size: 18px" onclick="fishRes()"></center>
             <div id="comfours"></div>
             <br><br><br><br><br><br><br>
             <h2>Computer</h2>
             <div id="fcpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
             <br><br><br><br><br><br>
-            <h3>Cards left in deck</h3>
-            <label id="Deck size"></label>
+            <h3 style="font-size: 25px;">Cards left in deck</h3>
+            <label id="Deck size" style="font-size: 20px;"></label>
             <br><br>
+            <div id="fishstatus" >
+                <label id="fishstatus" style="font-size: 30px;">Click one of your cards to ask for it</label>
+            </div>
+            <br>
             <h2>Player 1</h2>
             <div id="fuserhand"><img alt="playehand" src="Images/cardback.png" title="start card"></div>
             <br><br><br><br><br><br><br><br><br>
