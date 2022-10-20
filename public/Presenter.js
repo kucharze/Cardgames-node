@@ -98,6 +98,7 @@ class Presenter {
      this.view.displayComputerHand(this.computer.getHandCopy());
      this.view.displayHumanHand(this.human.getHandCopy());
      this.view.displayMessage("Crazy Eights");
+     this.view.displaySuit(this.pile.getTopCard().suit);
      return;
  }
     
@@ -129,11 +130,11 @@ class Presenter {
     }
 
 //Callback after suit picked passed through to human object for processing.
- suitPicked(suit){
-   if(this.human.suitPicked(suit)){
+suitPicked(suit){
+    if(this.human.suitPicked(suit)){
 	   this.completeBothTurns();
        this.view.displaySuit(suit);
-   }
+    }
     return;
  }
     

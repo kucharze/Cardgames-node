@@ -35,11 +35,13 @@ class HumanPlayer extends Player {
 	    this.pile.acceptACard(card);
 	    this.view.displayPileTopCard(card);
 	    this.view.displayHumanHand(this.getHandCopy());
+
 	    if (card.getValue() === "8") {//user played an eight
 		  this.view.displaySuitPicker();
 		  return false;
 		// Continue after user picks a suit.
 	    }
+        
         this.view.displaySuit(card.getSuit());
 	    return true;
 	}

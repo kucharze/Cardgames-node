@@ -76,15 +76,15 @@ class View {
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
-        let human=document.querySelector("#yourHand");
-        let image=document.createElement("img");
+      let human=document.querySelector("#yourHand");
+      let image=document.createElement("img");
 	    image.src ="./Images/"+card.toString()+".png";
 	    image.title=card.toString();
-        image.id=card.toString()+"E";
+      image.id=card.toString()+"E";
 	    image.class="card positionable";
 	    image.style="position:absolute; left:"+ (-30) + "px; z-index:" + numCards +"";
-        human.appendChild(image);
-        this.moveCard(image,(30*(numCards-1)));
+      human.appendChild(image);
+      this.moveCard(image,(30*(numCards-1)));
     }
     
     moveCard(image,pos){//for handling card animations
@@ -177,18 +177,18 @@ blockPlay() {
    }
     
     displaySuit(suitstring){
-        let suit=document.getElementById("status");
+        let suit=document.getElementById("Suit");
         if(suitstring=="h"){
-            suit.innerHTML="The suit is now Hearts";
+            suit.innerHTML="Current Suit: Hearts";
         }
         if(suitstring=="d"){
-            suit.innerHTML="The suit is now Diamonds";
+            suit.innerHTML="Current Suit: Diamonds";
         }
         if(suitstring=="c"){
-            suit.innerHTML="The suit is now Clubs";
+            suit.innerHTML="Current Suit: Clubs";
         }
         if(suitstring=="s"){
-            suit.innerHTML="The suit is now Spades";
+            suit.innerHTML="Current Suit: Spades";
         }
         
         //suit.innerHTML="The suit is now " +suitstring;

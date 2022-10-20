@@ -435,15 +435,19 @@ input:checked + .slider:before {
 
 <div id="Eight" class="tabcontent"><!--Crazy Eights-->
         <!-- Status area -->
-    <div id="status" class="statusBox">Crazy Eights</div>
+    <div id="Crazy8" class="statusBox">Crazy Eights</div>
     <center><input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()"></center>
     <div id="allCards">
     <!-- Computer's hand -->
     <h2>Computer</h2>
     <div id="myHand" class="hand"></div>
-        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br>
     <!-- "table" is div holding deck and discard pile images.
          Initially show card back for pile (replaced by program). -->
+         <div id="status" style="font-size: 20px;"></div>
+         <br>
+         <div id="Suit" style="font-size: 20px;">Current Suit</div>
+         <br>
     <div id="table"><img id="deck"
       src="./Images/cardback.png" 
       alt="Deck: click to pick a card."
