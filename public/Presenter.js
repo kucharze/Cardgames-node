@@ -66,10 +66,11 @@ class Presenter {
             this.min++;
         }
         //alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
-        let obj={};
-        obj.action="Crazy Eights";
-        obj.gameact="record";
-        obj.moves=this.moves;
+        // let obj={};
+        // obj.action="Crazy Eights";
+        // obj.gameact="record";
+        // obj.moves=this.moves;
+        this.record();
         
         this.socket.send(JSON.stringify(obj));
         
@@ -91,13 +92,19 @@ class Presenter {
      return;
  }
 
+record(){
+    let obj={};
+    obj.action="Crazy Eights";
+    obj.gameact="record";
+    obj.moves=this.moves;
+}
+
 //Sets up the start of the game
- play(){//Set up for playing crazy eights
+play(){//Set up for playing crazy eights
      this.computer.countCards();
      this.view.displayPileTopCard(this.pile.getTopCard());
      this.view.displayComputerHand(this.computer.getHandCopy());
      this.view.displayHumanHand(this.human.getHandCopy());
-     this.view.displayMessage("Crazy Eights");
      this.view.displaySuit(this.pile.getTopCard().suit);
      return;
  }
