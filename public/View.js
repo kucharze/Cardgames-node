@@ -39,8 +39,6 @@ class View {
       winPlayer.innerHTML = "Thanks for being a good loser";
     }
 
-    let CPUwinner = document.getElementById("status");
-    CPUwinner.innerHTML="Thanks for being a good loser";
   }
 
   displayComputerHand(hand){//only needed for load up
