@@ -44,9 +44,11 @@ class Presenter {
          this.date=new Date();
      }
      if(this.human.cardSelected(cardString)){
+        this.view.blockPlay();
           setTimeout(()=> {
 	           this.completeBothTurns();
-            },1400);
+               this.view.unblockPlay();
+            },1100);
      }
     return;
  }
@@ -74,15 +76,17 @@ class Presenter {
         
         this.socket.send(JSON.stringify(obj));
         
-	    this.view.announceHumanWinner();
+	    this.view.announceWinner("Human");
         this.view.blockPlay();
 	    return;
     }
     this.computer.takeATurn();
+
     if(this.computer.isHandEmpty()){
-	    this.view.announceComputerWinner();
+	    this.view.announceWinner("Computer");
         this.view.blockPlay();
      }
+
      if(this.deck.isEmpty()){
          this.deck=new Deck();
          while(this.deck.isTopCardAnEight()){
@@ -145,10 +149,10 @@ suitPicked(suit){
     return;
  }
     
-    goOnline(){
-        //remove cards and event listeners to have set up for online play
-        this.view.removeEvents();
-        this.view.eraseHands();
-    }
+goOnline(){
+    //remove cards and event listeners to have set up for online play
+    this.view.removeEvents();
+    this.view.eraseHands();
+}
 
 }
