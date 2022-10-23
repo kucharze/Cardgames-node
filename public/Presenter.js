@@ -48,7 +48,7 @@ class Presenter {
           setTimeout(()=> {
 	           this.completeBothTurns();
                this.view.unblockPlay();
-            },1100);
+            },1000);
      }
     return;
  }
