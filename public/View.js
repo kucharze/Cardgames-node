@@ -30,6 +30,19 @@ class View {
     humanwin.innerHTML="Congratulations! You win!";
   }
 
+  announceWinner(winner){
+    let winPlayer = document.getElementById("status");
+    if(winner == "Human"){
+      winPlayer.innerHTML = "Congratulations! You win!";
+    }
+    else{
+      winPlayer.innerHTML = "Thanks for being a good loser";
+    }
+
+    let CPUwinner = document.getElementById("status");
+    CPUwinner.innerHTML="Thanks for being a good loser";
+  }
+
   displayComputerHand(hand){//only needed for load up
      let cpu = document.querySelector("#myHand");
      while(cpu.hasChildNodes()){
