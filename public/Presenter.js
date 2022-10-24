@@ -28,21 +28,22 @@ class Presenter {
     }
 
  cardPicked(){
-     if(!this.started){
-         this.started=true;
-         this.date=new Date();
-     }
-   this.human.cardPicked();
-   this.completeBothTurns();
+    // if(!this.started){
+    //     this.started=true;
+    //     this.date=new Date();
+    // }
+    this.moves++;
+    this.human.cardPicked();
+    this.completeBothTurns();
  }
 
 //takes the string for a card and determines if the player's turn is over
 //if it is complete the cycle of the players turn and the humans turn
  cardSelected(cardString){
-    if(!this.started){
-         this.started=true;
-         this.date=new Date();
-     }
+    // if(!this.started){
+    //      this.started=true;
+    //      this.date=new Date();
+    //  }
      if(this.human.cardSelected(cardString)){
         this.view.blockPlay();
           setTimeout(()=> {
@@ -54,24 +55,20 @@ class Presenter {
  }
 
  completeBothTurns(){
-     this.moves++;
+    this.moves++;
     if(this.human.isHandEmpty()){
        //alert("You won in this many moves:"+this.moves);
-        let elapsed=new Date();
-        this.secs=elapsed - this.date;
-        this.secs/=1000;
-        this.secs=Math.round(this.secs);
-        //alert("This many Seconds: "+this.secs);
-        while(this.secs>60){
-            //alert("Making time conversions");
-            this.secs=this.secs-60;
-            this.min++;
-        }
+        // let elapsed=new Date();
+        // this.secs=elapsed - this.date;
+        // this.secs/=1000;
+        // this.secs=Math.round(this.secs);
+        // //alert("This many Seconds: "+this.secs);
+        // while(this.secs>60){
+        //     //alert("Making time conversions");
+        //     this.secs=this.secs-60;
+        //     this.min++;
+        // }
         //alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
-        // let obj={};
-        // obj.action="Crazy Eights";
-        // obj.gameact="record";
-        // obj.moves=this.moves;
         this.record();
         
         this.socket.send(JSON.stringify(obj));
