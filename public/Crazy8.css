@@ -37,23 +37,19 @@ img.positionable {
     left:400px;
     top:850px;
     background-color:white;
-    min-width: 140px;
-    min-height: 80px;
+    min-width: 160px;
+    min-height: 85px;
     width: fit-content;
     height: fit-content;
     border:1px solid black;
     padding:5px;
     z-index:200;
-    width: 50px;
+    width: 150px;
     height: 50px;
     font-size: 25px;
 }
 #suitImages {
-    font-size: x-large;
-    min-width: 340px;
-    min-height: 300px;
-    width: fit-content;
-    height: fit-content;
+    font-size: 40px;
 }
 #d, #h {
     color: #800000;
