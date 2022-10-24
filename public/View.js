@@ -170,40 +170,42 @@ blockPlay() {
 //makes the suit picker vissible
   displaySuitPicker(){
      document.getElementById("suitPicker").style= " display: block";
+     this.blockPlay();
    }
 
-   displayWrongCardMsg(cardstring){
+     //makes the suit picker invisible again
+     undisplaySuitPicker(){
+      document.getElementById("suitPicker").style= " display: none";
+      this.unblockPlay();
+    }
+
+  displayWrongCardMsg(cardstring){
        let message=document.getElementById("status");
        message.innerHTML="Can't play " +cardstring+", try again";
    }
     
-    displayMessage(message){
-        let mes=document.getElementById("status");
-        mes.innerHTML=message;
-    }
-
-  //makes the suit picker invisible again
-   undisplaySuitPicker(){
-     document.getElementById("suitPicker").style= " display: none";
-   }
+  displayMessage(message){
+    let mes=document.getElementById("status");
+    mes.innerHTML=message;
+  }
     
-    displaySuit(suitstring){
-        let suit=document.getElementById("Suit");
-        if(suitstring=="h"){
-            suit.innerHTML="Current Suit: Hearts";
-        }
-        if(suitstring=="d"){
-            suit.innerHTML="Current Suit: Diamonds";
-        }
-        if(suitstring=="c"){
-            suit.innerHTML="Current Suit: Clubs";
-        }
-        if(suitstring=="s"){
-            suit.innerHTML="Current Suit: Spades";
-        }
-        
-        //suit.innerHTML="The suit is now " +suitstring;
+  displaySuit(suitstring){
+    let suit=document.getElementById("Suit");
+    
+    if(suitstring=="h"){
+      suit.innerHTML="Current Suit: Hearts";
     }
+    if(suitstring=="d"){
+      suit.innerHTML="Current Suit: Diamonds";
+    }
+    if(suitstring=="c"){
+      suit.innerHTML="Current Suit: Clubs";
+    }
+    if(suitstring=="s"){
+      suit.innerHTML="Current Suit: Spades";
+    }
+    
+  }
     
     removeEvents(){//remove event listeners to set up for online play
         var old1 = document.getElementById("deck");
