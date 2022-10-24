@@ -34,15 +34,26 @@ img.positionable {
 #suitPicker, #announcer {
     display: none; /* Set display to 'block' to make div visible. */
     position:absolute;
-    left:350px;
-    top:750px;
+    left:400px;
+    top:850px;
     background-color:white;
+    min-width: 140px;
+    min-height: 80px;
+    width: fit-content;
+    height: fit-content;
     border:1px solid black;
     padding:5px;
     z-index:200;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
 }
 #suitImages {
     font-size: x-large;
+    min-width: 340px;
+    min-height: 300px;
+    width: fit-content;
+    height: fit-content;
 }
 #d, #h {
     color: #800000;
