@@ -44,13 +44,14 @@ class Presenter {
     //      this.started=true;
     //      this.date=new Date();
     //  }
-     if(this.human.cardSelected(cardString)){
+    if(this.human.cardSelected(cardString)){
         this.view.blockPlay();
-          setTimeout(()=> {
-	           this.completeBothTurns();
-               this.view.unblockPlay();
-            },1000);
-     }
+        this.view.displayMessage("Processing turns");
+        setTimeout(()=> {
+	        this.completeBothTurns();
+            this.view.unblockPlay();
+        },1000);
+    }
     return;
  }
 
@@ -73,22 +74,25 @@ class Presenter {
         
         this.socket.send(JSON.stringify(obj));
         
-	    this.view.announceWinner("Human");
+	    this.view.announceWinner(1);
         this.view.blockPlay();
 	    return;
     }
+    
     this.computer.takeATurn();
 
     if(this.computer.isHandEmpty()){
-	    this.view.announceWinner("Computer");
+	    this.view.announceWinner(0);
         this.view.blockPlay();
      }
 
      if(this.deck.isEmpty()){
-         this.deck=new Deck();
-         while(this.deck.isTopCardAnEight()){
+        this.deck=new Deck();
+        while(this.deck.isTopCardAnEight()){
            this.deck.shuffle();
-	     }
+	    }
+        this.HumanPlayer.replaceDeck(this.deck);
+        this.ComputerPlayer.replaceDeck(this.deck);
      }
      return;
  }
