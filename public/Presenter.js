@@ -86,15 +86,15 @@ class Presenter {
         this.view.blockPlay();
      }
 
-     if(this.deck.isEmpty()){
+    if(this.deck.isEmpty()){
         this.deck=new Deck();
         while(this.deck.isTopCardAnEight()){
            this.deck.shuffle();
 	    }
         this.HumanPlayer.replaceDeck(this.deck);
         this.ComputerPlayer.replaceDeck(this.deck);
-     }
-     return;
+    }
+    return;
  }
 
 record(){
