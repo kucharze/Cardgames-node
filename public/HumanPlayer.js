@@ -23,6 +23,10 @@ class HumanPlayer extends Player {
         this.fish=true;
     }
 
+    replaceDeck(deck){
+        this.deck=deck;
+    }
+
     cardPicked(){
       let newCard=this.deck.dealACard(); 
       this.list.push(newCard);
