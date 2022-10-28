@@ -11,7 +11,7 @@ class HumanPlayer extends Player {
      * @param {Pile} pile - The discard pile.
      * @param {View} view - The View object used for all user interaction.
     */
-    constructor(presenter, pile, view) {
+    constructor(deck, pile, view) {
 	    super(deck);
         
         //this.presenter=presenter;
