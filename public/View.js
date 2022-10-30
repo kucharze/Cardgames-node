@@ -32,7 +32,8 @@ class View {
 
   announceWinner(winner){
     let winPlayer = document.getElementById("status");
-    if(winner == "Human"){
+    winPlayer.innerHTML = "Finding a winner";
+    if(+(winner) === +(1)){
       winPlayer.innerHTML = "Congratulations! You win!";
     }
     else{
@@ -42,16 +43,16 @@ class View {
   }
 
   displayComputerHand(hand){//only needed for load up
-     let cpu = document.querySelector("#myHand");
-     while(cpu.hasChildNodes()){
-	     cpu.removeChild(cpu.lastChild);
-     }
+    let cpu = document.querySelector("#myHand");
+    while(cpu.hasChildNodes()){
+	    cpu.removeChild(cpu.lastChild);
+    }
       
   for(let i=0; i<hand.length; i++){
-      let image=document.createElement("img");
+    let image=document.createElement("img");
 	  image.src ="./Images/cardback.png";
 	  image.title="Card Back";
-      image.id=hand[i].toString()+"E";
+    image.id=hand[i].toString()+"E";
 	  image.class="card positionable";
 	  image.style="position:absolute; left:"+  (30*i) + "px; z-index:" + i +" hieght:10px";
 	  cpu.appendChild(image);
@@ -59,31 +60,31 @@ class View {
   }
 
   displayHumanHand(hand){//Only needed for load up
-     let human = document.querySelector("#yourHand");
-     while(human.hasChildNodes()){
-	   human.removeChild(human.lastChild);
+    let human = document.querySelector("#yourHand");
+    while(human.hasChildNodes()){
+	    human.removeChild(human.lastChild);
     }
-     for(let i=0; i<hand.length; i++){
-         let image=document.createElement("img");
-	       image.src ="./Images/"+hand[i].toString()+".png";
-	       image.title=hand[i].toString();
-           image.id=hand[i].toString()+"E";
-	       image.class="card positionable";
-	       image.style="position:absolute; left:"+ (30*i) + "px; z-index:" + i +"";
-            human.appendChild(image);
-     }
+    for(let i=0; i<hand.length; i++){
+        let image=document.createElement("img");
+	      image.src ="./Images/"+hand[i].toString()+".png";
+	      image.title=hand[i].toString();
+        image.id=hand[i].toString()+"E";
+	      image.class="card positionable";
+	      image.style="position:absolute; left:"+ (30*i) + "px; z-index:" + i +"";
+        human.appendChild(image);
+    }
   }
     
     addComCard(card,numCards){
-        let cpu = document.querySelector("#myHand");
-        let image=document.createElement("img");
+      let cpu = document.querySelector("#myHand");
+      let image=document.createElement("img");
 	    image.src ="./Images/cardback.png";
 	    image.title="Card Back";
-        image.id=card.toString()+"E";
+      image.id=card.toString()+"E";
 	    image.class="card positionable";
 	    image.style="position:absolute; left:"+  (-30) + "px; z-index:" + numCards +" hieght:10px";
 	    cpu.appendChild(image);
-        this.moveCard(image,(30*(numCards-1)),-30);
+      this.moveCard(image,(30*(numCards-1)),-30);
     }
     
     addHumanCard(card,numCards){//Have a card move in from offscreen
@@ -99,18 +100,18 @@ class View {
     }
     
     moveCard(image,pos){//for handling card animations
-        $(image).animate({left: pos},800);
+      $(image).animate({left: pos},800);
     }
     
     eraseHands(){
-        let human=document.querySelector("#yourHand");
-        let computer=document.querySelector("#myHand");
-        while(human.hasChildNodes()){
-            human.removeChild(human.lastChild);
-        }
-        while(computer.hasChildNodes()){
-	       computer.removeChild(computer.lastChild);
-        }
+      let human=document.querySelector("#yourHand");
+      let computer=document.querySelector("#myHand");
+      while(human.hasChildNodes()){
+        human.removeChild(human.lastChild);
+      }
+      while(computer.hasChildNodes()){
+	      computer.removeChild(computer.lastChild);
+      }
     }
 
   //display the top card of the pile
@@ -118,7 +119,7 @@ class View {
 	 let table=document.querySelector("#table");
 	 table.removeChild(document.getElementById("pile"));
 	 let pile = document.getElementById("pile")
-     this.topCard=card;
+   this.topCard=card;
 	 let image=document.createElement("img");
 	 image.src ="./Images/"+card.toString()+".png";
 	 image.id="pile";
@@ -126,7 +127,7 @@ class View {
 	 image.class="card positionable";
 	 image.style="position:absolute; left:"+ (-30) + "px; z-index:" + 1 +"";
 	 table.appendChild(image);
-     this.moveCard(image,100);
+   this.moveCard(image,100);
   }
     /*
     moveToPile(image,ileft,itop,left,top){//move a card to the pile
@@ -149,40 +150,41 @@ class View {
     event.stopPropagation();
   }
     
-blockPlay() {
+  blockPlay() {
     //alert("attempting to block play");
     // Capture and ignore all clicks
     document.getElementById("allCards").addEventListener("click", this.clickBlocker, true);
     // Dim the cards to indicate that play is blocked.
     //document.getElementById("allCards").style.opacity = 0.5;
   }
+  
   /**
    * Unblock user from playing.
-   */
+  */
   unblockPlay() {
-      //alert("attempting to unblock play");
-    // Remove capturing listener
-    document.getElementById("allCards").removeEventListener("click", this.clickBlocker, true);
-    // Undim the cards to indicate that play is no longer blocked.
-    //document.getElementById("allCards").style.opacity = 1.0;
-  }
+  //alert("attempting to unblock play");
+  // Remove capturing listener
+  document.getElementById("allCards").removeEventListener("click", this.clickBlocker, true);
+  // Undim the cards to indicate that play is no longer blocked.
+  //document.getElementById("allCards").style.opacity = 1.0;
+}
 
 //makes the suit picker vissible
-  displaySuitPicker(){
-     document.getElementById("suitPicker").style= " display: block";
-     this.blockPlay();
-   }
+displaySuitPicker(){
+  document.getElementById("suitPicker").style= " display: block";
+  this.blockPlay();
+}
 
-     //makes the suit picker invisible again
-     undisplaySuitPicker(){
-      document.getElementById("suitPicker").style= " display: none";
-      this.unblockPlay();
-    }
+//makes the suit picker invisible again
+undisplaySuitPicker(){
+  document.getElementById("suitPicker").style= " display: none";
+  this.unblockPlay();
+}
 
   displayWrongCardMsg(cardstring){
-       let message=document.getElementById("status");
-       message.innerHTML="Can't play " +cardstring+", try again";
-   }
+    let message=document.getElementById("status");
+    message.innerHTML="Can't play " +cardstring+", try again";
+  }
     
   displayMessage(message){
     let mes=document.getElementById("status");
