@@ -19,7 +19,7 @@ class Upload{
         });
     }
     
-    loadLeadeboard(message, ws){
+    loadLeadeboard(message, ws, webSockets){
         var mysort=null;
         let index=webSockets.indexOf(ws);
         if(!(webSockets[index].username=="") && !(webSockets[index].username==null)){
@@ -242,7 +242,7 @@ class Upload{
             var query={screenname: webSockets[index].username};
         }
         let self = this;
-        
+
         this.database.collection("Crazy Eights moves").find(query).toArray(function(err, result) {
             if (err) throw err;
             if(result.length>0){
@@ -267,7 +267,7 @@ class Upload{
         });
     }
 
-    snipRecord(message, ws){
+    snipRecord(message, ws, webSockets){
         let index=webSockets.indexOf(ws);
         if((webSockets[index].username=="") || (webSockets[index].username==null)){
             console.log("Not logged in. Cannot record result");
