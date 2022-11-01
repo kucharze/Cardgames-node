@@ -57,25 +57,25 @@ class HumanPlayer extends Player {
 	    this.remove(this.list.indexOf(card));
         this.pile.acceptACard(card);
         //setTimeout(()=> {
-	           this.view.displayPileTopCard(card);
-	           this.view.displayHumanHand(this.getHandCopy());
-               // moving=false;
-                //alert("moved");
-           // },3000);
-	        if (card.getValue() === "8") {//user played an eight
-                if(this.list.length == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    this.view.displaySuitPicker();
-                    return false;
-                }
-		        // Continue after user picks a suit.
-	        }
-            this.view.displaySuit(card.getSuit());
-	        return true;
+	        this.view.displayPileTopCard(card);
+	        this.view.displayHumanHand(this.getHandCopy());
+            // moving=false;
+            //alert("moved");
+        // },3000);
+	    if (card.getValue() === "8") {//user played an eight
+            if(this.list.length == 0)
+            {
+                return true;
+            }
+            else
+            {
+                this.view.displaySuitPicker();
+                return false;
+            }
+		    // Continue after user picks a suit.
+	    }
+        this.view.displaySuit(card.getSuit());
+	    return true;
 	   }
     }
     

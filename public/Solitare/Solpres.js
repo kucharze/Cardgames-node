@@ -24,15 +24,15 @@ class Solpres {
         
         //arrays for each row of cards//commented out sections for testing purposes
         //this.row1=new Array(new Card("h","k"),new Card("h","q"),new Card("h","j"),new Card("h","10"),new Card("h","9"),new Card("h","8"),new Card("h","7"),new Card("h","6"),new Card("h","5"),new Card("h","4"),new Card("h","3"),new Card("h","2"));
-        this.row1new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
+        this.row1=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row2=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row3=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
-        this.row4=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard();//,new Card("h","a") );
+        this.row4=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());//,new Card("h","a") );
         this.row5=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row6=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         
         for(var i=0; i<this.row1.length-1; i++){
-            //this.row1[i].flip();
+            this.row1[i].flip();
         }
         for(var i=0; i<this.row2.length-1; i++){
             this.row2[i].flip();
@@ -258,42 +258,42 @@ class Solpres {
                 this.solview.displayRow(this.row6, 6);
             }
             
-                if(row=="row1"){
-                    for(var i=0; i<mrow.length; i++){
-                        this.row1.push(mrow[i]);
-                        this.solview.addCard(mrow[i],row);
-                    }
+            if(row=="row1"){
+                for(var i=0; i<mrow.length; i++){
+                    this.row1.push(mrow[i]);
+                    this.solview.addCard(mrow[i],row);
                 }
-                if(row=="row2"){
-                    for(var i=0; i<mrow.length; i++){
-                        this.row2.push(mrow[i]);
-                        this.solview.addCard(mrow[i],row);
-                    }
+            }
+            if(row=="row2"){
+                for(var i=0; i<mrow.length; i++){
+                    this.row2.push(mrow[i]);
+                    this.solview.addCard(mrow[i],row);
                 }
-                if(row=="row3"){
-                    for(var i=0; i<mrow.length; i++){
-                        this.row3.push(mrow[i]);
-                        this.solview.addCard(mrow[i],row);
-                    }
+            }
+            if(row=="row3"){
+                for(var i=0; i<mrow.length; i++){
+                    this.row3.push(mrow[i]);
+                    this.solview.addCard(mrow[i],row);
                 }
-                if(row=="row4"){
-                    for(var i=0; i<mrow.length; i++){
-                        this.row4.push(mrow[i]);
-                        this.solview.addCard(mrow[i],row);
-                    }
+            }
+            if(row=="row4"){
+                for(var i=0; i<mrow.length; i++){
+                    this.row4.push(mrow[i]);
+                    this.solview.addCard(mrow[i],row);
                 }
-                if(row=="row5"){
-                    for(var i=0; i<mrow.length; i++){
-                        this.row5.push(mrow[i]);
-                        this.solview.addCard(mrow[i],row);
-                    }
+            }
+            if(row=="row5"){
+                for(var i=0; i<mrow.length; i++){
+                    this.row5.push(mrow[i]);
+                    this.solview.addCard(mrow[i],row);
                 }
-                if(row=="row6"){
-                    for(var i=0; i<mrow.length; i++){
-                        this.row6.push(mrow[i]);
-                        this.solview.addCard(mrow[i],row);
-                    }
+            }
+            if(row=="row6"){
+                for(var i=0; i<mrow.length; i++){
+                    this.row6.push(mrow[i]);
+                    this.solview.addCard(mrow[i],row);
                 }
+            }
             
                 
             setTimeout(()=>{
@@ -394,7 +394,6 @@ class Solpres {
         }
         
         return r[cardPos];
-        return null;
     }
     
     removeCards(row){
@@ -501,15 +500,15 @@ class Solpres {
         
     }
 
-play(){//Set up the solitare game
-     this.solview.displayRow(this.row1, 1);
-     this.solview.displayRow(this.row2, 2);
-     this.solview.displayRow(this.row3, 3);
-     this.solview.displayRow(this.row4, 4);
-     this.solview.displayRow(this.row5, 5);
-     this.solview.displayRow(this.row6, 6);
-     return;
- }
+    play(){//Set up the solitare game
+        this.solview.displayRow(this.row1, 1);
+        this.solview.displayRow(this.row2, 2);
+        this.solview.displayRow(this.row3, 3);
+        this.solview.displayRow(this.row4, 4);
+        this.solview.displayRow(this.row5, 5);
+        this.solview.displayRow(this.row6, 6);
+        return;
+    }
     
     resetGame(){//Resets the game with a new deck and players
         this.solview.eraseRows();
