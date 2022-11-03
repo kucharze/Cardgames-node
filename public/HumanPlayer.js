@@ -63,7 +63,7 @@ class HumanPlayer extends Player {
             //alert("moved");
         // },3000);
 	    if (card.getValue() === "8") {//user played an eight
-            if(this.list.length == 0)
+            if(this.isHandEmpty())
             {
                 return true;
             }
