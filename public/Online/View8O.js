@@ -65,7 +65,7 @@ class View8O {
    * @param {number} numberOfCards - The number of cards in opponent's hand.
    */
   displayComputerHand(numberOfCards) {
-      this.comlength=numberOfCards;
+    this.comlength=numberOfCards;
     let hand = [];
     let card = new Card("b", "jok"); // any card will do, since showing backs
     for (let i=1; i<=numberOfCards; i++) {
@@ -97,7 +97,7 @@ class View8O {
    * @param {Card[]} hand - The human player's hand.
    */
   displayHumanHand(hand) {
-      this.humlength=hand.length;
+    this.humlength=hand.length;
     this.displayHand(hand, this.yourHandDiv, true);
   }  
   /**

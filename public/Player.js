@@ -21,20 +21,20 @@ class Player {
   }
     
   /*Returns true if hand has two of the same value*/  
-    checkAmount(){
-        let hand=this.getHandCopy();
-        var total=0;
+  checkAmount(){
+      let hand=this.getHandCopy();
+      var total=0;
         
-        for(var i=0; i<hand.length; i++){
-            total=this.countCard(hand[i]);
-            //console.log(hand[i]);
-            if(total==4){
-                let card=hand[i];
-                //alert("We are going to remove all "+hand[i]);
-                this.removeAll(hand[i]);
-                return card;
-            }
+      for(var i=0; i<hand.length; i++){
+        total=this.countCard(hand[i]);
+        //console.log(hand[i]);
+        if(total==4){
+          let card=hand[i];
+          //alert("We are going to remove all "+hand[i]);
+          this.removeAll(hand[i]);
+          return card;
         }
+      }
         return null;
     }
     
@@ -67,29 +67,29 @@ class Player {
      this.list.splice(i,1);
   }
     
-    removeAll(card){
-        var removed=true;
-        //alert("removing cards");
-        while(true){
-            let hand=this.getHandCopy();
-            for(var i=0; i<hand.length; i++){
-                //alert("In for loop");
-                if(hand[i].getValue() == card.getValue()){
-                    this.remove(i);
-                    removed=true;
-                    break;
-                }
-            }
-            if(!removed){
-                //alert("");
-                break;
-            }
-            removed=false;
-        }
-        //alert("Outside the loop");
-        return;
-        
+  removeAll(card){
+    var removed=true;
+    //alert("removing cards");
+    while(true){
+      let hand=this.getHandCopy();
+      for(var i=0; i<hand.length; i++){
+          //alert("In for loop");
+          if(hand[i].getValue() == card.getValue()){
+              this.remove(i);
+              removed=true;
+              break;
+          }
+      }
+      if(!removed){
+        //alert("");
+        break;
+      }
+      removed=false;
     }
+      //alert("Outside the loop");
+      return;
+      
+  }
     
     findValue(cardvalue){
         let i = 0;

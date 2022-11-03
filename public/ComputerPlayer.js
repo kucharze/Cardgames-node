@@ -25,6 +25,10 @@ class ComputerPlayer extends Player{
       this.fishCards=[];
   }
     
+  replaceDeck(deck){
+    this.deck=deck;
+  }
+
     cardPicked(){
         //alert("Calling Com cardpicked")
         let newCard=this.deck.dealACard();

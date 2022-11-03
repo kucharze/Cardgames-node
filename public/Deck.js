@@ -45,19 +45,19 @@ class Deck {
     return this.list.length;
   }
     
-    /**
-    * Determines if the deck is empty.
-    */
-    isEmpty(){
-        return this.list.length==0;
-    }
+  /**
+  * Determines if the deck is empty.
+  */
+  isEmpty(){
+    return this.list.length==0;
+  }
     
-    /**
-    * Adds a card to the deck.
-    */
-    addACard(card){
-        this.list.push(card);
-    }
+  /**
+  * Adds a card to the deck.
+  */
+  addACard(card){
+    this.list.push(card);
+  }
   /**
    * Indicate whether or not top card of deck is an 8.
    * This method is intended to be used only during game

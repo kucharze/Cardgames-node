@@ -1,10 +1,20 @@
+//const Deck = require("./Deck");
+
 /**
  * Interact with the human player to obtain their desired play.
  */
 class HumanPlayer extends Player {
 
+    /**
+     * Record arguments for later use.
+     * @param {Deck} deck - The deck of cards used for this game.
+     * @param {Pile} pile - The discard pile.
+     * @param {View} view - The View object used for all user interaction.
+    */
     constructor(deck, pile, view) {
 	    super(deck);
+        
+        //this.presenter=presenter;
         this.deck = deck;
 	    this.pile = pile;
 	    this.view = view;
@@ -13,24 +23,29 @@ class HumanPlayer extends Player {
         this.fish=true;
     }
 
-  cardPicked(){
+    replaceDeck(deck){
+        this.deck=deck;
+    }
+
+    cardPicked(){
       let newCard=this.deck.dealACard(); 
       this.list.push(newCard);
       this.view.addHumanCard(newCard,this.list.length);
-  }
+    }
+    
     fishCardPicked(){
       let newCard=this.deck.dealACard(); 
       this.list.push(newCard);
       //this.view.addHumanCard(newCard,this.list.length);
       this.view.displayHumanHand(this.getHandCopy());
-  }
+    }
 
   cardSelected(cardString){
-      let moving=true;
+    let moving=true;
 	let card = this.find(cardString);
-      let image=document.getElementById(cardString+"E");
-      let pimage=document.getElementById("pile");
-	//let d=document.getElementsByTagName(cardString+"E");
+    let image=document.getElementById(cardString+"E");
+    let pimage=document.getElementById("pile");
+
     //picked an ineligible card to play
 	if ((card == null || !this.pile.isValidToPlay(card))) {
 	    this.view.displayWrongCardMsg(cardString);
@@ -42,26 +57,25 @@ class HumanPlayer extends Player {
 	    this.remove(this.list.indexOf(card));
         this.pile.acceptACard(card);
         //setTimeout(()=> {
-	           this.view.displayPileTopCard(card);
-	           this.view.displayHumanHand(this.getHandCopy());
-               // moving=false;
-                //alert("moved");
-           // },3000);
-	           if (card.getValue() === "8") {//user played an eight
-                  if(this.list.length == 0)
-                  {
-                      return true;
-                  }
-                  else
-                  {
-                      this.view.displaySuitPicker();
-                      return false;
-                  }
-		          
-		      // Continue after user picks a suit.
-	           }
-                this.view.displaySuit(card.getSuit());
-	           return true;
+	        this.view.displayPileTopCard(card);
+	        this.view.displayHumanHand(this.getHandCopy());
+            // moving=false;
+            //alert("moved");
+        // },3000);
+	    if (card.getValue() === "8") {//user played an eight
+            if(this.isHandEmpty())
+            {
+                return true;
+            }
+            else
+            {
+                this.view.displaySuitPicker();
+                return false;
+            }
+		    // Continue after user picks a suit.
+	    }
+        this.view.displaySuit(card.getSuit());
+	    return true;
 	   }
     }
     

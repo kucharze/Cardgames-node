@@ -28,78 +28,96 @@ class Presenter {
     }
 
  cardPicked(){
-     if(!this.started){
-         this.started=true;
-         this.date=new Date();
-     }
-   this.human.cardPicked();
-   this.completeBothTurns();
+    // if(!this.started){
+    //     this.started=true;
+    //     this.date=new Date();
+    // }
+    this.moves++;
+    this.human.cardPicked();
+    this.view.displayMessage("Processing turns");
+    this.completeBothTurns();
  }
 
 //takes the string for a card and determines if the player's turn is over
 //if it is complete the cycle of the players turn and the humans turn
  cardSelected(cardString){
-    if(!this.started){
-         this.started=true;
-         this.date=new Date();
-     }
-     if(this.human.cardSelected(cardString)){
-          setTimeout(()=> {
-	           this.completeBothTurns();
-            },1400);
-     }
+    // if(!this.started){
+    //      this.started=true;
+    //      this.date=new Date();
+    //  }
+    //this.view.displayMessage("Making a move");
+    if(this.human.cardSelected(cardString)){
+        this.view.blockPlay();
+        this.view.displayMessage("Processing turns");
+        setTimeout(()=> {
+	        this.completeBothTurns();
+            this.view.unblockPlay();
+        },1000);
+    }
     return;
  }
 
- completeBothTurns(){
-     this.moves++;
-    if(this.human.isHandEmpty()){
-       //alert("You won in this many moves:"+this.moves);
-        let elapsed=new Date();
-        this.secs=elapsed - this.date;
-        this.secs/=1000;
-        this.secs=Math.round(this.secs);
-        //alert("This many Seconds: "+this.secs);
-        while(this.secs>60){
-            //alert("Making time conversions");
-            this.secs=this.secs-60;
-            this.min++;
+    completeBothTurns(){
+        this.moves++;
+        //this.view.displayMessage(this.human.list.length);
+        if(this.human.isHandEmpty()){
+        //alert("You won in this many moves:"+this.moves);
+            // let elapsed=new Date();
+            // this.secs=elapsed - this.date;
+            // this.secs/=1000;
+            // this.secs=Math.round(this.secs);
+            // //alert("This many Seconds: "+this.secs);
+            // while(this.secs>60){
+            //     //alert("Making time conversions");
+            //     this.secs=this.secs-60;
+            //     this.min++;
+            // }
+            //alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
+            this.record();
+            
+            this.view.announceWinner(1);
+            //this.view.announceHumanWinner();
+            this.view.blockPlay();
+            return;
         }
-        //alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
+        
+        this.computer.takeATurn();
+
+        if(this.computer.isHandEmpty()){
+            this.view.announceWinner(0);
+            //this.view.announceComputerWinner();
+            this.view.blockPlay();
+        }
+
+        if(this.human.deck.isEmpty()){
+            this.deck=new Deck();
+            while(this.deck.isTopCardAnEight()){
+            this.deck.shuffle();
+            }
+            this.HumanPlayer.replaceDeck(this.deck);
+            this.ComputerPlayer.replaceDeck(this.deck);
+        }
+        return;
+    }
+
+    record(){
         let obj={};
         obj.action="Crazy Eights";
         obj.gameact="record";
         obj.moves=this.moves;
-        
-        this.socket.send(JSON.stringify(obj));
-        
-	   this.view.announceHumanWinner();
-        this.view.blockPlay();
-	   return;
-    }
-    this.computer.takeATurn();
-    if(this.computer.isHandEmpty()){
-	    this.view.announceComputerWinner();
-        this.view.blockPlay();
-     }
-     if(this.deck.isEmpty()){
-         this.deck=new Deck();
-         while(this.deck.isTopCardAnEight()){
-           this.deck.shuffle();
-	     }
-     }
-     return;
- }
 
-//Sets up the start of the game
- play(){//Set up for playing crazy eights
-     this.computer.countCards();
-     this.view.displayPileTopCard(this.pile.getTopCard());
-     this.view.displayComputerHand(this.computer.getHandCopy());
-     this.view.displayHumanHand(this.human.getHandCopy());
-     this.view.displayMessage("Crazy Eights");
-     return;
- }
+        this.socket.send(JSON.stringify(obj));
+    }
+
+    //Sets up the start of the game
+    play(){//Set up for playing crazy eights
+        this.computer.countCards();
+        this.view.displayPileTopCard(this.pile.getTopCard());
+        this.view.displayComputerHand(this.computer.getHandCopy());
+        this.view.displayHumanHand(this.human.getHandCopy());
+        this.view.displaySuit(this.pile.getTopCard().suit);
+        return;
+    }
     
     resetGame(){//Resets the game with a new deck and players
         this.view.eraseHands();
@@ -128,15 +146,15 @@ class Presenter {
         return;
     }
 
-//Callback after suit picked passed through to human object for processing.
- suitPicked(suit){
-   if(this.human.suitPicked(suit)){
-	   this.completeBothTurns();
-       this.view.displaySuit(suit);
-   }
-    return;
- }
-    
+    //Callback after suit picked passed through to human object for processing.
+    suitPicked(suit){
+        if(this.human.suitPicked(suit)){
+        this.completeBothTurns();
+        this.view.displaySuit(suit);
+        }
+        return;
+    }
+        
     goOnline(){
         //remove cards and event listeners to have set up for online play
         this.view.removeEvents();
