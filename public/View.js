@@ -20,19 +20,10 @@ class View {
     });
   }
 
-  announceComputerWinner(){
-    let CPUwinner = document.getElementById("status");
-    CPUwinner.innerHTML="Thanks for being a good loser";
-  }
-
-  announceHumanWinner(){
-    let humanwin = document.getElementById("status");
-    humanwin.innerHTML="Congratulations! You win!";
-  }
-
   announceWinner(winner){
     let winPlayer = document.getElementById("status");
-    winPlayer.innerHTML = "Finding a winner";
+    //winPlayer.innerHTML = "Finding a winner: " + winner;
+
     if(+(winner) === +(1)){
       winPlayer.innerHTML = "Congratulations! You win!";
     }
@@ -50,7 +41,8 @@ class View {
       
   for(let i=0; i<hand.length; i++){
     let image=document.createElement("img");
-	  image.src ="./Images/cardback.png";
+	  //image.src ="./Images/cardback.png";
+    image.src ="./Images/"+hand[i].toString()+".png";
 	  image.title="Card Back";
     image.id=hand[i].toString()+"E";
 	  image.class="card positionable";
