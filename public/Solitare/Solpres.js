@@ -27,7 +27,7 @@ class Solpres {
         this.row1=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row2=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row3=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
-        this.row4=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());//,new Card("h","a") );
+        this.row4=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row5=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         this.row6=new Array(this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard(), this.deck.dealACard());
         
@@ -52,7 +52,7 @@ class Solpres {
         this.decksadded=0;
     }
 
-//Finds a card based on info passed in and then determines how to move cards
+ //Finds a card based on info passed in and then determines how to move cards
  cardSelected(cardPos,row){
      //let c=null;
      if(cardPos==""){//A face down card was clicked on

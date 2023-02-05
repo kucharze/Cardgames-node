@@ -59,7 +59,6 @@ class Presenter {
 
     completeBothTurns(){
         this.moves++;
-        //this.view.displayMessage(this.human.list.length);
         if(this.human.isHandEmpty()){
         //alert("You won in this many moves:"+this.moves);
             // let elapsed=new Date();
@@ -75,8 +74,7 @@ class Presenter {
             //alert("You won in this much time "+this.min + " minutes and "+this.secs+" seconds");
             this.record();
             
-            this.view.announceWinner(1);
-            //this.view.announceHumanWinner();
+            this.view.announceWinner(1);//announceHumanWinner
             this.view.blockPlay();
             return;
         }
@@ -84,8 +82,7 @@ class Presenter {
         this.computer.takeATurn();
 
         if(this.computer.isHandEmpty()){
-            this.view.announceWinner(0);
-            //this.view.announceComputerWinner();
+            this.view.announceWinner(0);//announceComputerWinner
             this.view.blockPlay();
         }
 
