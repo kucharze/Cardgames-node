@@ -89,15 +89,32 @@ for(var i=0; i<12; i++){
     fishPlayers[1].add(fishDeck.dealACard());
 }*/
 
-//init Express
-var app = express();
-//init Express Router
-var router = express.Router();
-var port = process.env.PORT || 8080;
-app.use(express.static(path.join(__dirname,'/public')));
+// //init Express
+// var app = express();
+// //init Express Router
+// var router = express.Router();
+// var port = process.env.PORT || 8080;
+// app.use(express.static(path.join(__dirname,'/public')));
 
-let webSockets=[];
-let clientcounter=0;
+// let webSockets=[];
+// let clientcounter=0;
+try{
+    console.log("msg")
+    var socket = io("socket-lb02.onrender.com", {transports: ['websocket']});
+    socket.on('message', function(msg){
+      console.log(msg)
+      el = document.getElementById('server-time');
+      el.innerHTML = 'Message ' + msg;
+    });
+    setInterval(() => {
+      count++
+      socket.emit('messaged',"count")
+      console.log(count)
+    }, 1000);
+  }catch (error){
+    alert(error)
+  };
+  
 
 //init mongodb for use of database
 
