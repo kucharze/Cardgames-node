@@ -148,7 +148,7 @@ var handler;
 
 //return static page with websocket client
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index-new.html'));
+    res.sendFile(path.join(__dirname + '/index.html'));
 });
 var server = app.listen(port, function () {
     console.log('node.js static server listening on port: ' + port + ", with websockets listener")
