@@ -173,10 +173,7 @@ https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-
     (* Online games.)</h3>
 -->
 	<center> <img src="PlayingCards4.jpg" alt="cards" align="Center" height="300"></center>
-
-		
 	<br>
-
 	<p class="a" style="color: black">
         <!--This site is currently under construction. Some features might not work as intended.<br>-->
 		The games on this site may not work with versions of Internet Explorer.<br>
@@ -447,13 +444,13 @@ https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-
         <center><input type="button" value="Reset the game" style="font-size: 18px" onclick="resetJack()"></center>
         
         <h3>Dealer</h3>
-        <div id="dealerhand"><img alt="dealer" src="Images/cardback.png"></div>
+        <div id="dealerhand"><img alt="dealer" src=".\Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <h2>Dealer Hand value</h2>
         <label id="Dealer value"></label>
         <br><br>
         <h2>Player</h2>
-        <div id="playerhand"><img alt="dealer" src="Images/cardback.png"></div>
+        <div id="playerhand"><img alt="dealer" src=".\Images/cardback.png"></div>
         <br><br><br><br><br><br>
         <h3>Player Hand value</h3>
         <label id="Hand value"></label>
@@ -484,9 +481,9 @@ To beat the dealer the player must first not go over 21 and either outscore the 
 6.	If the dealer does not bust, then the higher point total between the player and dealer will win.<br>
 </p>
         </div>
-        <script src="./Jackplayer.js"></script>
-        <script src="./Jackpres.js"></script>
-        <script src="./Jackview.js"></script>
+        <script src=".\Jackplayer.js"></script>
+        <script src=".\Jackpres.js"></script>
+        <script src=".\Jackview.js"></script>
         <script>
             let jack=new Jackpres(ws);
             jack.play();
