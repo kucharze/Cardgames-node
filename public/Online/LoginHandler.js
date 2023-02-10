@@ -5,10 +5,15 @@ if (typeof Uploader === "undefined") {
   //*/
 class LoginHandler{
 
-    constructor(collection,sockets){
+    constructor(collection){
         this.database=collection;
+        //sockets this.Sockets=sockets;
     }
-
+/*
+    findWS(ws){
+        return this.Sockets.indexOf(ws);
+    }
+*/
     //Insert a connection into the database
     //Return passed in socket when completed
     createlogin(action,ws,webSockets){
@@ -19,7 +24,7 @@ class LoginHandler{
         var myobj = { name: action.user, screenname: action.screenname, password: action.password };
         var query = { screenname: action.screenname};
         var self = this;
-        
+
         this.database.collection("Logins").find(query).toArray(function(err, result) {
             if (err) throw err;
             let index=webSockets.indexOf(ws);

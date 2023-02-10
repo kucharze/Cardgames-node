@@ -4,7 +4,8 @@
   "description": "Simple Node.js app for heroku",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install"
   },
   "author": "",
   "license": "ISC",
@@ -24,8 +25,8 @@
     "ws": "^6.2.2"
   },
   "engines": {
-    "node": "15.x",
-    "npm": "6.4.1"
+    "node": "18.x",
+    "npm": "9.3.1"
   },
   "devDependencies": {
     "grunt": "^1.5.3",
