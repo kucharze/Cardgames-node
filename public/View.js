@@ -41,8 +41,8 @@ class View {
       
   for(let i=0; i<hand.length; i++){
     let image=document.createElement("img");
-	  //image.src ="./Images/cardback.png";
-    image.src ="./Images/"+hand[i].toString()+".png";
+	  image.src ="./Images/cardback.png";
+    //image.src ="./Images/"+hand[i].toString()+".png";
 	  image.title="Card Back";
     image.id=hand[i].toString()+"E";
 	  image.class="card positionable";
