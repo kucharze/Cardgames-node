@@ -116,7 +116,7 @@ class ComputerPlayer extends Player{
         else {
             let newCard=this.deck.dealACard();
             //this.list.push(newCard);
-            this.add(this.deck.dealACard());
+            this.add(newCard);
             this.view.addComCard(newCard,this.list.length);
             //this.view.displayComputerHand(this.getHandCopy());
         }
