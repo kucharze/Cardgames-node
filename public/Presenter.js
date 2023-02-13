@@ -45,7 +45,7 @@ class Presenter {
     //      this.started=true;
     //      this.date=new Date();
     //  }
-    //this.view.displayMessage("Making a move");
+    //this.view.displayMessage("Making a move" + this.deck.getSize());
     if(this.human.cardSelected(cardString)){
         this.view.blockPlay();
         this.view.displayMessage("Processing turns");
@@ -60,7 +60,7 @@ class Presenter {
     completeBothTurns(){
         this.moves++;
         if(this.human.isHandEmpty()){
-        //alert("You won in this many moves:"+this.moves);
+            //alert("You won in this many moves:"+this.moves);
             // let elapsed=new Date();
             // this.secs=elapsed - this.date;
             // this.secs/=1000;
@@ -85,15 +85,18 @@ class Presenter {
             this.view.announceWinner(0);//announceComputerWinner
             this.view.blockPlay();
         }
-
-        if(this.human.deck.isEmpty()){
+        ///*
+        if(this.human.deck.getSize() < 3){
             this.deck=new Deck();
             while(this.deck.isTopCardAnEight()){
-            this.deck.shuffle();
+                this.deck.shuffle();
             }
-            this.HumanPlayer.replaceDeck(this.deck);
-            this.ComputerPlayer.replaceDeck(this.deck);
+            //alert("deck size: "+ this.deck);
+            this.human.replaceDeck(this.deck);
+            this.computer.replaceDeck(this.deck);
         }
+        //*/
+        //this.view.displayMessage("Playing a turn" + this.deck.getSize());
         return;
     }
 
