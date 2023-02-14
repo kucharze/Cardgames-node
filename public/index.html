@@ -299,11 +299,14 @@ https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-
     <center><input type="button" value="Reset the game" id="reset8" style="font-size: 18px" onclick="crazyReset()"></center>
     <div id="allCards">
     <!-- Computer's hand -->
+    <div style="border: 10px;">
     <h2>Computer</h2>
-    <div id="myHand" class="hand"></div>
+    <div id="myHand" class="hand" style="border: 5px;"></div>
+    </div>
         <br><br><br><br><br><br>
-    <!-- "table" is div holding deck and discard pile images.
+        <!-- "table" is div holding deck and discard pile images.
          Initially show card back for pile (replaced by program). -->
+         <p>------------------------------------------------</p>
          <div id="status" style="font-size: 20px;"></div>
          <br>
          <div id="Suit" style="font-size: 20px;">Current Suit</div>
@@ -316,8 +319,9 @@ https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-
       src="./cardback.png" 
       alt="Discard pile top."
       class="card"/></div>
-        <br><br>
+        <br>
     <!-- User's hand -->
+    <p>------------------------------------------------</p>
     <h2>Player 1</h2>
     <div id="yourHand" class="hand"></div>
         <br><br><br>
@@ -446,13 +450,16 @@ https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-
         <h3>Dealer</h3>
         <div id="dealerhand"><img alt="dealer" src=".\Images/cardback.png"></div>
         <br><br><br><br><br><br>
+        <p>------------------------------------------------</p>
         <h2>Dealer Hand value</h2>
         <label id="Dealer value"></label>
         <br><br>
+        <p>------------------------------------------------</p>
         <h2>Player</h2>
         <div id="playerhand"><img alt="dealer" src=".\Images/cardback.png"></div>
         <br><br><br><br><br><br>
-        <h3>Player Hand value</h3>
+        <p>------------------------------------------------</p>
+        <h2>Player Hand value</h2>
         <label id="Hand value"></label>
         <br><br>
         <input type="button" id="hit" value="Hit" onclick=hit() style="font-size: 18px"> ..........
@@ -504,17 +511,18 @@ To beat the dealer the player must first not go over 21 and either outscore the 
             <h2>Computer</h2>
         <div id="scpuhand"><img alt="cpuhand" src="Images/cardback.png"></div>
         <br><br><br><br><br><br>
+        <p>--------------------------------------------------</p>
         <div id="stable"><img id="spile" src="./cardback.png" alt="Discard pile top." class="card"/></div>
         
         <br><br><br><br><br><br><br>
-        
+        <p>--------------------------------------------------</p>
         <h2>Player 1</h2>
         <div id="suserhand"><img alt="playerhand" src="Images/cardback.png" title="start card"></div>
         <br><br><br><br><br><br>
         <input type="button" id="passturn" value="Pass the turn" style="font-size: 18px" onclick="cpuTurn()">
         <br><br>
         </div>
-        
+        <p>--------------------------------------------------</p>
         <h2>Toggle Online mode</h2>
         <label class="switch">
         <input type="checkbox" onclick="snipOnline()">
