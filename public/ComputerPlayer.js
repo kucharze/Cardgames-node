@@ -43,7 +43,7 @@ class ComputerPlayer extends Player{
    * plays an 8, the suit "announced" is the suit on the card.  This
    * method does not update the display; that is handled by the Presenter.
    */
-  takeATurn() {
+    takeATurn() {
     // Play the first playable card, or pick if none is playable.
     let i=0;
     let eight=-1;
@@ -65,14 +65,14 @@ class ComputerPlayer extends Player{
           }
       }
       
-     if(e){
-         if(change){
-             playeight=true;
-         }
-     }
+    if(e){
+        if(change){
+            playeight=true;
+        }
+    }
      
      // actual hand will change below, so don't continue to use copy
-      if(playeight){
+    if(playeight){
           if(this.list.length == 0)
           {
             this.view.displayComputerHand(this.getHandCopy());
@@ -103,8 +103,8 @@ class ComputerPlayer extends Player{
               this.view.displaySuit("s");
           }
           this.view.displayComputerHand(this.getHandCopy());
-      }
-      else{
+    }
+    else{
         hand = null;
         if (this.pile.isValidToPlay(card)) {
             this.remove(i);
@@ -115,30 +115,30 @@ class ComputerPlayer extends Player{
         }
         else {
             let newCard=this.deck.dealACard();
-            //this.list.push(newCard);
             this.add(newCard);
             this.view.addComCard(newCard,this.list.length);
             //this.view.displayComputerHand(this.getHandCopy());
         }
     }
-  }
+    }
     
     countCards(){
         let hand=this.getHandCopy();
         for(let i=0; i<hand.length; i++){
             if(hand[i].suit=="h"){
-                this.hearts=this.hearts+1;
+                this.hearts+=1;
             }
             if(hand[i].suit=="d"){
-                this.diamonds=this.diamonds+1;
+                this.diamonds+=1;
             }
             if(hand[i].suit=="s"){
-                this.spades=this.spades+1;
+                this.spades+=1;
             }
             if(hand[i].suit=="c"){
-                this.clubs=this.clubs+1;
+                this.clubs+=1;
             }
         }
+        //alert("Hearts" + this.hearts + " diamonds" + this.diamonds + " spades: " + this.spades + " clubs: " + this.clubs);
     }
     
     nullifyCard(){
