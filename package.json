@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "cardgames",
   "version": "1.1.0",
   "description": "Simple Node.js app for heroku",
   "main": "index.js",
