@@ -88,9 +88,8 @@ class Presenter {
         ///*
         if(this.human.deck.getSize() < 3){
             this.deck=new Deck();
-            while(this.deck.isTopCardAnEight()){
-                this.deck.shuffle();
-            }
+            this.deck.shuffle();
+            this.deck.shuffle();
             //alert("deck size: "+ this.deck);
             this.human.replaceDeck(this.deck);
             this.computer.replaceDeck(this.deck);

@@ -174,56 +174,55 @@ ws.on('connection', function connection(ws) {
         //console.log("action="+userMess.action);
         if(userMess.action=="create"){
             //Update websoket list when completed
-            console.log("Sockets" + webSockets);
+            //console.log("Sockets" + webSockets);
             webSockets = handler.createlogin(userMess, ws, webSockets);
-            console.log("Sockets" + webSockets);
+            //console.log("Sockets" + webSockets);
         }
         else if(userMess.action=="login"){
             //Update websoket list when completed
             webSockets = handler.login(userMess, ws, webSockets);
         }
         else if(userMess.action=="Crazy Eights"){
-            console.log("Going to Crazy Eights");
+            //console.log("Going to Crazy Eights");
             crazyEights(userMess,ws);
         }
         else if(userMess.action=="Snip Snap Snorum"){
-            console.log("Going to Snip Snap Snorum");
+            //console.log("Going to Snip Snap Snorum");
             snipSnapSnorum(userMess,ws);
         }
         else if(userMess.action=="Go Fish"){
-            console.log("Going to Go Fish");
+            //console.log("Going to Go Fish");
             playGoFish(userMess,ws);
         }
         else if(userMess.action=="Suggest"){
-            console.log("Making a suggestion");
+            //console.log("Making a suggestion");
             connect.suggest(userMess);
         }
         else if(userMess.action=="Blackjack"){
-            console.log("Making an update to the Blackjack database - Temporarily disabled");
+            //console.log("Making an update to the Blackjack database - Temporarily disabled");
             //upload.jackUpload(userMess,ws,webSockets);
         }
         else if(userMess.action=="War"){
-            console.log("Making an update to the war database - Temporarily disabled");
+            //console.log("Making an update to the war database - Temporarily disabled");
             //upload.warUpload(userMess,ws);
         }
         else if(userMess.action=="Spider Solitare"){
-            console.log("Making an update to the Spider Solitare database - Temporarily disabled");
+            //console.log("Making an update to the Spider Solitare database - Temporarily disabled");
             //upload.spiderUpload(userMess,ws);
         }
         else if(userMess.action=="Match"){
-            console.log("Making an update to the Matching database - Temporarily disabled");
+            //console.log("Making an update to the Matching database - Temporarily disabled");
             //upload.matchUpload(userMess,ws);
         }
         else if(userMess.action=="Leaderboard"){
-            console.log("Loading a leaderboard to send to the user - Temporarily disabled");
+            //console.log("Loading a leaderboard to send to the user - Temporarily disabled");
             //upload.loadLeadeboardloadLeadeboard(userMess,ws);
         }
         else if(userMess.action=="ping"){
             //console.log("Recieved a ping");
         }
         else if(userMess.action=="message"){//Used for debugging
-            Console.log("Displaying a message");
-            console.log(userMess.mess);
+            //console.log("Displaying a message" + userMess.mess);
         }
     });
     ws.on('close',function close(){
@@ -256,7 +255,7 @@ ws.on('connection', function connection(ws) {
 });
 
 function cleanUp(){
-    console.log("Attempting a clean up");
+    //console.log("Attempting a clean up");
     //go through game arrays and delete all unnecessary
     for(var i =0; i<eightDecks.length; i++){
         let playspot=(i*2);
