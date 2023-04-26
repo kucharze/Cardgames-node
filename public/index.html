@@ -263,17 +263,13 @@ https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-
                     //let cr=document.getElementById("Creation_status");
                     //alert(cr);
                     document.getElementById("Creation_status").innerHTML="Not enough information provided";
-                    //cr.innerHTML="Not enough information provided";
-                    //alert("Not enough information provided");
                     return false;
                 }
                 else if(pass.length<8){
-                    //cr.innerHTML="Password must be at least 8 characters long";
                      document.getElementById("Creation_status").innerHTML="Password must contain at least 8 characters";
                     return false;
                 }
                 else if(pass != pass2){
-                    //cr.innerHTML="Passwords do not match";
                      document.getElementById("Creation_status").innerHTML="Passwords do not match";
                     return false;
                 }
