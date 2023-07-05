@@ -56,12 +56,10 @@ class HumanPlayer extends Player {
         //this.view.moveToPile(d);
 	    this.remove(this.list.indexOf(card));
         this.pile.acceptACard(card);
-        //setTimeout(()=> {
-	        this.view.displayPileTopCard(card);
-	        this.view.displayHumanHand(this.getHandCopy());
-            // moving=false;
-            //alert("moved");
-        // },3000);
+
+	    this.view.displayPileTopCard(card);
+	    this.view.displayHumanHand(this.getHandCopy());
+
 	    if (card.getValue() === "8") {//user played an eight
             if(this.isHandEmpty())
             {
