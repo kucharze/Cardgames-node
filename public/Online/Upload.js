@@ -181,7 +181,9 @@ class Upload {
       var query = { screenname: webSockets[index].username };
     }
 
-    database
+    var self = this;
+
+    this.database
       .collection("Match moves")
       .find(query)
       .toArray(function (err, result) {
@@ -196,7 +198,7 @@ class Upload {
                 moves: message.moves,
               },
             };
-            database
+            self.database
               .collection("Match moves")
               .updateOne(query, newvalue, function (err, res) {
                 if (err) throw err;
@@ -208,7 +210,7 @@ class Upload {
             screenname: webSockets[index].username,
             moves: message.moves,
           };
-          database
+          self.database
             .collection("Match moves")
             .insertOne(query, function (err, res) {
               if (err) throw err;
