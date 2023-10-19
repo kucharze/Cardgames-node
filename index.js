@@ -16,8 +16,6 @@ const Upload = require("./public/Online/Upload.js");
 
 const LoginHandler = require("./public/Online/LoginHandler.js");
 
-let upload = new Upload();
-
 //neccesities to play Crazy eights
 let crazyGames = 0;
 let eightDecks = [];
@@ -138,6 +136,7 @@ ws.on("connection", function connection(ws) {
   console.log("Sucessful connection");
   connect = new Upload(database);
   handler = new LoginHandler(database, webSockets);
+  let upload = new Upload(database);
 
   if (!webSockets.includes(ws)) {
     ws.logedIn = logedin;
@@ -154,7 +153,6 @@ ws.on("connection", function connection(ws) {
       //Update websoket list when completed
       //console.log("Sockets" + webSockets);
       webSockets = handler.createlogin(userMess, ws, webSockets);
-      //console.log("Sockets" + webSockets);
     } else if (userMess.action == "login") {
       //Update websoket list when completed
       webSockets = handler.login(userMess, ws, webSockets);
@@ -181,7 +179,7 @@ ws.on("connection", function connection(ws) {
       //upload.spiderUpload(userMess,ws);
     } else if (userMess.action == "Match") {
       //console.log("Making an update to the Matching database - Temporarily disabled");
-      //upload.matchUpload(userMess,ws);
+      upload.matchUpload(userMess, ws, webSockets);
     } else if (userMess.action == "Leaderboard") {
       //console.log("Loading a leaderboard to send to the user - Temporarily disabled");
       //upload.loadLeadeboardloadLeadeboard(userMess,ws);
