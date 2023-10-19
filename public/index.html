@@ -993,6 +993,8 @@ Screenname                       Password</pre
           }, 500);
 
           mmoves = 0;
+          matches = 0;
+          win.innerHTML = "Memory Matcher";
         }
 
         cards.forEach((card) => card.addEventListener("click", flipCard));
@@ -1398,9 +1400,8 @@ Screenname                       Password</pre
         <br /><br />
         <input
           type="button"
-          disabled
           onclick="load()"
-          value="Load Leaderboard-Disabled"
+          value="Load Leaderboard-Being tested"
         /><br /><br />
         <p id="score" style="font-size: 20px">
           If logged in, you will see your result appear first
