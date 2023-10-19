@@ -102,22 +102,12 @@ let clientcounter = 0;
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
   "mongodb+srv://admin:Zekxlr8323%21@node-deploy.z0pjs.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-  keepAlive: 1,
-});
+var client;
 var database;
-client.connect((err) => {
-  const collection = client.db("Logins");
-  // perform actions on the collection object
-  console.log("status of login " + err);
-  database = collection;
-  //client.close()
-});
+
 var connect;
 var handler;
+let upload;
 
 //return static page with websocket client
 app.get("/", function (req, res) {
@@ -134,9 +124,23 @@ const ws = new SocketServer({ server });
 //init Websocket ws and handle incoming connect requests
 ws.on("connection", function connection(ws) {
   console.log("Sucessful connection");
-  connect = new Upload(database);
-  handler = new LoginHandler(database, webSockets);
-  let upload = new Upload(database);
+  const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverApi: ServerApiVersion.v1,
+    keepAlive: 1,
+  });
+
+  client.connect((err) => {
+    const collection = client.db("Logins");
+    // perform actions on the collection object
+    console.log("status of login " + err);
+    console.log("We are connected to the database");
+    database = collection;
+    connect = new Upload(database);
+    handler = new LoginHandler(database, webSockets);
+    upload = new Upload(database);
+  });
 
   if (!webSockets.includes(ws)) {
     ws.logedIn = logedin;
@@ -178,11 +182,11 @@ ws.on("connection", function connection(ws) {
       //console.log("Making an update to the Spider Solitare database - Temporarily disabled");
       //upload.spiderUpload(userMess,ws);
     } else if (userMess.action == "Match") {
-      //console.log("Making an update to the Matching database - Temporarily disabled");
+      //console.log("Making an update to the Matching database");
       upload.matchUpload(userMess, ws, webSockets);
     } else if (userMess.action == "Leaderboard") {
       //console.log("Loading a leaderboard to send to the user - Temporarily disabled");
-      //upload.loadLeadeboardloadLeadeboard(userMess,ws);
+      upload.loadLeaderboard(userMess, ws, webSockets);
     } else if (userMess.action == "ping") {
       //console.log("Recieved a ping");
     } else if (userMess.action == "message") {
@@ -193,6 +197,7 @@ ws.on("connection", function connection(ws) {
   ws.on("close", function close() {
     //ws.send(JSON.stringify({action:"Bye"}));
     client.close();
+    //database.close();
     console.log("user is disconnecting");
     //Remove user websocket from all games if in any
     let index = eightSockets.indexOf(ws);

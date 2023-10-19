@@ -20,7 +20,7 @@ class Upload {
       });
   }
 
-  loadLeadeboard(message, ws, webSockets) {
+  loadLeaderboard(message, ws, webSockets) {
     var mysort = null;
     let index = webSockets.indexOf(ws);
     if (
@@ -32,8 +32,8 @@ class Upload {
       mess.action = "Solo";
       mess.type = message.board;
       //ws.send(JSON.stringify(obj));
-      query = { screenname: webSockets[index].username };
-      database
+      let query = { screenname: webSockets[index].username };
+      this.database
         .collection(message.board)
         .find(query)
         .toArray(function (err, result) {
@@ -70,7 +70,7 @@ class Upload {
     }
 
     console.log("Attempting to display a board");
-    database
+    this.database
       .collection(message.board)
       .find()
       .sort(mysort)
