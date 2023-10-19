@@ -97,6 +97,9 @@ https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-
           }
           //alert("Printing Crazy Eights leaderboard");
           let b = document.getElementById("board");
+          if (length == 0) {
+            b.innerHTML = "No results for this leaderboard.";
+          }
           for (var i = 0; i < length; i++) {
             if (message.type == "Crazy Eights moves") {
               //alert("Printing Crazy Eights leaderboard");
